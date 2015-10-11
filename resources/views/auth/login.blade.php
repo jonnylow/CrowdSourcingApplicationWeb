@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
+        <div class="col-md-offset-3 col-md-6">
             <h1>Sign in here</h1>
             @if (count($errors))
             <div class="alert alert-danger alert-dismissible fade in" role="alert">

@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>@yield('title')</title>
 
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootflat.css" rel="stylesheet">
-        <link href="css/icheck.css" rel="stylesheet">
+        <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/bootflat.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/icheck.css') }}" rel="stylesheet">
 
         @yield('head')
     </head>
