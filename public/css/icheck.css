@@ -42,6 +42,10 @@
         background-position: -154px 0;
     }
 
+.checkbox label {
+    display: flex;
+}
+
 /* HiDPI support */
 @media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi), (min-resolution: 1.25dppx) {
     .icheckbox_flat-green,

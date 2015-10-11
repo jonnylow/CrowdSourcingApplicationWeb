@@ -11,19 +11,37 @@
 |
 */
 
-Route::get('home', function () {
-    return view('home');
-});
-
-Route::get('/', function () {
+Route::get('/', ['middleware' => 'guest', function () {
     return view('auth.login');
-});
+}]);
 
-Route::group(array('namespace' => 'Auth', 'prefix' => 'auth'), function() {
-    // Authentication routes...
-    Route::get('login', 'AuthController@getLogin');
-    Route::post('login', 'AuthController@postLogin');
-    Route::get('logout', 'AuthController@getLogout');
+Route::get('home', ['middleware' => 'auth', function () {
+    return view('home');
+}]);
+
+Route::get('profile', ['middleware' => 'auth', function () {
+    return view('profile.profile');
+}]);
+
+Route::post('profile', 'Profile\ProfileController@editProfile');
+
+Route::group(array('namespace' => 'Auth'), function() {
+    Route::group(array('prefix' => 'auth'), function() {
+        // Authentication routes...
+        Route::get('login', 'AuthController@getLogin');
+        Route::post('login', 'AuthController@postLogin');
+        Route::get('logout', 'AuthController@getLogout');
+    });
+
+    Route::group(array('prefix' => 'password'), function() {
+        // Password reset link request routes...
+        Route::get('email', 'PasswordController@getEmail');
+        Route::post('email', 'PasswordController@postEmail');
+
+        // Password reset routes...
+        Route::get('reset/{token}', 'PasswordController@getReset');
+        Route::post('reset', 'PasswordController@postReset');
+    });
 });
 
 Route::group(array('namespace' => 'WebService', 'prefix' => 'api'), function() {
