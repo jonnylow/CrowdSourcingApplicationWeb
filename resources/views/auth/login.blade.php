@@ -22,7 +22,7 @@
             </div>
             @endif
 
-            <form method="post" action="auth/login" role="login">
+            <form method="post" action="{{ URL::asset('auth/login') }}" role="login">
                 {!! csrf_field() !!}
                 <div class="form-group">
                     <label class="sr-only" for="email">Email</label>
@@ -59,7 +59,7 @@
                 </button>
                 <h4 class="modal-title" id="myForgetModalLabel">Recovery password</h4>
             </div>
-            <form method="post" action="password/email">
+            <form method="post" action="{{ URL::asset('password/email') }}">
                 {!! csrf_field() !!}
                 <div class="modal-body">
                     <p>Enter your email address</p>
