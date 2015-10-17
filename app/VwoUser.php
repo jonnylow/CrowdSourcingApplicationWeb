@@ -22,7 +22,6 @@ class VwoUser extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'vwo_users';
-
     protected $primaryKey = 'vwo_user_id';
 
     /**
@@ -30,7 +29,7 @@ class VwoUser extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'senior_centre_id', 'is_admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -38,4 +37,20 @@ class VwoUser extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Get the senior centre that the vwo user belongs to.
+     */
+    public function seniorCentre()
+    {
+        return $this->belongsTo('App\SeniorCentre');
+    }
+
+    /**
+     * Get the activity associated with the vwo user.
+     */
+    public function activity()
+    {
+        return $this->hasMany('App\Activity');
+    }
 }
