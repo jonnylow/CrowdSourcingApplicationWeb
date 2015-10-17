@@ -50,6 +50,5 @@ class ProfileController extends Controller
                     ->withInput();
             }
         }
-
     }
 }

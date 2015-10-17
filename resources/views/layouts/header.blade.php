@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" style="margin: 0.6em">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
@@ -26,7 +26,7 @@
                     </ul>
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
         @endif
-    </div><!-- /.container-fluid -->
+    </div>
 </nav>

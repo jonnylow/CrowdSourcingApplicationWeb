@@ -11,6 +11,25 @@ var elixir = require('laravel-elixir');
  |
  */
 
+elixir.config.sourcemaps = false;
+
+var paths = {
+    'bootstrap': './node_modules/bootswatch/bower_components/bootstrap-sass-official/assets/',
+    'jquery': './node_modules/bootswatch/bower_components/jquery/',
+    'bootswatch': './node_modules/bootswatch/',
+    'bootflat': './node_modules/bootflat/bootflat/',
+    'bootstraptable': './node_modules/bootstrap-table/',
+    'icheck': 'node_modules/icheck/'
+}
+
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.sass('app.scss')
+        .copy(paths.bootstrap + 'fonts/bootstrap', 'public/fonts')
+        .copy(paths.bootstrap + 'javascripts/bootstrap.min.js', 'public/js/bootstrap.min.js')
+        .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')
+        .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
+        .copy(paths.icheck + 'skins/flat', 'public/css/icheck')
+        .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
+        .scripts('app.js', 'public/js/app.min.js')
+        .scripts([paths.jquery + "dist/jquery.min.js", paths.bootflat + "js/jquery.fs.selecter.min.js", paths.bootflat + "js/jquery.fs.stepper.min.js"], 'public/js/jquery.min.js');
 });

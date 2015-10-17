@@ -4,7 +4,10 @@
     "gulp": "^3.8.8"
   },
   "dependencies": {
-    "laravel-elixir": "^3.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootflat": "^2.0.4",
+    "bootstrap-table": "git+https://github.com/wenzhixin/bootstrap-table.git",
+    "bootswatch": "^3.3.5",
+    "icheck": "^1.0.2",
+    "laravel-elixir": "^3.0.0"
   }
 }

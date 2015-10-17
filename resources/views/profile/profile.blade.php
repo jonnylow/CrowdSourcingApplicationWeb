@@ -26,7 +26,7 @@
             </div>
             @endif
 
-            <form class="form-horizontal" method="post" action="{{ URL::asset('profile') }}">
+            <form class="form-horizontal" method="post" action="{{ asset('profile') }}">
                 {!! csrf_field() !!}
                 <div class="form-group">
                     <label class="control-label col-md-4" for="name">Name</label>
