@@ -19,11 +19,9 @@ Route::get('home', ['middleware' => 'auth', function () {
     return view('home');
 }]);
 
-Route::get('profile', ['middleware' => 'auth', function () {
-    return view('profile.profile');
-}]);
+Route::get('profile', 'Profiles\ProfileController@edit');
+Route::post('profile', 'Profiles\ProfileController@update');
 
-Route::post('profile', 'Profile\ProfileController@editProfile');
 
 Route::group(array('namespace' => 'Auth'), function() {
     Route::group(array('prefix' => 'auth'), function() {

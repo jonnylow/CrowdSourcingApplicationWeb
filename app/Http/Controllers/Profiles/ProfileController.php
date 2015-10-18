@@ -1,19 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Profiles;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\VwoUser;
 use Auth;
 use Hash;
 use Validator;
 
 class ProfileController extends Controller
 {
-    public function editProfile(Request $request) {
+    /**
+     * Create a new profile controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function edit()
+    {
+        $profile = Auth::user();
+
+        return view('profiles.profile', compact('profile'));
+    }
+
+    public function update(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|email|unique:vwo_users,email,'.Auth::user()->vwo_user_id.',vwo_user_id',

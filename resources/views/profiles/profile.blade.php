@@ -26,43 +26,42 @@
             </div>
             @endif
 
-            <form class="form-horizontal" method="post" action="{{ asset('profile') }}">
-                {!! csrf_field() !!}
+            {!! Form::model(Auth::user(), ['class' => 'form-horizontal', 'method' => 'POST', 'action' => 'Profiles\ProfileController@update']) !!}
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="name">Name</label>
+                    {!! Form::label('name', 'Name', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input class="form-control" type="text" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                        {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="email">Email</label>
+                    {!! Form::label('email', 'Email', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input class="form-control" type="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
+                        {!! Form::email('email', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="new_password">New Password</label>
+                    {!! Form::label('new_password', 'New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input class="form-control" type="password" name="new_password" value="{{ old('new_password') }}">
+                        {!! Form::password('new_password', ['class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="new_password_confirmation">Confirm New Password</label>
+                    {!! Form::label('new_password_confirmation', 'Confirm New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input class="form-control" type="password" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}">
+                        {!! Form::password('new_password_confirmation', ['class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="current_password">Current Password</label>
+                    {!! Form::label('current_password', 'Current Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        <input class="form-control" type="password" name="current_password" required>
+                        {!! Form::password('current_password', ['class' => 'form-control', 'required' => 'required']) !!}
                         <p class="help-block">You must enter your current password to make any changes.</p>
                     </div>
                 </div>
                 <div class="form-group text-center">
                         <input class="btn btn-default btn-md" type="submit" value="Update profile">
                 </div>
-            </form>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
