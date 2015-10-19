@@ -22,17 +22,17 @@ class SeniorCentre extends Model
     protected $fillable = ['name', 'contact_no', 'address_1', 'address_2', 'postal_code', 'description'];
 
     /**
-     * Get the vwo user associated with the senior centre.
+     * Get the vwo users associated with the senior centre.
      */
-    public function vwoUser()
+    public function vwoUsers()
     {
         return $this->hasMany('App\VwoUser');
     }
 
     /**
-     * Get the activity associated with the senior centre.
+     * Get the activities associated with the senior centre.
      */
-    public function activity()
+    public function activities()
     {
         return $this->hasMany('App\Activity');
     }

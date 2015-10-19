@@ -12,20 +12,9 @@ use Validator;
 
 class ProfileController extends Controller
 {
-    /**
-     * Create a new profile controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function edit()
     {
         $profile = Auth::user();
-
         return view('profiles.profile', compact('profile'));
     }
 
@@ -54,7 +43,7 @@ class ProfileController extends Controller
                     if(Hash::check($request->input('new_password'), Auth::user()->password)) { // New password is the same as current password
                         $validator->errors()->add('new_password', 'New password must differ from current password.');
                     } else {
-                        $user->password = bcrypt($request->input('new_password'));
+                        $user->password = $request->input('new_password');
                     }
                 }
 

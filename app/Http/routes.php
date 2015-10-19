@@ -19,29 +19,32 @@ Route::get('home', ['middleware' => 'auth', function () {
     return view('home');
 }]);
 
-Route::get('profile', 'Profiles\ProfileController@edit');
-Route::post('profile', 'Profiles\ProfileController@update');
+Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
+    Route::get('/', 'ProfileController@edit');
+    Route::post('/', 'ProfileController@update');
+});
 
 
-Route::group(array('namespace' => 'Auth'), function() {
-    Route::group(array('prefix' => 'auth'), function() {
-        // Authentication routes...
+Route::group(['namespace' => 'Auth'], function() {
+    Route::group(['prefix' => 'auth'], function() {
+        // Authentication routes
         Route::get('login', 'AuthController@getLogin');
         Route::post('login', 'AuthController@postLogin');
         Route::get('logout', 'AuthController@getLogout');
     });
 
-    Route::group(array('prefix' => 'password'), function() {
-        // Password reset link request routes...
+    Route::group(['prefix' => 'password'], function() {
+        // Password reset link request routes
         Route::get('email', 'PasswordController@getEmail');
         Route::post('email', 'PasswordController@postEmail');
 
-        // Password reset routes...
+        // Password reset routes
         Route::get('reset/{token}', 'PasswordController@getReset');
         Route::post('reset', 'PasswordController@postReset');
     });
 });
 
-Route::group(array('namespace' => 'WebService', 'prefix' => 'api'), function() {
+// Web service routes
+Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::post('authenticate', 'VolunteerAuthController@authenticate');
 });

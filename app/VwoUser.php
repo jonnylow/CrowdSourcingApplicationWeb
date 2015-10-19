@@ -39,6 +39,16 @@ class VwoUser extends Model implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     /**
+     * Set the password attribute.
+     *
+     * @var password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
      * Get the senior centre that the vwo user belongs to.
      */
     public function seniorCentre()
@@ -47,9 +57,9 @@ class VwoUser extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the activity associated with the vwo user.
+     * Get the activities associated with the vwo user.
      */
-    public function activity()
+    public function activities()
     {
         return $this->hasMany('App\Activity');
     }

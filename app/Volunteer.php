@@ -41,17 +41,27 @@ class Volunteer extends Model implements AuthenticatableContract,
     protected $hidden = ['password'];
 
     /**
-     * Get the task associated with the volunteer.
+     * Set the password attribute.
+     *
+     * @var password
      */
-    public function task()
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
+     * Get the tasks associated with the volunteer.
+     */
+    public function tasks()
     {
         return $this->hasMany('App\Task');
     }
 
     /**
-     * The activity that belong to the volunteer.
+     * The activities that belong to the volunteer.
      */
-    public function activity()
+    public function activities()
     {
         return $this->belongsToMany('App\Activity', 'tasks', 'volunteer_id', 'activity_id')->withPivot('status', 'approval', 'registered_at');
     }

@@ -27,30 +27,35 @@
             @endif
 
             {!! Form::model(Auth::user(), ['class' => 'form-horizontal', 'method' => 'POST', 'action' => 'Profiles\ProfileController@update']) !!}
+                <!-- Name Form Input -->
                 <div class="form-group">
                     {!! Form::label('name', 'Name', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     </div>
                 </div>
+                <!-- Email Form Input -->
                 <div class="form-group">
                     {!! Form::label('email', 'Email', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         {!! Form::email('email', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     </div>
                 </div>
+                <!-- New Password Form Input -->
                 <div class="form-group">
                     {!! Form::label('new_password', 'New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         {!! Form::password('new_password', ['class' => 'form-control']) !!}
                     </div>
                 </div>
+                <!-- Confirm New Password Form Input -->
                 <div class="form-group">
                     {!! Form::label('new_password_confirmation', 'Confirm New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
                         {!! Form::password('new_password_confirmation', ['class' => 'form-control']) !!}
                     </div>
                 </div>
+                <!-- Current Password Form Input -->
                 <div class="form-group">
                     {!! Form::label('current_password', 'Current Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
@@ -58,8 +63,9 @@
                         <p class="help-block">You must enter your current password to make any changes.</p>
                     </div>
                 </div>
+                <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                        <input class="btn btn-default btn-md" type="submit" value="Update profile">
+                    {!! Form::submit('Update profile', ['class' => 'btn btn-default btn-md']) !!}
                 </div>
             {!! Form::close() !!}
         </div>

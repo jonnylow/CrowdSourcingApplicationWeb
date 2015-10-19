@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
@@ -24,6 +25,33 @@ class Activity extends Model
         'elderly_name', 'next_of_kin_name', 'next_of_kin_contact', 'senior_centre_id', 'vwo_user_id'];
 
     /**
+     * Additional fields to treat as Carbon instances (date object).
+     *
+     * @var array
+     */
+    protected $dates = ['datetime_start'];
+
+    /**
+     * Scope queries to activities that have passed.
+     *
+     * @var query
+     */
+    public function scopePast($query)
+    {
+        $query->where('datetime_start', '<=', Carbon::now());
+    }
+
+    /**
+     * Scope queries to activities that have not passed.
+     *
+     * @var query
+     */
+    public function scopeUpcoming($query)
+    {
+        $query->where('datetime_start', '>', Carbon::now());
+    }
+
+    /**
      * Get the senior centre that the vwo user belongs to.
      */
     public function seniorCentre()
@@ -40,17 +68,17 @@ class Activity extends Model
     }
 
     /**
-     * Get the task associated with the activity.
+     * Get the tasks associated with the activity.
      */
-    public function task()
+    public function tasks()
     {
         return $this->hasMany('App\Task');
     }
 
     /**
-     * The volunteer that belong to the activity.
+     * The volunteers that belong to the activity.
      */
-    public function activity()
+    public function volunteers()
     {
         return $this->belongsToMany('App\Volunteer', 'tasks', 'activity_id', 'volunteer_id')->withPivot('status', 'approval', 'registered_at');
     }
