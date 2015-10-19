@@ -16,7 +16,7 @@ Route::get('/', ['middleware' => 'guest', function () {
 }]);
 
 Route::get('home', ['middleware' => 'auth', function () {
-    return view('home');
+    return view('activities.index');
 }]);
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
@@ -24,6 +24,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
     Route::post('/', 'ProfileController@update');
 });
 
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('activities', 'Activities\ActivitiesController');
+});
 
 Route::group(['namespace' => 'Auth'], function() {
     Route::group(['prefix' => 'auth'], function() {
