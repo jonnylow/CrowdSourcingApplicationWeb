@@ -52,6 +52,38 @@ class Activity extends Model
     }
 
     /**
+     * Set the activity's starting date and time.
+     */
+    public function setDateTimeStartAttribute($datetime)
+    {
+        $this->attributes['datetime_start'] = Carbon::parse($datetime);
+    }
+
+    /**
+     * Set the activity's expected duration in minutes.
+     */
+    public function setExpectedDurationMinutesAttribute($duration)
+    {
+        $this->attributes['expected_duration_minutes'] = $duration * 60;
+    }
+
+    /**
+     * Set the activity's start location.
+     */
+    public function setLocationFrom($location)
+    {
+        $this->attributes['location_from'] = ucwords(strtolower($location));
+    }
+
+    /**
+     * Set the activity's end location.
+     */
+    public function setLocationTo($location)
+    {
+        $this->attributes['location_to'] = ucwords(strtolower($location));
+    }
+
+    /**
      * Get the senior centre that the vwo user belongs to.
      */
     public function seniorCentre()

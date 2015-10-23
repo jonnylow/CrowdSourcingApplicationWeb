@@ -24,8 +24,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
     Route::post('/', 'ProfileController@update');
 });
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::resource('activities', 'Activities\ActivitiesController');
+Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
+    Route::post('postal-code-response', 'ActivitiesController@postalCodeToAddress');
+    Route::resource('activities', 'ActivitiesController');
 });
 
 Route::group(['namespace' => 'Auth'], function() {
