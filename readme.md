@@ -1,27 +1,23 @@
-## Laravel PHP Framework
+#WeCare Web Application
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+A web application management portal for Centre For Seniors to post information of the voluntary activities.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
-
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
+## Official Documentation for Laravel PHP Framework
 
 Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-## Contributing
+## Installation & Configuration
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+1. You can create a local clone of this repository on your computer by running: `git clone https://github.com/jonnylow/CrowdSourcingApplicationWeb.git`
 
-## Security Vulnerabilities
+  This will create a directory with the same name as the cloned repository in the current directory you ran the command.
+  * For example, if you were to run the command in `wamp/www` directory, it would clone the repository down into the directory `CrowdSourcingApplicationWeb`, then convert it to a Git repository for you.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+2. Install [Composer](http://getcomposer.org/) by following the instructions given in its download page. **_If you have already installed this, you can skip this step._**
+3. After you have installed composer and have its PATH environment variable set up, install the project dependencies by running Composer: `composer install` in the directory `CrowdSourcingApplicationWeb`.
 
-### License
+4. Install [Node.js](https://nodejs.org/). **_If you have already installed this, you can skip this step._**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+5. Install additional project dependencies by running: `npm install` in the directory `CrowdSourcingApplicationWeb`.
+
+6. Rename the file `.env.example` to `.env`. Feel free to modify the environment variables in the file, as needed for your own local server, as well as your production environment.
