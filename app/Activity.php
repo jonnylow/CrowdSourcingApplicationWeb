@@ -38,7 +38,17 @@ class Activity extends Model
      */
     public function scopePast($query)
     {
-        $query->where('datetime_start', '<=', Carbon::now());
+        $query->where('datetime_start', '<', Carbon::now())->latest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that starts today.
+     *
+     * @var query
+     */
+    public function scopeToday($query)
+    {
+        $query->where('datetime_start', '=', Carbon::now())->oldest('datetime_start');
     }
 
     /**
@@ -48,7 +58,18 @@ class Activity extends Model
      */
     public function scopeUpcoming($query)
     {
-        $query->where('datetime_start', '>', Carbon::now());
+        $query->where('datetime_start', '>', Carbon::now())->oldest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that belongs to a particular senior centre.
+     *
+     * @var $query
+     * @var $seniorCentreId
+     */
+    public function scopeOfSeniorCentre($query, $seniorCentreId)
+    {
+        $query->where('senior_centre_id', $seniorCentreId);
     }
 
     /**

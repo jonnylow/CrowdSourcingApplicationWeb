@@ -21,6 +21,17 @@ class Task extends Model
     protected $fillable = ['registered_at', 'status', 'approval'];
 
     /**
+     * Scope queries to tasks that belongs to a particular activity.
+     *
+     * @var $query
+     * @var $activity
+     */
+    public function scopeOfActivity($query, $activity)
+    {
+        $query->where('activity_id', $activity->activity_id);
+    }
+
+    /**
      * Get the activity that owns the task.
      */
     public function activity()
