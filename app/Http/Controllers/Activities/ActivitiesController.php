@@ -58,7 +58,7 @@ class ActivitiesController extends Controller
             array_has($hiddenInputs, 'end_location_lat') &&
             array_has($hiddenInputs, 'end_location_lng')
         ) {
-            $activityName = $hiddenInputs['activity_name_1'] . " to " . $hiddenInputs['activity_name_2'];
+            $activityName = $hiddenInputs['activity_name_1'] . "-" . $hiddenInputs['activity_name_2'];
         }
 
         if ($validator->fails()) {
@@ -99,9 +99,10 @@ class ActivitiesController extends Controller
             $groupByStatus = $tasks->groupBy('status');
             $groupByApproval = $tasks->groupBy('approval');
 
-            if ($groupByStatus->has('Completed')) {
+            if ($groupByStatus->has('completed')) {
                 return "Completed";
-            } else if ($groupByStatus->has('Picked Up') ||
+            } else if ($groupByStatus->has('picked-up') ||
+                $groupByStatus->has('in-progress') ||
                 $groupByStatus->has('At Check-up') ||
                 $groupByStatus->has('Check-up Completed')
             ) {

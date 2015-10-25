@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('volunteer_id')->on('volunteers');
             $table->timestamp('registered_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->string('status')->default('New Task');
+            $table->string('status')->default('new task');
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
             $table->primary(['activity_id', 'volunteer_id', 'registered_at']);
         });

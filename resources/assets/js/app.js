@@ -1,18 +1,12 @@
-$(document).ready(function(){
-  $('input').iCheck({
-    tap: true,
-    checkboxClass: 'icheckbox_flat-green',
-    radioClass: 'iradio_flat-green'
-  });
-
-  $('.table-responsive table').bootstrapTable(); // init via javascript
-
-    $(window).resize(function () {
-        $('.table-responsive table').bootstrapTable('resetView');
+$(document).ready(function() {
+    $('input').iCheck({
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
     });
 });
 
-$("input[name='start_postal']").change(function(){
+$("input[name='start_postal']").change(function () {
     var postal = $(this).val();
     var token = $("input[name='_token']").val();
 
@@ -42,7 +36,7 @@ $("input[name='start_postal']").change(function(){
     }
 });
 
-$("input[name='end_postal']").change(function(){
+$("input[name='end_postal']").change(function () {
     var postal = $(this).val();
     var token = $("input[name='_token']").val();
 
