@@ -19,7 +19,7 @@ class CreateVwoUsersTable extends Migration
             $table->string('password', 60);
             $table->integer('senior_centre_id')->unsigned();
             $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
-            $table->boolean('is_admin');
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->nullableTimestamps();
         });

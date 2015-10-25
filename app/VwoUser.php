@@ -29,7 +29,7 @@ class VwoUser extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'senior_centre_id', 'is_admin'];
+    protected $fillable = ['name', 'email', 'password', 'senior_centre_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
