@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -11,8 +12,8 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class Volunteer extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
@@ -41,6 +42,13 @@ class Volunteer extends Model implements AuthenticatableContract,
     protected $hidden = ['password'];
 
     /**
+     * Additional fields to treat as Carbon instances (date object).
+     *
+     * @var array
+     */
+    protected $dates = ['date_of_birth'];
+
+    /**
      * Set the password attribute.
      *
      * @var password
@@ -48,6 +56,47 @@ class Volunteer extends Model implements AuthenticatableContract,
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
+     * Get the volunteer's gender.
+     *
+     * @param  $gender
+     *
+     * @return string
+     */
+    public function getGenderAttribute($gender)
+    {
+        switch (strtoupper($gender)) {
+            case 'M':
+                return 'Male';
+            case 'F':
+                return 'Female';
+        }
+    }
+
+    /**
+     * Get the volunteer's volunteered hours.
+     *
+     * @param  $minute
+     *
+     * @return string
+     */
+    public function getMinutesVolunteeredAttribute($minute)
+    {
+        $hours = floor($minute / 60);
+        $minutes = ($minute % 60);
+        return sprintf('%0d hour, %0d min', $hours, $minutes);
+    }
+
+    /**
+     * Get the volunteer's age.
+     *
+     * @return string
+     */
+    public function age()
+    {
+        return $this->date_of_birth->diff(Carbon::now())->y;
     }
 
     /**

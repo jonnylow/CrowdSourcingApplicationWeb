@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::post('postal-to-address', 'ActivitiesController@postalCodeToAddress');
     Route::resource('activities', 'ActivitiesController');
+    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@approval');
 });
 
 Route::group(['namespace' => 'Auth'], function() {

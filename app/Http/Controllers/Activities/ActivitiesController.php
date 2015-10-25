@@ -24,7 +24,7 @@ class ActivitiesController extends Controller
 
     public function show($id)
     {
-        $activity = Activity::findOrFail($id);
+        $activity = Activity::with('volunteers')->findOrFail($id);
 
         return view('activities.show', compact('activity'));
     }
@@ -88,7 +88,57 @@ class ActivitiesController extends Controller
         }
     }
 
-    public static function getStatus($activityId)
+    public function approval($id, $volunteer, $approval) {
+        $tasks = Task::ofActivity($id)->get();
+
+        if(strcmp($approval, "reject") == 0) {
+            foreach($tasks as $task) {
+                if($task->volunteer_id == $volunteer) {
+                    $task->approval = "Rejected";
+                    $task->save();
+                    return back()->with('success', 'Volunteer rejected!');;
+                }
+            }
+        } else {
+            foreach($tasks as $task) {
+                if($task->volunteer_id == $volunteer) {
+                    $task->approval = "Approved";
+                } else {
+                    $task->approval = "Rejected";
+                }
+                $task->save();
+            }
+            return back()->with('success', 'Volunteer approved!');
+        }
+    }
+
+    public static function getActivityStatus($activityId)
+    {
+        $tasks = Task::ofActivity($activityId)->get();
+        $taskCount = $tasks->count();
+
+        if ($taskCount == 0) {
+            return "Pending Start";
+        } else {
+            $groupByStatus = $tasks->groupBy('status');
+
+            if ($groupByStatus->has('completed')) {
+                return "Completed";
+            } else if ($groupByStatus->has('picked-up')) {
+                return "Picked-up";
+            } else if ($groupByStatus->has('in-progress')) {
+                return "In-Progress";
+            } else if ($groupByStatus->has('At Check-up')) {
+                return "At Check-up";
+            } else if ($groupByStatus->has('Check-up Completed')) {
+                return "Check-up Completed";
+            } else {
+                return "Pending Start";
+            }
+        }
+    }
+
+    public static function getApplicantStatus($activityId)
     {
         $tasks = Task::ofActivity($activityId)->get();
         $taskCount = $tasks->count();

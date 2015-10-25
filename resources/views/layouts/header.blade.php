@@ -20,7 +20,7 @@
                         <li><a href="{{ asset('activities/create') }}"><span class="glyphicon glyphicon-pencil"></span> Add new Activity</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Search</a></li>
+                <li><a href="javascript:alert('Work in Progress')">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class=" dropdown">

@@ -12,6 +12,8 @@ class Task extends Model
      * @var string
      */
     protected $table = 'tasks';
+    protected $primaryKey = 'task_id';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -26,9 +28,19 @@ class Task extends Model
      * @var $query
      * @var $activity
      */
-    public function scopeOfActivity($query, $activity)
+    public function scopeOfActivity($query, $activityId)
     {
-        $query->where('activity_id', $activity->activity_id);
+        $query->where('activity_id', $activityId);
+    }
+
+    /**
+     * Set the approval attribute.
+     *
+     * @var approval
+     */
+    public function setApprovalAttribute($approval)
+    {
+        $this->attributes['approval'] = strtolower($approval);
     }
 
     /**
