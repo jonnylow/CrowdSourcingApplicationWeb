@@ -15,9 +15,7 @@ Route::get('/', ['middleware' => 'guest', function () {
     return view('auth.login');
 }]);
 
-Route::get('home', ['middleware' => 'auth', function () {
-    return view('activities.index');
-}]);
+Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', 'ProfileController@edit');
@@ -25,8 +23,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 });
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
-    Route::post('postal-code-response', 'ActivitiesController@postalCodeToAddress');
+    Route::post('postal-to-address', 'ActivitiesController@postalCodeToAddress');
     Route::resource('activities', 'ActivitiesController');
+    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@approval');
 });
 
 Route::group(['namespace' => 'Auth'], function() {

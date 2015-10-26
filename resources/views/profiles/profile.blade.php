@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-2 col-md-8">
+        <div class="col-md-8 col-md-offset-2">
             <h1>My Profile</h1>
             @if (count($errors) || Session::has('success'))
             <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
