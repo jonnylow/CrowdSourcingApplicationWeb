@@ -72,14 +72,14 @@
                                 <th class="col-md-1" rowspan="2" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
                                 <th class="col-md-1" rowspan="2" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
                                 <th class="col-md-1" rowspan="2" data-field="hours_volunteered" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Hours Volunteered</th>
-                                <th class="col-md-4" colspan="2" data-halign="center" data-align="center" data-valign="middle">Preferences</th>
+                                <th class="col-md-4" colspan="2" data-halign="center" data-align="center" data-valign="middle">Area of Preferences</th>
                                 <th class="col-md-1" rowspan="2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                             </tr>
                             <tr>
-                                <th data-field="preference_1" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Area 1</th>
-                                <th data-field="preference_2" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Area 2</th>
+                                <th data-field="preference_1" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Preference 1</th>
+                                <th data-field="preference_2" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Preference 2</th>
                             </tr>
                         </thead>
                         <tbody>

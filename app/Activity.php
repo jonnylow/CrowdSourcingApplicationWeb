@@ -38,7 +38,7 @@ class Activity extends Model
      */
     public function scopePast($query)
     {
-        $query->where('datetime_start', '<', Carbon::now())->latest('datetime_start');
+        $query->where('datetime_start', '<', Carbon::today())->latest('datetime_start');
     }
 
     /**
@@ -48,7 +48,7 @@ class Activity extends Model
      */
     public function scopeToday($query)
     {
-        $query->where('datetime_start', '=', Carbon::now())->oldest('datetime_start');
+        $query->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])->oldest('datetime_start');
     }
 
     /**
@@ -58,7 +58,7 @@ class Activity extends Model
      */
     public function scopeUpcoming($query)
     {
-        $query->where('datetime_start', '>', Carbon::now())->oldest('datetime_start');
+        $query->where('datetime_start', '>', Carbon::now()->endOfDay())->oldest('datetime_start');
     }
 
     /**

@@ -78,7 +78,7 @@
                         <!-- Start Location Form Input -->
                         <div class="col-md-6 form-group">
                             {!! Form::label('start_location', 'Start Location', ['class' => 'control-label']) !!}
-                            {!! Form::textarea('start_location', null, ['class' => 'form-control', 'required' => 'required', 'rows' => '3', 'placeholder' => 'Generate from postal code']) !!}
+                            {!! Form::textarea('start_location', null, ['class' => 'form-control', 'required' => 'required', 'rows' => '3', 'placeholder' => 'Auto generate from postal code']) !!}
                         </div>
                         <!-- End Location Form Input -->
                         <div class="col-md-6 form-group">
