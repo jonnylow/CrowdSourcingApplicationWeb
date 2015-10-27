@@ -13,14 +13,14 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
+            $table->increments('task_id');
             $table->integer('activity_id')->unsigned();
             $table->foreign('activity_id')->references('activity_id')->on('activities');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('volunteer_id')->on('volunteers');
-            $table->timestamp('registered_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->string('status')->default('new task');
+            $table->enum('status', ['new task', 'pick-up', 'at check-up', 'check-up completed', 'completed'])->default('new task');
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
-            $table->primary(['activity_id', 'volunteer_id', 'registered_at']);
+            $table->nullableTimestamps();
         });
     }
 
