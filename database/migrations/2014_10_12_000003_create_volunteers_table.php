@@ -29,7 +29,7 @@ class CreateVolunteersTable extends Migration
             $table->string('image_nric_front');
             $table->string('image_nric_back');
             $table->boolean('is_approved')->default(true);
-            $table->nullableTimestamps();
+            $table->timestamps();
         });
     }
 

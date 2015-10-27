@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->foreign('volunteer_id')->references('volunteer_id')->on('volunteers');
             $table->enum('status', ['new task', 'pick-up', 'at check-up', 'check-up completed', 'completed'])->default('new task');
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
-            $table->nullableTimestamps();
+            $table->timestamps();
         });
     }
 

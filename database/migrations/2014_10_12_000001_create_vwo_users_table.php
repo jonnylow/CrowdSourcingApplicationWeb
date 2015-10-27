@@ -21,7 +21,7 @@ class CreateVwoUsersTable extends Migration
             $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
             $table->boolean('is_admin');
             $table->rememberToken();
-            $table->nullableTimestamps();
+            $table->timestamps();
         });
     }
 

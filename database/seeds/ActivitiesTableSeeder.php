@@ -13,6 +13,7 @@ class ActivitiesTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('activities')->insert([
+            'activity_id' => 11,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -29,9 +30,11 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 12,
             'name' => 'Henderson Home - Bukit Merah Polyclinic',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -48,9 +51,11 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 13,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -58,18 +63,20 @@ class ActivitiesTableSeeder extends Seeder
             'location_to' => '1 Hospital Drive, 169608, Singapore',
             'location_to_long' => 103.83549970200056,
             'location_to_lat' => 1.2798006200004579,
-            'datetime_start' => '2015-10-30 09:00:00',
+            'datetime_start' => '2015-10-26 13:00:00',
             'expected_duration_minutes' => 45,
-            'more_information' => 'Rejection reason: A volunteer signed up earlier for this activity',
+            'more_information' => '',
             'elderly_name' => 'Gan Teck Ghee',
             'next_of_kin_name' => 'Lim Chun Pin',
             'next_of_kin_contact' => '95674308',
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 14,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -77,18 +84,62 @@ class ActivitiesTableSeeder extends Seeder
             'location_to' => '1 Hospital Drive, 169608, Singapore',
             'location_to_long' => 103.83549970200056,
             'location_to_lat' => 1.2798006200004579,
-            'datetime_start' => '2015-11-02 13:00:00',
+            'datetime_start' => '2015-10-20 13:00:00',
             'expected_duration_minutes' => 30,
             'more_information' => '',
-            'elderly_name' => 'Felicia Han',
-            'next_of_kin_name' => 'Han Kenny',
-            'next_of_kin_contact' => '81345275',
+            'elderly_name' => 'Gan Teck Ghee',
+            'next_of_kin_name' => 'Lim Chun Pin',
+            'next_of_kin_contact' => '91234123',
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 15,
+            'name' => 'Henderson Home - Bukit Merah Polyclinic',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '163 Bukit Merah Central, 150163, Singapore',
+            'location_to_long' => 103.81696511400054,
+            'location_to_lat' => 1.2837871400004133,
+            'datetime_start' => '2015-10-23 12:00:00',
+            'expected_duration_minutes' => 60,
+            'more_information' => '',
+            'elderly_name' => 'Chanel Chua',
+            'next_of_kin_name' => 'Ugine Chua',
+            'next_of_kin_contact' => '95432678',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 16,
+            'name' => 'Henderson Home - Singapore General Hospital',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '1 Hospital Drive, 169608, Singapore',
+            'location_to_long' => 103.83549970200056,
+            'location_to_lat' => 1.2798006200004579,
+            'datetime_start' => '2015-10-26 09:00:00',
+            'expected_duration_minutes' => 45,
+            'more_information' => '',
+            'elderly_name' => 'Felicia Han',
+            'next_of_kin_name' => 'Han Kenny',
+            'next_of_kin_contact' => '95674308',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 17,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -105,9 +156,11 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 18,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -115,7 +168,91 @@ class ActivitiesTableSeeder extends Seeder
             'location_to' => '1 Hospital Drive, 169608, Singapore',
             'location_to_long' => 103.83549970200056,
             'location_to_lat' => 1.2798006200004579,
-            'datetime_start' => '2015-11-08 09:00:00',
+            'datetime_start' => '2015-11-02 13:00:00',
+            'expected_duration_minutes' => 30,
+            'more_information' => '',
+            'elderly_name' => 'Felicia Han',
+            'next_of_kin_name' => 'Han Kenny',
+            'next_of_kin_contact' => '81345275',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 19,
+            'name' => 'Henderson Home - Singapore General Hospital',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '1 Hospital Drive, 169608, Singapore',
+            'location_to_long' => 103.83549970200056,
+            'location_to_lat' => 1.2798006200004579,
+            'datetime_start' => '2015-10-30 13:00:00',
+            'expected_duration_minutes' => 60,
+            'more_information' => '',
+            'elderly_name' => 'Lim Yoke En',
+            'next_of_kin_name' => 'Janelle Lim',
+            'next_of_kin_contact' => '95432678',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 20,
+            'name' => 'Henderson Home - Bukit Merah Polyclinic',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '163 Bukit Merah Central, 150163, Singapore',
+            'location_to_long' => 103.81696511400054,
+            'location_to_lat' => 1.2837871400004133,
+            'datetime_start' => '2015-10-30 10:00:00',
+            'expected_duration_minutes' => 45,
+            'more_information' => '',
+            'elderly_name' => 'Lim Seng Hwee',
+            'next_of_kin_name' => 'Alicia Lim',
+            'next_of_kin_contact' => '94567567',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 21,
+            'name' => 'Henderson Home - Singapore General Hospital',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '1 Hospital Drive, 169608, Singapore',
+            'location_to_long' => 103.83549970200056,
+            'location_to_lat' => 1.2798006200004579,
+            'datetime_start' => '2015-10-29 11:30:00',
+            'expected_duration_minutes' => 30,
+            'more_information' => '',
+            'elderly_name' => 'Gan Teck Ghee',
+            'next_of_kin_name' => 'Lim Chun Pin',
+            'next_of_kin_contact' => '91234123',
+            'senior_centre_id' => 1,
+            'vwo_user_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('activities')->insert([
+            'activity_id' => 22,
+            'name' => 'Henderson Home - Singapore General Hospital',
+            'location_from' => '117 Bukit Merah View, 151117, Singapore',
+            'location_from_long' => 103.82190657700056,
+            'location_from_lat' => 1.2843010410004467,
+            'location_to' => '1 Hospital Drive, 169608, Singapore',
+            'location_to_long' => 103.83549970200056,
+            'location_to_lat' => 1.2798006200004579,
+            'datetime_start' => '2015-10-29 09:00:00',
             'expected_duration_minutes' => 90,
             'more_information' => '',
             'elderly_name' => 'Chanel Chua',
@@ -124,9 +261,11 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 23,
             'name' => 'Henderson Home - Bukit Merah Polyclinic',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -134,7 +273,7 @@ class ActivitiesTableSeeder extends Seeder
             'location_to' => '163 Bukit Merah Central, 150163, Singapore',
             'location_to_long' => 103.81696511400054,
             'location_to_lat' => 1.2837871400004133,
-            'datetime_start' => '2015-11-25 10:00:00',
+            'datetime_start' => '2015-10-28 10:00:00',
             'expected_duration_minutes' => 30,
             'more_information' => '',
             'elderly_name' => 'Foo Heng Gwan',
@@ -143,9 +282,11 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('activities')->insert([
+            'activity_id' => 24,
             'name' => 'Henderson Home - Singapore General Hospital',
             'location_from' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
@@ -153,7 +294,7 @@ class ActivitiesTableSeeder extends Seeder
             'location_to' => '1 Hospital Drive, 169608, Singapore',
             'location_to_long' => 103.83549970200056,
             'location_to_lat' => 1.2798006200004579,
-            'datetime_start' => '2015-11-20 11:30:00',
+            'datetime_start' => '2015-10-28 11:30:00',
             'expected_duration_minutes' => 60,
             'more_information' => '',
             'elderly_name' => 'Lam Yao Long',
@@ -162,6 +303,9 @@ class ActivitiesTableSeeder extends Seeder
             'senior_centre_id' => 1,
             'vwo_user_id' => 1,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
+
+
     }
 }

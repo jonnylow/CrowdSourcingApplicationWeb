@@ -13,120 +13,105 @@ class TasksTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('tasks')->insert([
-            'activity_id' => 1,
-            'volunteer_id' => 5,
+            'activity_id' => 17,
+            'volunteer_id' => 36,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 17,
+            'volunteer_id' => 37,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 17,
+            'volunteer_id' => 38,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 17,
+            'volunteer_id' => 39,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 17,
+            'volunteer_id' => 41,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 17,
+            'volunteer_id' => 42,
+            'approval' => 'pending',
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('tasks')->insert([
+            'activity_id' => 11,
+            'volunteer_id' => 36,
             'status' => 'completed',
             'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('tasks')->insert([
-            'activity_id' => 1,
-            'volunteer_id' => 1,
-            'approval' => 'rejected',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 2,
-            'volunteer_id' => 2,
-            'approval' => 'rejected',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 2,
-            'volunteer_id' => 3,
+            'activity_id' => 12,
+            'volunteer_id' => 37,
             'status' => 'completed',
             'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('tasks')->insert([
-            'activity_id' => 3,
-            'volunteer_id' => 2,
+            'activity_id' => 13,
+            'volunteer_id' => 38,
             'status' => 'completed',
             'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('tasks')->insert([
-            'activity_id' => 4,
-            'volunteer_id' => 1,
-            'status' => 'pick-up',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 4,
-            'volunteer_id' => 5,
-            'approval' => 'rejected',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 4,
-            'volunteer_id' => 6,
-            'approval' => 'rejected',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 4,
-            'volunteer_id' => 8,
-            'approval' => 'rejected',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 5,
-            'volunteer_id' => 1,
+            'activity_id' => 14,
+            'volunteer_id' => 39,
             'status' => 'completed',
             'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('tasks')->insert([
-            'activity_id' => 5,
-            'volunteer_id' => 4,
-            'approval' => 'withdrawn',
+            'activity_id' => 15,
+            'volunteer_id' => 41,
+            'status' => 'completed',
+            'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('tasks')->insert([
-            'activity_id' => 5,
-            'volunteer_id' => 6,
-            'approval' => 'rejected',
+            'activity_id' => 16,
+            'volunteer_id' => 42,
+            'status' => 'completed',
+            'approval' => 'approved',
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 6,
-            'volunteer_id' => 1,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 7,
-            'volunteer_id' => 5,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 7,
-            'volunteer_id' => 6,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 8,
-            'volunteer_id' => 5,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
     }
 }

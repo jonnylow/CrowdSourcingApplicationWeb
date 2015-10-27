@@ -13,30 +13,36 @@ class VwoUsersTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('vwo_users')->insert([
+            'vwo_user_id' => 1,
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => bcrypt('qwerty1234'),
             'senior_centre_id' => 1,
             'is_admin' => false,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('vwo_users')->insert([
+            'vwo_user_id' => 2,
             'name' => 'Alice Tan',
             'email' => 'alice@example.com',
-            'password' => bcrypt('zxcvbn1234'),
+            'password' => bcrypt('qwerty1234'),
             'senior_centre_id' => 1,
             'is_admin' => false,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
         DB::table('vwo_users')->insert([
+            'vwo_user_id' => 3,
             'name' => 'Felicia Teo',
             'email' => 'felicia@example.com',
-            'password' => bcrypt('qwerty5678'),
+            'password' => bcrypt('qwerty1234'),
             'senior_centre_id' => 1,
             'is_admin' => false,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
     }
 }

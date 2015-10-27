@@ -31,7 +31,7 @@ class CreateActivitiesTable extends Migration
             $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
             $table->integer('vwo_user_id')->unsigned();
             $table->foreign('vwo_user_id')->references('vwo_user_id')->on('vwo_users');
-            $table->nullableTimestamps();
+            $table->timestamps();
         });
     }
 
