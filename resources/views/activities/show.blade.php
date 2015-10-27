@@ -88,7 +88,7 @@
                             <tr>
                                 <td>{{ $volunteer->name }}</td>
                                 <td>{{ $volunteer->gender }}</td>
-                                <td>{{ $volunteer->age() }} <abbr title="years old">y/o</td>
+                                <td>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></td>
                                 <td>{{ $volunteer->minutes_volunteered }}</td>
                                 <td>{{ $volunteer->area_of_preference_1 }}</td>
                                 <td>{{ $volunteer->area_of_preference_2 }}</td>
