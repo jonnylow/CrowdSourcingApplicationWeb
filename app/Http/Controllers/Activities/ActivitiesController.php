@@ -124,13 +124,11 @@ class ActivitiesController extends Controller
 
             if ($groupByStatus->has('completed')) {
                 return "Completed";
-            } else if ($groupByStatus->has('picked-up')) {
+            } else if ($groupByStatus->has('pick-up')) {
                 return "Picked-up";
-            } else if ($groupByStatus->has('in-progress')) {
-                return "In-Progress";
-            } else if ($groupByStatus->has('At Check-up')) {
+            } else if ($groupByStatus->has('at check-up')) {
                 return "At Check-up";
-            } else if ($groupByStatus->has('Check-up Completed')) {
+            } else if ($groupByStatus->has('check-up completed')) {
                 return "Check-up Completed";
             } else {
                 return "Pending Start";
@@ -152,9 +150,8 @@ class ActivitiesController extends Controller
             if ($groupByStatus->has('completed')) {
                 return "Completed";
             } else if ($groupByStatus->has('picked-up') ||
-                $groupByStatus->has('in-progress') ||
-                $groupByStatus->has('At Check-up') ||
-                $groupByStatus->has('Check-up Completed')
+                $groupByStatus->has('at check-up') ||
+                $groupByStatus->has('check-up completed')
             ) {
                 return "In-Progress";
             } else if ($groupByApproval->has('approved')) {
