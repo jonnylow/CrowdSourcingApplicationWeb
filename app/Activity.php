@@ -105,6 +105,14 @@ class Activity extends Model
     }
 
     /**
+     * Get the activity's expected duration in hours.
+     */
+    public function getExpectedDurationMinutesAttribute($duration)
+    {
+        return $duration / 60;
+    }
+
+    /**
      * Get the senior centre that the vwo user belongs to.
      */
     public function seniorCentre()

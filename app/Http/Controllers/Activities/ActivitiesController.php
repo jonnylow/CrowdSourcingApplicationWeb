@@ -42,7 +42,7 @@ class ActivitiesController extends Controller
         $validator = Validator::make($request->all(), [
             'date_to_start'      => 'required|date|after:today',
             'time_to_start'      => 'required',
-            'duration'           => 'required|numeric|min:0',
+            'duration'           => 'required|numeric|min:0.1',
             'more_information'   => 'string',
             'start_location'     => 'required|string',
             'end_location'       => 'required|string',
@@ -86,6 +86,40 @@ class ActivitiesController extends Controller
 
             return back()->with('success', 'Activity added successfully!');
         }
+    }
+
+    public function edit($id)
+    {
+        $activity = Activity::findOrFail($id);
+
+        return view('activities.edit', compact('activity'));
+    }
+
+    public function update($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'               => 'required|string',
+            'date_to_start'      => 'required|date',
+            'time_to_start'      => 'required',
+            'duration'           => 'required|numeric|min:0.1',
+            'more_information'   => 'string',
+            'location_from'     => 'required|string',
+            'location_to'       => 'required|string',
+            'elderly_name'        => 'required',
+            'next_of_kin_name'    => 'required',
+            'next_of_kin_contact' => 'required|digits:8',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $activity = Activity::findOrFail($id);
+            $activity->update($request->all());
+        }
+
+        return back()->with('success', 'Activity updated successfully!');
     }
 
     public function approval($id, $volunteer, $approval) {

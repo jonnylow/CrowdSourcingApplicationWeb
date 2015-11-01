@@ -42,7 +42,7 @@
                                         <td>{{ $activity->elderly_name }}</td>
                                         <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }}</td>
                                         <td>
-                                            <a class="btn btn-warning btn-xs" href="javascript:alert('Work in Progress')">
+                                            <a class="btn btn-warning btn-xs disabled" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                                 <span class="glyphicon glyphicon-pencil"></span> Edit
                                             </a>
                                         </td>
@@ -79,7 +79,7 @@
                                         <td>{{ $activity->elderly_name }}</td>
                                         <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }}</td>
                                         <td>
-                                            <a class="btn btn-warning btn-xs" href="javascript:alert('Work in Progress')">
+                                            <a class="btn btn-warning btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                                 <span class="glyphicon glyphicon-pencil"></span> Edit
                                             </a>
                                         </td>
@@ -116,7 +116,7 @@
                                     <td>{{ $activity->elderly_name }}</td>
                                     <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }}</td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs" href="javascript:alert('Work in Progress')">
+                                        <a class="btn btn-warning btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                             <span class="glyphicon glyphicon-pencil"></span> Edit
                                         </a>
                                     </td>
