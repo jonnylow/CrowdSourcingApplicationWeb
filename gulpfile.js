@@ -25,11 +25,13 @@ var paths = {
 elixir(function(mix) {
     mix.sass('app.scss')
         .copy(paths.bootstrap + 'fonts/bootstrap', 'public/fonts')
-        .copy(paths.bootstrap + 'javascripts/bootstrap.min.js', 'public/js/bootstrap.min.js')
+
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')
+        .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
+
+        .copy(paths.jquery + "dist/jquery.min.js", 'public/js/jquery.min.js')
+        .copy(paths.bootstrap + 'javascripts/bootstrap.min.js', 'public/js/bootstrap.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.icheck + 'skins/flat', 'public/css/icheck')
-        .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
-        .scripts('app.js', 'public/js/app.min.js')
-        .scripts([paths.jquery + "dist/jquery.min.js", paths.bootflat + "js/jquery.fs.selecter.min.js", paths.bootflat + "js/jquery.fs.stepper.min.js"], 'public/js/jquery.min.js');
+        .scripts('app.js', 'public/js/app.min.js');
 });
