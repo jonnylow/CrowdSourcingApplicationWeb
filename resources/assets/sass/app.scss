@@ -1,7 +1,8 @@
-@import "node_modules/bootswatch/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
-@import "node_modules/bootswatch/flatly/bootswatch";
-@import "node_modules/bootflat/bootflat/scss/bootflat";
 @import "resources/assets/sass/customVariables";
+@import "vendor/thomaspark/bootswatch/flatly/variables";
+@import "vendor/thomaspark/bootswatch/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
+@import "vendor/thomaspark/bootswatch/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "vendor/thomaspark/bootswatch/flatly/bootswatch";
 
 .flash {
     background: #f66422;

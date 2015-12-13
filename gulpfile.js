@@ -14,17 +14,17 @@ var elixir = require('laravel-elixir');
 elixir.config.sourcemaps = false;
 
 var paths = {
-    'bootstrap': './node_modules/bootswatch/bower_components/bootstrap-sass-official/assets/',
-    'jquery': './node_modules/bootswatch/bower_components/jquery/',
-    'bootswatch': './node_modules/bootswatch/',
-    'bootflat': './node_modules/bootflat/bootflat/',
-    'bootstraptable': './node_modules/bootstrap-table/',
-    'icheck': 'node_modules/icheck/'
+    'bootstrap': './vendor/thomaspark/bootswatch/bower_components/bootstrap-sass-official/assets/',
+    'jquery': './vendor/thomaspark/bootswatch/bower_components/jquery/',
+    'bootswatch': './vendor/thomaspark/bootswatch/',
+    'bootflat': './vendor/bootflat/bootflat/bootflat/',
+    'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
+    'icheck': './vendor/fronteed/icheck/'
 }
 
 elixir(function(mix) {
     mix.sass('app.scss')
-        .copy(paths.bootstrap + 'fonts/bootstrap', 'public/fonts')
+        .copy(paths.bootstrap + 'fonts/bootstrap', 'public/fonts/bootstrap')
 
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')
         .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
