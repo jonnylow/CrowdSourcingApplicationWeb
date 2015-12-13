@@ -7,3 +7,6 @@ Homestead.json
 .DS_Store
 Thumbs.db
 _ide_helper.php
+/public/css
+/public/fonts
+/public/js
