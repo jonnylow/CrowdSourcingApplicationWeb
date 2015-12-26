@@ -50,8 +50,7 @@ Route::group(['namespace' => 'Auth'], function() {
 // Web service routes
 Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::post('authenticate', 'VolunteerAuthController@authenticate');
-    Route::get('RetrieveTransportActivity', 'ActivitiesController@RetrieveTransportActivity');
-    Route::get('RetrieveTransportActivityDetails', 'ActivitiesController@RetrieveTransportActivityDetails');
-    Route::get('AddUserAccount', 'VolunteerController@AddUserAccount');
-    
+    Route::get('retrieveTransportActivity', 'ActivitiesController@retrieveTransportActivity');
+    Route::get('retrieveTransportActivityDetails', 'ActivitiesController@retrieveTransportActivityDetails');
+    Route::get('addUserAccount', 'VolunteerController@addUserAccount');
 });
