@@ -28,14 +28,14 @@
         {
             "type": "package",
             "package": {
-                "name": "wenzhixin/bootstrap-table",
-                "version": "1.9.1",
+                "name": "rriepe/1pxdeep",
+                "version": "1.0.1",
                 "dist": {
-                    "url": "https://github.com/wenzhixin/bootstrap-table/archive/1.9.1.zip",
+                    "url": "https://github.com/rriepe/1pxdeep/archive/master.zip",
                     "type": "zip"
                 },
                 "source": {
-                    "url": "https://github.com/wenzhixin/bootstrap-table.git",
+                    "url": "https://github.com/rriepe/1pxdeep.git",
                     "type": "git",
                     "reference": "origin/master"
                 }
@@ -50,7 +50,8 @@
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "thomaspark/bootswatch": "^3.3.5",
         "fronteed/icheck": "1.0.2",
-        "wenzhixin/bootstrap-table": "1.9.1"
+        "wenzhixin/bootstrap-table": "^1.9.1",
+        "rriepe/1pxdeep": "1.0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",
