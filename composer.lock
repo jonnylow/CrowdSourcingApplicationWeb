@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a7f5c49eeaa78f28222d66ac1e8e5ce6",
-    "content-hash": "41efd80eb7d334a4cdd67864484cb051",
+    "hash": "ee736bb5f7dd6fb31c13734241d3a3fc",
+    "content-hash": "f66bb3b26d7dc34da40c330dda86263c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -224,6 +224,12 @@
                 "type": "git",
                 "url": "https://github.com/fronteed/icheck.git",
                 "reference": "origin/1.x"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/fronteed/icheck/archive/1.0.2.zip",
+                "reference": null,
+                "shasum": null
             },
             "type": "library"
         },
@@ -2272,16 +2278,16 @@
         },
         {
             "name": "thomaspark/bootswatch",
-            "version": "v3.3.6",
+            "version": "v3.3.6+1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thomaspark/bootswatch.git",
-                "reference": "4db5bf22ea130613ed0080981814db45fa27997c"
+                "reference": "7820b744da10884c2613de7a905ab2d93028661d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thomaspark/bootswatch/zipball/4db5bf22ea130613ed0080981814db45fa27997c",
-                "reference": "4db5bf22ea130613ed0080981814db45fa27997c",
+                "url": "https://api.github.com/repos/thomaspark/bootswatch/zipball/7820b744da10884c2613de7a905ab2d93028661d",
+                "reference": "7820b744da10884c2613de7a905ab2d93028661d",
                 "shasum": ""
             },
             "suggest": {
@@ -2326,7 +2332,7 @@
                 }
             ],
             "description": "Themes for Bootstrap",
-            "time": "2015-11-24 23:36:58"
+            "time": "2015-12-28 02:22:12"
         },
         {
             "name": "tymon/jwt-auth",
@@ -2455,6 +2461,69 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "barryvdh/laravel-ide-helper",
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
+                "reference": "d82e8f191fb043a0f8cbf2de64fd3027bfa4f772"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/d82e8f191fb043a0f8cbf2de64fd3027bfa4f772",
+                "reference": "d82e8f191fb043a0f8cbf2de64fd3027bfa4f772",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "5.0.x|5.1.x|5.2.x",
+                "illuminate/filesystem": "5.0.x|5.1.x|5.2.x",
+                "illuminate/support": "5.0.x|5.1.x|5.2.x",
+                "php": ">=5.4.0",
+                "phpdocumentor/reflection-docblock": "2.0.4",
+                "symfony/class-loader": "~2.3"
+            },
+            "require-dev": {
+                "doctrine/dbal": "~2.3"
+            },
+            "suggest": {
+                "doctrine/dbal": "Load information from the database about models for phpdocs (~2.3)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\LaravelIdeHelper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Laravel IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
+            "keywords": [
+                "autocomplete",
+                "codeintel",
+                "helper",
+                "ide",
+                "laravel",
+                "netbeans",
+                "phpdoc",
+                "phpstorm",
+                "sublime"
+            ],
+            "time": "2015-12-21 19:48:06"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
@@ -3625,6 +3694,58 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2015-06-21 13:59:46"
+        },
+        {
+            "name": "symfony/class-loader",
+            "version": "v2.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/class-loader.git",
+                "reference": "ec74b0a279cf3a9bd36172b3e3061591d380ce6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/ec74b0a279cf3a9bd36172b3e3061591d380ce6c",
+                "reference": "ec74b0a279cf3a9bd36172b3e3061591d380ce6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/finder": "~2.0,>=2.0.5|~3.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ClassLoader\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ClassLoader Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-12-05 17:37:59"
         },
         {
             "name": "symfony/yaml",

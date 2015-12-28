@@ -147,9 +147,14 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         * JWTAuth Service Providers...
+         * JWTAuth Service Provider...
          */
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+
+        /*
+         * Laravel IDE Helper Generator Service Provider...
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 
