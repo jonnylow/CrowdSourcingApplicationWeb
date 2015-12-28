@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVwoUsersTable extends Migration
+class CreateStaffTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateVwoUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('vwo_users', function (Blueprint $table) {
-            $table->increments('vwo_user_id');
+        Schema::create('staff', function (Blueprint $table) {
+            $table->increments('staff_id');
             $table->string('name', 50);
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->integer('senior_centre_id')->unsigned();
-            $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
             $table->boolean('is_admin');
             $table->rememberToken();
             $table->timestamps();
@@ -32,6 +30,6 @@ class CreateVwoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('vwo_users');
+        Schema::drop('staff');
     }
 }

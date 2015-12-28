@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
+class CreateTasksPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->increments('task_id');
-            $table->integer('activity_id')->unsigned();
-            $table->foreign('activity_id')->references('activity_id')->on('activities');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('volunteer_id')->on('volunteers');
+            $table->integer('activity_id')->unsigned();
+            $table->foreign('activity_id')->references('activity_id')->on('activities');
             $table->enum('status', ['new task', 'pick-up', 'at check-up', 'check-up completed', 'completed'])->default('new task');
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
             $table->timestamps();
+            $table->primary(['volunteer_id', 'activity_id', 'created_at']);
         });
     }
 

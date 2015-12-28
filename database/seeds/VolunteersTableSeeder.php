@@ -134,7 +134,7 @@ class VolunteersTableSeeder extends Seeder
 
         DB::table('volunteers')->insert([
             'volunteer_id' => 43,
-            'nric' => 'S7756758G',
+            'nric' => 'S7749878G',
             'name' => 'Lionel Wong',
             'email' => 'lionel@gmail.com',
             'password' => md5('qwerty123'),
