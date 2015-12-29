@@ -64,14 +64,14 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that belongs to a particular senior centre.
+     * Scope queries to activities that belongs to all senior centres associated with the staff.
      *
      * @var $query
-     * @var $seniorCentreId
+     * @var $staff
      */
-    public function scopeOfSeniorCentre($query, $seniorCentreId)
+    public function scopeOfSeniorCentreForStaff($query, $staff)
     {
-        $query->where('senior_centre_id', $seniorCentreId);
+        $query->whereIn('senior_centre_id', $staff->seniorCentres->lists('senior_centre_id'));
     }
 
     /**

@@ -15,9 +15,9 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
-        $upcoming = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->upcoming()->get();
-        $today = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->today()->get();
-        $past = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->past()->get();
+        $upcoming = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->upcoming()->get();
+        $today = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->today()->get();
+        $past = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->past()->get();
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
@@ -152,7 +152,7 @@ class ActivitiesController extends Controller
         $taskCount = $tasks->count();
 
         if ($taskCount == 0) {
-            return "Pending Start";
+            return "Not Started";
         } else {
             $groupByStatus = $tasks->groupBy('status');
 
@@ -165,7 +165,7 @@ class ActivitiesController extends Controller
             } else if ($groupByStatus->has('check-up completed')) {
                 return "Check-up Completed";
             } else {
-                return "Pending Start";
+                return "Not Started";
             }
         }
     }
@@ -176,7 +176,7 @@ class ActivitiesController extends Controller
         $taskCount = $tasks->count();
 
         if ($taskCount == 0) {
-            return "0 Volunteer Applied";
+            return "Not Started";
         } else {
             $groupByStatus = $tasks->groupBy('status');
             $groupByApproval = $tasks->groupBy('approval');

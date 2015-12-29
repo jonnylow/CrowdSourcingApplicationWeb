@@ -198,6 +198,7 @@ class ActivitiesTableSeeder extends Seeder
             'location_from_address' => '117 Bukit Merah View, 151117, Singapore',
             'location_from_long' => 103.82190657700056,
             'location_from_lat' => 1.2843010410004467,
+            'location_to' => 'Bukit Merah Polyclinic',
             'location_to_address' => '163 Bukit Merah Central, 150163, Singapore',
             'location_to_long' => 103.81696511400054,
             'location_to_lat' => 1.2837871400004133,
