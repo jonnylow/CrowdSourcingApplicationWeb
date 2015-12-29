@@ -152,20 +152,20 @@ class ActivitiesController extends Controller
         $taskCount = $tasks->count();
 
         if ($taskCount == 0) {
-            return "Not Started";
+            return 0; // Not Started
         } else {
             $groupByStatus = $tasks->groupBy('status');
 
             if ($groupByStatus->has('completed')) {
-                return "Completed";
+                return 100; // Completed
             } else if ($groupByStatus->has('pick-up')) {
-                return "Picked-up";
+                return 25; // Picked-up
             } else if ($groupByStatus->has('at check-up')) {
-                return "At Check-up";
+                return 50; // At Check-up
             } else if ($groupByStatus->has('check-up completed')) {
-                return "Check-up Completed";
+                return 75; // Check-up Completed
             } else {
-                return "Not Started";
+                return 0; // Not Started
             }
         }
     }

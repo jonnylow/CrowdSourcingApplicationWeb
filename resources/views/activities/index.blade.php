@@ -9,11 +9,11 @@
         <div class="col-md-3 margin-bottom-sm"><a href="activities/create" class="btn btn-default btn-md">Add new activity</a></div>
 
         <div class="col-md-9">
-            <div class="col-md-4 alert color4b" role="alert">
+            <div class="col-md-4 alert" role="alert">
                 <div class="col-md-8"><a href="#" class="alert-link">...</a></div>
                 <div class="col-md-4 text-center"><h1><span class="label label-default">0</span></h1></div>
             </div>
-            <div class="col-md-4 col-md-offset-1 alert color4b" role="alert">
+            <div class="col-md-4 col-md-offset-1 alert" role="alert">
                 <div class="col-md-8"><a href="#" class="alert-link">...</a></div>
                 <div class="col-md-4 text-center"><h1><span class="label label-default">0</span></h1></div>
             </div>
@@ -29,7 +29,7 @@
             </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane table-responsive" id="past">
+                    <div role="tabpanel" class="tab-pane table-responsive fade" id="past">
                         <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
                             <thead>
                                 <tr>
@@ -68,7 +68,7 @@
                         </table>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane table-responsive active" id="today">
+                    <div role="tabpanel" class="tab-pane table-responsive fade in active" id="today">
                         <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
                             <thead>
                                 <tr>
@@ -107,7 +107,7 @@
                         </table>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane table-responsive" id="upcoming">
+                    <div role="tabpanel" class="tab-pane table-responsive fade" id="upcoming">
                         <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
                             <thead>
                                 <tr>
