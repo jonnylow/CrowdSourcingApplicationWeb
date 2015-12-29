@@ -23,11 +23,11 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['AddUserAccount']]);
+       $this->middleware('jwt.auth', ['except' => ['AddUserAccount','CheckEmail']]);
    }
 
-   public function AddUserAccount(){
-      $validator = Validator::make($request->all(), [
+   public function AddUserAccount(Request $request ){
+      /*$validator = Validator::make($request->all(), [
             'nric'                    => 'required|string',
             'name'                    => 'required|string',
             'date_of_birth'           => 'required|date|after:today',
@@ -49,13 +49,13 @@ class VolunteerController extends Controller
             return back()
                 ->withErrors($validator)
                 ->withInput();
-        } else {
+        } else {*/
           Volunteer::create([
                 'nric'                      => $request->get('nric'),
                 'name'                      => $request->get('name'),
                 'email'                     => $request->get('email'),
-                'password'                  => Volunteer::PasswordAttribute($request->get('email')),
-                'gender'                    => Volunteer::GenderAttribute($request->get('gender')),
+                'password'                  => $request->get('password'),
+                'gender'                    => $request->get('gender'),
                 'date_of_birth'             => $request->get('dob'),
                 'contact_no'                => $request->get('phone'),
                 'occupation'                => $request->get('occupation'),
@@ -66,9 +66,30 @@ class VolunteerController extends Controller
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
                 'is_approved'               => 'False']);
-        }
+        //}
+        return back()->with('success', 'Created successfully');
 
         
+   }
+
+   public function CheckEmail(Request $request){
+    $check = $request->get('email');
+    //check if email exist in database - do not exist for no / exist for yes
+    $email = Volunteer::findOrFail($check);
+    return response()->json(compact('email'));
+   }
+
+   public function CheckNRIC(Request $request){
+    $check = $request->get('nric');
+    //check if email exist in database - do not exist for no / exist for yes
+   }
+
+   public function RetrieveUserAccounts(Request $request){
+    // retrieve volunetter id, name , email, isapproved
+   }
+
+   public function RetrieveUserDetails(Request $request){
+    // retrieve all details based on volunteer id
    }
 }
 

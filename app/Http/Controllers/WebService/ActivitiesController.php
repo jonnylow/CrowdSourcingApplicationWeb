@@ -22,7 +22,7 @@ class ActivitiesController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity']]);
+       $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity' ,'RetrieveTransportByUser']]);
    }
 
    /**
@@ -38,14 +38,15 @@ class ActivitiesController extends Controller
         foreach($activities as $activity){
           echo $activity->activity_id;
           $tasks = Task::ofActivity($activity->activity_id)->get();
-          return response()->json(compact('tasks'));
-          foreach($tsks as $task){
-            echo '2';
-            /*if ($task->approval == 'approved'){
-              echo '1';
-              $activities = array_forget('activity');
-              //$finalList = array_add($activity);
-            }*/
+          
+          foreach($tasks as $task){
+            //echo $task->approval;
+            if ($task->approval == 'approved'){
+              //echo 'deleting +' + $task->task_id;
+              //echo $task->task_id;
+              //$activities = array_forget('activity');
+              $finalList = array_add($activity);
+            }
 
           }
           echo ' ';
@@ -55,7 +56,7 @@ class ActivitiesController extends Controller
           ->where('task.approval','<>','approved')
           ->get();*/
 
-        //return response()->json(compact('finalList'));
+        return response()->json(compact('finalList'));
 
         // all good so return the token
         //return response()->json(compact('activities'));
@@ -67,5 +68,20 @@ class ActivitiesController extends Controller
 
 
         return response()->json(compact('activity'));
+    }
+// find activity details that is not completed by user ->1
+// find activity details that are completed ->2
+
+    public function RetrieveTransportByUser(Request $request){
+        $id = $request->only('transportId');
+        $activity = Activity::findOrFail($id);
+
+
+        return response()->json(compact('activity'));
+    }
+
+    public function RetrieveRecommendedTransportActivity(Request $request){
+      // retrieve the nearest upcoming activites based on dates 
+      // limit will be determined by jonathan
     }
 }
