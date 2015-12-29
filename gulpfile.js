@@ -23,6 +23,7 @@ var paths = {
 
 elixir(function(mix) {
     mix.less('app.less')
+        .copy('resources/assets/images', 'public/images')
         .copy(paths.bootstrap + 'dist/fonts', 'public/fonts')
 
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')

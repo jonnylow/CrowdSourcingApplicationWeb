@@ -1,5 +1,6 @@
 @import "variables.less";
 
+// Font
 @web-font-path: "https://fonts.googleapis.com/css?family=Lato:400,700,400italic";
 
 .web-font(@path) {
@@ -7,6 +8,28 @@
 }
 .web-font(@web-font-path);
 
+// Nav logo
+.navbar-brand {
+  padding: 0px;
+  height: 80px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 7px 15px;
+  width: auto;
+}
+
+.nav >li >a {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.navbar-toggle {
+  padding: 10px;
+  margin: 25px 15px 25px 0;
+}
+
+// Check box
 .checkbox label {
   display: flex;
 }
