@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'Password')
+@section('title', 'Profile')
 
 @section('content')
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>My Profile</h1>
+            <h1>Change Password</h1>
             @if (count($errors) || Session::has('success'))
             <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -26,22 +26,21 @@
             </div>
             @endif
 
-            {!! Form::model(Auth::user(), ['class' => 'form-horizontal', 'method' => 'POST', 'action' => 'Profiles\ProfileController@update']) !!}
-                <!-- Name Form Input -->
+            {!! Form::open(['class' => 'form-horizontal', 'method' => 'POST', 'action' => 'Profiles\ProfileController@updatePassword']) !!}
+                <!-- New Password Form Input -->
                 <div class="form-group">
-                    {!! Form::label('name', 'Name', ['class' => 'control-label col-md-4']) !!}
+                    {!! Form::label('new_password', 'New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                        {!! Form::password('new_password', ['class' => 'form-control']) !!}
                     </div>
                 </div>
-                <!-- Email Form Input -->
+                <!-- Confirm New Password Form Input -->
                 <div class="form-group">
-                    {!! Form::label('email', 'Email', ['class' => 'control-label col-md-4']) !!}
+                    {!! Form::label('new_password_confirmation', 'Confirm New Password', ['class' => 'control-label col-md-4']) !!}
                     <div class="col-md-8">
-                        {!! Form::email('email', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                        {!! Form::password('new_password_confirmation', ['class' => 'form-control']) !!}
                     </div>
                 </div>
-
                 <!-- Current Password Form Input -->
                 <div class="form-group">
                     {!! Form::label('current_password', 'Current Password', ['class' => 'control-label col-md-4']) !!}
@@ -52,7 +51,7 @@
                 </div>
                 <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                    {!! Form::submit('Update profile', ['class' => 'btn btn-default btn-md']) !!}
+                    {!! Form::submit('Update Password', ['class' => 'btn btn-default btn-md']) !!}
                 </div>
             {!! Form::close() !!}
         </div>
