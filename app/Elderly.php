@@ -23,6 +23,27 @@ class Elderly extends Model
         'next_of_kin_contact', 'medical_condition', 'image_photo', 'senior_centre_id'];
 
     /**
+     * Scope queries to elderly that belongs to a senior centre.
+     *
+     * @var $query
+     * @var $seniorCentreId
+     */
+    public function scopeOfSeniorCentre($query, $seniorCentreId)
+    {
+        $query->where('senior_centre_id', $seniorCentreId);
+    }
+
+    /**
+     * Get a list of elderly's nric and name.
+     *
+     * @return array
+     */
+    public function getElderlyListAttribute()
+    {
+        return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
+    }
+
+    /**
      * Get the senior centre that the elderly belongs to.
      */
     public function seniorCentre()

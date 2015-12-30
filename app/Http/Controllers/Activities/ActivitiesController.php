@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Activity;
+use App\Elderly;
 use App\Task;
 use Auth;
 use Validator;
@@ -31,7 +32,23 @@ class ActivitiesController extends Controller
 
     public function create()
     {
-        return view('activities.create');
+        $expectedDuration = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $seniorCentreList = Auth::user()->seniorCentres()->get()->lists('name', 'senior_centre_id');
+        $endLocations = ['Ang Mo Kio Polyclinic', 'Bedok Polyclinic', 'Bukit Batok Polyclinic', 'Bukit Merah Polyclinic',
+            'Choa Chu Kang Polyclinic', 'Clementi Polyclinic', 'Geylang Polyclinic', 'Hougang Polyclinic', 'Jurong Polyclinic',
+            'Marine Parade Polyclinic', 'Outram Polyclinic', 'Pasir Ris Polyclinic', 'Queenstown Polyclinic',
+            'Sengkang Polyclinic', 'Tampines Polyclinic', 'Toa Payoh Polyclinic', 'Woodlands Polyclinic', 'Yishun Polyclinic',
+            'Changi General Hospital (CGH)', 'Gleneagles Hospital', 'Khoo Teck Puat Hospital', 'Mount Alvernia Hospital',
+            'National University Hospital (NUH)', 'Ng Teng Fong General Hospital (NTFGH)', 'Jurong Community Hospital (JCH)',
+            'Parkway East Hospital', 'Raffles Hospital', 'Sengkang General Hospital', 'Singapore General Hospital (SGH)',
+            'Tan Tock Seng Hospital (TTSH)'];
+        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
+
+        $seniorCentreList = collect($seniorCentreList)->push('Others');
+        $endLocations = collect($endLocations)->push('Others');
+        $seniorList = collect($seniorList)->push('Others');
+
+        return view('activities.create', compact('expectedDuration', 'seniorCentreList', 'endLocations', 'seniorList'));
     }
 
     public function store(Request $request)
