@@ -13,23 +13,31 @@ class RanksTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('ranks')->insert([
-            'name' => 'Bronze',
-            'points_required' => 0,
-        ]);
-
-        DB::table('ranks')->insert([
-            'name' => 'Silver',
-            'points_required' => 50,
-        ]);
-
-        DB::table('ranks')->insert([
-            'name' => 'Gold',
-            'points_required' => 100,
-        ]);
-
-        DB::table('ranks')->insert([
+            'rank' => 1,
             'name' => 'Platinum',
-            'points_required' => 150,
+            'min' => 150,
+            'max' => 65535,
+        ]);
+
+        DB::table('ranks')->insert([
+            'rank' => 2,
+            'name' => 'Gold',
+            'min' => 100,
+            'max' => 149,
+        ]);
+
+        DB::table('ranks')->insert([
+            'rank' => 3,
+            'name' => 'Silver',
+            'min' => 50,
+            'max' => 99,
+        ]);
+
+        DB::table('ranks')->insert([
+            'rank' => 4,
+            'name' => 'Bronze',
+            'min' => 0,
+            'max' => 49,
         ]);
     }
 }

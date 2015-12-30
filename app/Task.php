@@ -12,14 +12,14 @@ class Task extends Model
      * @var string
      */
     protected $table = 'tasks';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'task_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['activity_id', 'volunteer_id', 'status', 'approval'];
+    protected $fillable = ['volunteer_id', 'activity_id', 'status', 'approval'];
 
     /**
      * Scope queries to tasks that belongs to a particular activity.

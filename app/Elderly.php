@@ -20,17 +20,17 @@ class Elderly extends Model
      * @var array
      */
     protected $fillable = ['nric', 'name', 'gender', 'next_of_kin_name',
-        'next_of_kin_contact', 'medical_condition', 'image_photo', 'senior_centre_id'];
+        'next_of_kin_contact', 'medical_condition', 'image_photo', 'centre_id'];
 
     /**
-     * Scope queries to elderly that belongs to a senior centre.
+     * Scope queries to elderly that belongs to a centre.
      *
      * @var $query
-     * @var $seniorCentreId
+     * @var $centreId
      */
-    public function scopeOfSeniorCentre($query, $seniorCentreId)
+    public function scopeOfCentre($query, $centreId)
     {
-        $query->where('senior_centre_id', $seniorCentreId);
+        $query->where('centre_id', $centreId);
     }
 
     /**
@@ -44,11 +44,11 @@ class Elderly extends Model
     }
 
     /**
-     * Get the senior centre that the elderly belongs to.
+     * Get the centre that the elderly belongs to.
      */
-    public function seniorCentre()
+    public function centre()
     {
-        return $this->belongsTo('App\SeniorCentre');
+        return $this->belongsTo('App\Centre');
     }
 
     /**

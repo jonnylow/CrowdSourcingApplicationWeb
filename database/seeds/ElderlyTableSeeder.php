@@ -13,15 +13,29 @@ class ElderlyTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('elderly')->insert([
-            'elderly_id' => 1,
             'nric' => 'S1234567Z',
             'name' => 'Tan Ah Kow',
             'gender' => 'M',
             'next_of_kin_name' => 'Tan Ah Mao',
-            'next_of_kin_contact' => 98765432,
+            'next_of_kin_contact' => '98765432',
             'medical_condition' => '',
             'image_photo' => 'image.jpeg',
-            'senior_centre_id' => 1,
+            'centre_id' => 1,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
+        ]);
+
+        DB::table('elderly')->insert([
+            'nric' => 'S7654321Z',
+            'name' => 'Monica Cheng',
+            'gender' => 'F',
+            'next_of_kin_name' => 'Tan Nelson',
+            'next_of_kin_contact' => '87654321',
+            'medical_condition' => '',
+            'image_photo' => 'image.jpeg',
+            'centre_id' => 2,
+            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
+            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
     }
 }

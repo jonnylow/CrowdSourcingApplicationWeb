@@ -28,6 +28,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -48,6 +49,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -68,6 +70,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -88,6 +91,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -108,6 +112,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -128,6 +133,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -148,6 +154,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => false,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -168,6 +175,7 @@ class VolunteersTableSeeder extends Seeder
             'image_nric_front' => 'image/image_nric_front.jpg',
             'image_nric_back' => 'image/image_nric_back.jpg',
             'is_approved' => true,
+            'rank_id' => 4,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);

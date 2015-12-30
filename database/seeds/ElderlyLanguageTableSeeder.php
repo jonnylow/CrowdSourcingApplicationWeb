@@ -26,5 +26,15 @@ class ElderlyLanguageTableSeeder extends Seeder
             'elderly_id' => 1,
             'language' => 'Teochew',
         ]);
+
+        DB::table('elderly_language')->insert([
+            'elderly_id' => 2,
+            'language' => 'English',
+        ]);
+
+        DB::table('elderly_language')->insert([
+            'elderly_id' => 2,
+            'language' => 'Chinese',
+        ]);
     }
 }

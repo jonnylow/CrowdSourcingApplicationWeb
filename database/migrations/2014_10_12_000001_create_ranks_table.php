@@ -14,8 +14,10 @@ class CreateRanksTable extends Migration
     {
         Schema::create('ranks', function (Blueprint $table) {
             $table->increments('rank_id');
+            $table->integer('rank')->unsigned();
             $table->string('name');
-            $table->integer('points_required')->unsigned();
+            $table->integer('min')->unsigned();
+            $table->integer('max')->unsigned();
         });
     }
 

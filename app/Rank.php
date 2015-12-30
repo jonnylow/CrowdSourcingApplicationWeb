@@ -20,5 +20,5 @@ class Rank extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'points_required'];
+    protected $fillable = ['rank', 'name', 'min', 'max'];
 }
