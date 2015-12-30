@@ -23,10 +23,10 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['AddUserAccount','CheckEmail']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails']]);
    }
 
-   public function AddUserAccount(Request $request ){
+   public function addUserAccount(Request $request ){
       /*$validator = Validator::make($request->all(), [
             'nric'                    => 'required|string',
             'name'                    => 'required|string',
@@ -67,29 +67,78 @@ class VolunteerController extends Controller
                 'image_nric_back'           => $request->get('backIC'),
                 'is_approved'               => 'False']);
         //}
-        return back()->with('success', 'Created successfully');
+    $check = $request->get('email');
+    $email = Volunteer::where('email',$check)->get();
+    //return response()->json(compact('email'));
+
+    if ($email->isEmpty()){
+      $status = array("error");
+      return response()->json(compact('status'));
+    } else {
+      $status = array("Created successfully");
+      return response()->json(compact('status'));
+    }
 
         
    }
 
-   public function CheckEmail(Request $request){
+   public function checkEmail(Request $request){
     $check = $request->get('email');
     //check if email exist in database - do not exist for no / exist for yes
-    $email = Volunteer::findOrFail($check);
-    return response()->json(compact('email'));
+    $email = Volunteer::where('email',$check)->get();
+    //return response()->json(compact('email'));
+
+    if ($email->isEmpty()){
+      $status = array("do not exist");
+      return response()->json(compact('status'));
+    } else {
+      $status = array("exist");
+      return response()->json(compact('status'));
+    }
+    
    }
 
-   public function CheckNRIC(Request $request){
+   public function checkNRIC(Request $request){
     $check = $request->get('nric');
     //check if email exist in database - do not exist for no / exist for yes
+    $nric = Volunteer::where('nric',$check)->get();
+    //return response()->json(compact('nric'));
+
+    if ($nric->isEmpty()){
+      $status = array("do not exist");
+      return response()->json(compact('status'));
+    } else {
+      $status = array("exist");
+      return response()->json(compact('status'));
+    }
    }
 
-   public function RetrieveUserAccounts(Request $request){
+   /*public function retrieveUserAccounts(Request $request){
     // retrieve volunetter id, name , email, isapproved
-   }
+    $check = $request->get('email');
+    //check if email exist in database - do not exist for no / exist for yes
+    $user = Volunteer::where('email',$check)->get();
+    //return response()->json(compact('user'));
+    $vid=$user->volunteer_id;
+    $name=$user->name;
+    $email=$user->email;
+    $approval=$user->is_approved;
+    $return=array($vid,$name,$email,$approval);
 
-   public function RetrieveUserDetails(Request $request){
+    if ($email->isEmpty()){
+      $status = array("do not exist");
+      return response()->json(compact('status'));
+    } else {
+      return response()->json(compact('return'));
+    }
+
+   }*/
+
+   public function retrieveUserDetails(Request $request){
     // retrieve all details based on volunteer id
+    $id = $request->get('id');
+    $volunteer = Volunteer::findOrFail($id);
+    return response()->json(compact('volunteer'));
    }
 }
 

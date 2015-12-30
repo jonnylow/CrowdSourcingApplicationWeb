@@ -52,7 +52,14 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::post('authenticate', 'VolunteerAuthController@authenticate');
     Route::get('retrieveTransportActivity', 'ActivitiesController@retrieveTransportActivity');
     Route::get('retrieveTransportActivityDetails', 'ActivitiesController@retrieveTransportActivityDetails');
-    Route::get('AddUserAccount', 'VolunteerController@AddUserAccount');
-    Route::get('AddUserAccount', 'VolunteerController@CheckEmail');
+
+    Route::get('addUserAccount', 'VolunteerController@addUserAccount');
+    Route::get('checkEmail', 'VolunteerController@checkEmail');
+    Route::get('checkNRIC', 'VolunteerController@checkNRIC');
+    Route::get('retrieveUserAccounts', 'VolunteerController@retrieveUserAccounts');
+    Route::get('retrieveUserDetails', 'VolunteerController@retrieveUserDetails');
+
     
+
+
 });
