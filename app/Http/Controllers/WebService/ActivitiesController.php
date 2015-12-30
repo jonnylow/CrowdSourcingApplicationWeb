@@ -63,6 +63,7 @@ class ActivitiesController extends Controller
         // all good so return the token
         //return response()->json(compact('activities'));
     }
+
 // tested working with new database 
     public function retrieveTransportActivityDetails(Request $request){
         $id = $request->only('transportId');
@@ -148,7 +149,7 @@ class ActivitiesController extends Controller
 
       }
 
-
+}
 
 // tested working with new database , pending update from task.php
     public function updateActivityStatus(Request $request) {
