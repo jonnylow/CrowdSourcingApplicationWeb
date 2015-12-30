@@ -7,11 +7,11 @@
 <div class="container-fluid">
     <div class="row margin-bottom-xs">
         <div class="col-md-12">
-            <div class="col-md-3 hidden-sm hidden-xs text-left"><h1>{{ $activity->location_from }}</h1></div>
+            <div class="col-md-3 hidden-sm hidden-xs text-left"><h1>{{ $activity->departureCentre->name }}</h1></div>
             <div class="col-md-1 hidden-sm hidden-xs text-center"><h1><span class="glyphicon glyphicon-arrow-right"></span></h1></div>
-            <div class="col-md-4 hidden-sm hidden-xs text-center"><h1>{{ $activity->location_to }}</h1></div>
+            <div class="col-md-4 hidden-sm hidden-xs text-center"><h1>{{ $activity->arrivalCentre->name }}</h1></div>
             <div class="col-md-1 hidden-sm hidden-xs text-center"><h1><span class="glyphicon glyphicon-arrow-right"></span></h1></div>
-            <div class="col-md-3 hidden-sm hidden-xs text-right"><h1>{{ $activity->location_from }}</h1></div>
+            <div class="col-md-3 hidden-sm hidden-xs text-right"><h1>{{ $activity->departureCentre->name }}</h1></div>
             <div class="hidden-lg hidden-md"><h3>Activity Progress:</h3></div>
         </div>
         <div class="col-md-12">
@@ -86,9 +86,9 @@
                         <div class="panel-body">
                             <dl class="dl-horizontal">
                                 <dt>Start From:</dt>
-                                <dd><address><strong>{{ $activity->location_from }}</strong><br>{{  $activity->location_from_address }}</address></dd>
+                                <dd><address><strong>{{ $activity->departureCentre->name }}</strong><br>{{ $activity->departureCentre->address }}</address></dd>
                                 <dt>Check-up At:</dt>
-                                <dd><address><strong>{{ $activity->location_to }}</strong><br>{{  $activity->location_to_address }}</address></dd>
+                                <dd><address><strong>{{ $activity->arrivalCentre->name }}</strong><br>{{  $activity->arrivalCentre->address }}</address></dd>
                             </dl>
                         </div>
                     </div>
