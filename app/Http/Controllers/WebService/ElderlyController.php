@@ -27,8 +27,9 @@ class ElderlyController extends Controller
        $this->middleware('jwt.auth', ['except' => ['retrieveElderyInformation']]);
    }
 
+// tested working with new database 
    public function retrieveElderyInformation(Request $request){
-        if ($request->get('id' && $request->get('transportId'  ) == null){
+        if ($request->get('id') == null || $request->get('transportId'  ) == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
         } else {

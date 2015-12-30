@@ -23,7 +23,7 @@ class ActivitiesController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity' ,'retrieveTransportByUser','retrieveRecommendedTransportActivity','addNewActivity','addUserAccount']]);
+       $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity' ,'retrieveTransportByUser','retrieveRecommendedTransportActivity','addNewActivity','addUserAccount','checkActivityApplication','updateActivityStatus','withdraw']]);
    }
 
    /**
@@ -63,7 +63,7 @@ class ActivitiesController extends Controller
         // all good so return the token
         //return response()->json(compact('activities'));
     }
-
+// tested working with new database 
     public function retrieveTransportActivityDetails(Request $request){
       if ($request->get('transportId') == null){
         $status = array("Missing parameter");
@@ -78,7 +78,7 @@ class ActivitiesController extends Controller
 // find activity details that are completed ->2
 
     public function retrieveTransportByUser(Request $request){
-        if ($request->get('id') == null && $request->get('type') == null){
+        if ($request->get('id') == null || $request->get('type') == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
@@ -88,7 +88,7 @@ class ActivitiesController extends Controller
       }
         
     }
-
+// tested working with new database 
     public function retrieveRecommendedTransportActivity(Request $request){
       // retrieve the nearest upcoming activites based on dates 
       // limit will be determined by jonathan
@@ -103,25 +103,25 @@ class ActivitiesController extends Controller
 
       
     }
-
+// tested working with new database 
     public function addNewActivity(Request $request){
-      if ($request->get('volunteer_id' && $request->get('activity_id'  ) == null){
+      if ($request->get('volunteer_id') == null || $request->get('activity_id') == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
         $userID = $request->get('volunteer_id');
         $user = Volunteer::findOrFail($userID);
         $actID = $request->get('activity_id');
-        $user->activities()->attach($actID);
-        
+
         $task = Task::where('volunteer_id',$userID)->where('activity_id',$actID)->get();
       //return response()->json(compact('email'));
 
         if ($task->isEmpty()){
-          $status = array("error");
+          $user->activities()->attach($actID);
+          $status = array("Application Successful");
           return response()->json(compact('status'));
         } else {
-          $status = array("Application Successful");
+          $status = array("error");
           return response()->json(compact('status'));
         }
       }
@@ -129,8 +129,10 @@ class ActivitiesController extends Controller
 
     }
 
+// tested working with new database 
     public function checkActivityApplication(Request $request){
-        if ($request->get('volunteer_id' && $request->get('activity_id'  ) == null){
+
+        if ($request->get('volunteer_id') == null || $request->get('activity_id') == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
@@ -150,4 +152,43 @@ class ActivitiesController extends Controller
 
       }
     }
+// tested working with new database , pending update from task.php
+    public function updateActivityStatus(Request $request) {
+      if ($request->get('volunteer_id') == null || $request->get('activity_id') == null || $request->get('status') ==null ) {
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      } else {
+        $volunteer_id = $request->get('volunteer_id') ;
+        $activity_id = $request->get('activity_id');
+        $status= $request->get('status');
+
+        $task = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->update(['status' => $status]);
+        //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
+
+        $status = array("Application Successful");
+        return response()->json(compact('status'));
+        //$check = Task::findOrFail($task->id);
+      }
+    }
+// New Error types
+    public function withdraw(Request $request) {
+      if ($request->get('volunteer_id') == null || $request->get('activity_id') == null ) {
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      } else {
+        $volunteer_id = $request->get('volunteer_id') ;
+        $activity_id = $request->get('activity_id');
+
+        $task = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->update(['approval' => 'Withdrawn']);
+        //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
+
+        $status = array("Withdrawn from activity.");
+        return response()->json(compact('status'));
+        //$check = Task::findOrFail($task->id);
+      }
+    }
+
+    
+
+
 }

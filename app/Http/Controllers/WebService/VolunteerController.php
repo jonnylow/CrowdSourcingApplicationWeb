@@ -12,6 +12,7 @@ use Config;
 use App\Activity;
 use App\Task;
 use App\Volunteer;
+use App\Rank;
 use Carbon\Carbon;
 
 
@@ -65,6 +66,7 @@ class VolunteerController extends Controller
                 'area_of_preference_2'      => $request->get('preferences2'),
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
+                'rank_id'                   => Rank::where('min','0')->rank_id->get(),
                 'is_approved'               => 'False']);
         //}
     $check = $request->get('email');
@@ -81,7 +83,7 @@ class VolunteerController extends Controller
 
         
    }
-
+// tested working with new database 
    public function checkEmail(Request $request){
     if ($request->get('email') == null){
         $status = array("Missing parameter");
@@ -103,6 +105,7 @@ class VolunteerController extends Controller
     
    }
 
+// tested working with new database 
    public function checkNRIC(Request $request){
     if ($request->get('nric') == null){
         $status = array("Missing parameter");
@@ -144,7 +147,7 @@ class VolunteerController extends Controller
     }
 
    }*/
-
+// tested working with new database 
    public function retrieveUserDetails(Request $request){
     // retrieve all details based on volunteer id
     if ($request->get('id') == null){

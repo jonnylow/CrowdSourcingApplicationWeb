@@ -57,6 +57,8 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('retrieveRecommendedTransportActivity', 'ActivitiesController@retrieveRecommendedTransportActivity');
     Route::get('addNewActivity', 'ActivitiesController@addNewActivity');
     Route::get('checkActivityApplication', 'ActivitiesController@checkActivityApplication');
+    Route::get('updateActivityStatus', 'ActivitiesController@updateActivityStatus');
+    Route::get('withdraw', 'ActivitiesController@withdraw');
 
     Route::get('addUserAccount', 'VolunteerController@addUserAccount');
     Route::get('checkEmail', 'VolunteerController@checkEmail');
