@@ -46,8 +46,8 @@
                             @if (count($past))
                                 @foreach ($past as $activity)
                                     <tr>
-                                        <td>{{ $activity->location_from }}</td>
-                                        <td>{{ $activity->location_to }}</td>
+                                        <td>{{ $activity->departureCentre->name }}</td>
+                                        <td>{{ $activity->arrivalCentre->name }}</td>
                                         <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                         <td>{{ $activity->elderly->name }}</td>
                                         <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
@@ -85,8 +85,8 @@
                             @if (count($today))
                                 @foreach ($today as $activity)
                                     <tr>
-                                        <td>{{ $activity->location_from }}</td>
-                                        <td>{{ $activity->location_to }}</td>
+                                        <td>{{ $activity->departureCentre->name }}</td>
+                                        <td>{{ $activity->arrivalCentre->name }}</td>
                                         <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                         <td>{{ $activity->elderly->name }}</td>
                                         <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
@@ -124,8 +124,8 @@
                             @if (count($upcoming))
                                 @foreach ($upcoming as $activity)
                                     <tr>
-                                        <td>{{ $activity->location_from }}</td>
-                                        <td>{{ $activity->location_to }}</td>
+                                        <td>{{ $activity->departureCentre->name }}</td>
+                                        <td>{{ $activity->arrivalCentre->name }}</td>
                                         <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                         <td>{{ $activity->elderly->name }}</td>
                                         <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>

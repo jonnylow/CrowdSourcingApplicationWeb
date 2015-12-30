@@ -49,11 +49,11 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the senior centres that the staff is in charge of.
+     * Get the centres that the staff is in charge of.
      */
-    public function seniorCentres()
+    public function centres()
     {
-        return $this->belongsToMany('App\SeniorCentre');
+        return $this->belongsToMany('App\Centre');
     }
 
     /**

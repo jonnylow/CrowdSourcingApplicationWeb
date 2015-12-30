@@ -11,7 +11,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Config;
 use App\Activity;
 use App\Task;
-use App\Volunteer;
 use Carbon\Carbon;
 
 
@@ -48,6 +47,7 @@ class ActivitiesController extends Controller
               //echo $task->task_id;
               //$activities = array_forget('activity');
               $finalList->put($activity);
+              $finalList = array_add($activity);
             }
 
           }
@@ -65,20 +65,15 @@ class ActivitiesController extends Controller
     }
 // tested working with new database 
     public function retrieveTransportActivityDetails(Request $request){
-      if ($request->get('transportId') == null){
-        $status = array("Missing parameter");
-        return response()->json(compact('status'));
-      } else {
         $id = $request->only('transportId');
         $activity = Activity::findOrFail($id);
         return response()->json(compact('activity'));
-      }
     }
 // find activity details that is not completed by user ->1
 // find activity details that are completed ->2
 
     public function retrieveTransportByUser(Request $request){
-        if ($request->get('id') == null || $request->get('type') == null){
+        if ($request->get('id') == null && $request->get('type') == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
@@ -88,6 +83,7 @@ class ActivitiesController extends Controller
       }
         
     }
+
 // tested working with new database 
     public function retrieveRecommendedTransportActivity(Request $request){
       // retrieve the nearest upcoming activites based on dates 
@@ -151,7 +147,9 @@ class ActivitiesController extends Controller
         }
 
       }
-    }
+
+
+
 // tested working with new database , pending update from task.php
     public function updateActivityStatus(Request $request) {
       if ($request->get('volunteer_id') == null || $request->get('activity_id') == null || $request->get('status') ==null ) {

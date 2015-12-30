@@ -20,15 +20,13 @@ class Activity extends Model
      *
      * @var array
      */
-    protected $fillable = ['location_from', 'location_from_address',
-        'location_from_long', 'location_from_lat', 'location_to',
-        'location_to_address', 'location_to_long', 'location_to_lat',
-        'datetime_start', 'expected_duration_minutes', 'more_information',
-        'category', 'elderly_id', 'senior_centre_id', 'staff_id'];
+    protected $fillable = ['datetime_start', 'expected_duration_minutes',
+        'category', 'more_information', 'location_from_id', 'location_to_id',
+         'elderly_id', 'centre_id', 'staff_id'];
 
     /**
      * Additional fields to treat as Carbon instances (date object).
-     *
+     *1
      * @var array
      */
     protected $dates = ['datetime_start'];
@@ -64,14 +62,14 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that belongs to all senior centres associated with the staff.
+     * Scope queries to activities that belongs to all centres associated with the staff.
      *
      * @var $query
      * @var $staff
      */
-    public function scopeOfSeniorCentreForStaff($query, $staff)
+    public function scopeOfCentreForStaff($query, $staff)
     {
-        $query->whereIn('senior_centre_id', $staff->seniorCentres->lists('senior_centre_id'));
+        $query->whereIn('centre_id', $staff->centres->lists('centre_id'));
     }
 
     /**
@@ -115,11 +113,27 @@ class Activity extends Model
     }
 
     /**
-     * Get the senior centre that the activity belongs to.
+     * Get the centre that the activity belongs to.
      */
-    public function seniorCentre()
+    public function centre()
     {
-        return $this->belongsTo('App\SeniorCentre');
+        return $this->belongsTo('App\Centre');
+    }
+
+    /**
+     * Get the centre that the activity will start from.
+     */
+    public function departureCentre()
+    {
+        return $this->belongsTo('App\Centre', 'location_from_id');
+    }
+
+    /**
+     * Get the centre that the activity will go to.
+     */
+    public function arrivalCentre()
+    {
+        return $this->belongsTo('App\Centre', 'location_to_id');
     }
 
     /**

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSeniorCentresTable extends Migration
+class CreateCentresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,13 @@ class CreateSeniorCentresTable extends Migration
      */
     public function up()
     {
-        Schema::create('senior_centres', function (Blueprint $table) {
-            $table->increments('senior_centre_id');
+        Schema::create('centres', function (Blueprint $table) {
+            $table->increments('centre_id');
             $table->string('name', 100);
-            $table->char('contact_no', 8);
-            $table->string('address_1', 50);
-            $table->string('address_2', 50)->nullable();
+            $table->string('address');
             $table->char('postal_code', 6);
-            $table->text('description');
+            $table->float('lng');
+            $table->float('lat');
         });
     }
 
@@ -30,6 +29,6 @@ class CreateSeniorCentresTable extends Migration
      */
     public function down()
     {
-        Schema::drop('senior_centres');
+        Schema::drop('centres');
     }
 }

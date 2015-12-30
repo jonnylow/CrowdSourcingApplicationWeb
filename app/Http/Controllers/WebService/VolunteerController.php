@@ -85,46 +85,35 @@ class VolunteerController extends Controller
    }
 // tested working with new database 
    public function checkEmail(Request $request){
-    if ($request->get('email') == null){
-        $status = array("Missing parameter");
-        return response()->json(compact('status'));
-      } else {
-        $check = $request->get('email');
-        //check if email exist in database - do not exist for no / exist for yes
-        $email = Volunteer::where('email',$check)->get();
-        //return response()->json(compact('email'));
+    $check = $request->get('email');
+    //check if email exist in database - do not exist for no / exist for yes
+    $email = Volunteer::where('email',$check)->get();
+    //return response()->json(compact('email'));
 
-        if ($email->isEmpty()){
-          $status = array("do not exist");
-          return response()->json(compact('status'));
-        } else {
-          $status = array("exist");
-          return response()->json(compact('status'));
-        }
-      }
+    if ($email->isEmpty()){
+      $status = array("do not exist");
+      return response()->json(compact('status'));
+    } else {
+      $status = array("exist");
+      return response()->json(compact('status'));
+    }
     
    }
 
 // tested working with new database 
    public function checkNRIC(Request $request){
-    if ($request->get('nric') == null){
-        $status = array("Missing parameter");
-        return response()->json(compact('status'));
-      } else {
+    $check = $request->get('nric');
+    //check if email exist in database - do not exist for no / exist for yes
+    $nric = Volunteer::where('nric',$check)->get();
+    //return response()->json(compact('nric'));
 
-        $check = $request->get('nric');
-        //check if email exist in database - do not exist for no / exist for yes
-        $nric = Volunteer::where('nric',$check)->get();
-        //return response()->json(compact('nric'));
-
-        if ($nric->isEmpty()){
-          $status = array("do not exist");
-          return response()->json(compact('status'));
-        } else {
-          $status = array("exist");
-          return response()->json(compact('status'));
-        }
-      } 
+    if ($nric->isEmpty()){
+      $status = array("do not exist");
+      return response()->json(compact('status'));
+    } else {
+      $status = array("exist");
+      return response()->json(compact('status'));
+    }
    }
 
    /*public function retrieveUserAccounts(Request $request){
@@ -150,14 +139,9 @@ class VolunteerController extends Controller
 // tested working with new database 
    public function retrieveUserDetails(Request $request){
     // retrieve all details based on volunteer id
-    if ($request->get('id') == null){
-        $status = array("Missing parameter");
-        return response()->json(compact('status'));
-      } else {
-        $id = $request->get('id');
-        $volunteer = Volunteer::findOrFail($id);
-        return response()->json(compact('volunteer'));
-      }
+    $id = $request->get('id');
+    $volunteer = Volunteer::findOrFail($id);
+    return response()->json(compact('volunteer'));
    }
 }
 

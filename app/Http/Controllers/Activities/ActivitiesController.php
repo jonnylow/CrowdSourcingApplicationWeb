@@ -16,9 +16,9 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
-        $upcoming = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->upcoming()->get();
-        $today = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->today()->get();
-        $past = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->past()->get();
+        $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())->upcoming()->get();
+        $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())->today()->get();
+        $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())->past()->get();
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
@@ -33,7 +33,7 @@ class ActivitiesController extends Controller
     public function create()
     {
         $expectedDuration = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        $seniorCentreList = Auth::user()->seniorCentres()->get()->lists('name', 'senior_centre_id');
+        $centreList = Auth::user()->centres()->get()->lists('name', 'senior_centre_id');
         $endLocations = ['Ang Mo Kio Polyclinic', 'Bedok Polyclinic', 'Bukit Batok Polyclinic', 'Bukit Merah Polyclinic',
             'Choa Chu Kang Polyclinic', 'Clementi Polyclinic', 'Geylang Polyclinic', 'Hougang Polyclinic', 'Jurong Polyclinic',
             'Marine Parade Polyclinic', 'Outram Polyclinic', 'Pasir Ris Polyclinic', 'Queenstown Polyclinic',
@@ -44,11 +44,11 @@ class ActivitiesController extends Controller
             'Tan Tock Seng Hospital (TTSH)'];
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
-        $seniorCentreList = collect($seniorCentreList)->push('Others');
+        $centreList = collect($centreList)->push('Others');
         $endLocations = collect($endLocations)->push('Others');
         $seniorList = collect($seniorList)->push('Others');
 
-        return view('activities.create', compact('expectedDuration', 'seniorCentreList', 'endLocations', 'seniorList'));
+        return view('activities.create', compact('expectedDuration', 'centreList', 'endLocations', 'seniorList'));
     }
 
     public function store(Request $request)

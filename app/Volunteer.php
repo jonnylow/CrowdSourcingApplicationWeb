@@ -33,7 +33,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     protected $fillable = ['nric', 'name', 'email', 'password', 'gender',
         'date_of_birth', 'contact_no', 'occupation', 'has_car', 'minutes_volunteered',
         'area_of_preference_1', 'area_of_preference_2', 'image_nric_front',
-        'image_nric_back', 'is_approved'];
+        'image_nric_back', 'is_approved', 'rank_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

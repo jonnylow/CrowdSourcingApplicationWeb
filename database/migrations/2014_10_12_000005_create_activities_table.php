@@ -14,22 +14,18 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('activity_id');
-            $table->string('location_from');
-            $table->string('location_from_address');
-            $table->float('location_from_long');
-            $table->float('location_from_lat');
-            $table->string('location_to');
-            $table->string('location_to_address');
-            $table->float('location_to_long');
-            $table->float('location_to_lat');
             $table->datetime('datetime_start');
             $table->integer('expected_duration_minutes')->unsigned();
-            $table->string('more_information')->nullable();
             $table->enum('category', ['transport']);
+            $table->string('more_information')->nullable();
+            $table->integer('location_from_id')->unsigned();
+            $table->foreign('location_from_id')->references('centre_id')->on('centres');
+            $table->integer('location_to_id')->unsigned();
+            $table->foreign('location_to_id')->references('centre_id')->on('centres');
             $table->integer('elderly_id')->unsigned();
             $table->foreign('elderly_id')->references('elderly_id')->on('elderly');
-            $table->integer('senior_centre_id')->unsigned();
-            $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
+            $table->integer('centre_id')->unsigned();
+            $table->foreign('centre_id')->references('centre_id')->on('centres');
             $table->integer('staff_id')->unsigned();
             $table->foreign('staff_id')->references('staff_id')->on('staff');
             $table->timestamps();

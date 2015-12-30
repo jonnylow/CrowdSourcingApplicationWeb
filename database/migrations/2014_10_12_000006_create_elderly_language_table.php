@@ -15,7 +15,7 @@ class CreateElderlyLanguageTable extends Migration
         Schema::create('elderly_language', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('elderly_id')->unsigned();
-            $table->foreign('elderly_id')->references('elderly_id')->on('elderly');
+            $table->foreign('elderly_id')->references('elderly_id')->on('elderly')->onDelete('cascade');
             $table->string('language', 50);
             $table->unique(['elderly_id', 'language']);
         });
