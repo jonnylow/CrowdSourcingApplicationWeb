@@ -28,18 +28,23 @@ class ElderlyController extends Controller
    }
 
    public function retrieveElderyInformation(Request $request){
-        $userID = $request->get('id');
-        $actID = $request->get('transportId');
-        $activity = Activity::findOrFail($actID);
-        $elderlyID = $activity->elderly_id;
-        //return response()->json(compact('elderlyID'));
-        $elderly = Elderly::findOrFail($elderlyID);
-
-        if ($elderly==null){
-        $status = array("error");
+        if ($request->get('id' && $request->get('transportId'  ) == null){
+        $status = array("Missing parameter");
         return response()->json(compact('status'));
-      } else {
-        return response()->json(compact('elderly'));
+        } else {
+            $userID = $request->get('id');
+            $actID = $request->get('transportId');
+            $activity = Activity::findOrFail($actID);
+            $elderlyID = $activity->elderly_id;
+            //return response()->json(compact('elderlyID'));
+            $elderly = Elderly::findOrFail($elderlyID);
+
+            if ($elderly==null){
+            $status = array("error");
+            return response()->json(compact('status'));
+          } else {
+            return response()->json(compact('elderly'));
+          }
       }
 
    }

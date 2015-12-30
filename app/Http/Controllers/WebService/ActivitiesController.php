@@ -65,65 +65,89 @@ class ActivitiesController extends Controller
     }
 
     public function retrieveTransportActivityDetails(Request $request){
+      if ($request->get('transportId') == null){
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      } else {
         $id = $request->only('transportId');
         $activity = Activity::findOrFail($id);
-
-
         return response()->json(compact('activity'));
+      }
     }
 // find activity details that is not completed by user ->1
 // find activity details that are completed ->2
 
-    public function RetrieveTransportByUser(Request $request){
-        $id = $request->only('transportId');
+    public function retrieveTransportByUser(Request $request){
+        if ($request->get('id') == null && $request->get('type') == null){
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      } else {
+        $id = $request->only('id');
         $activity = Activity::findOrFail($id);
-
-
         return response()->json(compact('activity'));
+      }
+        
     }
 
     public function retrieveRecommendedTransportActivity(Request $request){
       // retrieve the nearest upcoming activites based on dates 
       // limit will be determined by jonathan
-      $limit = $request->get('limit');
-      $activities = Activity::upcoming()->get()->sortby('datetime_start');
+      if ($request->get('limit') == null){
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      } else {
+        $limit = $request->get('limit');
+        $activities = Activity::upcoming()->get()->take($limit);
+        return response()->json(compact('activities'));
+      }
+
+      
     }
 
     public function addNewActivity(Request $request){
-      $userID = $request->get('volunteer_id');
-      $user = Volunteer::findOrFail($userID);
-      $actID = $request->get('activity_id');
-      $user->activities()->attach($actID);
-      
-      $task = Task::where('volunteer_id',$userID)->where('activity_id',$actID)->get();
-    //return response()->json(compact('email'));
-
-      if ($task->isEmpty()){
-        $status = array("error");
+      if ($request->get('volunteer_id' && $request->get('activity_id'  ) == null){
+        $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
-        $status = array("Application Successful");
-        return response()->json(compact('status'));
+        $userID = $request->get('volunteer_id');
+        $user = Volunteer::findOrFail($userID);
+        $actID = $request->get('activity_id');
+        $user->activities()->attach($actID);
+        
+        $task = Task::where('volunteer_id',$userID)->where('activity_id',$actID)->get();
+      //return response()->json(compact('email'));
+
+        if ($task->isEmpty()){
+          $status = array("error");
+          return response()->json(compact('status'));
+        } else {
+          $status = array("Application Successful");
+          return response()->json(compact('status'));
+        }
       }
 
 
     }
 
     public function checkActivityApplication(Request $request){
-      $userID = $request->get('volunteer_id');
-      $actID = $request->get('activity_id');
-      
-      $task = Task::where('volunteer_id',$userID)->where('activity_id',$actID)->get();
-    //return response()->json(compact('email'));
-
-      if ($task->isEmpty()){
-        $status = array("do not exist");
+        if ($request->get('volunteer_id' && $request->get('activity_id'  ) == null){
+        $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
-        $status = array("exist");
-        return response()->json(compact('status'));
-      }
+        $userID = $request->get('volunteer_id');
+        $actID = $request->get('activity_id');
+        
+        $task = Task::where('volunteer_id',$userID)->where('activity_id',$actID)->get();
+      //return response()->json(compact('email'));
 
-      
+        if ($task->isEmpty()){
+          $status = array("do not exist");
+          return response()->json(compact('status'));
+        } else {
+          $status = array("exist");
+          return response()->json(compact('status'));
+        }
+
+      }
     }
 }
