@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Activity;
+use App\Elderly;
 use App\Task;
 use Auth;
 use Validator;
@@ -15,9 +16,9 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
-        $upcoming = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->upcoming()->get();
-        $today = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->today()->get();
-        $past = Activity::ofSeniorCentre(Auth::user()->senior_centre_id)->past()->get();
+        $upcoming = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->upcoming()->get();
+        $today = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->today()->get();
+        $past = Activity::with('elderly')->ofSeniorCentreForStaff(Auth::user())->past()->get();
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
@@ -31,7 +32,23 @@ class ActivitiesController extends Controller
 
     public function create()
     {
-        return view('activities.create');
+        $expectedDuration = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $seniorCentreList = Auth::user()->seniorCentres()->get()->lists('name', 'senior_centre_id');
+        $endLocations = ['Ang Mo Kio Polyclinic', 'Bedok Polyclinic', 'Bukit Batok Polyclinic', 'Bukit Merah Polyclinic',
+            'Choa Chu Kang Polyclinic', 'Clementi Polyclinic', 'Geylang Polyclinic', 'Hougang Polyclinic', 'Jurong Polyclinic',
+            'Marine Parade Polyclinic', 'Outram Polyclinic', 'Pasir Ris Polyclinic', 'Queenstown Polyclinic',
+            'Sengkang Polyclinic', 'Tampines Polyclinic', 'Toa Payoh Polyclinic', 'Woodlands Polyclinic', 'Yishun Polyclinic',
+            'Changi General Hospital (CGH)', 'Gleneagles Hospital', 'Khoo Teck Puat Hospital', 'Mount Alvernia Hospital',
+            'National University Hospital (NUH)', 'Ng Teng Fong General Hospital (NTFGH)', 'Jurong Community Hospital (JCH)',
+            'Parkway East Hospital', 'Raffles Hospital', 'Sengkang General Hospital', 'Singapore General Hospital (SGH)',
+            'Tan Tock Seng Hospital (TTSH)'];
+        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
+
+        $seniorCentreList = collect($seniorCentreList)->push('Others');
+        $endLocations = collect($endLocations)->push('Others');
+        $seniorList = collect($seniorList)->push('Others');
+
+        return view('activities.create', compact('expectedDuration', 'seniorCentreList', 'endLocations', 'seniorList'));
     }
 
     public function store(Request $request)
@@ -152,20 +169,20 @@ class ActivitiesController extends Controller
         $taskCount = $tasks->count();
 
         if ($taskCount == 0) {
-            return "Pending Start";
+            return 0; // Not Started
         } else {
             $groupByStatus = $tasks->groupBy('status');
 
             if ($groupByStatus->has('completed')) {
-                return "Completed";
+                return 100; // Completed
             } else if ($groupByStatus->has('pick-up')) {
-                return "Picked-up";
+                return 25; // Picked-up
             } else if ($groupByStatus->has('at check-up')) {
-                return "At Check-up";
+                return 50; // At Check-up
             } else if ($groupByStatus->has('check-up completed')) {
-                return "Check-up Completed";
+                return 75; // Check-up Completed
             } else {
-                return "Pending Start";
+                return 0; // Not Started
             }
         }
     }
@@ -176,7 +193,7 @@ class ActivitiesController extends Controller
         $taskCount = $tasks->count();
 
         if ($taskCount == 0) {
-            return "0 Volunteer Applied";
+            return "Not Started";
         } else {
             $groupByStatus = $tasks->groupBy('status');
             $groupByApproval = $tasks->groupBy('approval');

@@ -20,9 +20,11 @@ class Activity extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'location_from', 'location_from_long', 'location_from_lat', 'location_to',
-        'location_to_long', 'location_to_lat', 'datetime_start', 'expected_duration_minutes', 'more_information',
-        'elderly_name', 'next_of_kin_name', 'next_of_kin_contact', 'senior_centre_id', 'vwo_user_id'];
+    protected $fillable = ['location_from', 'location_from_address',
+        'location_from_long', 'location_from_lat', 'location_to',
+        'location_to_address', 'location_to_long', 'location_to_lat',
+        'datetime_start', 'expected_duration_minutes', 'more_information',
+        'category', 'elderly_id', 'senior_centre_id', 'staff_id'];
 
     /**
      * Additional fields to treat as Carbon instances (date object).
@@ -62,14 +64,14 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that belongs to a particular senior centre.
+     * Scope queries to activities that belongs to all senior centres associated with the staff.
      *
      * @var $query
-     * @var $seniorCentreId
+     * @var $staff
      */
-    public function scopeOfSeniorCentre($query, $seniorCentreId)
+    public function scopeOfSeniorCentreForStaff($query, $staff)
     {
-        $query->where('senior_centre_id', $seniorCentreId);
+        $query->whereIn('senior_centre_id', $staff->seniorCentres->lists('senior_centre_id'));
     }
 
     /**
@@ -89,31 +91,31 @@ class Activity extends Model
     }
 
     /**
-     * Set the activity's start location.
+     * Set the activity's start location address.
      */
-    public function setLocationFrom($location)
+    public function setLocationFromAddress($location)
     {
         $this->attributes['location_from'] = ucwords(strtolower($location));
     }
 
     /**
-     * Set the activity's end location.
+     * Set the activity's end  address.
      */
-    public function setLocationTo($location)
+    public function setLocationToAddress($location)
     {
         $this->attributes['location_to'] = ucwords(strtolower($location));
     }
 
     /**
-     * Get the activity's expected duration in hours.
+     * Get the elderly associated with the activity.
      */
-    public function getExpectedDurationMinutesAttribute($duration)
+    public function elderly()
     {
-        return $duration / 60;
+        return $this->belongsTo('App\Elderly');
     }
 
     /**
-     * Get the senior centre that the vwo user belongs to.
+     * Get the senior centre that the activity belongs to.
      */
     public function seniorCentre()
     {
@@ -121,26 +123,20 @@ class Activity extends Model
     }
 
     /**
-     * Get the vwo user that owns the activity.
+     * Get the staff that created the activity.
      */
-    public function vwoUser()
+    public function staff()
     {
-        return $this->belongsTo('App\VwoUser');
+        return $this->belongsTo('App\Staff');
     }
 
     /**
-     * Get the tasks associated with the activity.
-     */
-    public function tasks()
-    {
-        return $this->hasMany('App\Task');
-    }
-
-    /**
-     * The volunteers that belong to the activity.
+     * The volunteer registry that is associated with the activity.
      */
     public function volunteers()
     {
-        return $this->belongsToMany('App\Volunteer', 'tasks', 'activity_id', 'volunteer_id')->withPivot('status', 'approval', 'created_at');
+        return $this->belongsToMany('App\Volunteer', 'tasks', 'activity_id', 'volunteer_id')
+            ->withPivot('status', 'approval')
+            ->withTimestamps();
     }
 }

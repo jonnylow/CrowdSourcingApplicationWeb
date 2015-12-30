@@ -13,20 +13,30 @@ class SeniorCentre extends Model
      */
     protected $table = 'senior_centres';
     protected $primaryKey = 'senior_centre_id';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'contact_no', 'address_1', 'address_2', 'postal_code', 'description'];
+    protected $fillable = ['name', 'contact_no', 'address_1',
+        'address_2', 'postal_code', 'description'];
 
     /**
-     * Get the vwo users associated with the senior centre.
+     * Get the staff associated with the senior centre.
      */
-    public function vwoUsers()
+    public function staff()
     {
-        return $this->hasMany('App\VwoUser');
+        return $this->belongsToMany('App\Staff');
+    }
+
+    /**
+     * Get the elderly associated with the senior centre.
+     */
+    public function elderly()
+    {
+        return $this->hasMany('App\Elderly');
     }
 
     /**

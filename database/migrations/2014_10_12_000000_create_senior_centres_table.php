@@ -15,10 +15,10 @@ class CreateSeniorCentresTable extends Migration
         Schema::create('senior_centres', function (Blueprint $table) {
             $table->increments('senior_centre_id');
             $table->string('name', 100);
-            $table->char('contact_no',8);
+            $table->char('contact_no', 8);
             $table->string('address_1', 50);
             $table->string('address_2', 50)->nullable();
-            $table->char('postal_code',6);
+            $table->char('postal_code', 6);
             $table->text('description');
         });
     }

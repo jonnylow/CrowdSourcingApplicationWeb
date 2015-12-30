@@ -10,9 +10,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class VwoUser extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+class Staff extends Model implements AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
@@ -21,15 +21,15 @@ class VwoUser extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $table = 'vwo_users';
-    protected $primaryKey = 'vwo_user_id';
+    protected $table = 'staff';
+    protected $primaryKey = 'staff_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'senior_centre_id', 'is_admin'];
+    protected $fillable = ['name', 'email', 'password', 'is_admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -49,15 +49,15 @@ class VwoUser extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the senior centre that the vwo user belongs to.
+     * Get the senior centres that the staff is in charge of.
      */
-    public function seniorCentre()
+    public function seniorCentres()
     {
-        return $this->belongsTo('App\SeniorCentre');
+        return $this->belongsToMany('App\SeniorCentre');
     }
 
     /**
-     * Get the activities associated with the vwo user.
+     * Get the activities created by the staff.
      */
     public function activities()
     {

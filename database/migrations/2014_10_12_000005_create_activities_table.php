@@ -14,23 +14,24 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('activity_id');
-            $table->string('name', 100);
             $table->string('location_from');
+            $table->string('location_from_address');
             $table->float('location_from_long');
             $table->float('location_from_lat');
             $table->string('location_to');
+            $table->string('location_to_address');
             $table->float('location_to_long');
             $table->float('location_to_lat');
             $table->datetime('datetime_start');
-            $table->integer('expected_duration_minutes');
-            $table->string('more_information');
-            $table->string('elderly_name');
-            $table->string('next_of_kin_name');
-            $table->char('next_of_kin_contact',8);
+            $table->integer('expected_duration_minutes')->unsigned();
+            $table->string('more_information')->nullable();
+            $table->enum('category', ['transport']);
+            $table->integer('elderly_id')->unsigned();
+            $table->foreign('elderly_id')->references('elderly_id')->on('elderly');
             $table->integer('senior_centre_id')->unsigned();
             $table->foreign('senior_centre_id')->references('senior_centre_id')->on('senior_centres');
-            $table->integer('vwo_user_id')->unsigned();
-            $table->foreign('vwo_user_id')->references('vwo_user_id')->on('vwo_users');
+            $table->integer('staff_id')->unsigned();
+            $table->foreign('staff_id')->references('staff_id')->on('staff');
             $table->timestamps();
         });
     }

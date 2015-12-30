@@ -20,6 +20,8 @@ Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesCont
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', 'ProfileController@edit');
     Route::post('/', 'ProfileController@update');
+    Route::get('password', 'ProfileController@editPassword');
+    Route::post('password', 'ProfileController@updatePassword');
 });
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {

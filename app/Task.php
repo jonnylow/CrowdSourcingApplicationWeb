@@ -12,7 +12,7 @@ class Task extends Model
      * @var string
      */
     protected $table = 'tasks';
-    protected $primaryKey = 'task_id';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +25,7 @@ class Task extends Model
      * Scope queries to tasks that belongs to a particular activity.
      *
      * @var $query
-     * @var $activity
+     * @var $activityId
      */
     public function scopeOfActivity($query, $activityId)
     {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Service;
 
-use App\VwoUser;
+use App\Staff;
 use Validator;
 use App\Http\Controllers\Controller;
 
@@ -54,7 +54,7 @@ class ServiceController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Staff::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),

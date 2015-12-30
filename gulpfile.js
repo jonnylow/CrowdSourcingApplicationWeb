@@ -14,23 +14,23 @@ var elixir = require('laravel-elixir');
 elixir.config.sourcemaps = false;
 
 var paths = {
-    'bootstrap': './vendor/thomaspark/bootswatch/bower_components/bootstrap-sass-official/assets/',
+    'bootstrap': './vendor/thomaspark/bootswatch/bower_components/bootstrap/',
     'jquery': './vendor/thomaspark/bootswatch/bower_components/jquery/',
     'bootswatch': './vendor/thomaspark/bootswatch/',
-    'bootflat': './vendor/bootflat/bootflat/bootflat/',
     'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
     'icheck': './vendor/fronteed/icheck/'
 }
 
 elixir(function(mix) {
-    mix.sass('app.scss')
-        .copy(paths.bootstrap + 'fonts/bootstrap', 'public/fonts/bootstrap')
+    mix.less('app.less')
+        .copy('resources/assets/images', 'public/images')
+        .copy(paths.bootstrap + 'dist/fonts', 'public/fonts')
 
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')
         .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
 
         .copy(paths.jquery + "dist/jquery.min.js", 'public/js/jquery.min.js')
-        .copy(paths.bootstrap + 'javascripts/bootstrap.min.js', 'public/js/bootstrap.min.js')
+        .copy(paths.bootstrap + 'dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.icheck + 'skins/flat', 'public/css/icheck')
         .scripts('app.js', 'public/js/app.min.js');
