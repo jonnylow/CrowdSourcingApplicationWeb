@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Config;
 use App\Activity;
 use App\Task;
+use App\Centre;
 use Carbon\Carbon;
 
 
@@ -66,8 +67,9 @@ class ActivitiesController extends Controller
 
 // tested working with new database 
     public function retrieveTransportActivityDetails(Request $request){
-        $id = $request->only('transportId');
-        $activity = Activity::findOrFail($id);
+        $id = $request->get('transportId');
+        $activity = Activity::with('departureCentre','arrivalCentre')->findOrFail($id);
+        
         return response()->json(compact('activity'));
     }
 // find activity details that is not completed by user ->1
@@ -78,7 +80,7 @@ class ActivitiesController extends Controller
         $status = array("Missing parameter");
         return response()->json(compact('status'));
       } else {
-        $id = $request->only('id');
+        $id = $request->get('id');
         $activity = Activity::findOrFail($id);
         return response()->json(compact('activity'));
       }
@@ -94,7 +96,7 @@ class ActivitiesController extends Controller
         return response()->json(compact('status'));
       } else {
         $limit = $request->get('limit');
-        $activities = Activity::upcoming()->get()->take($limit);
+        $activities = Activity::upcoming()->with('departureCentre','arrivalCentre')->get()->take($limit);
         return response()->json(compact('activities'));
       }
 
