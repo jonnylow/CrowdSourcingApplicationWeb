@@ -31,39 +31,19 @@ class ActivitiesController extends Controller
      *
      * @return Response
      */
-    public function retrieveTransportActivity(Request $request)
-    {
-        $activities = Activity::upcoming()->get();
-        $finalList = collect([]);
-        
+    public function retrieveTransportActivity(Request $request){
+        $activities = Activity::with('departureCentre', 'arrivalCentre')->upcoming()
+            ->select('activities.*')
+            ->leftJoin('tasks', function ($join) {
+                $join->on('activities.activity_id', '=', 'tasks.activity_id');
+            })
+            ->whereNull('tasks.activity_id')
+            ->orWhere('approval', '<>', 'approved')
+            ->distinct()
+            ->get();
 
-        foreach($activities as $activity){
-          echo $activity->activity_id;
-          $tasks = Task::ofActivity($activity->activity_id)->get();
-          
-          foreach($tasks as $task){
-            //echo $task->approval;
-            if ($task->approval == 'approved'){
-              //echo 'deleting +' + $task->task_id;
-              //echo $task->task_id;
-              //$activities = array_forget('activity');
-              $finalList->put($activity);
-              $finalList = array_add($activity);
-            }
-
-          }
-          echo ' ';
-        }
-        /*$activities = DB::table('activities')
-          ->join('tasks', 'activities.activity_id' , '=', 'tasks.activity_id')
-          ->where('task.approval','<>','approved')
-          ->get();*/
-
-        return response()->json(compact('finalList'));
-
-        // all good so return the token
-        //return response()->json(compact('activities'));
-    }
+        return response()->json(compact('activities'));
+    }
 
 // tested working with new database 
     public function retrieveTransportActivityDetails(Request $request){
