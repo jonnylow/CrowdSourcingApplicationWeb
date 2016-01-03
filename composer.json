@@ -12,16 +12,16 @@
         {
             "type": "package",
             "package": {
-                "name": "fronteed/icheck",
-                "version": "1.0.2",
+                "name": "rriepe/1pxdeep",
+                "version": "1.0.1",
                 "dist": {
-                    "url": "https://github.com/fronteed/icheck/archive/1.0.2.zip",
+                    "url": "https://github.com/rriepe/1pxdeep/archive/master.zip",
                     "type": "zip"
                 },
                 "source": {
-                    "url": "https://github.com/fronteed/icheck.git",
+                    "url": "https://github.com/rriepe/1pxdeep.git",
                     "type": "git",
-                    "reference": "origin/1.x"
+                    "reference": "origin/master"
                 }
             }
         },
@@ -44,19 +44,36 @@
         {
             "type": "package",
             "package": {
-                "name": "rriepe/1pxdeep",
-                "version": "1.0.1",
+                "name": "select2/select2-bootstrap-theme",
+                "version": "0.1.0",
                 "dist": {
-                    "url": "https://github.com/rriepe/1pxdeep/archive/master.zip",
+                    "url": "https://github.com/select2/select2-bootstrap-theme/archive/0.1.0-beta.4.zip",
                     "type": "zip"
                 },
                 "source": {
-                    "url": "https://github.com/rriepe/1pxdeep.git",
+                    "url": "https://github.com/select2/select2-bootstrap-theme.git",
                     "type": "git",
                     "reference": "origin/master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "fronteed/icheck",
+                "version": "1.0.2",
+                "dist": {
+                    "url": "https://github.com/fronteed/icheck/archive/1.0.2.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/fronteed/icheck.git",
+                    "type": "git",
+                    "reference": "origin/1.x"
+                }
+            }
         }
+
     ],
     "require": {
         "php": ">=5.5.9",
@@ -64,10 +81,12 @@
         "laravelcollective/html": "5.1.*",
         "tymon/jwt-auth": "0.5.*",
         "guzzlehttp/guzzle": "6.1.*",
+        "rriepe/1pxdeep": "1.0.1",
         "thomaspark/bootswatch": "3.3.*",
-        "fronteed/icheck": "1.0.2",
         "wenzhixin/bootstrap-table": "1.9.1",
-        "rriepe/1pxdeep": "1.0.1"
+        "select2/select2": "4.0.1",
+        "select2/select2-bootstrap-theme": "0.1.0",
+        "fronteed/icheck": "1.0.2"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",

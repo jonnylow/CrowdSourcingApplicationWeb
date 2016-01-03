@@ -17,7 +17,7 @@ class StaffTableSeeder extends Seeder
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => bcrypt('qwerty1234'),
-            'is_admin' => false,
+            'is_admin' => true,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
