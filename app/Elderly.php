@@ -23,14 +23,14 @@ class Elderly extends Model
         'next_of_kin_contact', 'medical_condition', 'image_photo', 'centre_id'];
 
     /**
-     * Scope queries to elderly that belongs to a centre.
+     * Scope queries to elderly that belongs to all centres associated with the staff.
      *
      * @var $query
-     * @var $centreId
+     * @var $staff
      */
-    public function scopeOfCentre($query, $centreId)
+    public function scopeOfCentreForStaff($query, $staff)
     {
-        $query->where('centre_id', $centreId);
+        $query->whereIn('centre_id', $staff->centres->lists('centre_id'));
     }
 
     /**
@@ -41,6 +41,23 @@ class Elderly extends Model
     public function getElderlyListAttribute()
     {
         return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
+    }
+
+    /**
+     * Get the elderly's gender.
+     *
+     * @param  $gender
+     *
+     * @return string
+     */
+    public function getGenderAttribute($gender)
+    {
+        switch (strtoupper($gender)) {
+            case 'M':
+                return 'Male';
+            case 'F':
+                return 'Female';
+        }
     }
 
     /**

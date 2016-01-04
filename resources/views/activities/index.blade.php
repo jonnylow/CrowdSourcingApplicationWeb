@@ -10,12 +10,26 @@
 
         <div class="col-md-9">
             <div class="col-md-4 alert" role="alert">
-                <div class="col-md-8"><a href="#" class="alert-link">...</a></div>
-                <div class="col-md-4 text-center"><h1><span class="label label-default">0</span></h1></div>
+                <div class="col-md-9 text-center">
+                    <a href="#" class="alert-link">
+                        <h3>
+                            <p><strong>Unfilled Activities</strong></p>
+                            <p><small>upcoming within 7 days</small></p>
+                        </h3>
+                    </a>
+                </div>
+                <div class="col-md-3 text-center widget"><h1>?</h1></div>
             </div>
             <div class="col-md-4 col-md-offset-1 alert" role="alert">
-                <div class="col-md-8"><a href="#" class="alert-link">...</a></div>
-                <div class="col-md-4 text-center"><h1><span class="label label-default">0</span></h1></div>
+                <div class="col-md-9 text-center">
+                    <a href="#" class="alert-link">
+                        <h3>
+                            <p><strong>Overrun Activities</strong></p>
+                            <p><small>that exceeded duration</small></p>
+                        </h3>
+                    </a>
+                </div>
+                <div class="col-md-3 text-center widget"><h1>?</h1></div>
             </div>
         </div>
     </div>
@@ -151,5 +165,15 @@
     </div>
 
 </div>
+
+@endsection
+
+@section('page-script')
+
+<style>
+    .alert a h3 { margin: 0px; }
+    .alert a h3 p { margin: 0px; }
+    .widget h1 { font-weight: bolder; }
+</style>
 
 @endsection

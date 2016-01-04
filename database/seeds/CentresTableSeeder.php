@@ -13,7 +13,6 @@ class CentresTableSeeder extends Seeder
     {
         // Insert dummy record
         DB::table('centres')->insert([
-            'centre_id' => 1,
             'name' => 'Henderson',
             'address' => '117 Bukit Merah View #01-201',
             'postal_code' => '151117',
@@ -22,7 +21,6 @@ class CentresTableSeeder extends Seeder
         ]);
 
         DB::table('centres')->insert([
-            'centre_id' => 2,
             'name' => 'Dakota Crescent',
             'address' => '62 Dakota Crescent #01-315',
             'postal_code' => '390062',
@@ -31,7 +29,6 @@ class CentresTableSeeder extends Seeder
         ]);
 
         DB::table('centres')->insert([
-            'centre_id' => 3,
             'name' => 'Toa Payoh',
             'address' => '169 Toa Payoh Lorong 1 #01-1052',
             'postal_code' => '310169',
@@ -40,7 +37,6 @@ class CentresTableSeeder extends Seeder
         ]);
 
         DB::table('centres')->insert([
-            'centre_id' => 4,
             'name' => 'Singapore General Hospital',
             'address' => '1 Hospital Drive, 169608, Singapore',
             'postal_code' => '169608',
@@ -49,7 +45,6 @@ class CentresTableSeeder extends Seeder
         ]);
 
         DB::table('centres')->insert([
-            'centre_id' => 5,
             'name' => 'Bukit Merah Polyclinic',
             'address' => '163 Bukit Merah Central, 150163, Singapore',
             'postal_code' => '150163',

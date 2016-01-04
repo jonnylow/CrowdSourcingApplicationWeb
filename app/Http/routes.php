@@ -17,6 +17,8 @@ Route::get('/', ['middleware' => 'guest', function () {
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
+Route::get('rank', ['middleware' => 'auth', 'uses' => 'Ranks\RankController@index']);
+
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', 'ProfileController@edit');
     Route::post('/', 'ProfileController@update');
@@ -26,8 +28,16 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::post('postal-to-address', 'ActivitiesController@postalCodeToAddress');
-    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@approval');
+    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@setApproval');
     Route::resource('activities', 'ActivitiesController');
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Elderly'], function() {
+    Route::resource('elderly', 'ElderlyController');
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function() {
+    Route::resource('admin', 'AdminController');
 });
 
 Route::group(['namespace' => 'Auth'], function() {
@@ -71,6 +81,4 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     
 
     Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
-
-
 });

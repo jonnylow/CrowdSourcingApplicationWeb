@@ -31,11 +31,11 @@ class ProfileController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->input('current_password')])) {
+            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
                 $user = Auth::user();
 
-                $user->name = $request->input('name');
-                $user->email = $request->input('email');
+                $user->name = $request->get('name');
+                $user->email = $request->get('email');
 
                 $user->save();
                 return back()->with('success', 'Changes updated successfully!');
@@ -57,7 +57,7 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'new_password' => 'confirmed',
+            'new_password' => 'required|confirmed',
             'new_password_confirmation' => 'required_with:new_password|same:new_password',
             'current_password' => 'required',
         ]);
@@ -67,17 +67,20 @@ class ProfileController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->input('current_password')])) {
+            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
                 $user = Auth::user();
 
-                if(Hash::check($request->input('new_password'), Auth::user()->password)) { // New password is the same as current password
+                if(Hash::check($request->get('new_password'), $user->password)) { // New password is the same as current password
                     $validator->errors()->add('new_password', 'New password must differ from current password.');
                 } else {
-                    $user->password = $request->input('new_password');
+                    $user->password = $request->get('new_password');
+                    $user->save();
+                    return back()->with('success', 'Changes updated successfully!');
                 }
 
-                $user->save();
-                return back()->with('success', 'Changes updated successfully!');
+                return back()
+                    ->withErrors($validator)
+                    ->withInputs();
             } else {
                 $validator->errors()->add('current_password', 'Your current password is incorrect.');
                 return back()
