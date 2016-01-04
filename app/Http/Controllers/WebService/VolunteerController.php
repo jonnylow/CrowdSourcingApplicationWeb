@@ -14,6 +14,7 @@ use App\Task;
 use App\Volunteer;
 use App\Rank;
 use Carbon\Carbon;
+use Mail;
 
 
 
@@ -24,7 +25,7 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -142,6 +143,37 @@ class VolunteerController extends Controller
     $id = $request->get('id');
     $volunteer = Volunteer::findOrFail($id);
     return response()->json(compact('volunteer'));
+   }
+
+   public function verifyUserEmailandPassword(Request $request){
+      if ($request->has('email') && $request->has('phone') ) {
+        $email = $request->get('email');
+          $phone = $request->get('phone');
+          $volunteer = Volunteer::where('email', $email)->where('contact_no',$phone)->first();
+          if ($volunteer){
+            $password = str_random(12);
+            $message = "Hi " . $volunteer->name .", \r\n \r\n Your temporary password is " . $password . ". Please Login and change your password immiediately! \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
+            
+            Mail::raw($message, function($message) {
+            $message->from('imchosen6@gmail.com', 'Admin');
+            $message->subject('CareRide Password Reset');
+            $message->to('lychiang.2013@sis.smu.edu.sg');
+            });
+            $volunteer->password = $password;
+            $volunteer->save();
+            $status = array("success");
+            return response()->json(compact('status'));
+            } else {
+            $status = array("mismatch");
+            return response()->json(compact('status'));
+          }
+        } else {
+            $status = array("Missing parameter");
+            return response()->json(compact('status'));
+          
+
+
+        }
    }
 }
 

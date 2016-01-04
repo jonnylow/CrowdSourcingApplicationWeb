@@ -67,6 +67,8 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('checkNRIC', 'VolunteerController@checkNRIC');
     Route::get('retrieveUserAccounts', 'VolunteerController@retrieveUserAccounts');
     Route::get('retrieveUserDetails', 'VolunteerController@retrieveUserDetails');
+    Route::get('verifyUserEmailandPassword', 'VolunteerController@verifyUserEmailandPassword');
+    
 
     Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
 
