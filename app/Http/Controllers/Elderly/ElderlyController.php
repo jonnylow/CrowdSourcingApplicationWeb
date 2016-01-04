@@ -6,11 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Activity;
-use App\Centre;
 use App\Elderly;
 use App\ElderlyLanguage;
-use App\Task;
 use Auth;
 use Validator;
 
@@ -25,9 +22,9 @@ class ElderlyController extends Controller
 
     public function show($id)
     {
-        $activity = Activity::with('volunteers')->findOrFail($id);
+        $elderly = Elderly::with('languages')->findOrFail($id);
 
-        return view('activities.show', compact('activity'));
+        return view('elderly.show', compact('elderly'));
     }
 
     public function create()
@@ -82,24 +79,23 @@ class ElderlyController extends Controller
 
     public function edit($id)
     {
-        $activity = Activity::findOrFail($id);
+        $elderly = Elderly::findOrFail($id);
 
-        return view('activities.edit', compact('activity'));
+        return view('elderly.edit', compact('elderly'));
     }
 
     public function update($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'               => 'required|string',
-            'date_to_start'      => 'required|date',
-            'time_to_start'      => 'required',
-            'duration'           => 'required|numeric|min:0.1',
-            'more_information'   => 'string',
-            'location_from'     => 'required|string',
-            'location_to'       => 'required|string',
-            'elderly_name'        => 'required',
-            'next_of_kin_name'    => 'required',
-            'next_of_kin_contact' => 'required|digits:8',
+            'centre'            => 'required|string',
+            'nric'              => 'required|string|unique:elderly,nric,null,elderly_id',
+            'name'              => 'required|string',
+            'gender'            => 'required|in:M,F',
+            'photo'             => 'image',
+            'languages'         => 'required|array',
+            'nok_name'          => 'required|string',
+            'nok_contact'       => 'required|digits:8',
+            'medical_condition' => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -107,10 +103,10 @@ class ElderlyController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $activity = Activity::findOrFail($id);
-            $activity->update($request->all());
+            $elderly = Elderly::findOrFail($id);
+            $elderly->update($request->all());
         }
 
-        return back()->with('success', 'Activity updated successfully!');
+        return back()->with('success', 'Senior updated successfully!');
     }
 }

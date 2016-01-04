@@ -47,29 +47,29 @@
                                     {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
                                     {!! Form::select('centre', $centreList, null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-                                <!-- Senior NRIC Form Input -->
+                                <!-- NRIC Form Input -->
                                 <div class="col-md-3 form-group">
                                     {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
                                     {!! Form::text('nric', null, ['class' => 'form-control', 'required' => 'required', 'size' => '9', 'pattern' => '[S|T|F|G|s|t|f|g][0-9]{7}[a-z|A-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
                                 </div>
-                                <!-- Senior Name Form Input -->
+                                <!-- Name Form Input -->
                                 <div class="col-md-4 form-group">
                                     {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
                                     {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-                                <!-- Senior Gender Form Input -->
+                                <!-- Gender Form Input -->
                                 <div class="col-md-1 form-group">
                                     {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
                                     {!! Form::select('gender', $genderList, null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- Senior Languages Form Input -->
+                                <!-- Languages Form Input -->
                                 <div class="col-md-6 form-group">
                                     {!! Form::label('languages', 'Languages Spoken', ['class' => 'control-label']) !!}
-                                    {!! Form::select('languages[]', $languages, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'senior_languages']) !!}
+                                    {!! Form::select('languages[]', $languages, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'languages']) !!}
                                 </div>
-                                <!-- Senior Photo Form Input -->
+                                <!-- Photo Form Input -->
                                 <div class="col-md-6 form-group">
                                     {!! Form::label('photo', 'Photo', ['class' => 'control-label']) !!}
                                     {!! Form::file('photo', ['class' => 'form-control']) !!}
@@ -95,12 +95,12 @@
                     </div>
                     <div id="collapse-nok-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-nok-information">
                         <div class="panel-body">
-                            <!-- Senior's Next-of-Kin Name Form Input -->
+                            <!-- Next-of-Kin Name Form Input -->
                             <div class="col-md-6 form-group">
                                 {!! Form::label('nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
                                 {!! Form::text('nok_name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
-                            <!-- Senior's Next-of-Kin Contact Number Form Input -->
+                            <!-- Next-of-Kin Contact Number Form Input -->
                             <div class="col-md-6 form-group">
                                 {!! Form::label('nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
                                 {!! Form::tel('nok_contact', null, ['class' => 'form-control', 'required' => 'required', 'maxlength' => '8', 'pattern' => '[0-9]{8}', 'placeholder' => 'e.g. 67654321']) !!}
@@ -148,7 +148,7 @@
 </style>
 
 <script>
-    $("#senior_languages").select2({
+    $("#languages").select2({
         theme: "bootstrap",
         placeholder: "e.g. English, Chinese",
         tags: true,
@@ -157,65 +157,10 @@
 
     $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
         $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    }).children().on('shown.bs.collapse', function (e) {
-        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
     });
 
     $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
         $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-    }).children().on('hidden.bs.collapse', function (e) {
-        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
-    });;
-
-    $('#start_location').on('change', function() {
-        var key = $(this).val();
-        if(key == "others") {
-            $('#collapse-start-loc').collapse('show');
-        } else {
-            $('#collapse-start-loc').collapse('hide');
-        }
-    });
-
-    $('#collapse-start-loc').on('show.bs.collapse', function () {
-        $('#start_location').val("others");
-    });
-
-    $('#collapse-start-loc').on('hide.bs.collapse', function () {
-        $('#start_location').prop("selectedIndex", 0);
-    });
-
-    $('#end_location').on('change', function() {
-        var key = $(this).val();
-        if(key == "others") {
-            $('#collapse-end-loc').collapse('show');
-        } else {
-            $('#collapse-end-loc').collapse('hide');
-        }
-    });
-
-    $('#collapse-end-loc').on('show.bs.collapse', function () {
-        $('#end_location').val("others");
-    });
-
-    $('#collapse-end-loc').on('hide.bs.collapse', function () {
-        $('#end_location').prop("selectedIndex", 0);
-    });
-
-    $('#senior').on('change', function() {
-        var key = $(this).val();
-        if(key == "others") {
-            $('#collapse-senior').collapse('show');
-        } else {
-            $('#collapse-senior').collapse('hide');
-        }
-    });
-
-    $('#collapse-senior').on('show.bs.collapse', function () {
-        $('#senior').val("others");
-    });
-
-    $('#collapse-senior').on('hide.bs.collapse', function () {
-        $('#senior').prop("selectedIndex", 0);
     });
 </script>
 
