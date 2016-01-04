@@ -35,7 +35,13 @@
                     </ul>
                 </li>
                 @if (Auth::user()->is_admin)
-                    <li><a href="#">Admin</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('admin') }}"><span class="glyphicon glyphicon-list-alt"></span> View all Staff</a></li>
+                        <li><a href="{{ asset('admin/create') }}"><span class="glyphicon glyphicon-pencil"></span> Add new Staff</a></li>
+                    </ul>
+                </li>
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">

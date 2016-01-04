@@ -17,6 +17,8 @@ Route::get('/', ['middleware' => 'guest', function () {
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
+Route::get('rank', ['middleware' => 'auth', 'uses' => 'Ranks\RankController@index']);
+
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', 'ProfileController@edit');
     Route::post('/', 'ProfileController@update');
