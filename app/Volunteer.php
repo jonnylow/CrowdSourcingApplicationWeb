@@ -101,6 +101,22 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
+     * Get the rank that the volunteer is at.
+     */
+    public function rank()
+    {
+        return $this->belongsTo('App\Rank');
+    }
+
+    /**
+     * The task application that is associated with the volunteer.
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task');
+    }
+
+    /**
      * The activities that the volunteer has registered for.
      */
     public function activities()

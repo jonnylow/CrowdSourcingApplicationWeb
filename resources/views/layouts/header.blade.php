@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="{{ asset('images/logo.png') }}"></a>
+            <a class="navbar-brand" href="{{ asset('/') }}"><img src="{{ asset('images/logo.png') }}"></a>
         </div>
 
         @if (Auth::check())
@@ -24,18 +24,24 @@
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Volunteers <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> View all Volunteers</a></li>
-                        <li class="dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><span class="glyphicon glyphicon-pencil"></span> Manage Ranking</a></li>
+                        <li><a href="{{ asset('rank') }}"><span class="glyphicon glyphicon-th-list"></span> Manage Ranking</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Seniors</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seniors <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('elderly') }}"><span class="glyphicon glyphicon-list-alt"></span> View all Seniors</a></li>
+                        <li><a href="{{ asset('elderly/create') }}"><span class="glyphicon glyphicon-pencil"></span> Add new Senior</a></li>
+                    </ul>
+                </li>
                 @if (Auth::user()->is_admin)
-                    <li><a href="#">Admin</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('admin') }}"><span class="glyphicon glyphicon-list-alt"></span> View all Staff</a></li>
+                        <li><a href="{{ asset('admin/create') }}"><span class="glyphicon glyphicon-pencil"></span> Add new Staff</a></li>
+                    </ul>
+                </li>
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -21,4 +21,12 @@ class Rank extends Model
      * @var array
      */
     protected $fillable = ['rank', 'name', 'min', 'max'];
+
+    /**
+     * Get the volunteers that has this rank.
+     */
+    public function volunteers()
+    {
+        return $this->belongsToMany('App\Volunteer');
+    }
 }

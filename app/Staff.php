@@ -39,6 +39,22 @@ class Staff extends Model implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     /**
+     * Scope queries to staff that belongs to all centres associated with the staff.
+     *
+     * @var $query
+     * @var $staff
+     */
+    public function scopeOfCentres($query, $staff)
+    {
+        $query->with('centres')
+            ->select('staff.*')
+            ->join('centre_staff', function ($join) {
+                $join->on('staff.staff_id', '=', 'centre_staff.staff_id');
+            })->whereIn('centre_staff.centre_id', $staff->centres->lists('centre_id'))
+            ->distinct();
+    }
+
+    /**
      * Set the password attribute.
      *
      * @var password
@@ -46,6 +62,23 @@ class Staff extends Model implements AuthenticatableContract,
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
+     * Get the staff's admin rights.
+     *
+     * @param  $admin
+     *
+     * @return string
+     */
+    public function getIsAdminAttribute($admin)
+    {
+        switch (strtoupper($admin)) {
+            case true:
+                return 'Admin';
+            case false:
+                return 'Regular Staff';
+        }
     }
 
     /**
