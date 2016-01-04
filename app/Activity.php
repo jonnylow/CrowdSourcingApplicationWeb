@@ -72,6 +72,20 @@ class Activity extends Model
         $query->whereIn('centre_id', $staff->centres->lists('centre_id'));
     }
 
+
+    /**
+     * Find if the activity has an approved volunteer.
+     */
+    public function hasApprovedVolunteer()
+    {
+        $volunteers = $this->volunteers()->get();
+        foreach($volunteers as $volunteer) {
+            if($volunteer->pivot->approval == 'approved')
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Set the activity's starting date and time.
      */
@@ -142,6 +156,14 @@ class Activity extends Model
     public function staff()
     {
         return $this->belongsTo('App\Staff');
+    }
+
+    /**
+     * The task application that is associated with the activity.
+     */
+    public function tasks()
+    {
+        return $this->belongsToMany('App\Task');
     }
 
     /**

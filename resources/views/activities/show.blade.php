@@ -56,7 +56,7 @@
                     <div class="panel-heading" role="tab" id="heading-information">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
-                                <strong><span class="glyphicon glyphicon-calendar"></span> Activity Information</strong>
+                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Activity Information</strong>
                             </a>
                         </h4>
                     </div>
@@ -78,7 +78,7 @@
                     <div class="panel-heading" role="tab" id="heading-address">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-address" aria-expanded="false" aria-controls="collapse-address">
-                                <strong><span class="glyphicon glyphicon-map-marker"></span> Venue Addresses</strong>
+                                <strong><span class="glyphicon glyphicon-chevron-down"></span> Venue Addresses</strong>
                             </a>
                         </h4>
                     </div>
@@ -98,7 +98,7 @@
                     <div class="panel-heading" role="tab" id="heading-volunteer">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-volunteer" aria-expanded="true" aria-controls="collapse-volunteer">
-                                <strong><span class="glyphicon glyphicon-heart"></span> Volunteer Sign-ups</strong>
+                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Volunteer Sign-ups</strong>
                             </a>
                         </h4>
                     </div>
@@ -119,21 +119,21 @@
                                 </thead>
                                 <tbody>
                                 @if ($activity->volunteers->count() > 0)
-                                    @foreach ($volunteers = $activity->volunteers as $volunteer)
+                                    @foreach ($activity->volunteers as $volunteer)
                                         <tr>
                                             <td><a class="btn btn-info btn-xs" href="#">Details</a></td>
                                             <td>{{ $volunteer->name }}</td>
                                             <td>{{ $volunteer->gender }}</td>
                                             <td>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></td>
-                                            <td>{{ $volunteer->rank or "NA" }}</td>
+                                            <td>{{ $volunteer->rank->name }}</td>
                                             <td>{{ ucwords($volunteer->pivot->approval) }}</td>
                                             <td>
-                                                <a class="btn btn-danger btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@approval' ,[$activity->activity_id, $volunteer->volunteer_id, 'reject']) }}">
+                                                <a class="btn btn-danger btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'reject']) }}">
                                                     <span class="glyphicon glyphicon-remove"></span> Reject
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@approval' ,[$activity->activity_id, $volunteer->volunteer_id, 'approve']) }}">
+                                                <a class="btn btn-success btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'approve']) }}">
                                                     <span class="glyphicon glyphicon-ok"></span> Approve
                                                 </a>
                                             </td>
@@ -150,5 +150,23 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('page-script')
+
+<script>
+    $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
+        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+    }).children().on('shown.bs.collapse', function (e) {
+        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
+    });
+
+    $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
+        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+    }).children().on('hidden.bs.collapse', function (e) {
+        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
+    });;
+</script>
 
 @endsection

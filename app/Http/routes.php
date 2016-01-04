@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::post('postal-to-address', 'ActivitiesController@postalCodeToAddress');
-    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@approval');
+    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@setApproval');
     Route::resource('activities', 'ActivitiesController');
 });
 
@@ -60,8 +60,4 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('checkNRIC', 'VolunteerController@checkNRIC');
     Route::get('retrieveUserAccounts', 'VolunteerController@retrieveUserAccounts');
     Route::get('retrieveUserDetails', 'VolunteerController@retrieveUserDetails');
-
-    
-
-
 });

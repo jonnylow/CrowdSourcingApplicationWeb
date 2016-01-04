@@ -188,12 +188,12 @@ class ActivitiesController extends Controller
         return back()->with('success', 'Activity updated successfully!');
     }
 
-    public function approval($id, $volunteer, $approval) {
-        $tasks = Task::ofActivity($id)->get();
+    public function setApproval($activityId, $volunteerId, $approval) {
+        $tasks = Task::ofActivity($activityId)->get();
 
         if(strcmp($approval, "reject") == 0) {
             foreach($tasks as $task) {
-                if($task->volunteer_id == $volunteer) {
+                if($task->volunteer_id == $volunteerId && $task->approval == "pending") {
                     $task->approval = "Rejected";
                     $task->save();
                     return back()->with('success', 'Volunteer rejected!');;
@@ -201,10 +201,12 @@ class ActivitiesController extends Controller
             }
         } else {
             foreach($tasks as $task) {
-                if($task->volunteer_id == $volunteer) {
-                    $task->approval = "Approved";
-                } else {
-                    $task->approval = "Rejected";
+                if($task->approval == "pending") {
+                    if ($task->volunteer_id == $volunteerId) {
+                        $task->approval = "Approved";
+                    } else {
+                        $task->approval = "Rejected";
+                    }
                 }
                 $task->save();
             }
