@@ -78,17 +78,18 @@ class ActivitiesController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            if(count($request->get('senior_languages')) < 1) {
-                return back()
-                    ->withErrors('senior_languages', 'The senior language is required if senior is others.')
-                    ->withInput();
-            }
-
             $startLocationId = $request->get('start_location');
             $endLocationId = $request->get('end_location');
             $elderlyId = $request->get('senior');
 
             if($request->get('senior') == "others") {
+                if(count($request->get('senior_languages')) < 1) {
+                    $validator->errors()->add('senior_languages', 'The senior language is required if senior is others.');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+
                 $elderly = Elderly::create([
                     'nric'                  => $request->get('senior_nric'),
                     'name'                  => $request->get('senior_name'),
@@ -157,23 +158,43 @@ class ActivitiesController extends Controller
     public function edit($id)
     {
         $activity = Activity::findOrFail($id);
+        $expectedDuration = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        $endLocations = Centre::all()->lists('name', 'centre_id');
+        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
-        return view('activities.edit', compact('activity'));
+        $startLocations = collect($centreList)->sort()->put('others', 'Others');
+        $endLocations = collect($endLocations)->sort()->put('others', 'Others');
+        $seniorList = collect($seniorList)->sort()->put('others', 'Others');
+        $genderList = ['M'=> 'M', 'F' => 'F'];
+        $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
+
+        return view('activities.edit', compact('activity', 'centreList', 'expectedDuration', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
     public function update($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'               => 'required|string',
-            'date_to_start'      => 'required|date',
-            'time_to_start'      => 'required',
-            'duration'           => 'required|numeric|min:0.1',
-            'more_information'   => 'string',
-            'location_from'     => 'required|string',
-            'location_to'       => 'required|string',
-            'elderly_name'        => 'required',
-            'next_of_kin_name'    => 'required',
-            'next_of_kin_contact' => 'required|digits:8',
+            'centre'                => 'required|string',
+            'date_to_start'         => 'required|date|after:today',
+            'time_to_start'         => 'required',
+            'duration'              => 'required|numeric|min:1',
+            'more_information'      => 'string',
+            'start_location'        => 'required|string',
+            'start_location_name'   => 'string|required_if:start_location,others',
+            'start_postal'          => 'numeric|required_if:start_location,others',
+            'end_location'          => 'required|string',
+            'end_location_name'     => 'string|required_if:end_location,others',
+            'end_postal'            => 'numeric|required_if:end_location,others',
+            'senior'                => 'required|string',
+            'senior_nric'           => 'string|unique:elderly,nric,null,elderly_id|required_if:senior,others',
+            'senior_name'           => 'string|required_if:senior,others',
+            'senior_gender'         => 'in:M,F|required_if:senior,others',
+            'senior_photo'          => 'image',
+            'senior_languages'      => 'array|required_if:senior,others',
+            'senior_nok_name'       => 'string|required_if:senior,others',
+            'senior_nok_contact'    => 'digits:8|required_if:senior,others',
+            'senior_medical'        => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -181,11 +202,82 @@ class ActivitiesController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $activity = Activity::findOrFail($id);
-            $activity->update($request->all());
-        }
+            $startLocationId = $request->get('start_location');
+            $endLocationId = $request->get('end_location');
+            $elderlyId = $request->get('senior');
 
-        return back()->with('success', 'Activity updated successfully!');
+            if($request->get('senior') == "others") {
+                if(count($request->get('senior_languages')) < 1) {
+                    $validator->errors()->add('senior_languages', 'The senior language is required if senior is others.');
+                    return back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+
+                $elderly = Elderly::create([
+                    'nric'                  => $request->get('senior_nric'),
+                    'name'                  => $request->get('senior_name'),
+                    'gender'                => $request->get('senior_gender'),
+                    'next_of_kin_name'      => $request->get('senior_nok_name'),
+                    'next_of_kin_contact'   => $request->get('senior_nok_contact'),
+                    'medical_condition'     => $request->get('senior_medical'),
+                    'image_photo'           => $request->get('senior_photo'),
+                    'centre_id'             => $request->get('centre'),
+                ]);
+
+                foreach($request->get('senior_languages') as $language) {
+                    ElderlyLanguage::create([
+                        'elderly_id'    => $elderly->elderly_id,
+                        'language'      => $language,
+                    ]);
+                }
+
+                $elderlyId = $elderly->elderly_id;
+            }
+
+            if($request->get('start_location') == "others") {
+                $postal = $request->get('start_postal');
+                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+                $centre = Centre::create([
+                    'name'          => $request->get('start_location_name'),
+                    'address'       => $geoInfo['address'],
+                    'postal_code'   => $postal,
+                    'lng'           => $geoInfo['x'],
+                    'lat'           => $geoInfo['y'],
+                ]);
+
+                $startLocationId = $centre->centre_id;
+            }
+
+            if($request->get('end_location') == "others") {
+                $postal = $request->get('end_postal');
+                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+                $centre = Centre::create([
+                    'name'          => $request->get('end_location_name'),
+                    'address'       => $geoInfo['address'],
+                    'postal_code'   => $postal,
+                    'lng'           => $geoInfo['x'],
+                    'lat'           => $geoInfo['y'],
+                ]);
+
+                $endLocationId = $centre->centre_id;
+            }
+
+            $activity = Activity::findOrFail($id);
+            $activity->update([
+                'datetime_start'            => $request->get('date_to_start') . " " . $request->get('time_to_start'),
+                'expected_duration_minutes' => $request->get('duration'),
+                'category'                  => 'transport',
+                'more_information'          => $request->get('more_information'),
+                'location_from_id'          => $startLocationId,
+                'location_to_id'            => $endLocationId,
+                'elderly_id'                => $elderlyId,
+                'centre_id'                 => $request->get('centre'),
+                'staff_id'                  => Auth::user()->staff_id,
+            ]);
+
+            return back()->with('success', 'Activity updated successfully!');
+        }
     }
 
     public function setApproval($activityId, $volunteerId, $approval) {

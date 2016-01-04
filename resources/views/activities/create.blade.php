@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <h1>Add new activity</h1>
 
             @if (count($errors) || Session::has('success'))
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="row">
                                         <!-- Senior Languages Form Input -->
-                                        <div class="col-md-5 form-group">
+                                        <div class="col-md-4 form-group">
                                             {!! Form::label('senior_languages', 'Languages Spoken', ['class' => 'control-label']) !!}
                                             {!! Form::select('senior_languages[]', $seniorLanguages, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'senior_languages']) !!}
                                         </div>
@@ -206,7 +206,7 @@
                                             {!! Form::text('senior_nok_name', null, ['class' => 'form-control']) !!}
                                         </div>
                                         <!-- Senior's Next-of-Kin Contact Number Form Input -->
-                                        <div class="col-md-3 form-group">
+                                        <div class="col-md-4 form-group">
                                             {!! Form::label('senior_nok_contact', 'Senior\'s Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
                                             {!! Form::tel('senior_nok_contact', null, ['class' => 'form-control', 'maxlength' => '8', 'pattern' => '[0-9]{8}', 'placeholder' => 'e.g. 67654321']) !!}
                                         </div>
