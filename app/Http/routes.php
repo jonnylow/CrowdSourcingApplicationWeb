@@ -30,6 +30,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::resource('activities', 'ActivitiesController');
 });
 
+Route::group(['middleware' => 'auth', 'namespace' => 'Elderly'], function() {
+    Route::resource('elderly', 'ElderlyController');
+});
+
 Route::group(['namespace' => 'Auth'], function() {
     Route::group(['prefix' => 'auth'], function() {
         // Authentication routes

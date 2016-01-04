@@ -80,7 +80,7 @@ class ActivitiesController extends Controller
         } else {
             if(count($request->get('senior_languages')) < 1) {
                 return back()
-                    ->withErrors('senior_languages', 'Senior language is required if senior is others.')
+                    ->withErrors('senior_languages', 'The senior language is required if senior is others.')
                     ->withInput();
             }
 

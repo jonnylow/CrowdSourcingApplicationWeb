@@ -7,13 +7,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            {{--<div class="col-md-6">--}}
-                <h1>Add new activity</h1>
-            {{--</div>--}}
-            {{--<div class="col-md-6">--}}
-                {{--{!! Form::label('centre', 'For', ['class' => 'control-label']) !!}--}}
-                {{--{!! Form::select('centre', $centreList, null, ['class' => 'form-control', 'required' => 'required']) !!}--}}
-            {{--</div>--}}
+            <h1>Add new activity</h1>
+
             @if (count($errors) || Session::has('success'))
                 <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -193,7 +188,7 @@
                                             {!! Form::label('senior_gender', 'Senior Gender', ['class' => 'control-label']) !!}
                                             {!! Form::select('senior_gender', $genderList, null, ['class' => 'form-control']) !!}
                                         </div>
-                                        <!-- Senior Gender Form Input -->
+                                        <!-- Senior Photo Form Input -->
                                         <div class="col-md-3 form-group">
                                             {!! Form::label('senior_photo', 'Senior Photo', ['class' => 'control-label']) !!}
                                             {!! Form::file('senior_photo', ['class' => 'form-control']) !!}
