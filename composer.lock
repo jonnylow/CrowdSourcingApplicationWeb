@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d5726c1187b2a90b3be3ddf4bf0c9b17",
-    "content-hash": "d67ee95eb6a95a9d6bf8faf09fec42c1",
+    "hash": "82b8fdfabf4d9681a2a274928cf1a8cf",
+    "content-hash": "5ce46250c0a32557c769a8af41e2b79d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -216,22 +216,6 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
-        },
-        {
-            "name": "fronteed/icheck",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fronteed/icheck.git",
-                "reference": "origin/1.x"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/fronteed/icheck/archive/1.0.2.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "type": "library"
         },
         {
             "name": "guzzlehttp/guzzle",
