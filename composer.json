@@ -56,7 +56,7 @@
                     "reference": "origin/master"
                 }
             }
-        },
+        }
     ],
     "require": {
         "php": ">=5.5.9",
