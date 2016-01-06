@@ -154,14 +154,6 @@
         tags: true,
         tokenSeparators: [',', ' ']
     });
-
-    $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
-        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    });
-
-    $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
-        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-    });
 </script>
 
 @endsection

@@ -18,7 +18,6 @@ var paths = {
     'jquery': './vendor/thomaspark/bootswatch/bower_components/jquery/',
     'bootswatch': './vendor/thomaspark/bootswatch/',
     'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
-    'icheck': './vendor/fronteed/icheck/',
     'select2': './vendor/select2/'
 }
 
@@ -34,11 +33,8 @@ elixir(function(mix) {
         .copy(paths.bootstrap + 'dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.bootstraptable + 'dist/extensions/editable/bootstrap-table-editable.min.js', 'public/js/bootstrap-table-editable.min.js')
-        .copy(paths.icheck + 'icheck.min.js', 'public/js/icheck.min.js')
         .copy(paths.select2 + 'select2/dist/js/select2.min.js', 'public/js/select2.min.js')
 
-
-        .copy(paths.icheck + 'skins/flat', 'public/css/icheck')
         .copy('resources/assets/images', 'public/images')
 
         .scripts('app.js', 'public/js/app.min.js');
