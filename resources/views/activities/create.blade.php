@@ -190,7 +190,7 @@
                                         </div>
                                         <!-- Senior Photo Form Input -->
                                         <div class="col-md-3 form-group">
-                                            {!! Form::label('senior_photo', 'Senior Photo', ['class' => 'control-label']) !!}
+                                            {!! Form::label('senior_photo', 'Senior Photo (optional)', ['class' => 'control-label']) !!}
                                             {!! Form::file('senior_photo', ['class' => 'form-control']) !!}
                                         </div>
                                     </div>
@@ -329,6 +329,12 @@
 
     $('#collapse-senior').on('hide.bs.collapse', function () {
         $('#senior').prop("selectedIndex", 0);
+    });
+
+    $(document).ready(function() {
+        if($('#start_location').val() == "others") { $('#collapse-start-loc').collapse('show'); }
+        if($('#end_location').val() == "others") { $('#collapse-end-loc').collapse('show'); }
+        if($('#senior').val() == "others") { $('#collapse-senior').collapse('show'); }
     });
 </script>
 

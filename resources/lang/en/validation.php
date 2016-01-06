@@ -91,6 +91,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'name' => [
+            'name' => 'The :attribute must be a valid name.',
+        ],
     ],
 
     /*

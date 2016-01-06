@@ -190,7 +190,7 @@
                                         </div>
                                         <!-- Senior Photo Form Input -->
                                         <div class="col-md-3 form-group">
-                                            {!! Form::label('senior_photo', 'Senior Photo', ['class' => 'control-label']) !!}
+                                            {!! Form::label('senior_photo', 'Senior Photo (optional)', ['class' => 'control-label']) !!}
                                             {!! Form::file('senior_photo', ['class' => 'form-control']) !!}
                                         </div>
                                     </div>
@@ -238,98 +238,104 @@
 
 @section('page-script')
 
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap.min.css') }}">
-    <script src="{{ asset('js/select2.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/select2-bootstrap.min.css') }}">
+<script src="{{ asset('js/select2.min.js') }}"></script>
 
-    <style>
-        .select2-container { width: 100% !important; }
-        .select2-search>input { width: 100% !important; }
-        .select2-search { margin: 6px 0 !important; }
-        .select2-container--bootstrap .select2-selection:focus {
-            border-bottom-width: 2px;
-            outline: none !important;
-            border-color: #0054a0;
+<style>
+    .select2-container { width: 100% !important; }
+    .select2-search>input { width: 100% !important; }
+    .select2-search { margin: 6px 0 !important; }
+    .select2-container--bootstrap .select2-selection:focus {
+        border-bottom-width: 2px;
+        outline: none !important;
+        border-color: #0054a0;
+    }
+
+    .select2-selection { font: inherit !important; }
+    .select2-selection__rendered {
+        font-size: initial !important;
+        color: #666666 !important;
+        padding-left: 0px !important;
+    }
+</style>
+
+<script>
+    $("#senior_languages").select2({
+        theme: "bootstrap",
+        placeholder: "e.g. English, Chinese",
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
+
+    $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
+        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+    }).children().on('shown.bs.collapse', function (e) {
+        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
+    });
+
+    $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
+        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+    }).children().on('hidden.bs.collapse', function (e) {
+        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
+    });;
+
+    $('#start_location').on('change', function() {
+        var key = $(this).val();
+        if(key == "others") {
+            $('#collapse-start-loc').collapse('show');
+        } else {
+            $('#collapse-start-loc').collapse('hide');
         }
+    });
 
-        .select2-selection { font: inherit !important; }
-        .select2-selection__rendered {
-            font-size: initial !important;
-            color: #666666 !important;
-            padding-left: 0px !important;
+    $('#collapse-start-loc').on('show.bs.collapse', function () {
+        $('#start_location').val("others");
+    });
+
+    $('#collapse-start-loc').on('hide.bs.collapse', function () {
+        $('#start_location').prop("selectedIndex", 0);
+    });
+
+    $('#end_location').on('change', function() {
+        var key = $(this).val();
+        if(key == "others") {
+            $('#collapse-end-loc').collapse('show');
+        } else {
+            $('#collapse-end-loc').collapse('hide');
         }
-    </style>
+    });
 
-    <script>
-        $("#senior_languages").select2({
-            theme: "bootstrap",
-            placeholder: "e.g. English, Chinese",
-            tags: true,
-            tokenSeparators: [',', ' ']
-        });
+    $('#collapse-end-loc').on('show.bs.collapse', function () {
+        $('#end_location').val("others");
+    });
 
-        $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
-            $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-        }).children().on('shown.bs.collapse', function (e) {
-            e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
-        });
+    $('#collapse-end-loc').on('hide.bs.collapse', function () {
+        $('#end_location').prop("selectedIndex", 0);
+    });
 
-        $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
-            $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-        }).children().on('hidden.bs.collapse', function (e) {
-            e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
-        });;
+    $('#senior').on('change', function() {
+        var key = $(this).val();
+        if(key == "others") {
+            $('#collapse-senior').collapse('show');
+        } else {
+            $('#collapse-senior').collapse('hide');
+        }
+    });
 
-        $('#start_location').on('change', function() {
-            var key = $(this).val();
-            if(key == "others") {
-                $('#collapse-start-loc').collapse('show');
-            } else {
-                $('#collapse-start-loc').collapse('hide');
-            }
-        });
+    $('#collapse-senior').on('show.bs.collapse', function () {
+        $('#senior').val("others");
+    });
 
-        $('#collapse-start-loc').on('show.bs.collapse', function () {
-            $('#start_location').val("others");
-        });
+    $('#collapse-senior').on('hide.bs.collapse', function () {
+        $('#senior').prop("selectedIndex", 0);
+    });
 
-        $('#collapse-start-loc').on('hide.bs.collapse', function () {
-            $('#start_location').prop("selectedIndex", 0);
-        });
-
-        $('#end_location').on('change', function() {
-            var key = $(this).val();
-            if(key == "others") {
-                $('#collapse-end-loc').collapse('show');
-            } else {
-                $('#collapse-end-loc').collapse('hide');
-            }
-        });
-
-        $('#collapse-end-loc').on('show.bs.collapse', function () {
-            $('#end_location').val("others");
-        });
-
-        $('#collapse-end-loc').on('hide.bs.collapse', function () {
-            $('#end_location').prop("selectedIndex", 0);
-        });
-
-        $('#senior').on('change', function() {
-            var key = $(this).val();
-            if(key == "others") {
-                $('#collapse-senior').collapse('show');
-            } else {
-                $('#collapse-senior').collapse('hide');
-            }
-        });
-
-        $('#collapse-senior').on('show.bs.collapse', function () {
-            $('#senior').val("others");
-        });
-
-        $('#collapse-senior').on('hide.bs.collapse', function () {
-            $('#senior').prop("selectedIndex", 0);
-        });
-    </script>
+    $(document).ready(function() {
+        if($('#start_location').val() == "others") { $('#collapse-start-loc').collapse('show'); }
+        if($('#end_location').val() == "others") { $('#collapse-end-loc').collapse('show'); }
+        if($('#senior').val() == "others") { $('#collapse-senior').collapse('show'); }
+    });
+</script>
 
 @endsection
