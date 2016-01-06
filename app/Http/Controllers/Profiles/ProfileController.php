@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|name',
             'email' => 'required|email|unique:staff,email,'.Auth::user()->staff_id.',staff_id',
             'current_password' => 'required',
         ]);
@@ -79,13 +79,11 @@ class ProfileController extends Controller
                 }
 
                 return back()
-                    ->withErrors($validator)
-                    ->withInputs();
+                    ->withErrors($validator);
             } else {
                 $validator->errors()->add('current_password', 'Your current password is incorrect.');
                 return back()
-                    ->withErrors($validator)
-                    ->withInput();
+                    ->withErrors($validator);
             }
         }
     }
