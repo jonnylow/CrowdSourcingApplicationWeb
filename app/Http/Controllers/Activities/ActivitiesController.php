@@ -73,70 +73,90 @@ class ActivitiesController extends Controller
             'senior_medical'        => 'string',
         ]);
 
-        if ($validator->fails()) {
+        $startLocationId = $request->get('start_location');
+        $endLocationId = $request->get('end_location');
+        $elderlyId = $request->get('senior');
+
+        $startLocation = new Centre;
+        $endLocation = new Centre;
+        $elderly = new Elderly;
+
+        if($request->get('start_location') == "others") {
+            $postal = $request->get('start_postal');
+            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+            if($geoInfo['status'] == 'ok') {
+                $startLocation->name = ucwords(strtolower($request->get('start_location_name')));
+                $startLocation->address = $geoInfo['address'];
+                $startLocation->postal_code = $postal;
+                $startLocation->lng = $geoInfo['x'];
+                $startLocation->lat = $geoInfo['y'];
+            } else {
+                $validator->errors()->add('start_location', 'The start postal must be a valid postal code.');
+            }
+        }
+
+        if($request->get('end_location') == "others") {
+            $postal = $request->get('end_postal');
+            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+            if($geoInfo['status'] == 'ok') {
+                $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
+                $endLocation->address = $geoInfo['address'];
+                $endLocation->postal_code = $postal;
+                $endLocation->lng = $geoInfo['x'];
+                $endLocation->lat = $geoInfo['y'];
+            } else {
+                $validator->errors()->add('end_location', 'The end postal must be a valid postal code.');
+            }
+        }
+
+        if($request->get('senior') == "others") {
+            $elderly->nric = $request->get('senior_nric');
+            $elderly->name = $request->get('senior_name');
+            $elderly->gender = $request->get('senior_gender');
+            $elderly->next_of_kin_name = $request->get('senior_nok_name');
+            $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
+            $elderly->medical_condition = $request->get('senior_medical');
+            $elderly->image_photo = $request->get('senior_photo');
+            $elderly->centre_id = $request->get('centre');
+
+            if(count($request->get('senior_languages')) < 1) {
+                $validator->errors()->add('senior_languages', 'The senior languages is required if senior is others.');
+            } else {
+                foreach($request->get('senior_languages') as $language) {
+                    $v = Validator::make(['senior_language' => $language], ['senior_language' => 'alpha']);
+                    if ($v->fails()) {
+                        $validator->errors()->add('senior_languages', 'The senior languages must be valid words.');
+                    }
+                }
+            }
+        }
+
+        if($validator->errors()->count() > 0) {
             return back()
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $startLocationId = $request->get('start_location');
-            $endLocationId = $request->get('end_location');
-            $elderlyId = $request->get('senior');
-
-            if($request->get('senior') == "others") {
-                if(count($request->get('senior_languages')) < 1) {
-                    $validator->errors()->add('senior_languages', 'The senior language is required if senior is others.');
-                    return back()
-                        ->withErrors($validator)
-                        ->withInput();
-                }
-
-                $elderly = Elderly::create([
-                    'nric'                  => $request->get('senior_nric'),
-                    'name'                  => $request->get('senior_name'),
-                    'gender'                => $request->get('senior_gender'),
-                    'next_of_kin_name'      => $request->get('senior_nok_name'),
-                    'next_of_kin_contact'   => $request->get('senior_nok_contact'),
-                    'medical_condition'     => $request->get('senior_medical'),
-                    'image_photo'           => $request->get('senior_photo'),
-                    'centre_id'             => $request->get('centre'),
-                ]);
-
-                foreach($request->get('senior_languages') as $language) {
-                    ElderlyLanguage::create([
-                        'elderly_id'    => $elderly->elderly_id,
-                        'language'      => $language,
-                    ]);
-                }
-
-                $elderlyId = $elderly->elderly_id;
-            }
-
             if($request->get('start_location') == "others") {
-                $postal = $request->get('start_postal');
-                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-                $centre = Centre::create([
-                    'name'          => $request->get('start_location_name'),
-                    'address'       => $geoInfo['address'],
-                    'postal_code'   => $postal,
-                    'lng'           => $geoInfo['x'],
-                    'lat'           => $geoInfo['y'],
-                ]);
-
-                $startLocationId = $centre->centre_id;
+                $startLocation->save();
+                $startLocationId = $startLocation->centre_id;
             }
 
             if($request->get('end_location') == "others") {
-                $postal = $request->get('end_postal');
-                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-                $centre = Centre::create([
-                    'name'          => $request->get('end_location_name'),
-                    'address'       => $geoInfo['address'],
-                    'postal_code'   => $postal,
-                    'lng'           => $geoInfo['x'],
-                    'lat'           => $geoInfo['y'],
-                ]);
+                $endLocation->save();
+                $endLocationId = $endLocation->centre_id;
+            }
 
-                $endLocationId = $centre->centre_id;
+            if($request->get('senior') == "others") {
+                $elderly->save();
+                foreach($request->get('senior_languages') as $language) {
+                    ElderlyLanguage::create([
+                        'elderly_id'    => $elderly->elderly_id,
+                        'language'      => ucwords(strtolower($language)),
+                    ]);
+                }
+                $elderlyId = $elderly->elderly_id;
             }
 
             Activity::create([
@@ -197,70 +217,90 @@ class ActivitiesController extends Controller
             'senior_medical'        => 'string',
         ]);
 
-        if ($validator->fails()) {
+        $startLocationId = $request->get('start_location');
+        $endLocationId = $request->get('end_location');
+        $elderlyId = $request->get('senior');
+
+        $startLocation = new Centre;
+        $endLocation = new Centre;
+        $elderly = new Elderly;
+
+        if($request->get('start_location') == "others") {
+            $postal = $request->get('start_postal');
+            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+            if($geoInfo['status'] == 'ok') {
+                $startLocation->name = ucwords(strtolower($request->get('start_location_name')));
+                $startLocation->address = $geoInfo['address'];
+                $startLocation->postal_code = $postal;
+                $startLocation->lng = $geoInfo['x'];
+                $startLocation->lat = $geoInfo['y'];
+            } else {
+                $validator->errors()->add('start_location', 'The start postal must be a valid postal code.');
+            }
+        }
+
+        if($request->get('end_location') == "others") {
+            $postal = $request->get('end_postal');
+            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+            if($geoInfo['status'] == 'ok') {
+                $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
+                $endLocation->address = $geoInfo['address'];
+                $endLocation->postal_code = $postal;
+                $endLocation->lng = $geoInfo['x'];
+                $endLocation->lat = $geoInfo['y'];
+            } else {
+                $validator->errors()->add('end_location', 'The end postal must be a valid postal code.');
+            }
+        }
+
+        if($request->get('senior') == "others") {
+            $elderly->nric = $request->get('senior_nric');
+            $elderly->name = $request->get('senior_name');
+            $elderly->gender = $request->get('senior_gender');
+            $elderly->next_of_kin_name = $request->get('senior_nok_name');
+            $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
+            $elderly->medical_condition = $request->get('senior_medical');
+            $elderly->image_photo = $request->get('senior_photo');
+            $elderly->centre_id = $request->get('centre');
+
+            if(count($request->get('senior_languages')) < 1) {
+                $validator->errors()->add('senior_languages', 'The senior languages is required if senior is others.');
+            } else {
+                foreach($request->get('senior_languages') as $language) {
+                    $v = Validator::make(['senior_language' => $language], ['senior_language' => 'alpha']);
+                    if ($v->fails()) {
+                        $validator->errors()->add('senior_languages', 'The senior languages must be valid words.');
+                    }
+                }
+            }
+        }
+
+        if($validator->errors()->count() > 0) {
             return back()
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $startLocationId = $request->get('start_location');
-            $endLocationId = $request->get('end_location');
-            $elderlyId = $request->get('senior');
-
-            if($request->get('senior') == "others") {
-                if(count($request->get('senior_languages')) < 1) {
-                    $validator->errors()->add('senior_languages', 'The senior language is required if senior is others.');
-                    return back()
-                        ->withErrors($validator)
-                        ->withInput();
-                }
-
-                $elderly = Elderly::create([
-                    'nric'                  => $request->get('senior_nric'),
-                    'name'                  => $request->get('senior_name'),
-                    'gender'                => $request->get('senior_gender'),
-                    'next_of_kin_name'      => $request->get('senior_nok_name'),
-                    'next_of_kin_contact'   => $request->get('senior_nok_contact'),
-                    'medical_condition'     => $request->get('senior_medical'),
-                    'image_photo'           => $request->get('senior_photo'),
-                    'centre_id'             => $request->get('centre'),
-                ]);
-
-                foreach($request->get('senior_languages') as $language) {
-                    ElderlyLanguage::create([
-                        'elderly_id'    => $elderly->elderly_id,
-                        'language'      => $language,
-                    ]);
-                }
-
-                $elderlyId = $elderly->elderly_id;
-            }
-
             if($request->get('start_location') == "others") {
-                $postal = $request->get('start_postal');
-                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-                $centre = Centre::create([
-                    'name'          => $request->get('start_location_name'),
-                    'address'       => $geoInfo['address'],
-                    'postal_code'   => $postal,
-                    'lng'           => $geoInfo['x'],
-                    'lat'           => $geoInfo['y'],
-                ]);
-
-                $startLocationId = $centre->centre_id;
+                $startLocation->save();
+                $startLocationId = $startLocation->centre_id;
             }
 
             if($request->get('end_location') == "others") {
-                $postal = $request->get('end_postal');
-                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-                $centre = Centre::create([
-                    'name'          => $request->get('end_location_name'),
-                    'address'       => $geoInfo['address'],
-                    'postal_code'   => $postal,
-                    'lng'           => $geoInfo['x'],
-                    'lat'           => $geoInfo['y'],
-                ]);
+                $endLocation->save();
+                $endLocationId = $endLocation->centre_id;
+            }
 
-                $endLocationId = $centre->centre_id;
+            if($request->get('senior') == "others") {
+                $elderly->save();
+                foreach($request->get('senior_languages') as $language) {
+                    ElderlyLanguage::create([
+                        'elderly_id'    => $elderly->elderly_id,
+                        'language'      => ucwords(strtolower($language)),
+                    ]);
+                }
+                $elderlyId = $elderly->elderly_id;
             }
 
             $activity = Activity::findOrFail($id);
@@ -386,6 +426,7 @@ class ActivitiesController extends Controller
         $responseFromPostal = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&countryCode=SGP&maxLocations=1&outFields=*&category=postal&postal=' . $postal);
         $responseFromPostal = json_decode($responseFromPostal->getBody(), true);
         if (count($responseFromPostal['candidates'])) {
+            $json['status'] = 'ok';
             $fromPostal = $responseFromPostal['candidates'][0]['location'];
 
             $lat = $fromPostal['y'];
@@ -420,6 +461,8 @@ class ActivitiesController extends Controller
                     return json_encode($json);
                 }
             }
+        } else {
+            return json_encode(['status' => 'error']);
         }
     }
 }

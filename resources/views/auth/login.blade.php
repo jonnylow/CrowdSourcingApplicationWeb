@@ -31,12 +31,10 @@
                     {!! Form::label('password', 'Password', ['class' => 'control-label sr-only']) !!}
                     {!! Form::password('password', ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Password']) !!}
                 </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            {!! Form::checkbox('remember', old('remember')) !!}&nbsp;Remember me
-                        </label>
-                    </div>
+                <div class="checkbox">
+                    <label>
+                        {!! Form::checkbox('remember', old('remember')) !!}&nbsp;Remember me
+                    </label>
                 </div>
                 <div class="form-group">
                     {!! Form::submit('Log in', ['class' => 'btn btn-default btn-lg btn-block']) !!}

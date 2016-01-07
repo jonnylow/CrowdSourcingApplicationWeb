@@ -190,7 +190,7 @@
                                         </div>
                                         <!-- Senior Photo Form Input -->
                                         <div class="col-md-3 form-group">
-                                            {!! Form::label('senior_photo', 'Senior Photo', ['class' => 'control-label']) !!}
+                                            {!! Form::label('senior_photo', 'Senior Photo (optional)', ['class' => 'control-label']) !!}
                                             {!! Form::file('senior_photo', ['class' => 'form-control']) !!}
                                         </div>
                                     </div>
@@ -268,18 +268,6 @@
         tokenSeparators: [',', ' ']
     });
 
-    $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
-        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    }).children().on('shown.bs.collapse', function (e) {
-        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
-    });
-
-    $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
-        $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-    }).children().on('hidden.bs.collapse', function (e) {
-        e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
-    });;
-
     $('#start_location').on('change', function() {
         var key = $(this).val();
         if(key == "others") {
@@ -329,6 +317,12 @@
 
     $('#collapse-senior').on('hide.bs.collapse', function () {
         $('#senior').prop("selectedIndex", 0);
+    });
+
+    $(document).ready(function() {
+        if($('#start_location').val() == "others") { $('#collapse-start-loc').collapse('show'); }
+        if($('#end_location').val() == "others") { $('#collapse-end-loc').collapse('show'); }
+        if($('#senior').val() == "others") { $('#collapse-senior').collapse('show'); }
     });
 </script>
 
