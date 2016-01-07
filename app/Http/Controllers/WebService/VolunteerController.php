@@ -152,23 +152,23 @@ class VolunteerController extends Controller
           $volunteer = Volunteer::where('email', $email)->where('contact_no',$phone)->first();
           if ($volunteer){
             $password = str_random(12);
-            $message = "Hi " . $volunteer->name .", \r\n \r\n Your temporary password is " . $password . ". Please Login and change your password immiediately! \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
+            $message = "Hi " . $volunteer->name .", \r\n \r\n Your have requested for a temporary password : " . $password . ". Please Login and change your password immiediately! \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
             
             Mail::raw($message, function($message) {
             $message->from('imchosen6@gmail.com', 'Admin');
             $message->subject('CareRide Password Reset');
-            $message->to('lychiang.2013@sis.smu.edu.sg');
+            $message->to('leejia.yong.2013@sis.smu.edu.sg');
             });
             $volunteer->password = $password;
             $volunteer->save();
             $status = array("success");
             return response()->json(compact('status'));
             } else {
-            $status = array("mismatch");
+            $status = array("error");
             return response()->json(compact('status'));
           }
         } else {
-            $status = array("Missing parameter");
+            $status = array("error");
             return response()->json(compact('status'));
           
 

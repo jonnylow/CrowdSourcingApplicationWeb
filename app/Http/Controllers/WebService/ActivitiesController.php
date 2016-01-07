@@ -168,7 +168,7 @@ class ActivitiesController extends Controller
             $volunteer_id = $request->get('volunteer_id');
             $activity_id = $request->get('activity_id');
 
-            $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'Withdrawn']);
+            $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'withdrawn']);
             //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
 
             $status = array("Withdrawn from activity.");
