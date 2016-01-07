@@ -25,7 +25,7 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -157,7 +157,7 @@ class VolunteerController extends Controller
             Mail::raw($message, function($message) {
             $message->from('imchosen6@gmail.com', 'Admin');
             $message->subject('CareRide Password Reset');
-            $message->to('leejia.yong.2013@sis.smu.edu.sg');
+            $message->to('imchosen6@gmail.com');
             });
             $volunteer->password = $password;
             $volunteer->save();
@@ -175,6 +175,81 @@ class VolunteerController extends Controller
 
         }
    }
+
+   public function updateUserAccount(Request $request)
+    {
+        if ($request->get('id') == null || $request->get('password') == null) {
+            $status = array("Missing parameter");
+            return response()->json(compact('status'));
+        } else {
+            $volunteer_id = $request->get('id');
+            $password = $request->get('password');
+
+            $volunteer = Volunteer::findOrFail($volunteer_id);
+
+            if ($volunteer){
+              $message = "Hi " . $volunteer->name .", \r\n \r\n The password for your CareRide Account was recently changed. \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
+            
+              Mail::raw($message, function($message) {
+              $message->from('imchosen6@gmail.com', 'Admin');
+              $message->subject('CareRide password changed');
+              $message->to('imchosen6@gmail.com');
+              });
+              $volunteer->password = $password;
+              $volunteer->save();
+              $status = array("success");
+              return response()->json(compact('status'));
+            } else {
+              $status = array("error");
+              return response()->json(compact('status'));
+            }
+
+            
+            
+        }
+    }
+
+    public function updateUserDetails(Request $request)
+    {
+        if ($request->get('id') == null || $request->get('name') == null || $request->get('number') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
+            
+            $status = array("Missing parameter"); 
+            return response()->json(compact('status'));
+        } else {
+            $volunteer_id = $request->get('id');
+            $name = $request->get('name');
+            $number = $request->get('number');
+            $occupation = $request->get('occupation');
+            $p1 = $request->get('p1');
+            $p2 = $request->get('p2');
+
+            $volunteer = Volunteer::findOrFail($volunteer_id);
+
+            if ($volunteer){
+              $message = "Hi " . $volunteer->name .", \r\n \r\n You have updated the your personal particulars. \r\n If you did not change your personal particulars, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
+            
+              Mail::raw($message, function($message) {
+              $message->from('imchosen6@gmail.com', 'Admin');
+              $message->subject('CareRide details updated');
+              $message->to('imchosen6@gmail.com');
+              });
+              $volunteer->contact_no = $number;
+              $volunteer->name = $name;
+              $volunteer->occupation = $occupation;
+              $volunteer->area_of_preference_1 = $p1;
+              $volunteer->area_of_preference_2 = $p2;
+              $volunteer->save();
+              $status = array("Update Success!");
+              return response()->json(compact('status'));
+            } else {
+              $status = array("Error in sql statement");
+              return response()->json(compact('status'));
+            }
+
+            
+            
+        }
+    }
 }
 
 
