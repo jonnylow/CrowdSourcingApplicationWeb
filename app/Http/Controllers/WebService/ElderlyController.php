@@ -29,11 +29,11 @@ class ElderlyController extends Controller
 
 // tested working with new database 
    public function retrieveElderyInformation(Request $request){
-        if ($request->get('id') == null || $request->get('transportId'  ) == null){
+        if ( $request->get('transportId'  ) == null){
         $status = array("Missing parameter");
         return response()->json(compact('status'));
         } else {
-            $userID = $request->get('id');
+            
             $actID = $request->get('transportId');
             $activity = Activity::findOrFail($actID);
             $elderlyID = $activity->elderly_id;
