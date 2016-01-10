@@ -25,7 +25,7 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -250,6 +250,33 @@ class VolunteerController extends Controller
             
         }
     }
+
+    public function retrieveMyTransportActivityDetails(Request $request){
+      if ($request->get('id') == null || $request->get('transportId') == null ){
+        $status = array("Missing parameter"); 
+        return response()->json(compact('status'));
+      } else {
+        $id = $request->get('id');
+        $transportId = $request->get('transportId');
+
+        /*$task = Task::where('activities.activity_id','=',$transportId)->where('volunteer_id','=',$id)->select('activities.*','centres.*')
+            ->leftJoin('activities', function ($join) {
+                $join->on('activities.activity_id', '=', 'tasks.activity_id');
+            })->leftJoin('centres', function ($join) {
+                $join->on('centres.centre_id', '=', 'activities.location_from_id')->on('centres.centre_id', '=', 'activities.location_to_id');
+            })->get();*/
+
+        $task = Task::with('Activity')->select('tasks.*')->leftJoin('centres', function ($join) {
+                $join->on('centres.centre_id', '=', 'activities.location_from_id')->on('centres.centre_id', '=', 'activities.location_to_id');
+            })->where('activities.activity_id','=',$transportId)->where('volunteer_id','=',$id)->get();
+
+
+
+        return response()->json(compact('task'));
+      }
+    }
+
+
 }
 
 

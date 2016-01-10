@@ -70,7 +70,10 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('checkActivityApplication', 'ActivitiesController@checkActivityApplication');
     Route::get('updateActivityStatus', 'ActivitiesController@updateActivityStatus');
     Route::get('withdraw', 'ActivitiesController@withdraw');
-
+    Route::get('retrieveFilter', 'ActivitiesController@retrieveFilter');
+    Route::get('retrieveTransportByUser', 'ActivitiesController@retrieveTransportByUser');
+    
+    
 
     Route::get('addUserAccount', 'VolunteerController@addUserAccount');
     Route::get('checkEmail', 'VolunteerController@checkEmail');
@@ -80,6 +83,8 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('verifyUserEmailandPassword', 'VolunteerController@verifyUserEmailandPassword');
     Route::get('updateUserAccount', 'VolunteerController@updateUserAccount');
     Route::get('updateUserDetails', 'VolunteerController@updateUserDetails');
+    Route::get('retrieveMyTransportActivityDetails', 'VolunteerController@retrieveMyTransportActivityDetails');
+    
 
     Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
 });

@@ -22,7 +22,7 @@ class ActivitiesController extends Controller
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity', 'retrieveTransportByUser', 'retrieveRecommendedTransportActivity', 'addNewActivity', 'addUserAccount', 'checkActivityApplication', 'updateActivityStatus', 'withdraw']]);
+        $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity', 'retrieveTransportByUser', 'retrieveRecommendedTransportActivity', 'addNewActivity', 'addUserAccount', 'checkActivityApplication', 'updateActivityStatus', 'withdraw','retrieveFilter']]);
     }
 
     /**
@@ -62,8 +62,18 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         } else {
             $id = $request->get('id');
-            $activity = Activity::findOrFail($id);
-            return response()->json(compact('activity'));
+            $type = $request->get('type');
+
+            if ($type == "1"){
+
+                $activities = Task::with('activity')->Where('tasks.volunteer_id', '=', $id)->WhereIn('tasks.approval', ['pending','approved','withdrawn','withdrawn'])->where('tasks.status', '<>', 'completed')->get();
+
+                return response()->json(compact('activities'));
+            } else if($type == "2") {
+                $activities = Task::with('activity')->Where('tasks.volunteer_id', '=', $id)->WhereIn('tasks.approval', ['pending','approved','withdrawn','withdrawn'])->where('tasks.status', '=', 'completed')->get();
+
+                return response()->json(compact('activities'));
+            }
         }
 
     }
@@ -175,6 +185,29 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
             //$check = Task::findOrFail($task->id);
         }
+    }
+
+    public function retrieveFilter(Request $request)
+    {
+        if ($request->get('filter') == null){
+            $status = array("Missing parameter");
+            return response()->json(compact('status'));
+        } else {
+            $filter = $request->get('filter');
+        }
+        $activities = Activity::upcoming()
+            ->select('activities.*')
+            ->leftJoin('tasks', function ($join) {
+                $join->on('activities.activity_id', '=', 'tasks.activity_id');
+            })
+            ->whereNull('tasks.activity_id')
+            ->orWhere('approval', '<>', 'approved')
+            ->distinct()
+            ->get();
+        
+
+
+        return response()->json(compact('activities'));
     }
 
         
