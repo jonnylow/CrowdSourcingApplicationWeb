@@ -67,7 +67,7 @@ class VolunteerController extends Controller
                 'area_of_preference_2'      => $request->get('preferences2'),
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
-                'rank_id'                   => Rank::where('min','0')->rank_id->get(),
+                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,
                 'is_approved'               => 'False']);
         //}
     $check = $request->get('email');
