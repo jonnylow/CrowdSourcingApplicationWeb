@@ -66,11 +66,18 @@ class ActivitiesController extends Controller
 
             if ($type == "1"){
 
-                $activities = Task::with('activity')->Where('tasks.volunteer_id', '=', $id)->WhereIn('tasks.approval', ['pending','approved','withdrawn','withdrawn'])->where('tasks.status', '<>', 'completed')->get();
+                $activities = Task::select('tasks.*')
+                ->leftJoin('activities', function ($join) {
+                    $join->on('activities.activity_id', '=', 'tasks.activity_id');
+                })
+                ->Where('tasks.volunteer_id', '=', $id)
+                ->WhereIn('tasks.approval', ['pending','approved','withdrawn','withdrawn'])
+                ->where('tasks.status', '<>', 'completed')
+                ->where('activity.datetime_start', '>', Carbon::now())->get();
 
                 return response()->json(compact('activities'));
             } else if($type == "2") {
-                $activities = Task::with('activity')->Where('tasks.volunteer_id', '=', $id)->WhereIn('tasks.approval', ['pending','approved','withdrawn','withdrawn'])->where('tasks.status', '=', 'completed')->get();
+                $activities = Task::with('activity')->Where('tasks.volunteer_id', '=', $id)->where('activity.datetime_start', '<', Carbon::now())->get();
 
                 return response()->json(compact('activities'));
             }
@@ -88,7 +95,7 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         } else {
             $limit = $request->get('limit');
-            $activities = Activity::upcoming()->with('departureCentre', 'arrivalCentre')->get()->take($limit);
+            $activities = Activity::where('datetime_start', '>', Carbon::now())->with('departureCentre', 'arrivalCentre')->take($limit)->orderBy('datetime_start', 'asc')->get();
             return response()->json(compact('activities'));
         }
 
