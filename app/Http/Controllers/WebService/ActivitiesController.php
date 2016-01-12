@@ -33,15 +33,16 @@ class ActivitiesController extends Controller
      */
     public function retrieveTransportActivity(Request $request)
     {
-        $activities = Activity::with('departureCentre', 'arrivalCentre')->upcoming()
-            ->select('activities.*')
-            ->leftJoin('tasks', function ($join) {
-                $join->on('activities.activity_id', '=', 'tasks.activity_id');
-            })
-            ->whereNull('tasks.activity_id')
-            ->orWhere('approval', '<>', 'approved')
-            ->distinct()
+        $approvedActivities = Activity::with('tasks')
+            ->whereHas('tasks', function ($query) {
+                $query->where('approval', 'like', 'approved');
+            })->lists('activity_id');
+
+        $activities = Activity::with('departureCentre', 'arrivalCentre')
+            ->upcoming()
+            ->whereNotIn('activity_id', $approvedActivities)
             ->get();
+
         return response()->json(compact('activities'));
     }
 

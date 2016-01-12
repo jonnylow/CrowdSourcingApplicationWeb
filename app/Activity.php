@@ -163,7 +163,7 @@ class Activity extends Model
      */
     public function tasks()
     {
-        return $this->belongsToMany('App\Task');
+        return $this->hasMany('App\Task');
     }
 
     /**
