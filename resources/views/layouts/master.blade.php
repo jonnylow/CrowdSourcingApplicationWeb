@@ -7,7 +7,7 @@
         <title>@yield('title')</title>
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/icheck/green.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/bootstrap-table.min.css') }}" rel="stylesheet">
 
         @yield('head')

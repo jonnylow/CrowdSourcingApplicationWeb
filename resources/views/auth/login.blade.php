@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h1>Sign in here</h1>
+            <h1>Welcome back!</h1>
             @if (count($errors))
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -47,14 +47,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="forget-modal" tabindex="-1" role="dialog" aria-labelledby="myForgetModalLabel">
+<div class="modal fade" id="forget-modal" tabindex="-1" role="dialog" aria-labelledby="forgetModal">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myForgetModalLabel">Recovery password</h4>
+                <h4 class="modal-title" id="forgetModal">Recovery password</h4>
             </div>
             {!! Form::open(['url' => asset('password/email')]) !!}
                 <div class="modal-body">
@@ -62,8 +62,8 @@
                     {!! Form::email('recovery_email', null, ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Email']) !!}
                 </div>
                 <div class="modal-footer">
-                    {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
-                    {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-primary', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
+                    {!! Form::button('Cancel', ['class' => 'btn btn-warning', 'data-dismiss' => 'modal']) !!}
+                    {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-default', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
                 </div>
             {!! Form::close() !!}
         </div> <!-- /.modal-content -->

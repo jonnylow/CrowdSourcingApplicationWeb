@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <h1>Add new senior</h1>
 
             @if (count($errors) || Session::has('success'))
@@ -48,7 +48,7 @@
                                     {!! Form::select('centre', $centreList, null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                                 <!-- NRIC Form Input -->
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
                                     {!! Form::text('nric', null, ['class' => 'form-control', 'required' => 'required', 'size' => '9', 'pattern' => '[S|T|F|G|s|t|f|g][0-9]{7}[a-z|A-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
                                 </div>
@@ -58,7 +58,7 @@
                                     {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                                 <!-- Gender Form Input -->
-                                <div class="col-md-1 form-group">
+                                <div class="col-md-2 form-group">
                                     {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
                                     {!! Form::select('gender', $genderList, null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>

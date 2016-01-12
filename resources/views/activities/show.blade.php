@@ -56,7 +56,9 @@
                     <div class="panel-heading" role="tab" id="heading-information">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
-                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Activity Information</strong>
+                                <span class="fa fa-fw fa-calendar"></span>
+                                <strong>Activity Information</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -77,12 +79,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading-address">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-address" aria-expanded="false" aria-controls="collapse-address">
-                                <strong><span class="glyphicon glyphicon-chevron-down"></span> Venue Addresses</strong>
+                            <a role="button" data-toggle="collapse" href="#collapse-address" aria-expanded="true" aria-controls="collapse-address">
+                                <span class="fa fa-fw fa-map-marker"></span>
+                                <strong>Venue Addresses</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapse-address" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-address">
+                    <div id="collapse-address" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-address">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
                                 <dt>Start From:</dt>
@@ -98,7 +102,9 @@
                     <div class="panel-heading" role="tab" id="heading-volunteer">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-volunteer" aria-expanded="true" aria-controls="collapse-volunteer">
-                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Volunteer Sign-ups</strong>
+                                <span class="fa fa-fw fa-heart"></span>
+                                <strong>Volunteer Sign-ups</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -129,12 +135,12 @@
                                             <td>{{ ucwords($volunteer->pivot->approval) }}</td>
                                             <td>
                                                 <a class="btn btn-danger btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'reject']) }}">
-                                                    <span class="glyphicon glyphicon-remove"></span> Reject
+                                                    <span class="fa fa-fw fa-lg fa-times"></span> Reject
                                                 </a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'approve']) }}">
-                                                    <span class="glyphicon glyphicon-ok"></span> Approve
+                                                    <span class="fa fa-fw fa-lg fa-check"></span> Approve
                                                 </a>
                                             </td>
                                         </tr>

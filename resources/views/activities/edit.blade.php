@@ -35,7 +35,9 @@
                     <div class="panel-heading" role="tab" id="heading-information">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
-                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Information</strong>
+                                <span class="fa fa-fw fa-calendar"></span>
+                                <strong>Information</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -54,7 +56,7 @@
                                 </div>
                                 <!-- Time To Start Form Input -->
                                 <div class="col-md-3 form-group">
-                                    {!! Form::label('time_to_start', 'Time To Start', ['class' => 'control-label']) !!}
+                                    {!! Form::label('time_to_start', 'Time To Start (hh:mm AM/PM)', ['class' => 'control-label']) !!}
                                     {!! Form::time('time_to_start', $activity->datetime_start->toTimeString(), ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                                 <!-- Duration Form Input -->
@@ -76,7 +78,9 @@
                     <div class="panel-heading" role="tab" id="heading-location">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-location" aria-expanded="true" aria-controls="collapse-location">
-                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Activity Location</strong>
+                                <span class="fa fa-fw fa-map-marker"></span>
+                                <strong>Activity Location</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -86,26 +90,12 @@
                                 <!-- Start Location Form Input -->
                                 <div class="col-md-6 form-group">
                                     {!! Form::label('start_location', 'Start Location', ['class' => 'control-label']) !!}
-                                    <div class="input-group">
-                                        {!! Form::select('start_location', $startLocations, $activity->location_from_id, ['class' => 'form-control', 'required' => 'required']) !!}
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
-                                                Not in list
-                                            </button>
-                                        </span>
-                                    </div>
+                                    {!! Form::select('start_location', $startLocations, $activity->location_from_id, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                                 <!-- End Location Form Input -->
                                 <div class="col-md-6 form-group">
                                     {!! Form::label('end_location', 'End Location', ['class' => 'control-label']) !!}
-                                    <div class="input-group">
-                                        {!! Form::select('end_location', $endLocations, $activity->location_to_id, ['class' => 'form-control', 'required' => 'required']) !!}
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
-                                                Not in list
-                                            </button>
-                                        </span>
-                                    </div>
+                                    {!! Form::select('end_location', $endLocations, $activity->location_to_id, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
                             </div>
 
@@ -149,7 +139,9 @@
                     <div class="panel-heading" role="tab" id="heading-senior-all">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" href="#collapse-senior-all" aria-expanded="true" aria-controls="collapse-senior-all">
-                                <strong><span class="glyphicon glyphicon-chevron-up"></span> Senior Information</strong>
+                                <span class="fa fa-fw fa-user"></span>
+                                <strong>Senior Information</strong>
+                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -158,14 +150,7 @@
                             <!-- Duration Form Input -->
                             <div class="col-md-8 col-md-offset-2 form-group">
                                 {!! Form::label('senior', 'Senior NRIC & Name', ['class' => 'control-label']) !!}
-                                <div class="input-group">
-                                    {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required' => 'required']) !!}
-                                    <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
-                                                Not in list
-                                            </button>
-                                        </span>
-                                </div>
+                                {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
                         </div>
 

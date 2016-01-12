@@ -66,6 +66,7 @@
         "guzzlehttp/guzzle": "6.1.*",
         "rriepe/1pxdeep": "1.0.1",
         "thomaspark/bootswatch": "3.3.*",
+        "fortawesome/font-awesome": "4.*",
         "wenzhixin/bootstrap-table": "1.9.1",
         "select2/select2": "4.0.1",
         "select2/select2-bootstrap-theme": "0.1.0"

@@ -17,6 +17,7 @@ var paths = {
     'bootstrap': './vendor/thomaspark/bootswatch/bower_components/bootstrap/',
     'jquery': './vendor/thomaspark/bootswatch/bower_components/jquery/',
     'bootswatch': './vendor/thomaspark/bootswatch/',
+    'fontawesome': './vendor/fortawesome/font-awesome/',
     'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
     'select2': './vendor/select2/'
 }
@@ -24,7 +25,9 @@ var paths = {
 elixir(function(mix) {
     mix.less('app.less')
         .copy(paths.bootstrap + 'dist/fonts', 'public/fonts')
+        .copy(paths.fontawesome + 'fonts', 'public/fonts')
 
+        .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.css', 'public/css/bootstrap-table.min.css')
         .copy(paths.select2 + 'select2/dist/css/select2.min.css', 'public/css/select2.min.css')
         .copy(paths.select2 + 'select2-bootstrap-theme/dist/select2-bootstrap.min.css', 'public/css/select2-bootstrap.min.css')

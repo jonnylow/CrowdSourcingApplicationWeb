@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82b8fdfabf4d9681a2a274928cf1a8cf",
-    "content-hash": "5ce46250c0a32557c769a8af41e2b79d",
+    "hash": "397f4e6c43c460fa8042c36fc0d2407d",
+    "content-hash": "1c4c4712fb3244a6db6ead43755d4c98",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -216,6 +216,54 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "fddd2c240452e6c8990c4ef75e0265b455aa7968"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/fddd2c240452e6c8990c4ef75e0265b455aa7968",
+                "reference": "fddd2c240452e6c8990c4ef75e0265b455aa7968",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2015-11-30 17:28:02"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1143,16 +1191,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47"
+                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/d762ee5b099a29044603cd4649851e81aa66cb47",
-                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
+                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
                 "shasum": ""
             },
             "require": {
@@ -1187,7 +1235,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-12-10 14:48:13"
+            "time": "2016-01-06 13:31:20"
         },
         {
             "name": "phpseclib/phpseclib",
