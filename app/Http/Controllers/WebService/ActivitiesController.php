@@ -97,7 +97,17 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         } else {
             $limit = $request->get('limit');
-            $activities = Activity::where('datetime_start', '>', Carbon::now())->with('departureCentre', 'arrivalCentre')->take($limit)->orderBy('datetime_start', 'asc')->get();
+            $approvedActivities = Activity::with('tasks')
+            ->whereHas('tasks', function ($query) {
+                $query->where('approval', 'like', 'approved');
+            })->lists('activity_id');
+
+        $activities = Activity::with('departureCentre', 'arrivalCentre')
+            ->upcoming()
+            ->whereNotIn('activity_id', $approvedActivities)
+            ->take($limit)
+            ->get();
+
             return response()->json(compact('activities'));
         }
 

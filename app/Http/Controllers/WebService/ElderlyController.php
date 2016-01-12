@@ -38,7 +38,7 @@ class ElderlyController extends Controller
             $activity = Activity::findOrFail($actID);
             $elderlyID = $activity->elderly_id;
             //return response()->json(compact('elderlyID'));
-            $elderly = Elderly::findOrFail($elderlyID);
+            $elderly = Elderly::with('languages')->findOrFail($elderlyID);
 
             if ($elderly==null){
             $status = array("error");

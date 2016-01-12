@@ -259,20 +259,8 @@ class VolunteerController extends Controller
         $id = $request->get('id');
         $transportId = $request->get('transportId');
 
-        /*$task = Task::where('activities.activity_id','=',$transportId)->where('volunteer_id','=',$id)->select('activities.*','centres.*')
-            ->leftJoin('activities', function ($join) {
-                $join->on('activities.activity_id', '=', 'tasks.activity_id');
-            })->leftJoin('centres', function ($join) {
-                $join->on('centres.centre_id', '=', 'activities.location_from_id')->on('centres.centre_id', '=', 'activities.location_to_id');
-            })->get();*/
-
-        $task = Task::with('Activity')->select('tasks.*')->leftJoin('centres', function ($join) {
-                $join->on('centres.centre_id', '=', 'activities.location_from_id')->on('centres.centre_id', '=', 'activities.location_to_id');
-            })->where('activities.activity_id','=',$transportId)->where('volunteer_id','=',$id)->get();
-
-
-
-        return response()->json(compact('task'));
+        $activities = Activity::findOrFail($transportId)->with('departureCentre', 'arrivalCentre')->get();
+        return response()->json(compact('activities'));
       }
     }
 
