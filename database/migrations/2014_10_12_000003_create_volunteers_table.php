@@ -14,9 +14,9 @@ class CreateVolunteersTable extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->increments('volunteer_id');
-            $table->char('nric', 9)->unique();
+            $table->char('nric', 9)/*->unique()*/;
             $table->string('name', 100);
-            $table->string('email')->unique();
+            $table->string('email')/*->unique()*/;
             $table->string('password', 60);
             $table->enum('gender', ['M', 'F']);
             $table->date('date_of_birth');
@@ -33,6 +33,11 @@ class CreateVolunteersTable extends Migration
             $table->foreign('rank_id')->references('rank_id')->on('ranks');
             $table->timestamps();
         });
+
+        // A quick hack to solve the case sensitive unique for nric & email columns
+        // Source: http://shuber.io/case-insensitive-unique-constraints-in-postgres
+        DB::statement('CREATE UNIQUE INDEX volunteers_nric_unique on volunteers (LOWER(nric));');
+        DB::statement('CREATE UNIQUE INDEX volunteers_email_unique on volunteers (LOWER(email));');
     }
 
     /**
