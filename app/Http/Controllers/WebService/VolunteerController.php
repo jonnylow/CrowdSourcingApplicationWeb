@@ -260,7 +260,8 @@ class VolunteerController extends Controller
         $transportId = $request->get('transportId');
 
         $activities = Activity::with('departureCentre', 'arrivalCentre')->where('activity_id','=',$transportId)->get();
-        return response()->json(compact('activities'));
+        $task = Task::where('volunteer_id','=',$id)->where('activity_id','=',$transportId)->get();
+        return response()->json(compact('activities','task'));
       }
     }
 }
