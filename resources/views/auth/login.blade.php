@@ -37,7 +37,7 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    {!! Form::submit('Log in', ['class' => 'btn btn-default btn-lg btn-block']) !!}
+                    {!! Form::submit('Log in', ['class' => 'btn btn-primary btn-lg btn-block']) !!}
                 </div>
                 <div class="text-center">
                     <a href="#forget-modal" class="forget-password" data-toggle="modal" data-target="#forget-modal">Forgot your password?</a>
