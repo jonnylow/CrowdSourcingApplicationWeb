@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Carbon\Carbon;
 
-class StoreActivityRequest extends Request
+class ActivityRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
