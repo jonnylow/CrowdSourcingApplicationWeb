@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Elderly extends Model
 {
@@ -19,7 +20,7 @@ class Elderly extends Model
      *
      * @var array
      */
-    protected $fillable = ['nric', 'name', 'gender', 'date_of_birth', 'next_of_kin_name',
+    protected $fillable = ['nric', 'name', 'gender', 'birth_year', 'next_of_kin_name',
         'next_of_kin_contact', 'medical_condition', 'image_photo', 'centre_id'];
 
     /**
@@ -88,6 +89,16 @@ class Elderly extends Model
     public function getElderlyListAttribute()
     {
         return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
+    }
+
+    /**
+     * Get the senior's age.
+     *
+     * @return string
+     */
+    public function age()
+    {
+        return (Carbon::now()->year - $this->birth_year);
     }
 
     /**

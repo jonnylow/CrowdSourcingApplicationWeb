@@ -97,6 +97,7 @@ class ActivitiesController extends Controller
             $elderly->nric = $request->get('senior_nric');
             $elderly->name = $request->get('senior_name');
             $elderly->gender = $request->get('senior_gender');
+            $elderly->birth_year = $request->get('senior_birth_year');
             $elderly->next_of_kin_name = $request->get('senior_nok_name');
             $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
             $elderly->medical_condition = $request->get('senior_medical');
@@ -222,6 +223,7 @@ class ActivitiesController extends Controller
             $elderly->nric = $request->get('senior_nric');
             $elderly->name = $request->get('senior_name');
             $elderly->gender = $request->get('senior_gender');
+            $elderly->birth_year = $request->get('senior_birth_year');
             $elderly->next_of_kin_name = $request->get('senior_nok_name');
             $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
             $elderly->medical_condition = $request->get('senior_medical');
