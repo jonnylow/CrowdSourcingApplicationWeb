@@ -141,8 +141,18 @@ class VolunteerController extends Controller
    public function retrieveUserDetails(Request $request){
     // retrieve all details based on volunteer id
     $id = $request->get('id');
-    $volunteer = Volunteer::findOrFail($id);
-    return response()->json(compact('volunteer'));
+    $volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->get();
+    $volunteerRank = Volunteer::findOrFail($id)->rank_id;
+    $volunteerRank = $volunteerRank - 1;
+    if ($volunteerRank > 1){
+      $nextRank = Rank::findOrFail($volunteerRank);
+    } else {
+      $nextRank = '';
+    }
+    
+    
+
+    return response()->json(compact('volunteer','nextRank'));
    }
 
    public function verifyUserEmailandPassword(Request $request){
