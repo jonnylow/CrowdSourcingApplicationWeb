@@ -1,36 +1,29 @@
 @import "variables.less";
 
-// Font
-@web-font-path: "https://fonts.googleapis.com/css?family=Lato:400,700,400italic";
-
-.web-font(@path) {
-  @import url("@{path}");
-}
-.web-font(@web-font-path);
-
 // Nav
 nav {
   margin: 0.6em;
-}
 
-.navbar-brand {
-  padding: 0px;
-  height: 80px;
-}
-.navbar-brand>img {
-  height: 100%;
-  padding: 7px 15px;
-  width: auto;
-}
+  .navbar-brand {
+    padding: 0px;
+    height: 80px;
+  }
 
-.nav >li >a {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
+  .navbar-brand>img {
+    height: 100%;
+    padding: 7px 15px;
+    width: auto;
+  }
 
-.navbar-toggle {
-  padding: 10px;
-  margin: 25px 15px 25px 0;
+  .nav >li >a {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .navbar-toggle {
+    padding: 10px;
+    margin: 25px 15px 25px 0;
+  }
 }
 
 // margin-top and margin-bottom

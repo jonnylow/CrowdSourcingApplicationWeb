@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "397f4e6c43c460fa8042c36fc0d2407d",
-    "content-hash": "1c4c4712fb3244a6db6ead43755d4c98",
+    "hash": "ef36b74e9f09e8f2c95860b29a260cf4",
+    "content-hash": "d326da9cefbb66aeacb821140bbc7c3a",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1336,6 +1336,65 @@
             "time": "2015-01-28 21:50:33"
         },
         {
+            "name": "proengsoft/laravel-jsvalidation",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/proengsoft/laravel-jsvalidation.git",
+                "reference": "d659e05837a705b55c8bfe1e54eee0b93c7ccf11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/proengsoft/laravel-jsvalidation/zipball/d659e05837a705b55c8bfe1e54eee0b93c7ccf11",
+                "reference": "d659e05837a705b55c8bfe1e54eee0b93c7ccf11",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0",
+                "illuminate/contracts": "~5.0",
+                "illuminate/http": "~5.0",
+                "illuminate/support": "~5.0",
+                "illuminate/validation": "~5.0",
+                "illuminate/view": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Proengsoft\\JsValidation\\": "src",
+                    "Proengsoft\\JsValidation\\Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Albert Moreno",
+                    "email": "albert@memorylimit.net",
+                    "homepage": "http://memorylimit.net",
+                    "role": "DevOps"
+                }
+            ],
+            "description": "Validate forms transparently with Javascript reusing your Laravel Validation Rules, Messages, and FormRequest",
+            "homepage": "https://github.com/proengsoft/laravel-jsvalidation",
+            "keywords": [
+                "form",
+                "javascript",
+                "jquery",
+                "laravel",
+                "proengsoft",
+                "validation",
+                "validator"
+            ],
+            "time": "2016-01-04 00:23:38"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0",
             "source": {
@@ -1541,22 +1600,6 @@
             ],
             "description": "Allows installation of Components via Composer.",
             "time": "2015-08-10 12:35:38"
-        },
-        {
-            "name": "rriepe/1pxdeep",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rriepe/1pxdeep.git",
-                "reference": "origin/master"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/rriepe/1pxdeep/archive/master.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "type": "library"
         },
         {
             "name": "select2/select2",

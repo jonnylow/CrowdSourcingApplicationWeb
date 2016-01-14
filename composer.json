@@ -12,22 +12,6 @@
         {
             "type": "package",
             "package": {
-                "name": "rriepe/1pxdeep",
-                "version": "1.0.1",
-                "dist": {
-                    "url": "https://github.com/rriepe/1pxdeep/archive/master.zip",
-                    "type": "zip"
-                },
-                "source": {
-                    "url": "https://github.com/rriepe/1pxdeep.git",
-                    "type": "git",
-                    "reference": "origin/master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
                 "name": "wenzhixin/bootstrap-table",
                 "version": "1.9.1",
                 "dist": {
@@ -64,7 +48,7 @@
         "laravelcollective/html": "5.1.*",
         "tymon/jwt-auth": "0.5.*",
         "guzzlehttp/guzzle": "6.1.*",
-        "rriepe/1pxdeep": "1.0.1",
+        "proengsoft/laravel-jsvalidation": "~1.1",
         "thomaspark/bootswatch": "3.3.*",
         "fortawesome/font-awesome": "4.*",
         "wenzhixin/bootstrap-table": "1.9.1",
@@ -100,6 +84,7 @@
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
+            "php artisan vendor:publish --provider=\"Proengsoft\\JsValidation\\JsValidationServiceProvider\" --tag=public --force",
             "php artisan ide-helper:generate",
             "php artisan optimize"
         ],

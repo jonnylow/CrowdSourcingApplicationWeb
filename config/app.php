@@ -152,6 +152,11 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
         /*
+         * Laravel Javascript Validation Service Provider...
+         */
+        Proengsoft\JsValidation\JsValidationServiceProvider::class,
+
+        /*
          * Laravel IDE Helper Generator Service Provider...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -207,7 +212,8 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
 
     ],
 

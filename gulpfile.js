@@ -19,7 +19,8 @@ var paths = {
     'bootswatch': './vendor/thomaspark/bootswatch/',
     'fontawesome': './vendor/fortawesome/font-awesome/',
     'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
-    'select2': './vendor/select2/'
+    'select2': './vendor/select2/',
+    'jsvalidation': './public/vendor/jsvalidation'
 }
 
 elixir(function(mix) {
@@ -37,8 +38,11 @@ elixir(function(mix) {
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.bootstraptable + 'dist/extensions/editable/bootstrap-table-editable.min.js', 'public/js/bootstrap-table-editable.min.js')
         .copy(paths.select2 + 'select2/dist/js/select2.min.js', 'public/js/select2.min.js')
+        .copy(paths.jsvalidation + 'js/jsvalidation.min.js', 'public/js/jsvalidation.min.js')
 
         .copy('resources/assets/images', 'public/images')
+
+
 
         .scripts('app.js', 'public/js/app.min.js');
 });
