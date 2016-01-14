@@ -153,7 +153,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return redirect('activities.index')->with('success', 'Activity has added successfully!');
+            return back()->with('success', 'Activity added successfully!');
         }
     }
 
