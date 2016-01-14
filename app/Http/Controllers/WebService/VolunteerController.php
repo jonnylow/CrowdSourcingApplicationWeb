@@ -25,7 +25,7 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -273,6 +273,23 @@ class VolunteerController extends Controller
         $task = Task::where('volunteer_id','=',$id)->where('activity_id','=',$transportId)->get();
         return response()->json(compact('activities','task'));
       }
+    }
+
+    public function retrieveRankingDetails(Request $request){
+      if ($request->get('id') == null ){
+        $status = array("Missing parameter"); 
+        return response()->json(compact('status'));
+      } else {
+        $volunteer_id = $request->get('id');
+        $volunteer = Volunteer::findOrFail($volunteer_id);
+        $minutesVolunteered = $volunteer->minutes_volunteered;
+        $completed = Task::where('volunteer_id','=',$volunteer_id)->where('status','=','completed')->count();
+        $withdrawn = Task::where('volunteer_id','=',$volunteer_id)->where('approval','=','withdrawn')->count();
+        
+        return response()->json(compact('volunteer_id','minutesVolunteered','completed','withdrawn'));
+        
+      }  
+
     }
 }
 
