@@ -24,6 +24,14 @@ class Centre extends Model
         'lng', 'lat'];
 
     /**
+     * Set the centre's name.
+     */
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(strtolower($name));
+    }
+
+    /**
      * Get the staff associated with the centre.
      */
     public function staff()

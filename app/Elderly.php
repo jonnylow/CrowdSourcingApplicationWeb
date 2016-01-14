@@ -19,7 +19,7 @@ class Elderly extends Model
      *
      * @var array
      */
-    protected $fillable = ['nric', 'name', 'gender', 'next_of_kin_name',
+    protected $fillable = ['nric', 'name', 'gender', 'date_of_birth', 'next_of_kin_name',
         'next_of_kin_contact', 'medical_condition', 'image_photo', 'centre_id'];
 
     /**
@@ -34,13 +34,33 @@ class Elderly extends Model
     }
 
     /**
-     * Get a list of elderly's nric and name.
+     * Set the nric attribute.
      *
-     * @return array
+     * @var nric
      */
-    public function getElderlyListAttribute()
+    public function setNricAttribute($nric)
     {
-        return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
+        $this->attributes['nric'] = strtoupper($nric);
+    }
+
+    /**
+     * Set the name attribute.
+     *
+     * @var name
+     */
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(trim($name));
+    }
+
+    /**
+     * Set the next_of_kin_name attribute.
+     *
+     * @var nokName
+     */
+    public function setNextOfKinNameAttribute($nokName)
+    {
+        $this->attributes['next_of_kin_name'] = ucwords(trim($nokName));
     }
 
     /**
@@ -58,6 +78,16 @@ class Elderly extends Model
             case 'F':
                 return 'Female';
         }
+    }
+
+    /**
+     * Get a list of elderly's nric and name.
+     *
+     * @return array
+     */
+    public function getElderlyListAttribute()
+    {
+        return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
     }
 
     /**

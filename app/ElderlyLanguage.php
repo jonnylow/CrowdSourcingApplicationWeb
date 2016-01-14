@@ -23,6 +23,14 @@ class ElderlyLanguage extends Model
     protected $fillable = ['elderly_id', 'language'];
 
     /**
+     * Set the language.
+     */
+    public function setLanguageAttribute($language)
+    {
+        $this->attributes['language'] = ucwords(strtolower($language));
+    }
+
+    /**
      * Get the elderly whom the 'language row' belongs to.
      */
     public function elderly()

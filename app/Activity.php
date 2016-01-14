@@ -103,22 +103,6 @@ class Activity extends Model
     }
 
     /**
-     * Set the activity's start location address.
-     */
-    public function setLocationFromAddress($location)
-    {
-        $this->attributes['location_from'] = ucwords(strtolower($location));
-    }
-
-    /**
-     * Set the activity's end  address.
-     */
-    public function setLocationToAddress($location)
-    {
-        $this->attributes['location_to'] = ucwords(strtolower($location));
-    }
-
-    /**
      * Get the elderly associated with the activity.
      */
     public function elderly()
@@ -163,7 +147,7 @@ class Activity extends Model
      */
     public function tasks()
     {
-        return $this->belongsToMany('App\Task');
+        return $this->hasMany('App\Task');
     }
 
     /**

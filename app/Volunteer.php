@@ -50,6 +50,36 @@ class Volunteer extends Model implements AuthenticatableContract,
     protected $dates = ['date_of_birth'];
 
     /**
+     * Set the nric attribute.
+     *
+     * @var nric
+     */
+    public function setNricAttribute($nric)
+    {
+        $this->attributes['nric'] = strtoupper($nric);
+    }
+
+    /**
+     * Set the name attribute.
+     *
+     * @var name
+     */
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(trim($name));
+    }
+
+    /**
+     * Set the email attribute.
+     *
+     * @var email
+     */
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = trim($email);
+    }
+
+    /**
      * Set the password attribute.
      *
      * @var password
@@ -91,6 +121,26 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
+     * Get the volunteer's completed activities count.
+     *
+     * @return integer
+     */
+    public function numOfCompletedActivity()
+    {
+        return $this->tasks->where('status', 'completed')->count();
+    }
+
+    /**
+     * Get the volunteer's withdrawn activity application count.
+     *
+     * @return integer
+     */
+    public function numOfWithdrawnActivity()
+    {
+        return $this->tasks->where('approval', 'withdrawn')->count();
+    }
+
+    /**
      * Get the volunteer's age.
      *
      * @return string
@@ -113,7 +163,7 @@ class Volunteer extends Model implements AuthenticatableContract,
      */
     public function tasks()
     {
-        return $this->belongsToMany('App\Task');
+        return $this->hasMany('App\Task');
     }
 
     /**
