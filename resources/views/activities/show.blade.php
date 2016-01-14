@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $activity->name)
+@section('title', $activity->departureCentre->name . ' &lrarr; ' . $activity->arrivalCentre->name)
 
 @section('content')
 
@@ -58,7 +58,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
                                 <span class="fa fa-fw fa-calendar"></span>
                                 <strong>Activity Information</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -82,7 +82,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-address" aria-expanded="true" aria-controls="collapse-address">
                                 <span class="fa fa-fw fa-map-marker"></span>
                                 <strong>Venue Addresses</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -104,7 +104,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-volunteer" aria-expanded="true" aria-controls="collapse-volunteer">
                                 <span class="fa fa-fw fa-heart"></span>
                                 <strong>Volunteer Sign-ups</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -135,12 +135,12 @@
                                             <td>{{ ucwords($volunteer->pivot->approval) }}</td>
                                             <td>
                                                 <a class="btn btn-danger btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'reject']) }}">
-                                                    <span class="fa fa-fw fa-lg fa-times"></span> Reject
+                                                    <span class="fa fa-lg fa-times"></span> Reject
                                                 </a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'approve']) }}">
-                                                    <span class="fa fa-fw fa-lg fa-check"></span> Approve
+                                                    <span class="fa fa-lg fa-check"></span> Approve
                                                 </a>
                                             </td>
                                         </tr>

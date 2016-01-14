@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
@@ -17,7 +17,7 @@
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View all Activities</a></li>
-                        <li><a href="{{ asset('activities/create') }}"><span class="fa fa-fw fa-plus"></span> Add new Activity</a></li>
+                        <li><a href="{{ asset('activities/create') }}"><span class="fa fa-fw fa-calendar-plus-o"></span> Add new Activity</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'Add new activity')
+@section('title', 'Add new Activity')
 
 @section('content')
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <h1>Add new activity</h1>
+            <h1>Add new Activity</h1>
 
             @if (count($errors) || Session::has('success'))
                 <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
@@ -37,7 +37,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
                                 <span class="fa fa-fw fa-calendar"></span>
                                 <strong>Information</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -80,7 +80,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-location" aria-expanded="true" aria-controls="collapse-location">
                                 <span class="fa fa-fw fa-map-marker"></span>
                                 <strong>Activity Location</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -141,7 +141,7 @@
                             <a role="button" data-toggle="collapse" href="#collapse-senior-all" aria-expanded="true" aria-controls="collapse-senior-all">
                                 <span class="fa fa-fw fa-user"></span>
                                 <strong>Senior Information</strong>
-                                <span class="icon-arrow glyphicon glyphicon-chevron-up"></span>
+                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
@@ -211,7 +211,7 @@
 
             <!-- Submit Button Form Input -->
             <div class="form-group text-center">
-                {!! Form::submit('Add new activity', ['class' => 'btn btn-default btn-md']) !!}
+                {!! Form::submit('Add new Activity', ['class' => 'btn btn-primary btn-lg']) !!}
             </div>
 
             {!! Form::close() !!}
@@ -229,8 +229,11 @@
 
 <style>
     .select2-container { width: 100% !important; }
+    .select2-search {
+        width: 100% !important;
+        margin: 6px 0 !important;
+    }
     .select2-search>input { width: 100% !important; }
-    .select2-search { margin: 6px 0 !important; }
     .select2-container--bootstrap .select2-selection:focus {
         border-bottom-width: 2px;
         outline: none !important;

@@ -3,13 +3,13 @@ $(document).ready(function() {
 });
 
 $('#accordion .panel-collapse').on('shown.bs.collapse', function () {
-    $(this).prev().find(".icon-arrow").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+    $(this).prev().find(".icon-arrow").removeClass("fa-chevron-down").addClass("fa-chevron-up");
 }).children().on('shown.bs.collapse', function (e) {
     e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
 });
 
 $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
-    $(this).prev().find(".icon-arrow").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+    $(this).prev().find(".icon-arrow").removeClass("fa-chevron-up").addClass("fa-chevron-down");
 }).children().on('hidden.bs.collapse', function (e) {
     e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
 });

@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Activities Page')
+@section('title', 'Activities')
 
 @section('content')
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 margin-bottom-sm"><a href="activities/create" class="btn btn-default btn-lg">Add new activity</a></div>
+        <div class="col-md-3 margin-bottom-sm"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
 
         <div class="col-md-9">
             <div class="col-md-4 alert" role="alert">
@@ -66,13 +66,13 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs disabled" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-pencil"></span> Edit
+                                        <a class="btn btn-default btn-xs disabled" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-eye"></span> View
+                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> View
                                         </a>
                                     </td>
                                 </tr>
@@ -105,13 +105,13 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-pencil"></span> Edit
+                                        <a class="btn btn-default btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-eye"></span> View
+                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> View
                                         </a>
                                     </td>
                                 </tr>
@@ -144,13 +144,13 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-pencil"></span> Edit
+                                        <a class="btn btn-default btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-fw fa-lg fa-eye"></span> View
+                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> View
                                         </a>
                                     </td>
                                 </tr>
@@ -167,12 +167,6 @@
 @endsection
 
 @section('page-script')
-
-<style>
-    .alert a h3 { margin: 0px; }
-    .alert a h3 p { margin: 0px; }
-    .widget h1 { font-weight: bolder; }
-</style>
 
 <script>
     $(document).ready(function() {
