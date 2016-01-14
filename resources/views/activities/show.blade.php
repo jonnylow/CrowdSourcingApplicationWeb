@@ -19,7 +19,7 @@
                 @if (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 0)
                     <p class="text-center text-uppercase"><strong>Activity not started</strong></p>
                 @else
-                    <div class="progress-bar color2" style="width:{{ \App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) }}%">
+                    <div class="progress-bar progress-bar-success" style="width:{{ \App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) }}%">
                         <span class="sr-only">{{ \App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) }}%</span>
                         <p class="text-center text-uppercase"><strong>
                         @if (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 25)
@@ -68,7 +68,7 @@
                                 <dt>Start Date:</dt><dd>{{ $activity->datetime_start->format('D, j M Y') }}</dd>
                                 <dt>Start Time:</dt><dd>{{ $activity->datetime_start->format('g:i a') }}</dd>
                                 <dt>Expected End Time:</dt><dd>{{ $activity->datetime_start->addMinutes($activity->expected_duration_minutes)->format('g:i a') }}</dd>
-                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="javascript:alert('Senior Information')"><span class="badge">Details</span></a></dd>
+                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="javascript:alert('Senior Information')"><span class="badge alert-info">Details</span></a></dd>
                                 <br>
                                 <dt>Additional Info:</dt><dd>{{ $activity->more_information }}</dd>
                             </dl>

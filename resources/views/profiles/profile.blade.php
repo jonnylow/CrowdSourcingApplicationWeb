@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Password')
+@section('title', 'Update your Profile')
 
 @section('content')
 
@@ -52,7 +52,7 @@
                 </div>
                 <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                    {!! Form::submit('Update profile', ['class' => 'btn btn-default btn-md']) !!}
+                    {!! Form::submit('Update profile', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
             {!! Form::close() !!}
         </div>

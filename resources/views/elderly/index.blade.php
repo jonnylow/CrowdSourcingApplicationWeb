@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Seniors Page')
+@section('title', 'Seniors')
 
 @section('content')
 
 <div class="container-fluid">
     <div class="row margin-bottom-md">
-        <div class="col-md-3"><a href="elderly/create" class="btn btn-default btn-md">Add new senior</a></div>
+        <div class="col-md-3"><a href="elderly/create" class="btn btn-primary btn-lg">Add new Senior</a></div>
     </div>
 
     <div class="row margin-bottom-lg">
@@ -43,13 +43,13 @@
                                     <td>{{ $elderly->next_of_kin_name }}</td>
                                     <td>{{ $elderly->next_of_kin_contact }}</td>
                                     <td>
-                                        <a class="btn btn-info btn-xs" href="{{ route('elderly.edit' ,[$elderly->elderly_id]) }}">
-                                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                                        <a class="btn btn-default btn-xs" href="{{ route('elderly.edit' ,[$elderly->elderly_id]) }}">
+                                            <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-danger btn-xs" href="{{ route('elderly.destroy' ,[$elderly->elderly_id]) }}">
-                                            <span class="glyphicon glyphicon-remove"></span> Delete
+                                            <span class="fa fa-lg fa-times"></span> Delete
                                         </a>
                                     </td>
                                 </tr>
