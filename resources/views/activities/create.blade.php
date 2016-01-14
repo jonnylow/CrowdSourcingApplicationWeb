@@ -161,7 +161,7 @@
                                         <!-- Senior NRIC Form Input -->
                                         <div class="col-md-3 form-group">
                                             {!! Form::label('senior_nric', 'Senior NRIC', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '[S|T|F|G|s|t|f|g][0-9]{7}[a-z|A-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                            {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
                                         </div>
                                         <!-- Senior Name Form Input -->
                                         <div class="col-md-4 form-group">
@@ -180,19 +180,25 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <!-- Senior Birth Year Form Input -->
+                                        <div class="col-md-2 form-group">
+                                            {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
+                                            {!! Form::number('senior_birth_year', null, ['class' => 'form-control', 'maxlength' => '4', 'pattern' => '^[1-2][0-9]{3}', 'placeholder' => 'e.g. 1965']) !!}
+                                        </div>
+
                                         <!-- Senior Languages Form Input -->
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-3 form-group">
                                             {!! Form::label('senior_languages', 'Languages Spoken', ['class' => 'control-label']) !!}
                                             {!! Form::select('senior_languages[]', $seniorLanguages, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'senior_languages']) !!}
                                         </div>
-                                        <!-- Senior's Next-of-Kin Name Form Input -->
+                                        <!-- Next-of-Kin Name Form Input -->
                                         <div class="col-md-4 form-group">
-                                            {!! Form::label('senior_nok_name', 'Senior\'s Next-of-Kin Name', ['class' => 'control-label']) !!}
+                                            {!! Form::label('senior_nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
                                             {!! Form::text('senior_nok_name', null, ['class' => 'form-control']) !!}
                                         </div>
-                                        <!-- Senior's Next-of-Kin Contact Number Form Input -->
-                                        <div class="col-md-4 form-group">
-                                            {!! Form::label('senior_nok_contact', 'Senior\'s Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
+                                        <!-- Next-of-Kin Contact Number Form Input -->
+                                        <div class="col-md-3 form-group">
+                                            {!! Form::label('senior_nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
                                             {!! Form::tel('senior_nok_contact', null, ['class' => 'form-control', 'maxlength' => '8', 'pattern' => '[0-9]{8}', 'placeholder' => 'e.g. 67654321']) !!}
                                         </div>
                                     </div>
@@ -223,6 +229,7 @@
 
 @section('page-script')
 
+{!! $validator !!}
 <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/select2-bootstrap.min.css') }}">
 <script src="{{ asset('js/select2.min.js') }}"></script>
