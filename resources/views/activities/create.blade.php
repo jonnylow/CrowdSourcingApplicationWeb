@@ -9,8 +9,8 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Add new Activity</h1>
 
-            @if (count($errors) || Session::has('success'))
-                <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
+            @if (count($errors))
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -21,8 +21,6 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    @elseif (Session::has('success'))
-                        {{ Session::get('success') }}
                     @endif
                 </div>
             @endif

@@ -136,7 +136,7 @@ class ActivitiesController extends Controller
                 foreach($request->get('senior_languages') as $language) {
                     ElderlyLanguage::create([
                         'elderly_id'    => $elderly->elderly_id,
-                        'language'      => ucwords(strtolower($language)),
+                        'language'      => $language,
                     ]);
                 }
                 $elderlyId = $elderly->elderly_id;
@@ -154,7 +154,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return back()->with('success', 'Activity added successfully!');
+            return redirect('activities.index')->with('success', 'Activity has added successfully!');
         }
     }
 
@@ -262,7 +262,7 @@ class ActivitiesController extends Controller
                 foreach($request->get('senior_languages') as $language) {
                     ElderlyLanguage::create([
                         'elderly_id'    => $elderly->elderly_id,
-                        'language'      => ucwords(strtolower($language)),
+                        'language'      => $language,
                     ]);
                 }
                 $elderlyId = $elderly->elderly_id;
