@@ -20,7 +20,7 @@ var paths = {
     'fontawesome': './vendor/fortawesome/font-awesome/',
     'bootstraptable': './vendor/wenzhixin/bootstrap-table/',
     'select2': './vendor/select2/',
-    'jsvalidation': './public/vendor/jsvalidation'
+    'jsvalidation': './public/vendor/jsvalidation/'
 }
 
 elixir(function(mix) {
