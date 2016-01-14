@@ -73,22 +73,28 @@ class ActivitiesController extends Controller
                 ->lists('activity_id');
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->whereIn('activity_id', $uncompletedActivities)
+                ->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')
                 ->get();
 
-                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->get();
+                //$activities = $activities->sortBy('activity_id');
 
-                return response()->json(compact('activities','task'));
+                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')->get();
+
+                //$task = $task->sortBy('activity_id');
+
+               return response()->json(compact('activities','task'));
+
+
             } else if($type == "2") {
                 $volunteerActivities = Task::Where('volunteer_id', '=', $id)
                 ->lists('activity_id');
 
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->whereIn('activity_id', $volunteerActivities)
+                ->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')
                 ->get();
 
-                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $volunteerActivities)->get();
+                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')->get();
 
                 return response()->json(compact('activities','task'));
             }
