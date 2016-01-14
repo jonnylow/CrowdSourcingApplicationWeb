@@ -32,6 +32,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::resource('activities', 'ActivitiesController');
 });
 
+Route::group(['middleware' => 'auth', 'namespace' => 'Volunteers'], function() {
+    Route::resource('volunteers', 'VolunteersController');
+});
+
 Route::group(['middleware' => 'auth', 'namespace' => 'Elderly'], function() {
     Route::resource('elderly', 'ElderlyController');
 });
