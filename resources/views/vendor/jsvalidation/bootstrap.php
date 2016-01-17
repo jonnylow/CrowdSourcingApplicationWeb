@@ -2,19 +2,24 @@
     jQuery(document).ready(function(){
 
         $("<?php echo $validator['selector']; ?>").validate({
-            errorElement: 'span',
-            errorClass: 'help-block error-help-block',
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block error-help-block', // default input error message class
+            ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input',
 
             errorPlacement: function(error, element) {
-                if (element.parent('.input-group').length ||
-                    element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
-                    error.insertAfter(element.parent());
-                    // else just place the validation message immediatly after the input
-                } else {
-                    error.insertAfter(element);
+                if(element.parent('.has-error').length) {
+                    if (element.parent('.input-group').length ||
+                        element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                        error.insertAfter(element.parent());
+                        // else just place the validation message immediately after the input
+                    } else if (element.hasClass("selectized")) {
+                        element.parents('div').append(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
                 }
             },
-            highlight: function(element) {
+            highlight: function(element) { // highlight error inputs
                 $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // add the Bootstrap error class to the control group
             },
 
@@ -23,12 +28,12 @@
             ignore: "<?php echo $validator['ignore']; ?>",
             <?php endif; ?>
 
-            /*
+
              // Uncomment this to mark as validated non required fields
-             unhighlight: function(element) {
+             unhighlight: function(element) { // revert the change done by highlight
              $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
              },
-             */
+
             success: function(element) {
                 $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // remove the Boostrap error class from the control group
             },
@@ -49,6 +54,10 @@
             <?php endif; ?>
 
             rules: <?php echo json_encode($validator['rules']); ?>
-        })
+        });
+
+        $(document).on('change', '.selectized', function () {
+            $(this).valid();
+        });
     })
 </script>
