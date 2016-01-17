@@ -45,7 +45,7 @@ class ActivitiesController extends Controller
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
-        $genderList = ['M'=> 'M', 'F' => 'F'];
+        $genderList = ['M'=> 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         return view('activities.create', compact('validator', 'centreList', 'expectedDuration', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
@@ -154,7 +154,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return redirect('activities.index')->with('success', 'Activity has added successfully!');
+            return redirect('activities')->with('success', 'Activity has added successfully!');
         }
     }
 
@@ -171,7 +171,7 @@ class ActivitiesController extends Controller
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
-        $genderList = ['M'=> 'M', 'F' => 'F'];
+        $genderList = ['M'=> 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         return view('activities.edit', compact('validator', 'activity', 'centreList', 'expectedDuration', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
@@ -308,60 +308,6 @@ class ActivitiesController extends Controller
                 $task->save();
             }
             return back()->with('success', 'Volunteer approved!');
-        }
-    }
-
-    public static function getActivityStatus($activityId)
-    {
-        $tasks = Task::ofActivity($activityId)->get();
-        $taskCount = $tasks->count();
-
-        if ($taskCount == 0) {
-            return 0; // Not Started
-        } else {
-            $groupByStatus = $tasks->groupBy('status');
-
-            if ($groupByStatus->has('completed')) {
-                return 100; // Completed
-            } else if ($groupByStatus->has('pick-up')) {
-                return 25; // Picked-up
-            } else if ($groupByStatus->has('at check-up')) {
-                return 50; // At Check-up
-            } else if ($groupByStatus->has('check-up completed')) {
-                return 75; // Check-up Completed
-            } else {
-                return 0; // Not Started
-            }
-        }
-    }
-
-    public static function getApplicantStatus($activityId)
-    {
-        $tasks = Task::ofActivity($activityId)->get();
-        $taskCount = $tasks->count();
-
-        if ($taskCount == 0) {
-            return "Not Started";
-        } else {
-            $groupByStatus = $tasks->groupBy('status');
-            $groupByApproval = $tasks->groupBy('approval');
-
-            if ($groupByStatus->has('completed')) {
-                return "Completed";
-            } else if ($groupByStatus->has('picked-up') ||
-                $groupByStatus->has('at check-up') ||
-                $groupByStatus->has('check-up completed')
-            ) {
-                return "In-Progress";
-            } else if ($groupByApproval->has('approved')) {
-                return "Volunteer Approved";
-            } else if ($groupByApproval->has('pending')) {
-                return $groupByApproval->all()['pending']->count() . " Application(s) Received";
-            } else if ($groupByApproval->has('withdrawn')) {
-                return $groupByApproval->all()['withdrawn']->count() . " Application(s) Withdrawn";
-            } else if ($groupByApproval->has('rejected')) {
-                return $groupByApproval->all()['rejected']->count() . " Application(s) Rejected";
-            }
         }
     }
 

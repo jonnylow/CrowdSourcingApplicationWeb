@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid margin-bottom-lg">
     <div class="row margin-bottom-xs">
         <div class="col-md-12">
             <div class="col-md-3 hidden-sm hidden-xs text-left"><h1>{{ $activity->departureCentre->name }}</h1></div>
@@ -16,19 +16,19 @@
         </div>
         <div class="col-md-12">
             <div class="progress">
-                @if (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 0)
+                @if ($activity->getProgress() <= 0)
                     <p class="text-center text-uppercase"><strong>Activity not started</strong></p>
                 @else
-                    <div class="progress-bar progress-bar-success" style="width:{{ \App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) }}%">
-                        <span class="sr-only">{{ \App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) }}%</span>
+                    <div class="progress-bar progress-bar-success" style="width:{{ $activity->getProgress() }}%">
+                        <span class="sr-only">{{ $activity->getProgress() }}%</span>
                         <p class="text-center text-uppercase"><strong>
-                        @if (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 25)
+                        @if ($activity->getProgress() <= 25)
                             Heading to check-up...
-                        @elseif (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 50)
+                        @elseif ($activity->getProgress() <= 50)
                             At check-up...
-                        @elseif (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) <= 75)
+                        @elseif ($activity->getProgress() <= 75)
                             Heading back to centre...
-                        @elseif (\App\Http\Controllers\Activities\ActivitiesController::getActivityStatus($activity->activity_id) == 100)
+                        @elseif ($activity->getProgress() == 100)
                             Back at centre...
                         @endif
                         </strong></p>
@@ -38,18 +38,10 @@
         </div>
     </div>
 
-    <div class="row margin-bottom-xs">
+    <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @if (Session::has('success'))
-                <div class="alert alert-success alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    @if (Session::has('success'))
-                        {{ Session::get('success') }}
-                    @endif
-                </div>
-            @endif
+            @include('errors.list')
+
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
                 <div class="panel panel-default">
@@ -68,7 +60,7 @@
                                 <dt>Start Date:</dt><dd>{{ $activity->datetime_start->format('D, j M Y') }}</dd>
                                 <dt>Start Time:</dt><dd>{{ $activity->datetime_start->format('g:i a') }}</dd>
                                 <dt>Expected End Time:</dt><dd>{{ $activity->datetime_start->addMinutes($activity->expected_duration_minutes)->format('g:i a') }}</dd>
-                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="javascript:alert('Senior Information')"><span class="badge alert-info">Details</span></a></dd>
+                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="#"><span class="badge alert-info">Details</span></a></dd>
                                 <br>
                                 <dt>Additional Info:</dt><dd>{{ $activity->more_information }}</dd>
                             </dl>

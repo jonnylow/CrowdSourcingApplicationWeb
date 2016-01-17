@@ -43,7 +43,7 @@ class ActivityRequest extends Request
             'senior_gender'         => 'in:M,F|required_if:senior,others',
             'senior_photo'          => 'image',
             'senior_birth_year'     => 'digits:4|required_if:senior,others',
-            'senior_languages'      => 'array|required_if:senior,others',
+            'senior_languages'      => 'required_if:senior,others',
             'senior_nok_name'       => 'string|required_if:senior,others',
             'senior_nok_contact'    => 'digits:8|required_if:senior,others',
             'senior_medical'        => 'string',
@@ -87,12 +87,12 @@ class ActivityRequest extends Request
             'senior_photo.image'                => 'Senior\'s photo must be an image file.',
             'senior_birth_year.digits'          => 'Senior\'s birth year must be 4 digits.',
             'senior_birth_year.required_if'     => 'Senior\'s birth year is required.',
-            'senior_languages.required'         => 'Languages is required.',
+            'senior_languages.required_if'      => 'Languages is required.',
             'senior_nok_name.string'            => 'NOK\'s name must be a string.',
             'senior_nok_name.required_if'       => 'NOK\'s name is required.',
             'senior_nok_contact.digits'         => 'Contact number must be 8 digits.',
             'senior_nok_contact.required_if'    => 'Contact number is required.',
-            'senior_medical.string'             => 'Medical information must be a string.',
+            'senior_medical.string'             => 'Medical condition must be a string.',
         ];
     }
 }

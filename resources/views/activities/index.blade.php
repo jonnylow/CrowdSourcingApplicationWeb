@@ -4,31 +4,22 @@
 
 @section('content')
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 margin-bottom-sm"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
+<div class="container-fluid margin-bottom-lg">
+    <div class="row margin-bottom-sm">
+        <div class="col-md-3"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
 
         <div class="col-md-9">
             <!-- Widget here -->
         </div>
     </div>
 
-    <div class="row">
+    <div class="row margin-bottom-sm">
         <div class="col-md-6 col-md-offset-3">
-        @if (Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                @if (Session::has('success'))
-                    {{ Session::get('success') }}
-                @endif
-            </div>
-        @endif
+            @include('errors.list')
         </div>
     </div>
 
-    <div class="row margin-bottom-lg">
+    <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li><a href="#past" aria-controls="past" role="tab" data-toggle="tab"><strong>Past Activities</strong></a></li>
@@ -58,7 +49,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
+                                    <td>{{ $activity->getApplicationStatus() }} </td>
                                     <td>
                                         <a class="btn btn-default btn-xs disabled" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
@@ -97,7 +88,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
+                                    <td>{{ $activity->getApplicationStatus() }} </td>
                                     <td>
                                         <a class="btn btn-default btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
@@ -136,7 +127,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ \App\Http\Controllers\Activities\ActivitiesController::getApplicantStatus($activity->activity_id) }} </td>
+                                    <td>{{ $activity->getApplicationStatus() }} </td>
                                     <td>
                                         <a class="btn btn-default btn-xs" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit

@@ -87,6 +87,66 @@ class Activity extends Model
     }
 
     /**
+     * Get the current progress of the activity.
+     */
+    public function getProgress()
+    {
+        $tasks = $this->tasks;
+        $taskCount = $tasks->count();
+
+        if ($taskCount == 0) {
+            return 0; // Not Started
+        } else {
+            $groupByStatus = $tasks->groupBy('status');
+
+            if ($groupByStatus->has('completed')) {
+                return 100; // Completed
+            } else if ($groupByStatus->has('pick-up')) {
+                return 25; // Picked-up
+            } else if ($groupByStatus->has('at check-up')) {
+                return 50; // At Check-up
+            } else if ($groupByStatus->has('check-up completed')) {
+                return 75; // Check-up Completed
+            } else {
+                return 0; // Not Started
+            }
+        }
+    }
+
+    /**
+     * Get the application status of the activity.
+     */
+    public function getApplicationStatus()
+    {
+        $tasks = $this->tasks;
+        $taskCount = $tasks->count();
+
+        if ($taskCount == 0) {
+            return "Not Started";
+        } else {
+            $groupByStatus = $tasks->groupBy('status');
+            $groupByApproval = $tasks->groupBy('approval');
+
+            if ($groupByStatus->has('completed')) {
+                return "Completed";
+            } else if ($groupByStatus->has('picked-up') ||
+                $groupByStatus->has('at check-up') ||
+                $groupByStatus->has('check-up completed')
+            ) {
+                return "In-Progress";
+            } else if ($groupByApproval->has('approved')) {
+                return "Volunteer Approved";
+            } else if ($groupByApproval->has('pending')) {
+                return $groupByApproval->all()['pending']->count() . " Application(s) Received";
+            } else if ($groupByApproval->has('withdrawn')) {
+                return $groupByApproval->all()['withdrawn']->count() . " Application(s) Withdrawn";
+            } else if ($groupByApproval->has('rejected')) {
+                return $groupByApproval->all()['rejected']->count() . " Application(s) Rejected";
+            }
+        }
+    }
+
+    /**
      * Set the activity's starting date and time.
      */
     public function setDateTimeStartAttribute($datetime)
