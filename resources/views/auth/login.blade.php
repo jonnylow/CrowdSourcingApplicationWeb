@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Login Page')
+@section('title', 'Login')
 
 @section('content')
 
@@ -8,28 +8,17 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h1>Welcome back!</h1>
-            @if (count($errors))
-            <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>Please double-check and try again.</strong>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
+
+            @include('errors.list')
 
             {!! Form::open(['url' => asset('auth/login'), 'role' => 'login']) !!}
                 <div class="form-group">
                     {!! Form::label('email', 'Email', ['class' => 'control-label sr-only']) !!}
-                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'true', 'placeholder' => 'Email']) !!}
+                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('password', 'Password', ['class' => 'control-label sr-only']) !!}
-                    {!! Form::password('password', ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Password']) !!}
+                    {!! Form::password('password', ['class' => 'form-control', 'required', 'placeholder' => 'Password']) !!}
                 </div>
                 <div class="checkbox">
                     <label>
@@ -59,11 +48,11 @@
             {!! Form::open(['url' => asset('password/email')]) !!}
                 <div class="modal-body">
                     <p>Enter your email address</p>
-                    {!! Form::email('recovery_email', null, ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Email']) !!}
+                    {!! Form::email('recovery_email', null, ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'placeholder' => 'Email']) !!}
                 </div>
                 <div class="modal-footer">
-                    {!! Form::button('Cancel', ['class' => 'btn btn-warning', 'data-dismiss' => 'modal']) !!}
-                    {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-default', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
+                    {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
+                    {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-primary', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
                 </div>
             {!! Form::close() !!}
         </div> <!-- /.modal-content -->
