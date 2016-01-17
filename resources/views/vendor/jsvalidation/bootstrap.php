@@ -13,7 +13,7 @@
                         error.insertAfter(element.parent());
                         // else just place the validation message immediately after the input
                     } else if (element.hasClass("selectized")) {
-                        element.parents('div').append(error);
+                        element.parents('div.has-error').append(error);
                     } else {
                         error.insertAfter(element);
                     }
