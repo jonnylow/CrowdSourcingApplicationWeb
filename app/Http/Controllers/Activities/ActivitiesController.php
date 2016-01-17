@@ -104,13 +104,13 @@ class ActivitiesController extends Controller
             $elderly->image_photo = $request->get('senior_photo');
             $elderly->centre_id = $request->get('centre');
 
-            if(count($request->get('senior_languages')) < 1) {
-                $errors = array_add('senior_languages', 'The senior languages is required if senior is others.');
+            if(count($request->get('languages')) < 1) {
+                $errors = array_add('languages', 'Language is required if senior is others.');
             } else {
-                foreach($request->get('senior_languages') as $language) {
-                    $v = Validator::make(['senior_language' => $language], ['senior_language' => 'alpha']);
+                foreach($request->get('languages') as $language) {
+                    $v = Validator::make(['language' => $language], ['language' => 'alpha']);
                     if ($v->fails()) {
-                        $errors = array_add('senior_languages', 'The senior languages must be valid words.');
+                        $errors = array_add('languages', 'Language must be valid word.');
                     }
                 }
             }
@@ -133,7 +133,7 @@ class ActivitiesController extends Controller
 
             if($request->get('senior') == "others") {
                 $elderly->save();
-                foreach($request->get('senior_languages') as $language) {
+                foreach($request->get('languages') as $language) {
                     ElderlyLanguage::create([
                         'elderly_id'    => $elderly->elderly_id,
                         'language'      => $language,
@@ -230,13 +230,13 @@ class ActivitiesController extends Controller
             $elderly->image_photo = $request->get('senior_photo');
             $elderly->centre_id = $request->get('centre');
 
-            if(count($request->get('senior_languages')) < 1) {
-                $errors = array_add('senior_languages', 'The senior languages is required if senior is others.');
+            if(count($request->get('languages')) < 1) {
+                $errors = array_add('languages', 'Language is required if senior is others.');
             } else {
-                foreach($request->get('senior_languages') as $language) {
-                    $v = Validator::make(['senior_language' => $language], ['senior_language' => 'alpha']);
+                foreach($request->get('languages') as $language) {
+                    $v = Validator::make(['language' => $language], ['language' => 'alpha']);
                     if ($v->fails()) {
-                        $errors = array_add('senior_languages', 'The senior languages must be valid words.');
+                        $errors = array_add('languages', 'Language must be valid word.');
                     }
                 }
             }
@@ -259,7 +259,7 @@ class ActivitiesController extends Controller
 
             if($request->get('senior') == "others") {
                 $elderly->save();
-                foreach($request->get('senior_languages') as $language) {
+                foreach($request->get('languages') as $language) {
                     ElderlyLanguage::create([
                         'elderly_id'    => $elderly->elderly_id,
                         'language'      => $language,

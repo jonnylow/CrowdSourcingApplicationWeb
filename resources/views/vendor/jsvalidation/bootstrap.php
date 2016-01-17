@@ -7,13 +7,13 @@
             ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input',
 
             errorPlacement: function(error, element) {
-                if(element.parent('.has-error').length) {
-                    if (element.parent('.input-group').length ||
+                if(element.parents('div.has-error').length) {
+                    if (element.parents('div.btn-group').length || element.hasClass("selectized")) {
+                        element.parents('div.has-error').append(error);
+                    } else if (element.parent('.input-group').length ||
                         element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
                         error.insertAfter(element.parent());
                         // else just place the validation message immediately after the input
-                    } else if (element.hasClass("selectized")) {
-                        element.parents('div.has-error').append(error);
                     } else {
                         error.insertAfter(element);
                     }
@@ -29,7 +29,7 @@
             <?php endif; ?>
 
 
-             // Uncomment this to mark as validated non required fields
+            // Uncomment this to mark as validated non required fields
              unhighlight: function(element) { // revert the change done by highlight
              $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
              },
@@ -53,10 +53,24 @@
             },
             <?php endif; ?>
 
+            // Quick hack for validation rules required for inputs that
+            <?php
+            if(isset($validator['rules']['languages'])) {
+                $validator['rules']['languages[]'] = $validator['rules']['languages'];
+                unset($validator['rules']['languages']);
+            }
+            ?>
+
             rules: <?php echo json_encode($validator['rules']); ?>
         });
 
+        // Validate selectize.js input
         $(document).on('change', '.selectized', function () {
+            $(this).valid();
+        });
+
+        // Validate button-grouped radio boxes
+        $(document).on('change', '.btn-group .btn input', function () {
             $(this).valid();
         });
     })

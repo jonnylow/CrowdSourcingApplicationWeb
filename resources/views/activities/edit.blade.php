@@ -31,22 +31,22 @@
                                     <!-- Centre Form Input -->
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
-                                        {!! Form::select('centre', $centreList, $activity->centre_id, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::select('centre', $centreList, $activity->centre_id, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Date To Start Form Input -->
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('date_to_start', 'Date To Start', ['class' => 'control-label']) !!}
-                                        {!! Form::date('date_to_start', $activity->datetime_start->toDateString(), ['class' => 'form-control', 'required' => 'required', 'min' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
+                                        {!! Form::date('date_to_start', $activity->datetime_start->toDateString(), ['class' => 'form-control', 'required', 'min' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
                                     </div>
                                     <!-- Time To Start Form Input -->
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('time_to_start', 'Time To Start (hh:mm AM/PM)', ['class' => 'control-label']) !!}
-                                        {!! Form::time('time_to_start', $activity->datetime_start->toTimeString(), ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::time('time_to_start', $activity->datetime_start->toTimeString(), ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Duration Form Input -->
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('duration', 'Expected Duration (in hours)', ['class' => 'control-label']) !!}
-                                        {!! Form::select('duration', $expectedDuration, $activity->expected_duration_minutes/60, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::select('duration', $expectedDuration, $activity->expected_duration_minutes/60, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <!-- More Information Form Input -->
@@ -74,12 +74,12 @@
                                     <!-- Start Location Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('start_location', 'Start Location', ['class' => 'control-label']) !!}
-                                        {!! Form::select('start_location', $startLocations, $activity->location_from_id, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::select('start_location', $startLocations, $activity->location_from_id, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- End Location Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('end_location', 'End Location', ['class' => 'control-label']) !!}
-                                        {!! Form::select('end_location', $endLocations, $activity->location_to_id, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::select('end_location', $endLocations, $activity->location_to_id, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
 
@@ -134,7 +134,7 @@
                                 <!-- Senior NRIC and Name Form Input -->
                                 <div class="col-md-8 col-md-offset-2 form-group">
                                     {!! Form::label('senior', 'Senior NRIC & Name', ['class' => 'control-label']) !!}
-                                    {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required']) !!}
                                 </div>
                             </div>
 
@@ -171,8 +171,8 @@
                                             </div>
                                             <!-- Senior Languages Form Input -->
                                             <div class="col-md-3 form-group">
-                                                {!! Form::label('senior_languages', 'Languages Spoken', ['class' => 'control-label']) !!}
-                                                {!! Form::select('senior_languages', $seniorLanguages, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'senior_languages']) !!}
+                                                {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
+                                                {!! Form::select('languages[]', $seniorLanguages, null, ['class' => 'form-control', 'id' => 'languages', 'multiple']) !!}
                                             </div>
                                             <!-- Next-of-Kin Name Form Input -->
                                             <div class="col-md-4 form-group">
@@ -235,7 +235,7 @@
 </style>
 
 <script>
-    $("#senior_languages").selectize({
+    $("#languages").selectize({
         plugins: ['restore_on_backspace', 'remove_button'],
         delimiter: ',',
         persist: false,

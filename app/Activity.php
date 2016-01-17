@@ -149,7 +149,7 @@ class Activity extends Model
     /**
      * Set the activity's starting date and time.
      */
-    public function setDateTimeStartAttribute($datetime)
+    public function setDatetimeStartAttribute($datetime)
     {
         $this->attributes['datetime_start'] = Carbon::parse($datetime);
     }
