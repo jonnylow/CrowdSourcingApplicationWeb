@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Staff;
 use Auth;
 use JsValidator;
+use Mail;
 
 class StaffController extends Controller
 {
@@ -36,11 +37,17 @@ class StaffController extends Controller
         $staff = Staff::create([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
-            'password'  => 'qwerty1234',
+            'password'  => $randomString,
             'is_admin'  => $request->get('admin'),
         ]);
 
         $staff->centres()->attach($request->get('centres'));
+
+        Mail::send('emails.welcome', compact('staff', 'randomString'), function ($message) {
+            $message->from('imchosen6@gmail.com', 'Admin');
+            $message->subject('Your CareGuide account has been created.');
+            $message->to('imchosen6@gmail.com');
+        });
 
         return redirect('admin')->with('success', 'Staff has added successfully!');
     }
