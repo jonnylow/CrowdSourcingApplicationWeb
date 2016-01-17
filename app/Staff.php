@@ -56,8 +56,6 @@ class Staff extends Model implements AuthenticatableContract,
 
     /**
      * Set the name attribute.
-     *
-     * @var name
      */
     public function setNameAttribute($name)
     {
@@ -66,12 +64,22 @@ class Staff extends Model implements AuthenticatableContract,
 
     /**
      * Set the password attribute.
-     *
-     * @var password
      */
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
+     * Set the staff admin privilege.
+     */
+    public function setIsAdminAttribute($admin)
+    {
+        if($admin == "1" || $admin == 1 || $admin) {
+            $this->attributes['is_admin'] = true;
+        } else {
+            $this->attributes['is_admin'] = false;
+        }
     }
 
     /**

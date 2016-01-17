@@ -55,6 +55,10 @@
 
             // Quick hack for validation rules required for inputs that
             <?php
+            if(isset($validator['rules']['centres'])) {
+                $validator['rules']['centres[]'] = $validator['rules']['centres'];
+                unset($validator['rules']['centres']);
+            }
             if(isset($validator['rules']['languages'])) {
                 $validator['rules']['languages[]'] = $validator['rules']['languages'];
                 unset($validator['rules']['languages']);

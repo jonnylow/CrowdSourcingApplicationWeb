@@ -4,12 +4,18 @@
 
 @section('content')
 
-<div class="container-fluid">
-    <div class="row margin-bottom-md">
+<div class="container-fluid margin-bottom-lg">
+    <div class="row margin-bottom-sm">
         <div class="col-md-3"><a href="admin/create" class="btn btn-primary btn-lg">Add new Staff</a></div>
     </div>
 
-    <div class="row margin-bottom-lg">
+    <div class="row margin-bottom-sm">
+        <div class="col-md-6 col-md-offset-3">
+            @include('errors.list')
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Staff List</h4></div>
@@ -39,9 +45,13 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger btn-xs" href="{{ route('admin.destroy' ,[$staff->staff_id]) }}">
-                                            <span class="fa fa-lg fa-times"></span> Delete
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['admin.destroy', $staff->staff_id]]) !!}
+                                        <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                           data-type="warning" data-title="Remove Staff" data-message="Are you sure you want to remove {{ $staff->name }}?"
+                                           data-yes="Remove" data-no="Cancel">
+                                            <span class="fa fa-lg fa-times"></span> Remove
                                         </a>
+                                        {!! Form::close() !!}
                                     </td>
                                 </tr>
                             @endforeach
@@ -54,5 +64,7 @@
     </div>
 
 </div>
+
+@include('partials.confirm')
 
 @endsection

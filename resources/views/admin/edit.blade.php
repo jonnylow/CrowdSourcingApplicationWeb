@@ -1,17 +1,18 @@
 @extends('layouts.master')
 
-@section('title', 'Add new Staff')
+@section('title', 'Edit a Staff')
 
 @section('content')
 
 <div class="container-fluid margin-bottom-lg">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>Add new Staff</h1>
+            <h1>Edit a Staff</h1>
 
             @include('errors.list')
 
-            {!! Form::open(['route' => 'admin.store']) !!}
+            {!! Form::model($staff, ['method' => 'PATCH', 'route' => ['admin.update', $staff->staff_id]]) !!}
+                {!! Form::hidden('staff_id', $staff->staff_id) !!}
 
                 <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
 
@@ -31,31 +32,36 @@
                                     <!-- Name Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-                                        {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::text('name', $staff->name, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Email Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-                                        {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::email('email', $staff->email, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
+                                @if( ! $staff->is_admin)
                                     <!-- Staff Type Form Input -->
                                     <div class="col-md-5 form-group">
                                         <div>{!! Form::label('admin', 'Staff Type', ['class' => 'control-label']) !!}</div>
                                         <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('admin') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="0" autocomplete="off" {{ old('admin') == "0" ? 'checked' : null }}> Regular
+                                            <label class="btn btn-default {{ old('admin') !== null ? old('admin') == '0' ? 'active' : null : $staff->is_admin == false ? 'active' : null }}">
+                                                <input type="radio" name="admin" value="0" autocomplete="off" {{ old('admin') !== null ? old('admin') == '0' ? 'checked' : null : $staff->is_admin == false ? 'checked' : null }}> Regular
                                             </label>
-                                            <label class="btn btn-default {{ old('admin') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="1" autocomplete="off" {{ old('admin') == "1" ? 'checked' : null }}> Admin
+                                            <label class="btn btn-default {{ old('admin') !== null ? old('admin') == '1' ? 'active' : null : $staff->is_admin == true ? 'active' : null }}">
+                                                <input type="radio" name="admin" value="1" autocomplete="off" {{ old('admin') !== null ? old('admin') == '1' ? 'checked' : null : $staff->is_admin == true ? 'checked' : null }}> Admin
                                             </label>
                                         </div>
                                     </div>
                                     <!-- Centres Form Input -->
                                     <div class="col-md-7 form-group">
+                                    @else
+                                    <!-- Centres Form Input -->
+                                    <div class="col-md-12 form-group">
+                                @endif
                                         {!! Form::label('centres[]', 'Centres in charge', ['class' => 'control-label']) !!}
-                                        {!! Form::select('centres[]', $centreList, null, ['class' => 'form-control', 'id' => 'centres', 'required', 'multiple']) !!}
+                                        {!! Form::select('centres[]', $centreList, $staff->centres->lists('centre_id')->toArray(), ['class' => 'form-control', 'id' => 'centres', 'required', 'multiple']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +72,7 @@
 
                 <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                    {!! Form::submit('Add staff', ['class' => 'btn btn-primary btn-lg']) !!}
+                    {!! Form::submit('Edit staff', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
 
             {!! Form::close() !!}
