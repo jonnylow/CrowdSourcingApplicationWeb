@@ -40,8 +40,8 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Elderly'], function() {
     Route::resource('elderly', 'ElderlyController');
 });
 
-Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function() {
-    Route::resource('admin', 'AdminController');
+Route::group(['middleware' => 'auth', 'namespace' => 'Staff'], function() {
+    Route::resource('admin', 'StaffController');
 });
 
 Route::group(['namespace' => 'Auth'], function() {
