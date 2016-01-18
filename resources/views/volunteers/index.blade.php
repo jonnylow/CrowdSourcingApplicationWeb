@@ -49,12 +49,12 @@
                                     <td>{{ $volunteer->numOfCompletedActivity() }}</td>
                                     <td>{{ $volunteer->numOfWithdrawnActivity() }}</td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('volunteers.edit' ,[$volunteer->volunteer_id]) }}">
+                                        <a class="btn btn-default btn-xs" href="{{ route('volunteers.edit', $volunteer->volunteer_id) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-info btn-xs" href="{{ route('volunteers.show' ,[$volunteer->volunteer_id]) }}">
+                                        <a class="btn btn-info btn-xs" href="{{ route('volunteers.show', $volunteer->volunteer_id) }}">
                                             <span class="fa fa-lg fa-eye"></span> Details
                                         </a>
                                     </td>

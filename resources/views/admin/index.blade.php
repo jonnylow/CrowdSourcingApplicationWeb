@@ -40,7 +40,7 @@
                                     <td>{{ $staff->is_admin ? "Admin" : "Regular Staff" }}</td>
                                     <td>{{ $staff->centres->lists('name')->sort()->implode(', ') }}</td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('admin.edit' ,[$staff->staff_id]) }}">
+                                        <a class="btn btn-default btn-xs" href="{{ route('admin.edit', $staff->staff_id) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
