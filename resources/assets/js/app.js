@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $('.fixed-table-toolbar .search').addClass('col-md-3 col-sm-5 col-xs-12');
+    $('.pull-down').each(function() {
+        $(this).css('margin-top', $(this).parent().height()-$(this).height())
+    });
 });
 
 $('#accordion .panel-collapse').on('shown.bs.collapse', function () {

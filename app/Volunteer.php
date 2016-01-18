@@ -100,6 +100,30 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
+     * Set if the volunteer has car.
+     */
+    public function setHasCarAttribute($car)
+    {
+        if($car == "1" || $car == 1 || $car) {
+            $this->attributes['has_car'] = true;
+        } else {
+            $this->attributes['has_car'] = false;
+        }
+    }
+
+    /**
+     * Get the volunteer's rank points.
+     *
+     * @return int
+     */
+    public function rankPoints()
+    {
+        // 1 point for every 60 minutes volunteered
+        // Truncate extra decimal points
+        return intval($this->minutes_volunteered / 60);
+    }
+
+    /**
      * Get the volunteer's volunteered time.
      *
      * @return string

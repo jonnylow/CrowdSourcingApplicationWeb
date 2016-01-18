@@ -21,6 +21,13 @@ class VolunteersController extends Controller
         return view('volunteers.index', compact('volunteers'));
     }
 
+    public function show($id)
+    {
+        $volunteer = Volunteer::with('activities')->findOrFail($id);
+
+        return view('volunteers.show', compact('volunteer'));
+    }
+
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\VolunteerRequest');
@@ -87,5 +94,27 @@ class VolunteersController extends Controller
         ]);
 
         return back()->with('success', 'Volunteer is updated successfully!');
+    }
+
+    public function rejectVolunteer($id) {
+        $volunteer = Volunteer::findOrFail($id);
+
+        if($volunteer->is_approved) {
+            $volunteer->is_approved = false;
+            $volunteer->save();
+        }
+
+        return back()->with('success', 'Volunteer is rejected!');
+    }
+
+    public function approveVolunteer($id) {
+        $volunteer = Volunteer::findOrFail($id);
+
+        if( ! $volunteer->is_approved) {
+            $volunteer->is_approved = true;
+            $volunteer->save();
+        }
+
+        return back()->with('success', 'Volunteer is approved!');
     }
 }

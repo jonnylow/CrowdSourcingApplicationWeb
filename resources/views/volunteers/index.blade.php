@@ -26,9 +26,10 @@
                                 <th class="col-md-2" rowspan="2" data-field="nric" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">NRIC</th>
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>
                                 <th class="col-md-1" rowspan="2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
-                                <th class="col-md-2" rowspan="2" data-field="contact" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Contact Number</th>
+                                <th class="col-md-1" rowspan="2" data-field="contact" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Contact Number</th>
                                 <th class="col-md-1" rowspan="2" data-field="training" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Training Completed</th>
                                 <th class="col-md-3" colspan="2" data-halign="center" data-align="center" data-valign="middle">Activities</th>
+                                <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                             </tr>
                             <tr>
@@ -48,8 +49,13 @@
                                     <td>{{ $volunteer->numOfCompletedActivity() }}</td>
                                     <td>{{ $volunteer->numOfWithdrawnActivity() }}</td>
                                     <td>
+                                        <a class="btn btn-default btn-xs" href="{{ route('volunteers.edit' ,[$volunteer->volunteer_id]) }}">
+                                            <span class="fa fa-lg fa-pencil"></span> Edit
+                                        </a>
+                                    </td>
+                                    <td>
                                         <a class="btn btn-info btn-xs" href="{{ route('volunteers.show' ,[$volunteer->volunteer_id]) }}">
-                                            Details
+                                            <span class="fa fa-lg fa-eye"></span> Details
                                         </a>
                                     </td>
                                 </tr>
