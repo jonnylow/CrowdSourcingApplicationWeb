@@ -90,33 +90,26 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the volunteer's gender.
+     * Set the password attribute.
      *
-     * @param  $gender
-     *
-     * @return string
+     * @var gender
      */
-    public function getGenderAttribute($gender)
+    public function setGenderAttribute($gender)
     {
-        switch (strtoupper($gender)) {
-            case 'M':
-                return 'Male';
-            case 'F':
-                return 'Female';
-        }
+        $this->attributes['gender'] = strtoupper($gender);
     }
 
     /**
-     * Get the volunteer's volunteered hours.
-     *
-     * @param  $minute
+     * Get the volunteer's volunteered time.
      *
      * @return string
      */
-    public function getMinutesVolunteeredAttribute($minute)
+    public function timeVolunteered()
     {
-        $hours = floor($minute / 60);
-        $minutes = ($minute % 60);
+        $time = $this->minutes_volunteered;
+
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
         return sprintf('%0d hour, %0d min', $hours, $minutes);
     }
 

@@ -57,4 +57,35 @@ class VolunteersController extends Controller
 
         return redirect('volunteers')->with('success', 'Volunteers is added successfully!');
     }
+
+    public function edit($id)
+    {
+        $validator = JsValidator::formRequest('App\Http\Requests\VolunteerRequest');
+
+        $volunteer = Volunteer::findOrFail($id);
+        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+
+        return view('volunteers.edit', compact('validator', 'volunteer', 'genderList'));
+    }
+
+    public function update($id, VolunteerRequest $request)
+    {
+        $volunteer = Volunteer::findOrFail($id);
+
+        $volunteer->update([
+            'nric'      => $request->get('nric'),
+            'name'      => $request->get('name'),
+            'email'     => $request->get('email'),
+            'gender'  => $request->get('gender'),
+            'date_of_birth'  => $request->get('date_of_birth'),
+            'contact_no'  => $request->get('contact_no'),
+            'occupation'  => $request->get('occupation'),
+            'has_car'  => $request->get('car'),
+            'minutes_volunteered'  => $request->get('minutes_volunteered'),
+            'area_of_preference_1'  => $request->get('area_of_preference_1'),
+            'area_of_preference_2'  => $request->get('area_of_preference_2'),
+        ]);
+
+        return back()->with('success', 'Volunteer is updated successfully!');
+    }
 }

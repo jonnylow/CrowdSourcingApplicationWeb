@@ -43,6 +43,7 @@ class VolunteerRequest extends Request
             'contact_no'            => 'required|digits:8',
             'occupation'            => 'required|string',
             'car'                   => 'required|boolean',
+            'minutes_volunteered'   => 'required|numeric|min:0|max:99999999',
             'area_of_preference_1'  => 'required|string',
             'area_of_preference_2'  => 'required|string',
         ];
@@ -75,6 +76,10 @@ class VolunteerRequest extends Request
             'occupation.string'             => 'Occupation must be a string.',
             'car.required'                  => 'Car ownership is required.',
             'car.boolean'                   => 'Car ownership must either has or do not has car.',
+            'minutes_volunteered.required'   => 'Total time volunteered is required.',
+            'minutes_volunteered.numeric'    => 'Total time volunteered must be in number.',
+            'minutes_volunteered.min'        => 'Total time volunteered must be at least 0 minutes.',
+            'minutes_volunteered.max'        => 'Total time volunteered must be less than 99,999,999 minutes.',
             'area_of_preference_1.required' => 'Volunteering Preference 1 is required.',
             'area_of_preference_1.string'   => 'Volunteering Preference 1 must be a string.',
             'area_of_preference_2.required' => 'Volunteering Preference 2 is required.',

@@ -121,7 +121,7 @@
                                         <tr>
                                             <td><a class="btn btn-info btn-xs" href="#">Details</a></td>
                                             <td>{{ $volunteer->name }}</td>
-                                            <td>{{ $volunteer->gender }}</td>
+                                            <td>{{ $volunteer->gender == 'M' ? 'Male' : 'Female' }}</td>
                                             <td>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></td>
                                             <td>{{ $volunteer->rank->name }}</td>
                                             <td>{{ ucwords($volunteer->pivot->approval) }}</td>
