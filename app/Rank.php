@@ -23,6 +23,16 @@ class Rank extends Model
     protected $fillable = ['rank', 'name', 'min', 'max'];
 
     /**
+     * Scope queries to rank that is the lowest.
+     *
+     * @var $query
+     */
+    public function scopeLowest($query)
+    {
+        $query->where('min', '=', Rank::all()->min('min'));
+    }
+
+    /**
      * Get the volunteers that has this rank.
      */
     public function volunteers()

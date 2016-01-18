@@ -24,7 +24,7 @@
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Volunteers <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('volunteers') }}"><span class="fa fa-fw fa-users"></span> View all Volunteers</a></li>
-                        <li><a href="#"><span class="fa fa-fw fa-user-plus"></span> Add new Volunteer</a></li>
+                        <li><a href="{{ asset('volunteers/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Volunteer</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ asset('rank') }}"><span class="fa fa-fw fa-list-ol"></span> Manage Ranking</a></li>
                     </ul>
