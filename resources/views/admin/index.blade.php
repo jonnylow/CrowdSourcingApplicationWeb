@@ -49,7 +49,7 @@
                                         <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
                                            data-type="warning" data-title="Remove Staff" data-message="Are you sure you want to remove {{ $staff->name }}?"
                                            data-yes="Remove" data-no="Cancel">
-                                            <span class="fa fa-lg fa-times"></span> Remove
+                                            <span class="fa fa-lg fa-trash"></span> Remove
                                         </a>
                                         {!! Form::close() !!}
                                     </td>

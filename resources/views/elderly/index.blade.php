@@ -49,7 +49,7 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-danger btn-xs" href="{{ route('elderly.destroy' ,[$elderly->elderly_id]) }}">
-                                            <span class="fa fa-lg fa-times"></span> Delete
+                                            <span class="fa fa-lg fa-trash"></span> Remove
                                         </a>
                                     </td>
                                 </tr>
