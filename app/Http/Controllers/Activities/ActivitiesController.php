@@ -154,7 +154,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return redirect('activities')->with('success', 'Activity has added successfully!');
+            return redirect('activities')->with('success', 'Activity is added successfully!');
         }
     }
 
@@ -281,7 +281,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return back()->with('success', 'Activity has updated successfully!');
+            return back()->with('success', 'Activity is updated successfully!');
         }
     }
 
@@ -293,7 +293,7 @@ class ActivitiesController extends Controller
                 if($task->volunteer_id == $volunteerId && $task->approval == "pending") {
                     $task->approval = "Rejected";
                     $task->save();
-                    return back()->with('success', 'Volunteer rejected!');;
+                    return back()->with('success', 'Volunteer is rejected!');;
                 }
             }
         } else {
@@ -307,7 +307,7 @@ class ActivitiesController extends Controller
                 }
                 $task->save();
             }
-            return back()->with('success', 'Volunteer approved!');
+            return back()->with('success', 'Volunteer is approved!');
         }
     }
 

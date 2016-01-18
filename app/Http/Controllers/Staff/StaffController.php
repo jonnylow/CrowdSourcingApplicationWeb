@@ -49,7 +49,7 @@ class StaffController extends Controller
             $message->to('imchosen6@gmail.com');
         });
 
-        return redirect('admin')->with('success', 'Staff has added successfully!');
+        return redirect('admin')->with('success', 'Staff is added successfully!');
     }
 
     public function edit($id)
@@ -74,7 +74,7 @@ class StaffController extends Controller
 
         $staff->centres()->sync($request->get('centres'));
 
-        return back()->with('success', 'Staff has updated successfully!');
+        return back()->with('success', 'Staff is updated successfully!');
     }
 
     public function destroy($id)
@@ -82,6 +82,6 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
 
-        return back()->with('success', 'Staff has removed successfully!');
+        return back()->with('success', 'Staff is removed successfully!');
     }
 }

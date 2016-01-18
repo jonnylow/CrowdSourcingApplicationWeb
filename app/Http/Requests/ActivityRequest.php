@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use Carbon\Carbon;
 
 class ActivityRequest extends Request
 {
@@ -60,7 +59,8 @@ class ActivityRequest extends Request
         return [
             'centre.required'                   => 'Centre is required.',
             'date_to_start.required'            => 'Date is required.',
-            'date_to_start.after'               => 'Date cannot be today or in the past.',
+            'date_to_start.date'                => 'Date must be a valid date.',
+            'date_to_start.after'               => 'Date must be after today.',
             'time_to_start.required'            => 'Time is required.',
             'duration.required'                 => 'Duration is required.',
             'duration.numeric'                  => 'Duration must be a number.',

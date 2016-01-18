@@ -53,8 +53,8 @@
             },
             <?php endif; ?>
 
-            // Quick hack for validation rules required for inputs that
             <?php
+            // Quick hack to validation rules for inputs that takes in array
             if(isset($validator['rules']['centres'])) {
                 $validator['rules']['centres[]'] = $validator['rules']['centres'];
                 unset($validator['rules']['centres']);
