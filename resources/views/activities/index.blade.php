@@ -51,13 +51,13 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{{ $activity->getApplicationStatus() }} </td>
                                     <td>
-                                        <a class="btn btn-default btn-xs disabled" href="{{ route('activities.edit' ,[$activity->activity_id]) }}">
+                                        <a class="btn btn-default btn-xs disabled" href="#">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-lg fa-eye"></span> View
+                                        <a class="btn btn-info btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> Details
                                         </a>
                                     </td>
                                 </tr>
@@ -95,8 +95,8 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-lg fa-eye"></span> View
+                                        <a class="btn btn-info btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> Details
                                         </a>
                                     </td>
                                 </tr>
@@ -134,8 +134,8 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
-                                            <span class="fa fa-lg fa-eye"></span> View
+                                        <a class="btn btn-info btn-xs" href="{{ route('activities.show' ,[$activity->activity_id]) }}">
+                                            <span class="fa fa-lg fa-eye"></span> Details
                                         </a>
                                     </td>
                                 </tr>

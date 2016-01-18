@@ -109,8 +109,9 @@
                                         <th class="col-md-3" data-field="volunteer_name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Applicant Name</th>
                                         <th class="col-md-1" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
                                         <th class="col-md-1" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
-                                        <th class="col-md-2" data-field="rank" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
+                                        <th class="col-md-1" data-field="rank" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
                                         <th class="col-md-2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
+                                        <th class="col-md-2" data-field="applied_time" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Applied on</th>
                                         <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                         <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                     </tr>
@@ -119,21 +120,40 @@
                                 @if ($activity->volunteers->count() > 0)
                                     @foreach ($activity->volunteers as $volunteer)
                                         <tr>
-                                            <td><a class="btn btn-info btn-xs" href="#">Details</a></td>
+                                            <td><a class="btn btn-info btn-xs" href="{{ route('volunteers.show', $volunteer->volunteer_id) }}">Details</a></td>
                                             <td>{{ $volunteer->name }}</td>
                                             <td>{{ $volunteer->gender == 'M' ? 'Male' : 'Female' }}</td>
                                             <td>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></td>
                                             <td>{{ $volunteer->rank->name }}</td>
                                             <td>{{ ucwords($volunteer->pivot->approval) }}</td>
+                                            <td>{{ $volunteer->pivot->created_at ? $volunteer->pivot->created_at->format('j M Y, g:i a') : 'NA' }}</td>
                                             <td>
-                                                <a class="btn btn-danger btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'reject']) }}">
-                                                    <span class="fa fa-lg fa-times"></span> Reject
-                                                </a>
+                                                @if($volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" ||
+                                                    $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer())
+                                                    <a class="btn btn-danger btn-xs disabled"><span class="fa fa-lg fa-times"></span> Reject</a>
+                                                @else
+                                                    {!! Form::open(['method' => 'PATCH', 'route' => ['activities.reject.volunteer', $activity->activity_id, $volunteer->volunteer_id]]) !!}
+                                                        <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                                            data-type="question" data-title="Reject Volunteer" data-message="Are you sure you want to reject {{ $volunteer->name }}?"
+                                                            data-yes="Reject" data-no="Cancel">
+                                                            <span class="fa fa-lg fa-times"></span> Reject
+                                                        </a>
+                                                    {!! Form::close() !!}
+                                                @endif
                                             </td>
                                             <td>
-                                                <a class="btn btn-success btn-xs {{ $volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" || $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer() ? 'disabled' : '' }}" href="{{ action('Activities\ActivitiesController@setApproval' ,[$activity->activity_id, $volunteer->volunteer_id, 'approve']) }}">
-                                                    <span class="fa fa-lg fa-check"></span> Approve
-                                                </a>
+                                                @if($volunteer->pivot->approval == "withdrawn" || $volunteer->pivot->approval == "rejected" ||
+                                                    $activity->datetime_start->isPast() || $activity->hasApprovedVolunteer())
+                                                    <a class="btn btn-success btn-xs disabled"><span class="fa fa-lg fa-check"></span> Approve</a>
+                                                @else
+                                                    {!! Form::open(['method' => 'PATCH', 'route' => ['activities.approve.volunteer', $activity->activity_id, $volunteer->volunteer_id]]) !!}
+                                                        <a class="btn btn-success btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                                            data-type="question" data-title="Approve Volunteer" data-message="Are you sure you want to approve {{ $volunteer->name }}? This will reject all other volunteers."
+                                                            data-yes="Approve" data-no="Cancel">
+                                                            <span class="fa fa-lg fa-check"></span> Approve
+                                                        </a>
+                                                    {!! Form::close() !!}
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -148,5 +168,7 @@
         </div>
     </div>
 </div>
+
+@include('partials.confirm')
 
 @endsection

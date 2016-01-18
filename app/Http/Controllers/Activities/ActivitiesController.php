@@ -285,30 +285,32 @@ class ActivitiesController extends Controller
         }
     }
 
-    public function setApproval($activityId, $volunteerId, $approval) {
+    public function rejectVolunteer($activityId, $volunteerId) {
+        $task = Task::where('activity_id', $activityId)
+            ->where('volunteer_id', $volunteerId)
+            ->where('approval', 'pending')
+            ->firstOrFail();
+
+        $task->approval = "rejected";
+        $task->save();
+
+        return back()->with('success', 'Volunteer is rejected!');
+    }
+
+    public function approveVolunteer($activityId, $volunteerId) {
         $tasks = Task::ofActivity($activityId)->get();
 
-        if(strcmp($approval, "reject") == 0) {
-            foreach($tasks as $task) {
-                if($task->volunteer_id == $volunteerId && $task->approval == "pending") {
-                    $task->approval = "Rejected";
-                    $task->save();
-                    return back()->with('success', 'Volunteer is rejected!');;
+        foreach($tasks as $task) {
+            if($task->approval == "pending") {
+                if ($task->volunteer_id == $volunteerId) {
+                    $task->approval = "approved";
+                } else {
+                    $task->approval = "rejected";
                 }
             }
-        } else {
-            foreach($tasks as $task) {
-                if($task->approval == "pending") {
-                    if ($task->volunteer_id == $volunteerId) {
-                        $task->approval = "Approved";
-                    } else {
-                        $task->approval = "Rejected";
-                    }
-                }
-                $task->save();
-            }
-            return back()->with('success', 'Volunteer is approved!');
+            $task->save();
         }
+        return back()->with('success', 'Volunteer is approved!');
     }
 
     public function addressToLatLng($address)

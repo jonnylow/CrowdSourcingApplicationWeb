@@ -28,7 +28,8 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
     Route::post('postal-to-address', 'ActivitiesController@postalCodeToAddress');
-    Route::get('activities/{activities}/{volunteer}/{approval}', 'ActivitiesController@setApproval');
+    Route::patch('activities/{activities}/reject/{volunteer}', ['as' => 'activities.reject.volunteer', 'uses' => 'ActivitiesController@rejectVolunteer']);
+    Route::patch('activities/{activities}/approve/{volunteer}', ['as' => 'activities.approve.volunteer', 'uses' => 'ActivitiesController@approveVolunteer']);
     Route::resource('activities', 'ActivitiesController');
 });
 
