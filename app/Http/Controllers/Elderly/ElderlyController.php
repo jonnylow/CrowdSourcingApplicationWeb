@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Elderly;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use App\Http\Requests\ElderlyRequest;
 use App\Http\Controllers\Controller;
 use App\Elderly;
 use App\ElderlyLanguage;
 use Auth;
-use Validator;
+use JsValidator;
 
 class ElderlyController extends Controller
 {
@@ -29,84 +29,94 @@ class ElderlyController extends Controller
 
     public function create()
     {
+        $validator = JsValidator::formRequest('App\Http\Requests\ElderlyRequest');
+
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
-        $genderList = ['M'=> 'M', 'F' => 'F'];
+        $genderList = ['M'=> 'Male', 'F' => 'Female'];
         $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('elderly.create', compact('centreList', 'genderList', 'languages'));
+        if(is_array(old('languages'))) {
+            foreach (old('languages') as $l) {
+                $languages[$l] = $l;
+            }
+        }
+
+        return view('elderly.create', compact('validator', 'centreList', 'genderList', 'languages'));
     }
 
-    public function store(Request $request)
+    public function store(ElderlyRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'centre'            => 'required|string',
-            'nric'              => 'required|string|unique:elderly,nric,null,elderly_id',
-            'name'              => 'required|string',
-            'gender'            => 'required|in:M,F',
-            'photo'             => 'image',
-            'languages'         => 'required|array',
-            'nok_name'          => 'required|string',
-            'nok_contact'       => 'required|digits:8',
-            'medical_condition' => 'string',
+        $elderly = Elderly::create([
+            'centre_id'             => $request->get('centre'),
+            'nric'                  => $request->get('nric'),
+            'name'                  => $request->get('name'),
+            'gender'                => $request->get('gender'),
+            'birth_year'            => $request->get('birth_year'),
+            'next_of_kin_name'      => $request->get('nok_name'),
+            'next_of_kin_contact'   => $request->get('nok_contact'),
+            'medical_condition'     => $request->get('medical_condition'),
+            'image_photo'           => $request->file('photo'),
         ]);
 
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $elderly = Elderly::create([
-                'nric'                  => $request->get('nric'),
-                'name'                  => $request->get('name'),
-                'gender'                => $request->get('gender'),
-                'next_of_kin_name'      => $request->get('nok_name'),
-                'next_of_kin_contact'   => $request->get('nok_contact'),
-                'medical_condition'     => $request->get('medical_condition'),
-                'image_photo'           => $request->get('photo'),
-                'centre_id'             => $request->get('centre'),
+        foreach($request->get('languages') as $language) {
+            ElderlyLanguage::create([
+                'elderly_id'    => $elderly->elderly_id,
+                'language'      => $language,
             ]);
-
-            foreach($request->get('languages') as $language) {
-                ElderlyLanguage::create([
-                    'elderly_id'    => $elderly->elderly_id,
-                    'language'      => $language,
-                ]);
-            }
-
-            return back()->with('success', 'Senior added successfully!');
         }
+
+        return redirect('elderly')->with('success', 'Senior is added successfully!');
     }
 
     public function edit($id)
     {
+        $validator = JsValidator::formRequest('App\Http\Requests\ElderlyRequest');
+
         $elderly = Elderly::findOrFail($id);
+        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('elderly.edit', compact('elderly'));
-    }
-
-    public function update($id, Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'centre'            => 'required|string',
-            'nric'              => 'required|string|unique:elderly,nric,null,elderly_id',
-            'name'              => 'required|string',
-            'gender'            => 'required|in:M,F',
-            'photo'             => 'image',
-            'languages'         => 'required|array',
-            'nok_name'          => 'required|string',
-            'nok_contact'       => 'required|digits:8',
-            'medical_condition' => 'string',
-        ]);
-
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $elderly = Elderly::findOrFail($id);
-            $elderly->update($request->all());
+        if(is_array(old('languages'))) {
+            foreach (old('languages') as $l) {
+                $languages[$l] = $l;
+            }
         }
 
-        return back()->with('success', 'Senior updated successfully!');
+        return view('elderly.edit', compact('validator', 'elderly', 'centreList', 'genderList', 'languages'));
+    }
+
+    public function update($id, ElderlyRequest $request)
+    {
+        $elderly = Elderly::findOrFail($id);
+
+        $elderly->update([
+            'centre_id'             => $request->get('centre'),
+            'nric'                  => $request->get('nric'),
+            'name'                  => $request->get('name'),
+            'gender'                => $request->get('gender'),
+            'birth_year'            => $request->get('birth_year'),
+            'next_of_kin_name'      => $request->get('nok_name'),
+            'next_of_kin_contact'   => $request->get('nok_contact'),
+            'medical_condition'     => $request->get('medical_condition'),
+            'image_photo'           => $request->file('photo'),
+        ]);
+
+        foreach($request->get('languages') as $language) {
+            ElderlyLanguage::create([
+                'elderly_id'    => $elderly->elderly_id,
+                'language'      => $language,
+            ]);
+        }
+
+        return back()->with('success', 'Senior is updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $elderly = Elderly::findOrFail($id);
+        $elderly->delete();
+
+        return back()->with('success', 'Senior is removed successfully!');
     }
 }

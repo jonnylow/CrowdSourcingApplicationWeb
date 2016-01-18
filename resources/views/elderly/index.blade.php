@@ -4,12 +4,18 @@
 
 @section('content')
 
-<div class="container-fluid">
-    <div class="row margin-bottom-md">
+<div class="container-fluid margin-bottom-lg">
+    <div class="row margin-bottom-sm">
         <div class="col-md-3"><a href="elderly/create" class="btn btn-primary btn-lg">Add new Senior</a></div>
     </div>
 
-    <div class="row margin-bottom-lg">
+    <div class="row margin-bottom-sm">
+        <div class="col-md-6 col-md-offset-3">
+            @include('errors.list')
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Senior List</h4></div>
@@ -43,14 +49,18 @@
                                     <td>{{ $elderly->next_of_kin_name }}</td>
                                     <td>{{ $elderly->next_of_kin_contact }}</td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('elderly.edit' ,[$elderly->elderly_id]) }}">
+                                        <a class="btn btn-default btn-xs" href="{{ route('elderly.edit', $elderly->elderly_id) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger btn-xs" href="{{ route('elderly.destroy' ,[$elderly->elderly_id]) }}">
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['elderly.destroy', $elderly->elderly_id]]) !!}
+                                        <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                           data-type="warning" data-title="Remove Senior" data-message="Are you sure you want to remove {{ $elderly->name }}?"
+                                           data-yes="Remove" data-no="Cancel">
                                             <span class="fa fa-lg fa-trash"></span> Remove
                                         </a>
+                                        {!! Form::close() !!}
                                     </td>
                                 </tr>
                             @endforeach
@@ -63,5 +73,7 @@
     </div>
 
 </div>
+
+@include('partials.confirm')
 
 @endsection
