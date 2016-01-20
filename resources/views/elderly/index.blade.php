@@ -43,7 +43,7 @@
                                 <tr>
                                     <td>{{ $elderly->nric }}</td>
                                     <td>{{ $elderly->name }}</td>
-                                    <td>{{ $elderly->gender }}</td>
+                                    <td>{{ $elderly->gender == 'M' ? 'Male' : 'Female' }}</td>
                                     <td>{{ $elderly->centre->name }}</td>
                                     <td>{{ $elderly->languages->lists('language')->sort()->implode(', ') }}</td>
                                     <td>{{ $elderly->next_of_kin_name }}</td>

@@ -55,7 +55,6 @@ class ElderlyController extends Controller
             'next_of_kin_name'      => $request->get('nok_name'),
             'next_of_kin_contact'   => $request->get('nok_contact'),
             'medical_condition'     => $request->get('medical_condition'),
-            'image_photo'           => $request->file('photo'),
         ]);
 
         foreach($request->get('languages') as $language) {
@@ -99,7 +98,6 @@ class ElderlyController extends Controller
             'next_of_kin_name'      => $request->get('nok_name'),
             'next_of_kin_contact'   => $request->get('nok_contact'),
             'medical_condition'     => $request->get('medical_condition'),
-            'image_photo'           => $request->file('photo'),
         ]);
 
         foreach($request->get('languages') as $language) {

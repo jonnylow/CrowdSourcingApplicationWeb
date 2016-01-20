@@ -21,7 +21,7 @@ class Elderly extends Model
      * @var array
      */
     protected $fillable = ['nric', 'name', 'gender', 'birth_year', 'next_of_kin_name',
-        'next_of_kin_contact', 'medical_condition', 'image_photo', 'centre_id'];
+        'next_of_kin_contact', 'medical_condition', 'centre_id'];
 
     /**
      * Scope queries to elderly that belongs to all centres associated with the staff.
@@ -55,6 +55,16 @@ class Elderly extends Model
     }
 
     /**
+     * Set the gender attribute.
+     *
+     * @var gender
+     */
+    public function setGenderAttribute($gender)
+    {
+        $this->attributes['gender'] = strtoupper($gender);
+    }
+
+    /**
      * Set the next_of_kin_name attribute.
      *
      * @var nokName
@@ -62,23 +72,6 @@ class Elderly extends Model
     public function setNextOfKinNameAttribute($nokName)
     {
         $this->attributes['next_of_kin_name'] = ucwords(trim($nokName));
-    }
-
-    /**
-     * Get the elderly's gender.
-     *
-     * @param  $gender
-     *
-     * @return string
-     */
-    public function getGenderAttribute($gender)
-    {
-        switch (strtoupper($gender)) {
-            case 'M':
-                return 'Male';
-            case 'F':
-                return 'Female';
-        }
     }
 
     /**
