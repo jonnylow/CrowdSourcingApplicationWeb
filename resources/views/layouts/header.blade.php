@@ -18,14 +18,14 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View all Activities</a></li>
+                        <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View Activities</a></li>
                         <li><a href="{{ asset('activities/create') }}"><span class="fa fa-fw fa-calendar-plus-o"></span> Add new Activity</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Volunteers <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('volunteers') }}"><span class="fa fa-fw fa-users"></span> View all Volunteers</a></li>
+                        <li><a href="{{ asset('volunteers') }}"><span class="fa fa-fw fa-users"></span> View Volunteers</a></li>
                         <li><a href="{{ asset('volunteers/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Volunteer</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ asset('rank') }}"><span class="fa fa-fw fa-list-ol"></span> Manage Ranking</a></li>
@@ -34,7 +34,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seniors <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('elderly') }}"><span class="fa fa-fw fa-users"></span> View all Seniors</a></li>
+                        <li><a href="{{ asset('elderly') }}"><span class="fa fa-fw fa-users"></span> View Seniors</a></li>
                         <li><a href="{{ asset('elderly/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Senior</a></li>
                     </ul>
                 </li>
