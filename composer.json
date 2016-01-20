@@ -49,12 +49,10 @@
         "tymon/jwt-auth": "0.5.*",
         "guzzlehttp/guzzle": "6.1.*",
         "proengsoft/laravel-jsvalidation": "~1.1",
-        "intervention/image": "2.3.5",
         "thomaspark/bootswatch": "3.3.*",
         "fortawesome/font-awesome": "4.*",
         "wenzhixin/bootstrap-table": "1.9.1",
-        "selectize/selectize.js": "0.12.1",
-        "kartik-v/bootstrap-fileinput": "4.2.8"
+        "selectize/selectize.js": "0.12.1"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",
