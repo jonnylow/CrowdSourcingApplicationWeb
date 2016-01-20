@@ -163,6 +163,20 @@ class Activity extends Model
     }
 
     /**
+     * Get the activity's duration in text.
+     *
+     * @return string
+     */
+    public function durationString()
+    {
+        $time = $this->expected_duration_minutes;
+
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        return sprintf('%0d hour, %0d min', $hours, $minutes);
+    }
+
+    /**
      * Get the elderly associated with the activity.
      */
     public function elderly()

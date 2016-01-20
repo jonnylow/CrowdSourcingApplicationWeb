@@ -33,10 +33,10 @@
                                         {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
                                         {!! Form::select('centre', $centreList, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
-                                    <!-- Date To Start Form Input -->
+                                    <!-- Date Form Input -->
                                     <div class="col-md-3 form-group">
-                                        {!! Form::label('date_to_start', 'Date To Start', ['class' => 'control-label']) !!}
-                                        {!! Form::date('date_to_start', null, ['class' => 'form-control', 'required', 'min' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
+                                        {!! Form::label('date', 'Date (dd/mm/yyyy)', ['class' => 'control-label']) !!}
+                                        {!! Form::date('date', null, ['class' => 'form-control', 'required', 'min' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
                                     </div>
                                     <!-- Time To Start Form Input -->
                                     <div class="col-md-3 form-group">
@@ -49,10 +49,12 @@
                                         {!! Form::select('duration', $expectedDuration, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
+                                <div class="row">
                                 <!-- More Information Form Input -->
-                                <div class="form-group">
-                                    {!! Form::label('more_information', 'More Information', ['class' => 'control-label']) !!}
-                                    {!! Form::textarea('more_information', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                    <div class="col-md-12 form-group">
+                                        {!! Form::label('more_information', 'More Information', ['class' => 'control-label']) !!}
+                                        {!! Form::textarea('more_information', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -75,15 +77,21 @@
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('start_location', 'Start Location', ['class' => 'control-label']) !!}
                                         {!! Form::select('start_location', $startLocations, null, ['class' => 'form-control', 'required']) !!}
+                                        <div class="collapse collapse-start-loc">
+                                            <p class="help-block">Location will be saved when activity is added.</p>
+                                        </div>
                                     </div>
                                     <!-- End Location Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('end_location', 'End Location', ['class' => 'control-label']) !!}
                                         {!! Form::select('end_location', $endLocations, null, ['class' => 'form-control', 'required']) !!}
+                                        <div class="collapse collapse-end-loc">
+                                            <p class="help-block">Location will be saved when activity is added.</p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="collapse" id="collapse-start-loc">
+                                <div class="collapse collapse-start-loc">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <!-- Start Location Name Form Input -->
@@ -99,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="collapse" id="collapse-end-loc">
+                                <div class="collapse collapse-end-loc">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <!-- End Location Name Form Input -->
@@ -135,10 +143,13 @@
                                 <div class="col-md-8 col-md-offset-2 form-group">
                                     {!! Form::label('senior', 'Senior NRIC & Name', ['class' => 'control-label']) !!}
                                     {!! Form::select('senior', $seniorList, null, ['class' => 'form-control', 'required']) !!}
+                                    <div class="collapse collapse-senior">
+                                        <p class="help-block">Senior information will be saved when activity is added.</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="collapse" id="collapse-senior">
+                            <div class="collapse collapse-senior">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="row">
@@ -247,58 +258,58 @@
     $('#start_location').on('change', function() {
         var key = $(this).val();
         if(key == "others") {
-            $('#collapse-start-loc').collapse('show');
+            $('.collapse-start-loc').collapse('show');
         } else {
-            $('#collapse-start-loc').collapse('hide');
+            $('.collapse-start-loc').collapse('hide');
         }
     });
 
-    $('#collapse-start-loc').on('show.bs.collapse', function () {
+    $('.collapse-start-loc').on('show.bs.collapse', function () {
         $('#start_location').val("others");
     });
 
-    $('#collapse-start-loc').on('hide.bs.collapse', function () {
+    $('.collapse-start-loc').on('hide.bs.collapse', function () {
         $('#start_location').prop("selectedIndex", 0);
     });
 
     $('#end_location').on('change', function() {
         var key = $(this).val();
         if(key == "others") {
-            $('#collapse-end-loc').collapse('show');
+            $('.collapse-end-loc').collapse('show');
         } else {
-            $('#collapse-end-loc').collapse('hide');
+            $('.collapse-end-loc').collapse('hide');
         }
     });
 
-    $('#collapse-end-loc').on('show.bs.collapse', function () {
+    $('.collapse-end-loc').on('show.bs.collapse', function () {
         $('#end_location').val("others");
     });
 
-    $('#collapse-end-loc').on('hide.bs.collapse', function () {
+    $('.collapse-end-loc').on('hide.bs.collapse', function () {
         $('#end_location').prop("selectedIndex", 0);
     });
 
     $('#senior').on('change', function() {
         var key = $(this).val();
         if(key == "others") {
-            $('#collapse-senior').collapse('show');
+            $('.collapse-senior').collapse('show');
         } else {
-            $('#collapse-senior').collapse('hide');
+            $('.collapse-senior').collapse('hide');
         }
     });
 
-    $('#collapse-senior').on('show.bs.collapse', function () {
+    $('.collapse-senior').on('show.bs.collapse', function () {
         $('#senior').val("others");
     });
 
-    $('#collapse-senior').on('hide.bs.collapse', function () {
+    $('.collapse-senior').on('hide.bs.collapse', function () {
         $('#senior').prop("selectedIndex", 0);
     });
 
     $(document).ready(function() {
-        if($('#start_location').val() == "others") { $('#collapse-start-loc').collapse('show'); }
-        if($('#end_location').val() == "others") { $('#collapse-end-loc').collapse('show'); }
-        if($('#senior').val() == "others") { $('#collapse-senior').collapse('show'); }
+        if($('#start_location').val() == "others") { $('.collapse-start-loc').collapse('show'); }
+        if($('#end_location').val() == "others") { $('.collapse-end-loc').collapse('show'); }
+        if($('#senior').val() == "others") { $('.collapse-senior').collapse('show'); }
     });
 </script>
 

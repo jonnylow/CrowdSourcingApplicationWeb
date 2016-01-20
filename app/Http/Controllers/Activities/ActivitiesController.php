@@ -143,7 +143,7 @@ class ActivitiesController extends Controller
             }
 
             Activity::create([
-                'datetime_start'            => $request->get('date_to_start') . " " . $request->get('time_to_start'),
+                'datetime_start'            => $request->get('date') . " " . $request->get('time_to_start'),
                 'expected_duration_minutes' => $request->get('duration'),
                 'category'                  => 'transport',
                 'more_information'          => $request->get('more_information'),
@@ -270,7 +270,7 @@ class ActivitiesController extends Controller
 
             $activity = Activity::findOrFail($id);
             $activity->update([
-                'datetime_start'            => $request->get('date_to_start') . " " . $request->get('time_to_start'),
+                'datetime_start'            => $request->get('date') . " " . $request->get('time_to_start'),
                 'expected_duration_minutes' => $request->get('duration'),
                 'category'                  => 'transport',
                 'more_information'          => $request->get('more_information'),
