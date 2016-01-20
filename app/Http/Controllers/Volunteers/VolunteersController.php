@@ -56,7 +56,7 @@ class VolunteersController extends Controller
             'rank_id'  => Rank::lowest()->first()->rank_id,
         ]);
 
-        Mail::send('emails.welcome', compact('volunteer', 'randomString'), function ($message) {
+        Mail::send('emails.welcome_volunteer', compact('volunteer', 'randomString'), function ($message) {
             $message->from('imchosen6@gmail.com', 'Admin');
             $message->subject('Your CareGuide account has been created.');
             $message->to('imchosen6@gmail.com');

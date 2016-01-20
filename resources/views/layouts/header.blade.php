@@ -40,10 +40,10 @@
                 </li>
                 @if (Auth::user()->is_admin)
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Staff <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('admin') }}"><span class="fa fa-fw fa-users"></span> View all Staff</a></li>
-                        <li><a href="{{ asset('admin/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Staff</a></li>
+                        <li><a href="{{ asset('staff') }}"><span class="fa fa-fw fa-users"></span> View Staff</a></li>
+                        <li><a href="{{ asset('staff/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Staff</a></li>
                     </ul>
                 </li>
                 @endif

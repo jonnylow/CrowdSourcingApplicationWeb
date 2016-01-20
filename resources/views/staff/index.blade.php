@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Administration')
+@section('title', 'Staff')
 
 @section('content')
 
 <div class="container-fluid margin-bottom-lg">
     <div class="row margin-bottom-sm">
-        <div class="col-md-3"><a href="admin/create" class="btn btn-primary btn-lg">Add new Staff</a></div>
+        <div class="col-md-3"><a href="staff/create" class="btn btn-primary btn-lg">Add new Staff</a></div>
     </div>
 
     <div class="row margin-bottom-sm">
@@ -40,12 +40,12 @@
                                     <td>{{ $staff->is_admin ? "Admin" : "Regular Staff" }}</td>
                                     <td>{{ $staff->centres->lists('name')->sort()->implode(', ') }}</td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('admin.edit', $staff->staff_id) }}">
+                                        <a class="btn btn-default btn-xs" href="{{ route('staff.edit', $staff->staff_id) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
                                     <td>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['admin.destroy', $staff->staff_id]]) !!}
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['staff.destroy', $staff->staff_id]]) !!}
                                         <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
                                            data-type="warning" data-title="Remove Staff" data-message="Are you sure you want to remove {{ $staff->name }}?"
                                            data-yes="Remove" data-no="Cancel">

@@ -11,7 +11,7 @@
 
             @include('errors.list')
 
-            {!! Form::open(['route' => 'admin.store']) !!}
+            {!! Form::open(['route' => 'staff.store']) !!}
 
                 <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
 

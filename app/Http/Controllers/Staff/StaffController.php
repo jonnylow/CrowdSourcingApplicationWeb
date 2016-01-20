@@ -18,7 +18,7 @@ class StaffController extends Controller
     {
         $centreStaff = Staff::ofCentres(Auth::user())->get();
 
-        return view('admin.index', compact('centreStaff'));
+        return view('staff.index', compact('centreStaff'));
     }
 
     public function create()
@@ -27,7 +27,7 @@ class StaffController extends Controller
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
-        return view('admin.create', compact('validator', 'centreList'));
+        return view('staff.create', compact('validator', 'centreList'));
     }
 
     public function store(StaffRequest $request)
@@ -43,13 +43,13 @@ class StaffController extends Controller
 
         $staff->centres()->attach($request->get('centres'));
 
-        Mail::send('emails.welcome', compact('staff', 'randomString'), function ($message) {
+        Mail::send('emails.welcome_staff', compact('staff', 'randomString'), function ($message) {
             $message->from('imchosen6@gmail.com', 'Admin');
             $message->subject('Your CareGuide account has been created.');
             $message->to('imchosen6@gmail.com');
         });
 
-        return redirect('admin')->with('success', 'Staff is added successfully!');
+        return redirect('staff')->with('success', 'Staff is added successfully!');
     }
 
     public function edit($id)
@@ -59,7 +59,7 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
-        return view('admin.edit', compact('validator', 'staff', 'centreList'));
+        return view('staff.edit', compact('validator', 'staff', 'centreList'));
     }
 
     public function update($id, StaffRequest $request)

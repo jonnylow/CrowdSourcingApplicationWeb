@@ -11,7 +11,7 @@
 
             @include('errors.list')
 
-            {!! Form::model($staff, ['method' => 'PATCH', 'route' => ['admin.update', $staff->staff_id]]) !!}
+            {!! Form::model($staff, ['method' => 'PATCH', 'route' => ['staff.update', $staff->staff_id]]) !!}
                 {!! Form::hidden('staff_id', $staff->staff_id) !!}
 
                 <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
@@ -49,7 +49,7 @@
                                             <label class="btn btn-default {{ old('admin') !== null ? old('admin') == '0' ? 'active' : null : $staff->is_admin == false ? 'active' : null }}">
                                                 <input type="radio" name="admin" value="0" autocomplete="off" {{ old('admin') !== null ? old('admin') == '0' ? 'checked' : null : $staff->is_admin == false ? 'checked' : null }}> Regular
                                             </label>
-                                            <label class="btn btn-default {{ old('admin') !== null ? old('admin') == '1' ? 'active' : null : $staff->is_admin == true ? 'active' : null }}">
+                                            <label class="btn btn-default {{ old('staff') !== null ? old('staff') == '1' ? 'active' : null : $staff->is_admin == true ? 'active' : null }}">
                                                 <input type="radio" name="admin" value="1" autocomplete="off" {{ old('admin') !== null ? old('admin') == '1' ? 'checked' : null : $staff->is_admin == true ? 'checked' : null }}> Admin
                                             </label>
                                         </div>

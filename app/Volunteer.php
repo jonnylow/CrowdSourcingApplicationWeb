@@ -90,7 +90,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the password attribute.
+     * Set the gender attribute.
      *
      * @var gender
      */
