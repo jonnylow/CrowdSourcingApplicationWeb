@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class VolunteerRequest extends Request
+class CreateVolunteerRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,29 +24,27 @@ class VolunteerRequest extends Request
      */
     public function rules()
     {
-        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            // Update operation, exclude the record with id from the validation:
-            $nric_rule = 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:volunteers,nric,' . $this->get('volunteer_id') . ',volunteer_id';
-            $email_rule = 'required|email|unique:volunteers,email,' . $this->get('volunteer_id') . ',volunteer_id';
-        } else {
-            // Create operation. There is no id yet.
-            $nric_rule = 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:volunteers,nric,null,volunteer_id';
-            $email_rule = 'required|email|unique:volunteers,email,null,volunteer_id';
-        }
-
         return [
-            'nric'                  => $nric_rule,
+            'nric'                  => 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:volunteers,nric,null,volunteer_id',
             'name'                  => 'required|name',
-            'email'                 => $email_rule,
+            'email'                 => 'required|email|unique:volunteers,email,null,volunteer_id',
             'gender'                => 'required|in:M,F',
             'date_of_birth'         => 'required|date|before:today',
             'contact_no'            => 'required|digits:8|regex:/^[689][0-9]{7}/',
             'occupation'            => 'required|string',
             'car'                   => 'required|boolean',
-            'minutes_volunteered'   => 'required|numeric|min:0|max:99999999',
             'area_of_preference_1'  => 'required|string',
             'area_of_preference_2'  => 'required|string',
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            // Update operation, exclude the record with id from the validation:
+            $rules['nric'] = 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:volunteers,nric,' . $this->get('volunteer_id') . ',volunteer_id';
+            $rules['email'] = 'required|email|unique:volunteers,email,' . $this->get('volunteer_id') . ',volunteer_id';
+            $rules['minutes_volunteered'] = 'required|numeric|min:0|max:99999999';
+        }
+
+        return $rules;
     }
 
     /**
@@ -77,10 +75,6 @@ class VolunteerRequest extends Request
             'occupation.string'             => 'Occupation must be a string.',
             'car.required'                  => 'Car ownership is required.',
             'car.boolean'                   => 'Car ownership must either has or do not has car.',
-            'minutes_volunteered.required'  => 'Total time volunteered is required.',
-            'minutes_volunteered.numeric'   => 'Total time volunteered must be in number.',
-            'minutes_volunteered.min'       => 'Total time volunteered must be at least 0 minutes.',
-            'minutes_volunteered.max'       => 'Total time volunteered must be less than 99,999,999 minutes.',
             'area_of_preference_1.required' => 'Volunteering Preference 1 is required.',
             'area_of_preference_1.string'   => 'Volunteering Preference 1 must be a string.',
             'area_of_preference_2.required' => 'Volunteering Preference 2 is required.',

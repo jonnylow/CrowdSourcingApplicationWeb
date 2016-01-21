@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Volunteers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\VolunteerRequest;
+use App\Http\Requests\CreateVolunteerRequest;
+use App\Http\Requests\EditVolunteerRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Volunteer;
@@ -30,14 +31,14 @@ class VolunteersController extends Controller
 
     public function create()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\VolunteerRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\CreateVolunteerRequest');
 
         $genderList = ['M'=> 'Male', 'F' => 'Female'];
 
         return view('volunteers.create', compact('validator', 'genderList'));
     }
 
-    public function store(VolunteerRequest $request)
+    public function store(CreateVolunteerRequest $request)
     {
         $randomString = Str::random();
 
@@ -67,7 +68,7 @@ class VolunteersController extends Controller
 
     public function edit($id)
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\VolunteerRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\EditVolunteerRequest');
 
         $volunteer = Volunteer::findOrFail($id);
         $genderList = ['M'=> 'Male', 'F' => 'Female'];
@@ -75,7 +76,7 @@ class VolunteersController extends Controller
         return view('volunteers.edit', compact('validator', 'volunteer', 'genderList'));
     }
 
-    public function update($id, VolunteerRequest $request)
+    public function update($id, EditVolunteerRequest $request)
     {
         $volunteer = Volunteer::findOrFail($id);
 
