@@ -11,19 +11,17 @@
 |
 */
 
-Route::get('/', ['middleware' => 'guest', function () {
-    return view('auth.login');
-}]);
+Route::get('/', ['middleware' => 'guest', 'uses' => 'Auth\AuthController@getLogin']);
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
 Route::get('rank', ['middleware' => 'auth', 'uses' => 'Ranks\RankController@index']);
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
-    Route::get('/', 'ProfileController@edit');
-    Route::post('/', 'ProfileController@update');
-    Route::get('password', 'ProfileController@editPassword');
-    Route::post('password', 'ProfileController@updatePassword');
+    Route::get('/', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+    Route::patch('/', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+    Route::get('password', ['as' => 'profile.edit.password', 'uses' => 'ProfileController@editPassword']);
+    Route::patch('password', ['as' => 'profile.update.password', 'uses' => 'ProfileController@updatePassword']);
 });
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {

@@ -60,3 +60,9 @@
 </div> <!-- /.modal -->
 
 @endsection
+
+@section('page-script')
+
+{!! $validator !!}
+
+@endsection

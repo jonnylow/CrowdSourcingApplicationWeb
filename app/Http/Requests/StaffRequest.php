@@ -33,7 +33,7 @@ class StaffRequest extends Request
         }
 
         return [
-            'name'      => 'required|string',
+            'name'      => 'required|name',
             'email'     => $email_rule,
             'admin'     => 'required|boolean',
             'centres'   => 'required|array',
@@ -49,10 +49,10 @@ class StaffRequest extends Request
     {
         return [
             'name.required'     => 'Name is required.',
-            'name.string'       => 'Name must be a string.',
-            'email.required'    => 'Email is required.',
-            'email.email'       => 'Email must be a valid email address.',
-            'email.unique'      => 'Email is already in the system.',
+            'name.name'         => 'Name must contain only alphabets, commas, hyphens, or slashes.',
+            'email.required'    => 'Email address is required.',
+            'email.email'       => 'Email address is invalid.',
+            'email.unique'      => 'Email address has been taken.',
             'admin.required'    => 'Staff type is required.',
             'admin.boolean'     => 'Staff type must be either regular or admin.',
             'centres.required'  => 'Centre is required.',

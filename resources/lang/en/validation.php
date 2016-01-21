@@ -92,7 +92,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'name' => [
-            'name' => 'The :attribute must be a valid name.',
+            'name' => 'Name must contain only alphabets, commas, hyphens, or slashes.',
         ],
     ],
 

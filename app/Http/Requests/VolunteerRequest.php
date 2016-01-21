@@ -36,7 +36,7 @@ class VolunteerRequest extends Request
 
         return [
             'nric'                  => $nric_rule,
-            'name'                  => 'required|string',
+            'name'                  => 'required|name',
             'email'                 => $email_rule,
             'gender'                => 'required|in:M,F',
             'date_of_birth'         => 'required|date|before:today',
@@ -59,12 +59,12 @@ class VolunteerRequest extends Request
         return [
             'nric.required'                 => 'NRIC is required.',
             'nric.regex'                    => 'NRIC is invalid.',
-            'nric.unique'                   => 'NRIC is already in the system.',
+            'nric.unique'                   => 'NRIC has been taken.',
             'name.required'                 => 'Name is required.',
-            'name.string'                   => 'Name must be a string.',
-            'email.required'                => 'Email is required.',
-            'email.email'                   => 'Email must be a valid email address.',
-            'email.unique'                  => 'Email is already in the system.',
+            'name.name'                     => 'Name must contain only alphabets, commas, hyphens, or slashes.',
+            'email.required'                => 'Email address is required.',
+            'email.email'                   => 'Email address is invalid.',
+            'email.unique'                  => 'Email address has been taken.',
             'gender.required'               => 'Gender is required.',
             'gender.in'                     => 'Gender must be either male or female.',
             'date_of_birth.required'        => 'Date of birth is required.',

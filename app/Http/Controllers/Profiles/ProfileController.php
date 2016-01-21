@@ -4,87 +4,66 @@ namespace App\Http\Controllers\Profiles;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Controllers\Controller;
 use Auth;
-use Hash;
-use Validator;
+use JsValidator;
 
 class ProfileController extends Controller
 {
     public function edit()
     {
+        $validator = JsValidator::formRequest('App\Http\Requests\UpdateProfileRequest');
+
         $profile = Auth::user();
-        return view('profiles.profile', compact('profile'));
+        return view('profile.profile', compact('validator', 'profile'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|name',
-            'email' => 'required|email|unique:staff,email,'.Auth::user()->staff_id.',staff_id',
-            'current_password' => 'required',
-        ]);
+        $errors = array();
 
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
+        if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
+            $user = Auth::user();
+
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+
+            $user->save();
+            return back()->with('success', 'Changes updated successfully!');
         } else {
-            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
-                $user = Auth::user();
-
-                $user->name = $request->get('name');
-                $user->email = $request->get('email');
-
-                $user->save();
-                return back()->with('success', 'Changes updated successfully!');
-            } else {
-                $validator->errors()->add('current_password', 'Your current password is incorrect.');
-                return back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
+            $errors = array_add($errors, 'current_password', 'Your current password is incorrect.');
+            return back()
+                ->withErrors($errors)
+                ->withInput();
         }
     }
 
     public function editPassword()
     {
+        $validator = JsValidator::formRequest('App\Http\Requests\UpdatePasswordRequest');
+
         $profile = Auth::user();
-        return view('profiles.password', compact('profile'));
+        return view('profile.password', compact('validator', 'profile'));
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'new_password' => 'required|confirmed',
-            'new_password_confirmation' => 'required_with:new_password|same:new_password',
-            'current_password' => 'required',
-        ]);
+        $errors = array();
 
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
+        if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
+            $user = Auth::user();
+
+            $user->password = $request->get('new_password');
+
+            $user->save();
+            return back()->with('success', 'Changes updated successfully!');
         } else {
-            if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
-                $user = Auth::user();
-
-                if(Hash::check($request->get('new_password'), $user->password)) { // New password is the same as current password
-                    $validator->errors()->add('new_password', 'New password must differ from current password.');
-                } else {
-                    $user->password = $request->get('new_password');
-                    $user->save();
-                    return back()->with('success', 'Changes updated successfully!');
-                }
-
-                return back()
-                    ->withErrors($validator);
-            } else {
-                $validator->errors()->add('current_password', 'Your current password is incorrect.');
-                return back()
-                    ->withErrors($validator);
-            }
+            $errors = array_add($errors, 'current_password', 'Your current password is incorrect.');
+            return back()
+                ->withErrors($errors)
+                ->withInput();
         }
     }
 }

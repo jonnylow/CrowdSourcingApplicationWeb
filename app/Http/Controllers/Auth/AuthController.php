@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use JsValidator;
 
 class AuthController extends Controller
 {
@@ -61,5 +62,46 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | JsValidation integration
+    |--------------------------------------------------------------------------
+    |
+    | To integrate JsValidation package with default Auth Controller
+    | override getLogin and getRegister methods implemented in
+    | AuthenticatesAndRegistersUsers trait to pass JsValidator instance to the view
+    |
+    */
+
+    /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required',
+        ];
+        $validator = JsValidator::make($rules);
+
+        return view('auth.login', compact('validator'));
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getRegister()
+    {
+        $validator = JsValidator::validator(
+            $this->validator([])
+        );
+        return view('auth.register', compact('validator'));
     }
 }
