@@ -168,20 +168,16 @@
                                                 {!! Form::label('senior_gender', 'Senior Gender', ['class' => 'control-label']) !!}
                                                 {!! Form::select('senior_gender', $genderList, null, ['class' => 'form-control']) !!}
                                             </div>
-                                            <!-- Senior Photo Form Input -->
-                                            <div class="col-md-3 form-group">
-                                                {!! Form::label('senior_photo', 'Senior Photo (optional)', ['class' => 'control-label']) !!}
-                                                {!! Form::file('senior_photo', ['class' => 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <!-- Senior Birth Year Form Input -->
-                                            <div class="col-md-2 form-group">
+                                            <div class="col-md-3 form-group">
                                                 {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
                                                 {!! Form::number('senior_birth_year', null, ['class' => 'form-control', 'maxlength' => '4', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
                                             </div>
+
+                                        </div>
+                                        <div class="row">
                                             <!-- Senior Languages Form Input -->
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
                                                 {!! Form::select('languages[]', $seniorLanguages, null, ['class' => 'form-control', 'id' => 'languages', 'multiple']) !!}
                                             </div>
@@ -191,15 +187,17 @@
                                                 {!! Form::text('senior_nok_name', null, ['class' => 'form-control']) !!}
                                             </div>
                                             <!-- Next-of-Kin Contact Number Form Input -->
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 {!! Form::label('senior_nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
                                                 {!! Form::tel('senior_nok_contact', null, ['class' => 'form-control', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
                                             </div>
                                         </div>
-                                        <!-- Medical Condition Form Input -->
-                                        <div class="form-group">
-                                            {!! Form::label('senior_medical', 'Medical Condition', ['class' => 'control-label']) !!}
-                                            {!! Form::textarea('senior_medical', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                        <div class="row">
+                                            <!-- Medical Condition Form Input -->
+                                            <div class="col-md-12 form-group">
+                                                {!! Form::label('senior_medical', 'Medical Condition', ['class' => 'control-label']) !!}
+                                                {!! Form::textarea('senior_medical', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
