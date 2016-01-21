@@ -26,7 +26,7 @@ class ActivityRequest extends Request
     {
         return [
             'centre'                => 'required',
-            'date_to_start'         => 'required|date|after:today',
+            'date'                  => 'required|date|after:today',
             'time_to_start'         => 'required',
             'duration'              => 'required|numeric|min:1',
             'more_information'      => 'string',
@@ -58,9 +58,9 @@ class ActivityRequest extends Request
     {
         return [
             'centre.required'                   => 'Centre is required.',
-            'date_to_start.required'            => 'Date is required.',
-            'date_to_start.date'                => 'Date must be a valid date.',
-            'date_to_start.after'               => 'Date must be after today.',
+            'date.required'                     => 'Date is required.',
+            'date.date'                         => 'Date must be a valid date.',
+            'date.after'                        => 'Date must be after today.',
             'time_to_start.required'            => 'Time is required.',
             'duration.required'                 => 'Duration is required.',
             'duration.numeric'                  => 'Duration must be a number.',
