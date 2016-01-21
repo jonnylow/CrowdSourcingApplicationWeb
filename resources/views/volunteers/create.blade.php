@@ -31,7 +31,7 @@
                                 <!-- NRIC Form Input -->
                                 <div class="col-md-4 form-group">
                                     {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
-                                    {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                    {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
                                 </div>
                                 <!-- Name Form Input -->
                                 <div class="col-md-5 form-group">
@@ -58,7 +58,7 @@
                                 <!-- Contact Number Form Input -->
                                 <div class="col-md-3 form-group">
                                     {!! Form::label('contact_no', 'Contact Number', ['class' => 'control-label']) !!}
-                                    {!! Form::tel('contact_no', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '[0-9]{8}', 'placeholder' => 'e.g. 98765432']) !!}
+                                    {!! Form::tel('contact_no', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 98765432']) !!}
                                 </div>
                             </div>
                         </div>

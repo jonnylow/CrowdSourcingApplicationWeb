@@ -41,10 +41,10 @@ class ActivityRequest extends Request
             'senior_name'           => 'name|required_if:senior,others',
             'senior_gender'         => 'in:M,F|required_if:senior,others',
             'senior_photo'          => 'image',
-            'senior_birth_year'     => 'digits:4|required_if:senior,others',
+            'senior_birth_year'     => 'digits:4|min:1900|required_if:senior,others',
             'languages'             => 'array|required_if:senior,others',
             'senior_nok_name'       => 'name|required_if:senior,others',
-            'senior_nok_contact'    => 'digits:8|required_if:senior,others',
+            'senior_nok_contact'    => 'digits:8|regex:/^[689][0-9]{7}/|required_if:senior,others',
             'senior_medical'        => 'string',
         ];
     }
@@ -86,12 +86,14 @@ class ActivityRequest extends Request
             'senior_gender.required_if'         => 'Senior\'s gender is required.',
             'senior_photo.image'                => 'Senior\'s photo must be an image file.',
             'senior_birth_year.digits'          => 'Senior\'s birth year must be 4 digits.',
+            'senior_birth_year.min'             => 'Senior\'s birth year must not be before 1900.',
             'senior_birth_year.required_if'     => 'Senior\'s birth year is required.',
             'languages.array'                   => 'Language is required.',
             'languages.required_if'             => 'Language is required.',
             'senior_nok_name.name'              => 'NOK\'s name must contain only alphabets, commas, hyphens, or slashes.',
             'senior_nok_name.required_if'       => 'NOK\'s name is required.',
             'senior_nok_contact.digits'         => 'Contact number must be 8 digits.',
+            'senior_nok_contact.regex'          => 'Contact number must starts with 6, 8, or 9.',
             'senior_nok_contact.required_if'    => 'Contact number is required.',
             'senior_medical.string'             => 'Medical condition must be a string.',
         ];

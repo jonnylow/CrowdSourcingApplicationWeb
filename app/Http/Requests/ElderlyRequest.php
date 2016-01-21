@@ -29,11 +29,11 @@ class ElderlyRequest extends Request
             'nric'              => 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:elderly,nric,null,elderly_id',
             'name'              => 'required|name',
             'gender'            => 'required|in:M,F',
-            'birth_year'        => 'required|digits:4',
+            'birth_year'        => 'required|digits:4|min:1900',
             'languages'         => 'required|array',
             'medical_condition' => 'string',
             'nok_name'          => 'required|name',
-            'nok_contact'       => 'required|digits:8',
+            'nok_contact'       => 'required|digits:8|regex:/^[689][0-9]{7}/',
         ];
     }
 
@@ -55,6 +55,7 @@ class ElderlyRequest extends Request
             'gender.in'                 => 'Gender must be either male or female.',
             'birth_year.required'       => 'Birth year is required.',
             'birth_year.digits'         => 'Birth year must be 4 digits.',
+            'birth_year.min'            => 'Birth year must not be before 1900.',
             'languages.required'        => 'Language is required.',
             'languages.array'           => 'Language is required.',
             'medical_condition.string'  => 'Medical condition must be a string.',
@@ -62,6 +63,7 @@ class ElderlyRequest extends Request
             'nok_name.name'             => 'NOK\'s name can contain only alphabets, commas, hyphens, or slashes.',
             'nok_contact.required'      => 'Contact number is required.',
             'nok_contact.digits'        => 'Contact number must be 8 digits.',
+            'nok_contact.regex'         => 'Contact number must starts with 6, 8, or 9.',
         ];
     }
 }

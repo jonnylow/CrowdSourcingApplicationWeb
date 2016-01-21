@@ -36,7 +36,7 @@
                                 <!-- NRIC Form Input -->
                                 <div class="col-md-4 form-group">
                                     {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
-                                    {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                    {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
                                 </div>
                                 <!-- Name Form Input -->
                                 <div class="col-md-4 form-group">
@@ -53,7 +53,7 @@
                                 <!-- Birth Year Form Input -->
                                 <div class="col-md-3 form-group">
                                     {!! Form::label('birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                    {!! Form::number('birth_year', null, ['class' => 'form-control', 'maxlength' => '4', 'pattern' => '^[1-2][0-9]{3}', 'placeholder' => 'e.g. 1965']) !!}
+                                    {!! Form::number('birth_year', null, ['class' => 'form-control', 'maxlength' => '4', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
                                 </div>
                                 <!-- Languages Form Input -->
                                 <div class="col-md-6 form-group">
@@ -92,7 +92,7 @@
                             <!-- Next-of-Kin Contact Number Form Input -->
                             <div class="col-md-6 form-group">
                                 {!! Form::label('nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
-                                {!! Form::tel('nok_contact', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[6|8|9][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
+                                {!! Form::tel('nok_contact', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
                             </div>
                         </div>
                     </div>
