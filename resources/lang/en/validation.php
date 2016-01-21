@@ -94,6 +94,9 @@ return [
         'name' => [
             'name' => 'Name must contain only alphabets, commas, hyphens, or slashes.',
         ],
+        'phone' => [
+            'sg_phone' => 'Phone must contain 8 digits and starts with 6, 8, or 9.'
+        ],
     ],
 
     /*
