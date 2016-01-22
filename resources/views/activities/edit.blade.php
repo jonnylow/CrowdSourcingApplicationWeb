@@ -34,24 +34,35 @@
                                         {!! Form::select('centre', $centreList, $activity->centre_id, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Date Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        {!! Form::label('date', 'Date (dd/mm/yyyy)', ['class' => 'control-label']) !!}
-                                        {!! Form::date('date', $activity->datetime_start->toDateString(), ['class' => 'form-control', 'required', 'min' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
+                                    <div class="col-md-5 form-group">
+                                        {!! Form::label('date', 'Date', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-4">{!! Form::selectMonth('date_month', $activity->datetime_start->month, ['class' => 'form-control date-field', 'required']) !!}</div>
+                                            <div class="col-md-4">{!! Form::number('date_day', $activity->datetime_start->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
+                                            <div class="col-md-4">{!! Form::number('date_year', $activity->datetime_start->year, ['class' => 'form-control date-field', 'required', 'min' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                                        </div>
                                     </div>
                                     <!-- Time To Start Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        {!! Form::label('time_to_start', 'Time To Start (hh:mm AM/PM)', ['class' => 'control-label']) !!}
-                                        {!! Form::time('time_to_start', $activity->datetime_start->toTimeString(), ['class' => 'form-control', 'required']) !!}
-                                    </div>
-                                    <!-- Duration Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        {!! Form::label('duration', 'Expected Duration (in hours)', ['class' => 'control-label']) !!}
-                                        {!! Form::select('duration', $expectedDuration, $activity->expected_duration_minutes/60, ['class' => 'form-control', 'required']) !!}
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('time', 'Time To Start (hh:mm AM/PM)', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-4">{!! Form::number('time_hour', $activity->datetime_start->format('h'), ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-4">{!! Form::number('time_minute', $activity->datetime_start->format('i'), ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                            <div class="col-md-4">{!! Form::select('time_period', $timePeriodList, $activity->datetime_start->format('A'), ['class' => 'form-control', 'required']) !!}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <!-- Duration Form Input -->
+                                    <div class="col-md-3 form-group">
+                                        {!! Form::label('duration', 'Expected Duration (hours, minutes)', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-6">{!! Form::number('duration_hour', $activity->durationHour(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '10', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-6">{!! Form::number('duration_minute', $activity->durationMinute(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                        </div>
+                                    </div>
                                     <!-- More Information Form Input -->
-                                    <div class="col-md-12 form-group">
+                                    <div class="col-md-9 form-group">
                                         {!! Form::label('more_information', 'More Information', ['class' => 'control-label']) !!}
                                         {!! Form::textarea('more_information', $activity->more_information, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                     </div>
@@ -226,6 +237,18 @@
 <script type="text/javascript" src="{{ asset('js/selectize.min.js') }}"></script>
 
 <style>
+    .inline-field div:first-of-type {
+        padding-left: 0px;
+        padding-right: 5px;
+    }
+    .inline-field div:last-of-type {
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+    .inline-field div:not(:first-of-type):not(:last-of-type) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
     .form-control.selectize-control { height: 46px !important; }
     .selectize-input {
         min-height: 46px !important;

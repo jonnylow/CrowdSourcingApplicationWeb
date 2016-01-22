@@ -155,11 +155,23 @@ class Activity extends Model
     }
 
     /**
-     * Set the activity's expected duration in minutes.
+     * Get the hour section of the activity's duration, minutes are not retrieved.
+     *
+     * @return string
      */
-    public function setExpectedDurationMinutesAttribute($duration)
+    public function durationHour()
     {
-        $this->attributes['expected_duration_minutes'] = $duration * 60;
+        return floor($this->expected_duration_minutes / 60);
+    }
+
+    /**
+     * Get the minute section of the activity's duration, hours are not retrieved.
+     *
+     * @return string
+     */
+    public function durationMinute()
+    {
+        return ($this->expected_duration_minutes % 60);
     }
 
     /**

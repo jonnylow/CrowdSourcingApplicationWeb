@@ -29,14 +29,35 @@ class EditVolunteerRequest extends Request
             'name'                  => 'required|name',
             'email'                 => 'required|email|unique:volunteers,email,' . $this->get('volunteer_id') . ',volunteer_id',
             'gender'                => 'required|in:M,F',
-            'date_of_birth'         => 'required|date|before:today',
+            'date_month'            => 'required|between:1,12',
+            'date_day'              => 'required|digits_between:1,2|between:1,31',
+            'date_year'             => 'required|integer|digits:4|min:1900|max:' . date('Y'),
             'contact_no'            => 'required|digits:8|regex:/^[689][0-9]{7}/',
             'occupation'            => 'required|string',
             'car'                   => 'required|boolean',
-            'minutes_volunteered'   => 'required|numeric|min:0|max:99999999',
+            'minutes_volunteered'   => 'required|integer|min:0|max:99999999',
             'area_of_preference_1'  => 'required|string',
             'area_of_preference_2'  => 'required|string',
+
+            // Custom added in 'validate' method
+            'date_of_birth'         => 'required|date_format:Y-m-d|before:today',
         ];
+    }
+
+    /**
+     * Validate request
+     * @return
+     */
+    public function validate()
+    {
+        if (is_string($this->get('date_month')) && is_string($this->get('date_day')) && is_string($this->get('date_year'))) {
+            $combinedDate = implode('-', [$this->get('date_year'), str_pad($this->get('date_month'), 2, '0', STR_PAD_LEFT), str_pad($this->get('date_day'), 2, '0', STR_PAD_LEFT)]);
+            $this->merge([
+                'date_of_birth' => $combinedDate,
+            ]);
+        }
+
+        return parent::validate();
     }
 
     /**
@@ -57,9 +78,16 @@ class EditVolunteerRequest extends Request
             'email.unique'                  => 'Email address has been taken.',
             'gender.required'               => 'Gender is required.',
             'gender.in'                     => 'Gender must be either male or female.',
-            'date_of_birth.required'        => 'Date of birth is required.',
-            'date_of_birth.date'            => 'Date of birth must be a valid date.',
-            'date_of_birth.before'          => 'Date of birth must be before today.',
+            'date_month.required'           => 'Month is required.',
+            'date_month.between'            => 'Month must be between January to December.',
+            'date_day.required'             => 'Day is required.',
+            'date_day.digits_between'       => 'Day must be 1 or 2 digits.',
+            'date_day.between'              => 'Day must be between 1 to 31.',
+            'date_year.required'            => 'Year is required.',
+            'date_year.integer'             => 'Year must be a number.',
+            'date_year.digits'              => 'Year must be 4 digits.',
+            'date_year.min'                 => 'Year must be at least 1900.',
+            'date_year.max'                 => 'Year must be at most ' . date('Y') . '.',
             'contact_no.required'           => 'Contact number is required.',
             'contact_no.digits'             => 'Contact number must be 8 digits.',
             'contact_no.regex'              => 'Contact number must starts with 6, 8, or 9.',
@@ -68,13 +96,18 @@ class EditVolunteerRequest extends Request
             'car.required'                  => 'Car ownership is required.',
             'car.boolean'                   => 'Car ownership must either has or do not has car.',
             'minutes_volunteered.required'  => 'Total time volunteered is required.',
-            'minutes_volunteered.numeric'   => 'Total time volunteered must be in number.',
+            'minutes_volunteered.integer'   => 'Total time volunteered must be a number.',
             'minutes_volunteered.min'       => 'Total time volunteered must be at least 0 minutes.',
             'minutes_volunteered.max'       => 'Total time volunteered must be less than 99,999,999 minutes.',
             'area_of_preference_1.required' => 'Volunteering Preference 1 is required.',
             'area_of_preference_1.string'   => 'Volunteering Preference 1 must be a string.',
             'area_of_preference_2.required' => 'Volunteering Preference 2 is required.',
             'area_of_preference_2.string'   => 'Volunteering Preference 2 must be a string.',
+
+            // Custom added in 'validate' method
+            'date_of_birth.required'        => 'Date of birth is required.',
+            'date_of_birth.date_format'     => 'Date of birth must be a valid date.',
+            'date_of_birth.before'          => 'Date of birth must be before today.',
         ];
     }
 }

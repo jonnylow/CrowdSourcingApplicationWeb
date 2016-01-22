@@ -37,18 +37,18 @@ class ActivitiesController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
 
-        $expectedDuration = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9];
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
         $endLocations = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
+        $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
         $genderList = ['M'=> 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('activities.create', compact('validator', 'centreList', 'expectedDuration', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
+        return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
     public function store(ActivityRequest $request)
@@ -143,9 +143,9 @@ class ActivitiesController extends Controller
             }
 
             Activity::create([
-                'datetime_start'            => $request->get('date') . " " . $request->get('time_to_start'),
+                'datetime_start'            => $request->get('date') . " " . $request->get('time'),
                 'expected_duration_minutes' => $request->get('duration'),
-                'category'                  => 'transport',
+                'category'                  => 'transport', // Fixed to transport category
                 'more_information'          => $request->get('more_information'),
                 'location_from_id'          => $startLocationId,
                 'location_to_id'            => $endLocationId,
@@ -163,18 +163,18 @@ class ActivitiesController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
 
         $activity = Activity::findOrFail($id);
-        $expectedDuration = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9];
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
         $endLocations = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
+        $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
         $genderList = ['M'=> 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('activities.edit', compact('validator', 'activity', 'centreList', 'expectedDuration', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
+        return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
     public function update($id, ActivityRequest $request)
@@ -270,9 +270,9 @@ class ActivitiesController extends Controller
 
             $activity = Activity::findOrFail($id);
             $activity->update([
-                'datetime_start'            => $request->get('date') . " " . $request->get('time_to_start'),
+                'datetime_start'            => $request->get('date') . " " . $request->get('time'),
                 'expected_duration_minutes' => $request->get('duration'),
-                'category'                  => 'transport',
+                'category'                  => 'transport', // Fixed to transport category
                 'more_information'          => $request->get('more_information'),
                 'location_from_id'          => $startLocationId,
                 'location_to_id'            => $endLocationId,

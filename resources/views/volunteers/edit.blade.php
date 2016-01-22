@@ -47,12 +47,16 @@
                                 </div>
                                 <div class="row">
                                     <!-- Date of Birth Form Input -->
-                                    <div class="col-md-4 form-group">
-                                        {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'control-label']) !!}
-                                        {!! Form::date('date_of_birth', $volunteer->date_of_birth->toDateString(), ['class' => 'form-control', 'required', 'max' => Carbon\Carbon::now()->format('Y-m-d')]) !!}
+                                    <div class="col-md-5 form-group">
+                                        {!! Form::label('date_of_birth', 'Date', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-4">{!! Form::selectMonth('date_month', $volunteer->date_of_birth->month, ['class' => 'form-control date-field', 'required']) !!}</div>
+                                            <div class="col-md-4">{!! Form::number('date_day', $volunteer->date_of_birth->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
+                                            <div class="col-md-4">{!! Form::number('date_year', $volunteer->date_of_birth->year, ['class' => 'form-control date-field', 'required', 'min' => '1900', 'max' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                                        </div>
                                     </div>
                                     <!-- Email Form Input -->
-                                    <div class="col-md-5 form-group">
+                                    <div class="col-md-4 form-group">
                                         {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
                                         {!! Form::email('email', $volunteer->email, ['class' => 'form-control', 'required']) !!}
                                     </div>
@@ -137,6 +141,18 @@
 {!! $validator !!}
 
 <style>
+    .inline-field div:first-of-type {
+        padding-left: 0px;
+        padding-right: 5px;
+    }
+    .inline-field div:last-of-type {
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+    .inline-field div:not(:first-of-type):not(:last-of-type) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
     .btn-group {
         border: 2px solid transparent;
         border-radius: 6px;

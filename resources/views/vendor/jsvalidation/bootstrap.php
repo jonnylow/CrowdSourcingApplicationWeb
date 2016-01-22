@@ -20,7 +20,11 @@
                 }
             },
             highlight: function(element) { // highlight error inputs
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // add the Bootstrap error class to the control group
+                if($(element).parents('div.inline-field').length) {
+                    $(element).parent('div').removeClass('has-success').addClass('has-error');
+                } else {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // add the Bootstrap error class to the control group
+                }
             },
 
             <?php if (isset($validator['ignore']) && is_string($validator['ignore'])): ?>
@@ -31,11 +35,19 @@
 
             // Uncomment this to mark as validated non required fields
              unhighlight: function(element) { // revert the change done by highlight
-             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                 if($(element).parents('div.inline-field').length) {
+                     $(element).parent('div').removeClass('has-error').addClass('has-success');
+                 } else {
+                     $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                 }
              },
 
             success: function(element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // remove the Boostrap error class from the control group
+                if($(element).parents('div.inline-field').length) {
+                    $(element).parent('div').removeClass('has-error').addClass('has-success');
+                } else {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // remove the Boostrap error class from the control group
+                }
             },
 
             focusInvalid: false, // do not focus the last invalid input
@@ -68,14 +80,104 @@
             rules: <?php echo json_encode($validator['rules']); ?>
         });
 
-        // Validate selectize.js input
+        // Validate selectize.js inputs
         $(document).on('change', '.selectized', function () {
             $(this).valid();
         });
 
-        // Validate button-grouped radio boxes
+        // Validate .btn-group radio boxes
         $(document).on('change', '.btn-group .btn input', function () {
             $(this).valid();
+        });
+
+        // Validate date-field inputs
+        $(document).on('change', '.date-field', function () {
+            dateMonth = $('select[name="date_month"]').val();
+            dateYear = $('input[name="date_year"]').val();
+            numOfDays = 32 - new Date(dateYear, dateMonth-1, 32).getDate();
+
+            $('input[name="date_day"]').rules('remove');
+            $('input[name="date_day"]').rules('add', {
+                required: true,
+                rangelength: [1, 2],
+                max: numOfDays,
+                messages: {
+                    required: "Day is required.",
+                    rangelength: "Day must be 1 or 2 digits.",
+                    max: "Day must be between 1 to " + numOfDays + "."
+                }
+            });
+            $('input[name="date_day"]').valid();
+        });
+
+        // Validate duration_hour input
+        $(document).on('change', 'input[name="duration_hour"]', function () {
+            durationHour = $('input[name="duration_hour"]').val();
+
+            $('input[name="duration_minute"]').rules('remove');
+            if(durationHour == 0) {
+                $('input[name="duration_minute"]').rules('add', {
+                    required: true,
+                    rangelength: [1, 2],
+                    min: 30,
+                    max: 59,
+                    messages: {
+                        required: "Minute is required.",
+                        rangelength: "Minute must be 1 or 2 digits.",
+                        min: "Minute must be between 30 to 59.",
+                        max: "Minute must be between 30 to 59."
+                    }
+                });
+            } else if(durationHour > 0) {
+                $('input[name="duration_minute"]').rules('add', {
+                    required: true,
+                    rangelength: [1, 2],
+                    min: 0,
+                    max: 59,
+                    messages: {
+                        required: "Minute is required.",
+                        rangelength: "Minute must be 1 or 2 digits.",
+                        min: "Minute must be between 0 to 59.",
+                        max: "Minute must be between 0 to 59."
+                    }
+                });
+            }
+            $('input[name="duration_minute"]').valid();
+        });
+
+        // Validate duration_minute input
+        $(document).on('change', 'input[name="duration_minute"]', function () {
+            durationMinute = $('input[name="duration_minute"]').val();
+
+            $('input[name="duration_hour"]').rules('remove');
+            if(durationMinute == 0) {
+                $('input[name="duration_hour"]').rules('add', {
+                    required: true,
+                    rangelength: [1, 2],
+                    min: 1,
+                    max: 10,
+                    messages: {
+                        required: "Hour is required.",
+                        rangelength: "Minute must be 1 or 2 digits.",
+                        min: "Hour must be between 1 to 10.",
+                        max: "Hour must be between 1 to 10."
+                    }
+                });
+            } else if(durationMinute > 0) {
+                $('input[name="duration_hour"]').rules('add', {
+                    required: true,
+                    rangelength: [1, 2],
+                    min: 0,
+                    max: 10,
+                    messages: {
+                        required: "Hour is required.",
+                        rangelength: "Minute must be 1 or 2 digits.",
+                        min: "Hour must be between 0 to 10.",
+                        max: "Hour must be between 0 to 10."
+                    }
+                });
+            }
+            $('input[name="duration_hour"]').valid();
         });
     })
 </script>
