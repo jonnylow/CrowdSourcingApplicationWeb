@@ -33,7 +33,7 @@ class VolunteersController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateVolunteerRequest');
 
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
 
         return view('volunteers.create', compact('validator', 'genderList'));
     }
@@ -71,7 +71,7 @@ class VolunteersController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\EditVolunteerRequest');
 
         $volunteer = Volunteer::findOrFail($id);
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
 
         return view('volunteers.edit', compact('validator', 'volunteer', 'genderList'));
     }

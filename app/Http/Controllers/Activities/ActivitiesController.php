@@ -45,7 +45,7 @@ class ActivitiesController extends Controller
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
@@ -171,7 +171,7 @@ class ActivitiesController extends Controller
         $startLocations = collect($centreList)->sort()->put('others', 'Others');
         $endLocations = collect($endLocations)->sort()->put('others', 'Others');
         $seniorList = collect($seniorList)->sort()->put('others', 'Others');
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));

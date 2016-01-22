@@ -32,7 +32,7 @@ class ElderlyController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\ElderlyRequest');
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
         $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         if(is_array(old('languages'))) {
@@ -73,7 +73,7 @@ class ElderlyController extends Controller
 
         $elderly = Elderly::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
-        $genderList = ['M'=> 'Male', 'F' => 'Female'];
+        $genderList = ['M' => 'Male', 'F' => 'Female'];
         $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
         if(is_array(old('languages'))) {
