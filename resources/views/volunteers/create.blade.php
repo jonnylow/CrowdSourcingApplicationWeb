@@ -47,7 +47,7 @@
                             <div class="row">
                                 <!-- Date of Birth Form Input -->
                                 <div class="col-md-5 form-group">
-                                    {!! Form::label('date_of_birth', 'Date', ['class' => 'control-label']) !!}
+                                    {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'control-label']) !!}
                                     <div class="inline-field">
                                         <div class="col-md-4">{!! Form::selectMonth('date_month', null, ['class' => 'form-control date-field', 'required']) !!}</div>
                                         <div class="col-md-4">{!! Form::number('date_day', null, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
