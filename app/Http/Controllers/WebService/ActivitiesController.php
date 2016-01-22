@@ -35,17 +35,41 @@ class ActivitiesController extends Controller
      */
     public function retrieveTransportActivity(Request $request)
     {
-        $approvedActivities = Activity::with('tasks')
-            ->whereHas('tasks', function ($query) {
+        if ($request->get('token') != null){
+                $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+                $id = $authenticatedUser->volunteer_id;
+                $limit = $request->get('limit');
+                $approvedActivities = Activity::with('tasks')
+                ->whereHas('tasks', function ($query) {
+                    $query->where('approval', 'like', 'approved');
+                })->lists('activity_id');
+
+                $appliedActivities = Task::Where('volunteer_id', '=', $id)->where(function($query){
+                    $query->where('approval', '=','rejected')
+                    ->orWhere('approval', '=','pending');})
+                    ->lists('activity_id');
+
+
+                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                ->upcoming()
+                ->whereNotIn('activity_id', $approvedActivities)
+                ->whereNotIn('activity_id', $appliedActivities)
+                ->get();
+
+                return response()->json(compact('activities'));
+            } else {
+                $approvedActivities = Activity::with('tasks')
+                ->whereHas('tasks', function ($query) {
                 $query->where('approval', 'like', 'approved');
-            })->lists('activity_id');
+                })->lists('activity_id');
 
-        $activities = Activity::with('departureCentre', 'arrivalCentre')
-            ->upcoming()
-            ->whereNotIn('activity_id', $approvedActivities)
-            ->get();
+                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                ->upcoming()
+                ->whereNotIn('activity_id', $approvedActivities)
+                ->get();
 
-        return response()->json(compact('activities'));
+                return response()->json(compact('activities'));
+            }
     }
 
 // tested working with new database 
