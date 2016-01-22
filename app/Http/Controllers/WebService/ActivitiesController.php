@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Controllers\WebService\VolunteerAuthController;
 use Config;
 use App\Activity;
 use App\Task;
@@ -23,6 +24,7 @@ class ActivitiesController extends Controller
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
+        Config::set('auth.model', 'App\Volunteer');
         $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity', 'retrieveTransportByUser', 'retrieveRecommendedTransportActivity', 'addNewActivity', 'addUserAccount', 'checkActivityApplication', 'updateActivityStatus', 'withdraw','retrieveFilter']]);
     }
 
@@ -107,23 +109,51 @@ class ActivitiesController extends Controller
     {
         // retrieve the nearest upcoming activites based on dates
         // limit will be determined by jonathan
-        if ($request->get('limit') == null) {
+        if ($request->get('limit') == null ) {
             $status = array("Missing parameter");
             return response()->json(compact('status'));
         } else {
-            $limit = $request->get('limit');
-            $approvedActivities = Activity::with('tasks')
-            ->whereHas('tasks', function ($query) {
-                $query->where('approval', 'like', 'approved');
-            })->lists('activity_id');
 
-        $activities = Activity::with('departureCentre', 'arrivalCentre')
-            ->upcoming()
-            ->whereNotIn('activity_id', $approvedActivities)
-            ->take($limit)
-            ->get();
+            if ($request->get('token') != null){
+                $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+                $id = $authenticatedUser->volunteer_id;
+                $limit = $request->get('limit');
+                $approvedActivities = Activity::with('tasks')
+                ->whereHas('tasks', function ($query) {
+                    $query->where('approval', 'like', 'approved');
+                })->lists('activity_id');
 
-            return response()->json(compact('activities'));
+                $appliedActivities = Task::Where('volunteer_id', '=', $id)->where(function($query){
+                    $query->where('approval', '=','rejected')
+                    ->orWhere('approval', '=','pending');})
+                    ->lists('activity_id');
+
+
+                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                ->upcoming()
+                ->whereNotIn('activity_id', $approvedActivities)
+                ->whereNotIn('activity_id', $appliedActivities)
+                ->take($limit)
+                ->get();
+
+                return response()->json(compact('activities'));
+            } else {
+                $id = $request->get('id');
+                $limit = $request->get('limit');
+                $approvedActivities = Activity::with('tasks')
+                ->whereHas('tasks', function ($query) {
+                    $query->where('approval', 'like', 'approved');
+                })->lists('activity_id');
+
+                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                ->upcoming()
+                ->whereNotIn('activity_id', $approvedActivities)
+                ->take($limit)
+                ->get();
+
+                return response()->json(compact('activities'));
+            }
+            
         }
 
 
@@ -228,23 +258,13 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         } else {
             $filter = $request->get('filter');
+            
         }
-        $activities = Activity::upcoming()
-            ->select('activities.*')
-            ->leftJoin('tasks', function ($join) {
-                $join->on('activities.activity_id', '=', 'tasks.activity_id');
-            })
-            ->whereNull('tasks.activity_id')
-            ->orWhere('approval', '<>', 'approved')
-            ->distinct()
-            ->get();
+        
         
 
 
-        return response()->json(compact('activities'));
+        
     }
-
-        
-
 
 }

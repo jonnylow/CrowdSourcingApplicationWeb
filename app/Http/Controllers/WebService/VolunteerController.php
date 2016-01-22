@@ -68,7 +68,7 @@ class VolunteerController extends Controller
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
                 'rank_id'                   => Rank::where('min', 0)->first()->rank_id,
-                'is_approved'               => 'False']);
+                'is_approved'               => 'false']);
         //}
     $check = $request->get('email');
     $email = Volunteer::where('email',$check)->get();
