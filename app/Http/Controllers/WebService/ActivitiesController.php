@@ -221,7 +221,10 @@ class ActivitiesController extends Controller
             $userID = $request->get('volunteer_id');
             $actID = $request->get('activity_id');
 
-            $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->get();
+            $withdrawnTask = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->where('approval', '=' , 'withdrawn')->lists('activity_id');
+            //return response()->json(compact('withdrawnTask'));
+
+            $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
             //return response()->json(compact('email'));
 
             if ($task->isEmpty()) {
