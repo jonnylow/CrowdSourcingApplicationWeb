@@ -262,7 +262,6 @@ class ActivitiesController extends Controller
             if ($status == "completed"){
                 $activity = Activity::findOrFail($activity_id);
                 $timeToAdd =$activity->expected_duration_minutes;
-                echo $timeToAdd;
                 $volunteer = Volunteer::findOrFail($volunteer_id);
                 $currentTime=$volunteer->minutes_volunteered;
                 $volunteer->minutes_volunteered=$timeToAdd + $currentTime;
