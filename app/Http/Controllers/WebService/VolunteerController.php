@@ -142,6 +142,11 @@ class VolunteerController extends Controller
     // retrieve all details based on volunteer id
     $id = $request->get('id');
     $volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->get();
+    $volunteerHours = Volunteer::findOrFail($id)->timeVolunteered();
+
+    //$volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->timeVolunteered()->get()->toArray();
+    //array_set($volunteerArray, 'volunteer.minutes_volunteered', $volunteerHours);
+
     $volunteerRank = Volunteer::findOrFail($id)->rank_id;
     $volunteerRank = $volunteerRank - 1;
     if ($volunteerRank > 1){
@@ -149,10 +154,7 @@ class VolunteerController extends Controller
     } else {
       $nextRank = '';
     }
-    
-    
-
-    return response()->json(compact('volunteer','nextRank'));
+    return response()->json(compact('volunteer','volunteerHours','nextRank'));
    }
 
    public function verifyUserEmailandPassword(Request $request){

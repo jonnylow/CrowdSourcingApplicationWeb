@@ -201,6 +201,12 @@ class ActivitiesController extends Controller
                 $user->activities()->attach($actID);
                 $status = array("Application Successful");
                 return response()->json(compact('status'));
+            } elseif (sizeof($task)> 0) {
+                $taskUpdate = $task->first();
+                $taskUpdate->approval = "pending";
+                $taskUpdate->save();
+                $status = array("Reapplication Successful");
+                return response()->json(compact('status'));
             } else {
                 $status = array("error");
                 return response()->json(compact('status'));
@@ -253,7 +259,17 @@ class ActivitiesController extends Controller
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['status' => $status]);
             //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
 
-            $status = array("Application Successful");
+            if ($status == "completed"){
+                $activity = Activity::findOrFail($activity_id);
+                $timeToAdd =$activity->expected_duration_minutes;
+                echo $timeToAdd;
+                $volunteer = Volunteer::findOrFail($volunteer_id);
+                $currentTime=$volunteer->minutes_volunteered;
+                $volunteer->minutes_volunteered=$timeToAdd + $currentTime;
+                $volunteer->save();
+            }
+
+            $status = array("Update Successful");
             return response()->json(compact('status'));
             //$check = Task::findOrFail($task->id);
         }
