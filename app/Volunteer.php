@@ -50,6 +50,36 @@ class Volunteer extends Model implements AuthenticatableContract,
     protected $dates = ['date_of_birth'];
 
     /**
+     * Set the nric attribute.
+     *
+     * @var nric
+     */
+    public function setNricAttribute($nric)
+    {
+        $this->attributes['nric'] = strtoupper($nric);
+    }
+
+    /**
+     * Set the name attribute.
+     *
+     * @var name
+     */
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(trim($name));
+    }
+
+    /**
+     * Set the email attribute.
+     *
+     * @var email
+     */
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = trim($email);
+    }
+
+    /**
      * Set the password attribute.
      *
      * @var password
@@ -60,34 +90,71 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the volunteer's gender.
+     * Set the gender attribute.
      *
-     * @param  $gender
-     *
-     * @return string
+     * @var gender
      */
-    public function getGenderAttribute($gender)
+    public function setGenderAttribute($gender)
     {
-        switch (strtoupper($gender)) {
-            case 'M':
-                return 'Male';
-            case 'F':
-                return 'Female';
+        $this->attributes['gender'] = strtoupper($gender);
+    }
+
+    /**
+     * Set if the volunteer has car.
+     */
+    public function setHasCarAttribute($car)
+    {
+        if($car == "1" || $car == 1 || $car) {
+            $this->attributes['has_car'] = true;
+        } else {
+            $this->attributes['has_car'] = false;
         }
     }
 
     /**
-     * Get the volunteer's volunteered hours.
+     * Get the volunteer's rank points.
      *
-     * @param  $minute
+     * @return int
+     */
+    public function rankPoints()
+    {
+        // 1 point for every 60 minutes volunteered
+        // Truncate extra decimal points
+        return intval($this->minutes_volunteered / 60);
+    }
+
+    /**
+     * Get the volunteer's volunteered time.
      *
      * @return string
      */
-    public function getMinutesVolunteeredAttribute($minute)
+    public function timeVolunteered()
     {
-        $hours = floor($minute / 60);
-        $minutes = ($minute % 60);
+        $time = $this->minutes_volunteered;
+
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
         return sprintf('%0d hour, %0d min', $hours, $minutes);
+    }
+
+    /**
+     * Get the volunteer's completed activities count.
+     *
+     * @return integer
+     */
+    public function numOfCompletedActivity()
+    {
+        return $this->tasks->where('status', 'completed')->count();
+    }
+
+    /**
+     * Get the volunteer's withdrawn activity application count.
+     *
+     * @return integer
+     */
+    public function numOfWithdrawnActivity()
+    {
+        return $this->tasks->where('approval', 'withdrawn')->count();
     }
 
     /**
