@@ -285,12 +285,13 @@ class ActivitiesController extends Controller
         }
     }
 
-    public function rejectVolunteer($activityId, $volunteerId) {
+    public function rejectVolunteer($activityId, $volunteerId, Request $request) {
         $task = Task::where('activity_id', $activityId)
             ->where('volunteer_id', $volunteerId)
             ->where('approval', 'pending')
             ->firstOrFail();
 
+        $task->comment = $request->get('comment');
         $task->approval = "rejected";
         $task->save();
 

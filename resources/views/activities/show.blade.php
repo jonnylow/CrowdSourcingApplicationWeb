@@ -135,10 +135,11 @@
                                                 @else
                                                     {!! Form::open(['method' => 'PATCH', 'route' => ['activities.reject.volunteer', $activity->activity_id, $volunteer->volunteer_id]]) !!}
                                                         <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
-                                                            data-type="question" data-title="Reject Volunteer" data-message="Are you sure you want to reject {{ $volunteer->name }}?"
-                                                            data-yes="Reject" data-no="Cancel">
+                                                           data-type="textbox" data-title="Reject Volunteer" data-message="Reason for rejecting {{ $volunteer->name }}:"
+                                                           data-yes="Reject" data-no="Cancel">
                                                             <span class="fa fa-lg fa-times"></span> Reject
                                                         </a>
+                                                        {!! Form::hidden('comment', null, ['class' => 'form-control']) !!}
                                                     {!! Form::close() !!}
                                                 @endif
                                             </td>
@@ -149,8 +150,8 @@
                                                 @else
                                                     {!! Form::open(['method' => 'PATCH', 'route' => ['activities.approve.volunteer', $activity->activity_id, $volunteer->volunteer_id]]) !!}
                                                         <a class="btn btn-success btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
-                                                            data-type="question" data-title="Approve Volunteer" data-message="Are you sure you want to approve {{ $volunteer->name }}? This will reject all other volunteers."
-                                                            data-yes="Approve" data-no="Cancel">
+                                                           data-type="question" data-title="Approve Volunteer" data-message="Are you sure you want to approve {{ $volunteer->name }}? This will reject all other volunteers."
+                                                           data-yes="Approve" data-no="Cancel">
                                                             <span class="fa fa-lg fa-check"></span> Approve
                                                         </a>
                                                     {!! Form::close() !!}

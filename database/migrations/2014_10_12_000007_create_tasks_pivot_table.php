@@ -20,6 +20,7 @@ class CreateTasksPivotTable extends Migration
             $table->foreign('activity_id')->references('activity_id')->on('activities');
             $table->enum('status', ['new task', 'pick-up', 'at check-up', 'check-up completed', 'completed'])->default('new task');
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
