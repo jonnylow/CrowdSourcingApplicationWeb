@@ -19,7 +19,7 @@ class Task extends Model
      *
      * @var array
      */
-    protected $fillable = ['volunteer_id', 'activity_id', 'status', 'approval'];
+    protected $fillable = ['volunteer_id', 'activity_id', 'status', 'approval', 'comment'];
 
     /**
      * Scope queries to tasks that belongs to a particular activity.

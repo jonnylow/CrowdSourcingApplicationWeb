@@ -285,6 +285,22 @@ class ActivitiesController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        $activity = Activity::with('volunteers')->findOrFail($id);
+
+        foreach ($activity->volunteers as $volunteer) {
+            if($volunteer->pivot->approval == "pending" || $volunteer->pivot->approval == "approved") {
+                $volunteer->pivot->comment = "Auto-rejection. Activity is cancelled.";
+                $volunteer->pivot->approval = "rejected";
+                $volunteer->pivot->save();
+            }
+        }
+        $activity->delete();
+
+        return redirect('activities')->with('success', 'Activity is cancelled successfully!');
+    }
+
     public function rejectVolunteer($activityId, $volunteerId, Request $request) {
         $task = Task::where('activity_id', $activityId)
             ->where('volunteer_id', $volunteerId)

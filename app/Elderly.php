@@ -31,6 +31,30 @@ class Elderly extends Model
      */
     protected $dates = ['deleted_at'];
 
+    /*
+     * Overwrite the boot function of Eloquent Model to listen for deleting event so as to
+     * cancel all associated activities and languages when an elderly account is removed.
+     */
+    protected static function boot() {
+        parent::boot();
+
+        Elderly::deleting(function($elderly) {
+            foreach(['activities', 'languages'] as $relation) {
+                foreach($elderly->{$relation} as $item) {
+                    $item->delete();
+                }
+            }
+        });
+
+        Elderly::restored(function($elderly) {
+            foreach(['activities', 'languages'] as $relation) {
+                foreach($elderly->{$relation}->withTrashed() as $item) {
+                    $item->restore();
+                }
+            }
+        });
+    }
+
     /**
      * Scope queries to elderly that belongs to all centres associated with the staff.
      *

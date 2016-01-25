@@ -189,7 +189,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     public function activities()
     {
         return $this->belongsToMany('App\Activity', 'tasks', 'volunteer_id', 'activity_id')
-            ->withPivot('status', 'approval')
+            ->withPivot('status', 'approval', 'comment')
             ->withTimestamps();
     }
 }

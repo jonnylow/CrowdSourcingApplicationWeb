@@ -243,7 +243,7 @@ class Activity extends Model
     public function volunteers()
     {
         return $this->belongsToMany('App\Volunteer', 'tasks', 'activity_id', 'volunteer_id')
-            ->withPivot('status', 'approval')
+            ->withPivot('status', 'approval', 'comment')
             ->withTimestamps();
     }
 }

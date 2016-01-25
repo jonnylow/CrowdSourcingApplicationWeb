@@ -57,7 +57,19 @@
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
-                                <dt>Start Date:</dt><dd>{{ $activity->datetime_start->format('D, j M Y') }}</dd>
+                                <dt>Start Date:</dt>
+                                <dd>
+                                    {{ $activity->datetime_start->format('D, j M Y') }}
+                                    @if ($activity->datetime_start->isFuture())
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['activities.destroy', $activity->activity_id]]) !!}
+                                        <a href="#" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                           data-type="warning" data-title="Cancel Activity" data-message="Are you sure you want to cancel this activity?"
+                                           data-yes="Yes" data-no="No">
+                                            <span class="badge alert-danger">Cancel Activity</span>
+                                        </a>
+                                        {!! Form::close() !!}
+                                    @endif
+                                </dd>
                                 <dt>Start Time:</dt><dd>{{ $activity->datetime_start->format('g:i a') }}</dd>
                                 <dt>Expected End Time:</dt><dd>{{ $activity->datetime_start->addMinutes($activity->expected_duration_minutes)->format('g:i a') }}</dd>
                                 <dt>Duration:</dt><dd>{{ $activity->durationString() }}</dd>
