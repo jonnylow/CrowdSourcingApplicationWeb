@@ -63,6 +63,16 @@ class Activity extends Model
     }
 
     /**
+     * Scope queries to activities that are cancelled.
+     *
+     * @var query
+     */
+    public function scopeCancelled($query)
+    {
+        $query->onlyTrashed()->latest('datetime_start');
+    }
+
+    /**
      * Scope queries to activities that belongs to all centres associated with the staff.
      *
      * @var $query

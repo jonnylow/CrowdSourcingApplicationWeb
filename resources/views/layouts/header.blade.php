@@ -20,6 +20,8 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View Activities</a></li>
                         <li><a href="{{ asset('activities/create') }}"><span class="fa fa-fw fa-calendar-plus-o"></span> Add new Activity</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ asset('activities/cancelled') }}"><span class="fa fa-fw fa-ban"></span> View cancelled Activities</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

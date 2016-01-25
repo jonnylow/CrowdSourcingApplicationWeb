@@ -301,6 +301,13 @@ class ActivitiesController extends Controller
         return redirect('activities')->with('success', 'Activity is cancelled successfully!');
     }
 
+    public function showCancelled()
+    {
+        $activities = Activity::with('elderly')->cancelled()->ofCentreForStaff(Auth::user())->get();
+
+        return view('activities.cancelled', compact('activities'));
+    }
+
     public function rejectVolunteer($activityId, $volunteerId, Request $request) {
         $task = Task::where('activity_id', $activityId)
             ->where('volunteer_id', $volunteerId)
