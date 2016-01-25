@@ -22,7 +22,7 @@ class ElderlyController extends Controller
 
     public function show($id)
     {
-        $elderly = Elderly::with('languages')->findOrFail($id);
+        $elderly = Elderly::with('activities', 'languages')->findOrFail($id);
 
         return view('elderly.show', compact('elderly'));
     }

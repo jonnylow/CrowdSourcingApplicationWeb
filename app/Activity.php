@@ -98,6 +98,19 @@ class Activity extends Model
     }
 
     /**
+     * Get the approved volunteer(if any) for the activity, else return NULL.
+     */
+    public function getApprovedVolunteer()
+    {
+        $volunteers = $this->volunteers()->get();
+        foreach($volunteers as $volunteer) {
+            if($volunteer->pivot->approval == 'approved')
+                return $volunteer;
+        }
+        return null;
+    }
+
+    /**
      * Get the current progress of the activity.
      */
     public function getProgress()

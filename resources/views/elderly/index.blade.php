@@ -23,12 +23,13 @@
                     <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
                         <thead>
                             <tr>
+                                <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" rowspan="2" data-field="nric" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">NRIC</th>
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>
                                 <th class="col-md-1" rowspan="2" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
                                 <th class="col-md-1" rowspan="2" data-field="centre" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Centre</th>
                                 <th class="col-md-2" rowspan="2" data-field="languages" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Languages</th>
-                                <th class="col-md-3" colspan="2" data-halign="center" data-align="center" data-valign="middle">Next-of-Kin</th>
+                                <th class="col-md-2" colspan="2" data-halign="center" data-align="center" data-valign="middle">Next-of-Kin</th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                             </tr>
@@ -41,6 +42,7 @@
                         @if (count($elderlyInCentres))
                             @foreach ($elderlyInCentres as $elderly)
                                 <tr>
+                                    <td><a class="btn btn-info btn-xs" href="{{ route('elderly.show', $elderly->elderly_id) }}">Details</a></td>
                                     <td>{{ $elderly->nric }}</td>
                                     <td>{{ $elderly->name }}</td>
                                     <td>{{ $elderly->gender == 'M' ? 'Male' : 'Female' }}</td>

@@ -73,7 +73,7 @@
                                 <dt>Start Time:</dt><dd>{{ $activity->datetime_start->format('g:i a') }}</dd>
                                 <dt>Expected End Time:</dt><dd>{{ $activity->datetime_start->addMinutes($activity->expected_duration_minutes)->format('g:i a') }}</dd>
                                 <dt>Duration:</dt><dd>{{ $activity->durationString() }}</dd>
-                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="#"><span class="badge alert-info">Details</span></a></dd>
+                                <dt>Senior's Name:</dt><dd>{{ $activity->elderly->name }} <a href="{{ route('elderly.show', $activity->elderly_id) }}"><span class="badge alert-info">Details</span></a></dd>
                                 <br>
                                 <dt>Additional Info:</dt><dd>{{ $activity->more_information }}</dd>
                             </dl>
