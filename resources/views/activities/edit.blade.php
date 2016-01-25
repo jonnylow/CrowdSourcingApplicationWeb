@@ -182,7 +182,7 @@
                                             <!-- Senior Birth Year Form Input -->
                                             <div class="col-md-3 form-group">
                                                 {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                                {!! Form::number('senior_birth_year', null, ['class' => 'form-control', 'maxlength' => '4', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
+                                                {!! Form::number('senior_birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
                                             </div>
 
                                         </div>
