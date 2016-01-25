@@ -28,7 +28,7 @@ class CreateVolunteersTable extends Migration
             $table->string('area_of_preference_2');
             $table->string('image_nric_front')->nullable();
             $table->string('image_nric_back')->nullable();
-            $table->boolean('is_approved')->default(false);
+            $table->enum('is_approved', ['pending', 'rejected', 'approved'])->default('pending');
             $table->integer('rank_id')->unsigned();
             $table->foreign('rank_id')->references('rank_id')->on('ranks');
             $table->timestamps();

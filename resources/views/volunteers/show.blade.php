@@ -7,23 +7,27 @@
 <div class="container-fluid margin-bottom-lg">
     <div class="row margin-bottom-xs">
         <div class="col-md-10 col-md-offset-1">
-            <div class="{{ $volunteer->is_approved ? 'col-md-12' : 'col-md-7' }}">
+            <div class="{{ $volunteer->is_approved == 'approved' ? 'col-md-12' : 'col-md-7' }}">
                 <h1>
                     {{ $volunteer->name }}
                     <small>
-                        @if($volunteer->is_approved)
+                        @if($volunteer->is_approved == 'approved')
                             <span class="label label-success">
                                 <span class="fa fa-lg fa-check"></span> Training is completed
                             </span>
-                        @else
+                        @elseif($volunteer->is_approved == 'rejected')
                             <span class="label label-danger">
-                                <span class="fa fa-lg fa-times"></span> Training not completed
+                                <span class="fa fa-lg fa-times"></span> Volunteer is rejected
+                            </span>
+                        @else
+                            <span class="label label-info">
+                                <span class="fa fa-lg fa-hourglass-start"></span> Waiting for approval
                             </span>
                         @endif
                     </small>
                 </h1>
             </div>
-            @if( ! $volunteer->is_approved)
+            @if($volunteer->is_approved == 'pending')
                 <div class="col-md-5 pull-down">
                     <div class="btn-toolbar pull-right">
                         <div class="btn-group margin-bottom-xs">
@@ -65,7 +69,7 @@
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
-                                <dt>NRIC:</dt><dd>{{ $volunteer->nric }} <a href="#"><span class="badge alert-info">Front</span></a> <a href="#"><span class="badge alert-info">Back</span></a></dd>
+                                <dt>NRIC:</dt><dd>{{ $volunteer->nric }}</dd>
                                 <dt>Date of Birth:</dt><dd>{{ $volunteer->date_of_birth->format('j M Y') }}</dd>
                                 <dt>Age:</dt><dd>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></dd>
                                 <dt>Gender:</dt><dd>{{ $volunteer->gender == 'M' ? 'Male' : 'Female' }}</dd>

@@ -100,10 +100,8 @@ class VolunteersController extends Controller
     public function rejectVolunteer($id) {
         $volunteer = Volunteer::findOrFail($id);
 
-        if($volunteer->is_approved) {
-            $volunteer->is_approved = false;
-            $volunteer->save();
-        }
+        $volunteer->is_approved = 'rejected';
+        $volunteer->save();
 
         return back()->with('success', 'Volunteer is rejected!');
     }
@@ -111,10 +109,8 @@ class VolunteersController extends Controller
     public function approveVolunteer($id) {
         $volunteer = Volunteer::findOrFail($id);
 
-        if( ! $volunteer->is_approved) {
-            $volunteer->is_approved = true;
-            $volunteer->save();
-        }
+        $volunteer->is_approved = 'approved';
+        $volunteer->save();
 
         return back()->with('success', 'Volunteer is approved!');
     }
