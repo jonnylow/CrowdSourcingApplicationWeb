@@ -54,6 +54,7 @@ class VolunteersController extends Controller
             'has_car'  => $request->get('car'),
             'area_of_preference_1'  => $request->get('area_of_preference_1'),
             'area_of_preference_2'  => $request->get('area_of_preference_2'),
+            'is_approved' => 'approved',
             'rank_id'  => Rank::lowest()->first()->rank_id,
         ]);
 

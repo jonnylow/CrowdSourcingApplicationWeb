@@ -45,7 +45,7 @@
                                     <td>{{ $volunteer->name }}</td>
                                     <td>{{ $volunteer->rank->name }}</td>
                                     <td>{{ $volunteer->contact_no }}</td>
-                                    <td>{{ $volunteer->is_approved ? "Yes" : "No" }}</td>
+                                    <td>{{ ucwords($volunteer->is_approved) }}</td>
                                     <td>{{ $volunteer->numOfCompletedActivity() }}</td>
                                     <td>{{ $volunteer->numOfWithdrawnActivity() }}</td>
                                     <td>

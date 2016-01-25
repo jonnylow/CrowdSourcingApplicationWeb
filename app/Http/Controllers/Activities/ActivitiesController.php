@@ -306,6 +306,7 @@ class ActivitiesController extends Controller
                 if ($task->volunteer_id == $volunteerId) {
                     $task->approval = "approved";
                 } else {
+                    $task->comment = "Auto-rejection. Activity is taken up by another volunteer.";
                     $task->approval = "rejected";
                 }
             }
