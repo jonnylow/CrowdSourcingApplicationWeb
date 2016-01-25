@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use App\ElderlyLanguage;
+
 class ElderlyLanguageTableSeeder extends Seeder
 {
     /**
@@ -11,30 +13,28 @@ class ElderlyLanguageTableSeeder extends Seeder
      */
     public function run()
     {
-        // Insert dummy record
-        DB::table('elderly_language')->insert([
-            'elderly_id' => 1,
-            'language' => 'Chinese',
-        ]);
+        $faker = Faker\Factory::create(); // Create a faker, add en_SG providers
+        $faker->addProvider(new Faker\Provider\en_SG\Address($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Enhanced($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Person($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\PhoneNumber($faker));
+        $faker->seed(9876); // Calling the same script twice with the same seed produces the same results
 
-        DB::table('elderly_language')->insert([
-            'elderly_id' => 1,
-            'language' => 'Hokkien',
-        ]);
+        $languages = array('Cantonese', 'English', 'Hainanese', 'Hakka',
+            'Hokkien', 'Malay', 'Mandarin', 'Tamil', 'Teochew');
 
-        DB::table('elderly_language')->insert([
-            'elderly_id' => 1,
-            'language' => 'Teochew',
-        ]);
+        // Insert dummy records for 15 dummy elderly account
+        foreach (range(1, 15) as $index) {
+            $languages = $faker->shuffle($languages);
+            $numOfLanguages = $faker->numberBetween(1, 4);
+            $chosenLanguages = $faker->randomElements($languages, $numOfLanguages);
 
-        DB::table('elderly_language')->insert([
-            'elderly_id' => 2,
-            'language' => 'English',
-        ]);
-
-        DB::table('elderly_language')->insert([
-            'elderly_id' => 2,
-            'language' => 'Chinese',
-        ]);
+            foreach ($chosenLanguages as $language) {
+                ElderlyLanguage::create([
+                    'elderly_id' => $index,
+                    'language' => $language,
+                ]);
+            }
+        }
     }
 }

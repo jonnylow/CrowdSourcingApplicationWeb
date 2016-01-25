@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Task;
+
 class TasksTableSeeder extends Seeder
 {
     /**
@@ -11,107 +13,26 @@ class TasksTableSeeder extends Seeder
      */
     public function run()
     {
-        // Insert dummy record
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 36,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+        $faker = Faker\Factory::create(); // Create a faker, add en_SG providers
+        $faker->addProvider(new Faker\Provider\en_SG\Address($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Enhanced($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Person($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\PhoneNumber($faker));
+        $faker->seed(9876); // Calling the same script twice with the same seed produces the same results
 
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 37,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+        // Insert dummy records for 30 dummy activities (among 10 volunteers)
+        foreach (range(1, 30) as $index) {
+            $numOfApplications = $faker->numberBetween(0, 10);
 
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 38,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 39,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 41,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 17,
-            'volunteer_id' => 42,
-            'approval' => 'pending',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 11,
-            'volunteer_id' => 36,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 12,
-            'volunteer_id' => 37,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 13,
-            'volunteer_id' => 38,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 14,
-            'volunteer_id' => 39,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 15,
-            'volunteer_id' => 41,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('tasks')->insert([
-            'activity_id' => 16,
-            'volunteer_id' => 42,
-            'status' => 'completed',
-            'approval' => 'approved',
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+            if($numOfApplications > 0) {
+                foreach (range(1, $numOfApplications) as $index2) {
+                    Task::create([
+                        'activity_id' => $index,
+                        'volunteer_id' => $faker->numberBetween(1, 10),
+                        'approval' => $faker->optional(0.9, 'withdrawn')->randomElement(['pending', 'rejected', 'approved']), // 10% chance of withdrawn
+                    ]);
+                }
+            }
+        }
     }
 }

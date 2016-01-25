@@ -15,29 +15,29 @@ class RanksTableSeeder extends Seeder
         DB::table('ranks')->insert([
             'rank' => 1,
             'name' => 'Platinum',
-            'min' => 150,
+            'min' => 50,
             'max' => 65535,
         ]);
 
         DB::table('ranks')->insert([
             'rank' => 2,
             'name' => 'Gold',
-            'min' => 100,
-            'max' => 149,
+            'min' => 30,
+            'max' => 49,
         ]);
 
         DB::table('ranks')->insert([
             'rank' => 3,
             'name' => 'Silver',
-            'min' => 50,
-            'max' => 99,
+            'min' => 15,
+            'max' => 29,
         ]);
 
         DB::table('ranks')->insert([
             'rank' => 4,
             'name' => 'Bronze',
             'min' => 0,
-            'max' => 49,
+            'max' => 14,
         ]);
     }
 }

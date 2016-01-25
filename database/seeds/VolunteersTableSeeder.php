@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+use Carbon\Carbon;
+use App\Volunteer;
+
 class VolunteersTableSeeder extends Seeder
 {
     /**
@@ -11,173 +14,56 @@ class VolunteersTableSeeder extends Seeder
      */
     public function run()
     {
-        // Insert dummy record
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 36,
-            'nric' => 'S8767897R',
-            'name' => 'Kenneth Han',
-            'email' => 'kenneth@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'M',
-            'date_of_birth' => '1987-04-13',
-            'contact_no' => '95678956',
-            'occupation' => 'Accountant',
-            'has_car' => true,
-            'area_of_preference_1' => 'Befriend senior citizens',
-            'area_of_preference_2' => 'Lead games/exercises',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+        $faker = Faker\Factory::create(); // Create a faker, add en_SG providers
+        $faker->addProvider(new Faker\Provider\en_SG\Address($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Enhanced($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\Person($faker));
+        $faker->addProvider(new Faker\Provider\en_SG\PhoneNumber($faker));
+        $faker->seed(9876); // Calling the same script twice with the same seed produces the same results
 
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 37,
-            'nric' => 'S9008647D',
-            'name' => 'Andrew Tan',
-            'email' => 'andrew@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'M',
-            'date_of_birth' => '1990-06-25',
-            'contact_no' => '92045757',
-            'occupation' => 'Teacher',
-            'has_car' => true,
-            'area_of_preference_1' => 'Written translation for brochures',
-            'area_of_preference_2' => 'Prepare tea/snacks',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+        $jobTitles = array('Accountant', 'Artist', 'Artiste', 'Associate Treasury Markets', 'Bank Executive',
+            'Banker', 'Bus Captain', 'Cashier', 'Chemist', 'Civil Servant', 'Civil Service', 'Cleaner',
+            'Company Director', 'Compliance Officer', 'Credit Control VP', 'Customer Service', 'Designer',
+            'Director', 'Doctor', 'Driver', 'Education Officer', 'Electrician', 'Engineer', 'Entrepreneur',
+            'Events Industry', 'Executive', 'Finance Consultant', 'Financial Service Consultant', 'Freelancer',
+            'Hawker', 'Homemaker', 'Hairdresser', 'HR Manager', 'Human Resource Executive', 'Insurance Agent',
+            'Jobless', 'Junior Executive', 'Manager', 'Music director', 'Nurse', 'Optometrist', 'Penetration Tester',
+            'Pilot', 'Police', 'Project Engineer', 'Project Manager', 'Self-employed', 'Soldier', 'Surgeon',
+            'Taxi Driver', 'Teacher', 'Tuition Teacher', 'Unemployed');
 
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 38,
-            'nric' => 'S7756758G',
-            'name' => 'Sarah Ng',
-            'email' => 'sarah@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'F',
-            'date_of_birth' => '1977-11-05',
-            'contact_no' => '96495648',
-            'occupation' => 'IT Consultant',
-            'has_car' => true,
-            'area_of_preference_1' => 'Design/Maintain Webpage',
-            'area_of_preference_2' => 'Written translation for brochures',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+        // Insert 10 dummy records
+        foreach (range(1, 10) as $index) {
+            $gender = $faker->randomElement(['male', 'female']);
+            $dob = $faker->dateTimeBetween('-50 years', '-16 years');
+            $fullName = explode("|", $faker->unique()->nameWithSalutation($gender)); // Extract full name without salutation ("Full Name|Salutation" to array)
+            $fullName = $fullName[0];
+            $emailName = strtolower(preg_replace('/\s+/', '', $fullName)); // Remove whitespaces in full name, convert to lowercase
+            (strlen($emailName) > 8) ? $emailName = substr($emailName, 0, 8) : null; // Extract only 8 characters from full name
+            $email = $emailName . substr($dob->format('Y'), -2) . '@' . $faker->localFreeEmailDomain; // 8 characters from full name + last 2 digit from birth year + email domain
+            $approval = $faker->optional(0.9, 'rejected')->randomElement(['pending', 'approved']); // 10% chance of rejected
 
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 39,
-            'nric' => 'S9553965F',
-            'name' => 'Hansel Wong',
-            'email' => 'hansel@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'F',
-            'date_of_birth' => '1995-04-02',
-            'contact_no' => '84648353',
-            'occupation' => 'Student',
-            'has_car' => false,
-            'area_of_preference_1' => 'Lead games/exercises',
-            'area_of_preference_2' => 'Organize/participate in fund raising actvities',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+            ($dob->diff(Carbon::now())->y > 21) // If age is greater than 21
+                ? $job = $faker->optional(0.9, 'Student')->randomElement($jobTitles) // 10% chance of Student
+                : $job = 'Student'; // Age 21 or younger are all students
 
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 41,
-            'nric' => 'S5467897R',
-            'name' => 'Sam Gan',
-            'email' => 'sam@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'M',
-            'date_of_birth' => '1954-05-20',
-            'contact_no' => '94567847',
-            'occupation' => 'Retiree',
-            'has_car' => true,
-            'area_of_preference_1' => 'Befriend senior citizens',
-            'area_of_preference_2' => 'Prepare tea/snacks',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 42,
-            'nric' => 'S9208647D',
-            'name' => 'Elias Leo',
-            'email' => 'elias@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'F',
-            'date_of_birth' => '1992-06-05',
-            'contact_no' => '92345674',
-            'occupation' => 'Student',
-            'has_car' => false,
-            'area_of_preference_1' => 'Written translation for brochures',
-            'area_of_preference_2' => 'Prepare tea/snacks',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 43,
-            'nric' => 'S7749878G',
-            'name' => 'Lionel Wong',
-            'email' => 'lionel@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'M',
-            'date_of_birth' => '1977-10-15',
-            'contact_no' => '90875678',
-            'occupation' => 'Sales Person',
-            'has_car' => true,
-            'area_of_preference_1' => 'Organize/participate in fund raising activities',
-            'area_of_preference_2' => 'Written translation for brochures',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => false,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
-
-        DB::table('volunteers')->insert([
-            'volunteer_id' => 44,
-            'nric' => 'S9353965F',
-            'name' => 'Candice Ng',
-            'email' => 'candice@gmail.com',
-            'password' => md5('qwerty123'),
-            'gender' => 'F',
-            'date_of_birth' => '1993-04-17',
-            'contact_no' => '83456763',
-            'occupation' => 'Student',
-            'has_car' => true,
-            'area_of_preference_1' => 'Design/Maintain Webpage',
-            'area_of_preference_2' => 'Organize/participate in fund raising activities',
-            'image_nric_front' => 'image/image_nric_front.jpg',
-            'image_nric_back' => 'image/image_nric_back.jpg',
-            'is_approved' => true,
-            'rank_id' => 4,
-            'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-            'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-        ]);
+            Volunteer::create([
+                'nric' => $faker->unique()->nric,
+                'name' => $fullName,
+                'email' => $email,
+                'password' => 'qwerty123',
+                'gender' => ucwords($gender[0]),
+                'date_of_birth' => $dob,
+                'contact_no' => preg_replace('/-/', '', $faker->mobile),
+                'occupation' => $job,
+                'has_car' => $faker->boolean(30), // 30% chance of getting true
+                'minutes_volunteered' => $approval == 'rejected' ? 0 : $faker->optional(0.6, 0)->numberBetween(1, 9) * (60 * $faker->numberBetween(1, 3)), // 0 minute if rejected, else 40% chance of 0
+                'area_of_preference_1' => 'Befriend senior citizens',
+                'area_of_preference_2' => 'Lead games/exercises',
+                'image_nric_front' => 'image/image_nric_front.jpg',
+                'image_nric_back' => 'image/image_nric_back.jpg',
+                'is_approved' => $approval,
+                'rank_id' => 4,
+            ]);
+        }
     }
 }
