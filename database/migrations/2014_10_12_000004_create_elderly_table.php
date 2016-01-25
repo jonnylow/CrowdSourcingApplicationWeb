@@ -25,6 +25,7 @@ class CreateElderlyTable extends Migration
             $table->integer('centre_id')->unsigned();
             $table->foreign('centre_id')->references('centre_id')->on('centres');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // A quick hack to solve the case sensitive unique for nric column

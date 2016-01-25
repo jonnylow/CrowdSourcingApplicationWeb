@@ -29,6 +29,7 @@ class CreateActivitiesTable extends Migration
             $table->integer('staff_id')->unsigned();
             $table->foreign('staff_id')->references('staff_id')->on('staff');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

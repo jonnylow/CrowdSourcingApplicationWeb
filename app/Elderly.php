@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Elderly extends Model
 {
+    use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
@@ -22,6 +25,11 @@ class Elderly extends Model
      */
     protected $fillable = ['nric', 'name', 'gender', 'birth_year', 'next_of_kin_name',
         'next_of_kin_contact', 'medical_condition', 'centre_id'];
+
+    /**
+     * Additional fields to treat as Carbon instances (date object).
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Scope queries to elderly that belongs to all centres associated with the staff.

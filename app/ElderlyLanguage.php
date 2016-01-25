@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ElderlyLanguage extends Model
 {
+    use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
@@ -21,6 +24,11 @@ class ElderlyLanguage extends Model
      * @var array
      */
     protected $fillable = ['elderly_id', 'language'];
+
+    /**
+     * Additional fields to treat as Carbon instances (date object).
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Set the language.

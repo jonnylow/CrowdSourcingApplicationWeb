@@ -20,6 +20,7 @@ class CreateStaffTable extends Migration
             $table->boolean('is_admin');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // A quick hack to solve the case sensitive unique for email column

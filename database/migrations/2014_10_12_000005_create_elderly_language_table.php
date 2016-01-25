@@ -18,6 +18,7 @@ class CreateElderlyLanguageTable extends Migration
             $table->foreign('elderly_id')->references('elderly_id')->on('elderly')->onDelete('cascade');
             $table->string('language', 50);
             $table->unique(['elderly_id', 'language']);
+            $table->softDeletes();
         });
     }
 

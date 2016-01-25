@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Activity extends Model
 {
+    use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
@@ -26,10 +29,8 @@ class Activity extends Model
 
     /**
      * Additional fields to treat as Carbon instances (date object).
-     *1
-     * @var array
      */
-    protected $dates = ['datetime_start'];
+    protected $dates = ['datetime_start', 'deleted_at'];
 
     /**
      * Scope queries to activities that have passed.
