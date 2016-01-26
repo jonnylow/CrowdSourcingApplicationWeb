@@ -79,8 +79,6 @@ class VolunteerController extends Controller
       "\r\n gender: " . $request->get('gender') . "\r\n date_of_birth: " . $request->get('dob') . "\r\n contact_no: " . $request->get('phone') . "\r\n occupation: " . $request->get('occupation') .
       "\r\n area_of_preference_1: " . $request->get('preferences1') . "\r\n area_of_preference_2: " . $request->get('preferences2')  ;
 
-    echo $message;
-
     if ($email->isEmpty()){
       $status = array("error");
       return response()->json(compact('status'));
