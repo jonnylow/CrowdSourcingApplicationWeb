@@ -68,16 +68,28 @@ class VolunteerController extends Controller
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
                 'rank_id'                   => Rank::where('min', 0)->first()->rank_id,
-                'is_approved'               => 'false']);
+                'is_approved'               => 'true',]);
         //}
     $check = $request->get('email');
     $email = Volunteer::where('email',$check)->get();
     //return response()->json(compact('email'));
 
+
+    $message = "NRIC: " . $request->get('nric') ."\r\n Name: " . $request->get('name') . "\r\n Email: " . $request->get('email') . "\r\n Password: " . bcrypt($request->get('password')) . 
+      "\r\n gender: " . $request->get('gender') . "\r\n date_of_birth: " . $request->get('dob') . "\r\n contact_no: " . $request->get('phone') . "\r\n occupation: " . $request->get('occupation') .
+      "\r\n area_of_preference_1: " . $request->get('preferences1') . "\r\n area_of_preference_2: " . $request->get('preferences2')  ;
+
+    echo $message;
+
     if ($email->isEmpty()){
       $status = array("error");
       return response()->json(compact('status'));
     } else {
+      Mail::raw($message, function($message) {
+      $message->from('imchosen6@gmail.com', 'Admin');
+      $message->subject('[CareRide Alert] Volunteer Registration');
+      $message->to('imchosen6@gmail.com');
+      });
       $status = array("Created successfully");
       return response()->json(compact('status'));
     }
