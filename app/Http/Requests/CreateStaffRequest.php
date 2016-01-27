@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class StaffRequest extends Request
+class CreateStaffRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,9 @@ class StaffRequest extends Request
      */
     public function rules()
     {
-        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            // Update operation, exclude the record with id from the validation:
-            $email_rule = 'required|email|unique:staff,email,' . $this->get('staff_id') . ',staff_id';
-        } else {
-            // Create operation. There is no id yet.
-            $email_rule = 'required|email|unique:staff,email,null,staff_id';
-        }
-
         return [
             'name'      => 'required|name',
-            'email'     => $email_rule,
+            'email'     => 'required|email|unique:staff,email,null,staff_id',
             'admin'     => 'required|boolean',
             'centres'   => 'required|array',
         ];

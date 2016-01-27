@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ElderlyRequest extends Request
+class CreateElderlyRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -53,9 +53,9 @@ class ElderlyRequest extends Request
             'name.string'               => 'Name must contain only alphabets, commas, hyphens, or slashes.',
             'gender.required'           => 'Gender is required.',
             'gender.in'                 => 'Gender must be either male or female.',
-            'birth_year.integer'        => 'Birth year must be a number.',
             'birth_year.required'       => 'Birth year is required.',
-            'birth_year.size'           => 'Birth year must be 4 digits.',
+            'birth_year.integer'        => 'Birth year must be a number.',
+            'birth_year.digits'         => 'Birth year must be 4 digits.',
             'birth_year.min'            => 'Birth year must not be before 1900.',
             'birth_year.max'            => 'Birth year must not be after ' . date('Y') . '.',
             'languages.required'        => 'Language is required.',

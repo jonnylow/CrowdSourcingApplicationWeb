@@ -72,7 +72,7 @@
 
                 <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                    {!! Form::submit('Edit staff', ['class' => 'btn btn-primary btn-lg']) !!}
+                    {!! Form::submit('Update staff', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
 
             {!! Form::close() !!}

@@ -126,7 +126,7 @@
 
                 <!-- Submit Button Form Input -->
                 <div class="form-group text-center">
-                    {!! Form::submit('Add volunteer', ['class' => 'btn btn-primary btn-lg']) !!}
+                    {!! Form::submit('Update volunteer', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
 
             {!! Form::close() !!}

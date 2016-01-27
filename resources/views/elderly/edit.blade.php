@@ -12,98 +12,99 @@
             @include('errors.list')
 
             {!! Form::model($elderly, ['method' => 'PATCH', 'route' => ['elderly.update', $elderly->elderly_id]]) !!}
+                {!! Form::hidden('elderly_id', $elderly->elderly_id) !!}
 
-            <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-information">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
-                                <span class="fa fa-fw fa-user"></span>
-                                <strong>Senior Information</strong>
-                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
-                        <div class="panel-body">
-                            <div class="row">
-                                <!-- Centre Form Input -->
-                                <div class="col-md-4 form-group">
-                                    {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
-                                    {!! Form::select('centre', $centreList, $elderly->centre_id, ['class' => 'form-control', 'required']) !!}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading-information">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
+                                    <span class="fa fa-fw fa-user"></span>
+                                    <strong>Senior Information</strong>
+                                    <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <!-- Centre Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
+                                        {!! Form::select('centre', $centreList, $elderly->centre_id, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <!-- NRIC Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
+                                        {!! Form::text('nric', $elderly->nric, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                    </div>
+                                    <!-- Name Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
+                                        {!! Form::text('name', $elderly->name, ['class' => 'form-control', 'required']) !!}
+                                    </div>
                                 </div>
-                                <!-- NRIC Form Input -->
-                                <div class="col-md-4 form-group">
-                                    {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
-                                    {!! Form::text('nric', $elderly->nric, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                <div class="row">
+                                    <!-- Gender Form Input -->
+                                    <div class="col-md-3 form-group">
+                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
+                                        {!! Form::select('gender', $genderList, $elderly->gender, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <!-- Birth Year Form Input -->
+                                    <div class="col-md-3 form-group">
+                                        {!! Form::label('birth_year', 'Birth Year', ['class' => 'control-label']) !!}
+                                        {!! Form::number('birth_year', $elderly->birth_year, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
+                                    </div>
+                                    <!-- Languages Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
+                                        {!! Form::select('languages[]', $languages, $elderly->languages->lists('language')->toArray(), ['class' => 'form-control', 'id' => 'languages', 'required', 'multiple']) !!}
+                                    </div>
                                 </div>
-                                <!-- Name Form Input -->
-                                <div class="col-md-4 form-group">
-                                    {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-                                    {!! Form::text('name', $elderly->name, ['class' => 'form-control', 'required']) !!}
+                                <div class="row">
+                                    <!-- Medical Condition Form Input -->
+                                    <div class="col-md-12 form-group">
+                                        {!! Form::label('medical_condition', 'Medical Condition', ['class' => 'control-label']) !!}
+                                        {!! Form::textarea('medical_condition', $elderly->medical_condition, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <!-- Gender Form Input -->
-                                <div class="col-md-3 form-group">
-                                    {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
-                                    {!! Form::select('gender', $genderList, $elderly->gender, ['class' => 'form-control', 'required']) !!}
-                                </div>
-                                <!-- Birth Year Form Input -->
-                                <div class="col-md-3 form-group">
-                                    {!! Form::label('birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                    {!! Form::number('birth_year', $elderly->birth_year, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
-                                </div>
-                                <!-- Languages Form Input -->
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading-nok-information">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse-nok-information" aria-expanded="true" aria-controls="collapse-nok-information">
+                                    <span class="fa fa-fw fa-users"></span>
+                                    <strong>Next-of-Kin Information</strong>
+                                    <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-nok-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-nok-information">
+                            <div class="panel-body">
+                                <!-- Next-of-Kin Name Form Input -->
                                 <div class="col-md-6 form-group">
-                                    {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
-                                    {!! Form::select('languages[]', $languages, $elderly->languages->lists('language')->toArray(), ['class' => 'form-control', 'id' => 'languages', 'required', 'multiple']) !!}
+                                    {!! Form::label('nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
+                                    {!! Form::text('nok_name', $elderly->next_of_kin_name, ['class' => 'form-control', 'required']) !!}
                                 </div>
-                            </div>
-                            <div class="row">
-                                <!-- Medical Condition Form Input -->
-                                <div class="col-md-12 form-group">
-                                    {!! Form::label('medical_condition', 'Medical Condition', ['class' => 'control-label']) !!}
-                                    {!! Form::textarea('medical_condition', $elderly->medical_condition, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                <!-- Next-of-Kin Contact Number Form Input -->
+                                <div class="col-md-6 form-group">
+                                    {!! Form::label('nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
+                                    {!! Form::tel('nok_contact', $elderly->next_of_kin_contact, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-nok-information">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-nok-information" aria-expanded="true" aria-controls="collapse-nok-information">
-                                <span class="fa fa-fw fa-users"></span>
-                                <strong>Next-of-Kin Information</strong>
-                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-nok-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-nok-information">
-                        <div class="panel-body">
-                            <!-- Next-of-Kin Name Form Input -->
-                            <div class="col-md-6 form-group">
-                                {!! Form::label('nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
-                                {!! Form::text('nok_name', $elderly->next_of_kin_name, ['class' => 'form-control', 'required']) !!}
-                            </div>
-                            <!-- Next-of-Kin Contact Number Form Input -->
-                            <div class="col-md-6 form-group">
-                                {!! Form::label('nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
-                                {!! Form::tel('nok_contact', $elderly->next_of_kin_contact, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
-                            </div>
-                        </div>
-                    </div>
+                <!-- Submit Button Form Input -->
+                <div class="form-group text-center">
+                    {!! Form::submit('Update senior', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
-
-            </div>
-
-            <!-- Submit Button Form Input -->
-            <div class="form-group text-center">
-                {!! Form::submit('Add new Senior', ['class' => 'btn btn-primary btn-lg']) !!}
-            </div>
 
             {!! Form::close() !!}
         </div>

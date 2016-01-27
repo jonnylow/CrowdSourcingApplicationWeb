@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Elderly;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ElderlyRequest;
+use App\Http\Requests\CreateElderlyRequest;
+use App\Http\Requests\EditElderlyRequest;
 use App\Http\Controllers\Controller;
 use App\Elderly;
 use App\ElderlyLanguage;
@@ -29,7 +30,7 @@ class ElderlyController extends Controller
 
     public function create()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ElderlyRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\CreateElderlyRequest');
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
@@ -44,7 +45,7 @@ class ElderlyController extends Controller
         return view('elderly.create', compact('validator', 'centreList', 'genderList', 'languages'));
     }
 
-    public function store(ElderlyRequest $request)
+    public function store(CreateElderlyRequest $request)
     {
         $elderly = Elderly::create([
             'centre_id'             => $request->get('centre'),
@@ -69,7 +70,7 @@ class ElderlyController extends Controller
 
     public function edit($id)
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ElderlyRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\EditElderlyRequest');
 
         $elderly = Elderly::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
@@ -85,7 +86,7 @@ class ElderlyController extends Controller
         return view('elderly.edit', compact('validator', 'elderly', 'centreList', 'genderList', 'languages'));
     }
 
-    public function update($id, ElderlyRequest $request)
+    public function update($id, EditElderlyRequest $request)
     {
         $elderly = Elderly::findOrFail($id);
 

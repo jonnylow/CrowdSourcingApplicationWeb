@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\StaffRequest;
+use App\Http\Requests\CreateStaffRequest;
+use App\Http\Requests\EditStaffRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Staff;
@@ -23,14 +24,14 @@ class StaffController extends Controller
 
     public function create()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\StaffRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
         return view('staff.create', compact('validator', 'centreList'));
     }
 
-    public function store(StaffRequest $request)
+    public function store(CreateStaffRequest $request)
     {
         $randomString = Str::random();
 
@@ -54,7 +55,7 @@ class StaffController extends Controller
 
     public function edit($id)
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\StaffRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\EditStaffRequest');
 
         $staff = Staff::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
@@ -62,7 +63,7 @@ class StaffController extends Controller
         return view('staff.edit', compact('validator', 'staff', 'centreList'));
     }
 
-    public function update($id, StaffRequest $request)
+    public function update($id, EditStaffRequest $request)
     {
         $staff = Staff::findOrFail($id);
 
