@@ -163,6 +163,8 @@
 
 @section('page-script')
 
+@include('partials.confirm')
+
 <style>
     @media (min-width: 768px) {
         .dl-horizontal dt { width: 200px; }

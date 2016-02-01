@@ -101,11 +101,6 @@
 
 @section('page-script')
 
-<style>
-    /*@media (min-width: 768px) {*/
-        /*.dl-horizontal dt { width: 200px; }*/
-        /*.dl-horizontal dd { margin-left: 220px; }*/
-    /*}*/
-</style>
+@include('partials.confirm')
 
 @endsection

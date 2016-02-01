@@ -20,8 +20,6 @@
 
         @include('layouts.footer')
 
-        @include('layouts.partial')
-
         @yield('page-script')
     </body>
 </html>

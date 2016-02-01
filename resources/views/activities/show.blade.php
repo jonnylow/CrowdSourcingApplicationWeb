@@ -186,3 +186,9 @@
 @include('partials.confirm')
 
 @endsection
+
+@section('page-script')
+
+@include('partials.confirm')
+
+@endsection

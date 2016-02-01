@@ -19,7 +19,7 @@
     </div> <!-- /.modal-dialog -->
 </div> <!-- /.modal -->
 
-@section('partial-script')
+@section('page-script')
 
 <!-- Dialog show event handler -->
 <script type="text/javascript">
