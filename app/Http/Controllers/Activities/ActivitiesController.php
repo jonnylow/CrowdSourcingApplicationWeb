@@ -42,9 +42,9 @@ class ActivitiesController extends Controller
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
-        $startLocations = collect($centreList)->sort()->put('others', 'Others');
-        $endLocations = collect($endLocations)->sort()->put('others', 'Others');
-        $seniorList = collect($seniorList)->sort()->put('others', 'Others');
+        $startLocations = $centreList->sort()->put('others', 'Others');
+        $endLocations = $endLocations->sort()->put('others', 'Others');
+        $seniorList = $seniorList->sort()->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
@@ -168,9 +168,9 @@ class ActivitiesController extends Controller
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
-        $startLocations = collect($centreList)->sort()->put('others', 'Others');
-        $endLocations = collect($endLocations)->sort()->put('others', 'Others');
-        $seniorList = collect($seniorList)->sort()->put('others', 'Others');
+        $startLocations = $centreList->sort()->put('others', 'Others');
+        $endLocations = $endLocations->sort()->put('others', 'Others');
+        $seniorList = $seniorList->sort()->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
