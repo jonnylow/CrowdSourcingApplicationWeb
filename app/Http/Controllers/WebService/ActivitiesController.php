@@ -58,8 +58,8 @@ class ActivitiesController extends Controller
                 //->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
                 //$activities = Activity::with('departureCentre', 'arrivalCentre')->upcoming()->whereNotIn('activity_id', [1,2,3])->whereNotIn('activity_id', [3,4,5])->get()->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
                 
-                return response()->json($activities);
-                //return response()->json(compact('activities'));
+                //return response()->json($activities);
+                return response()->json(compact('activities'));
             } else {
                 $approvedActivities = Activity::with('tasks')
                 ->whereHas('tasks', function ($query) {
@@ -71,6 +71,7 @@ class ActivitiesController extends Controller
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->get();
 
+                //return response()->json($activities);
                 return response()->json(compact('activities'));
             }
     }
