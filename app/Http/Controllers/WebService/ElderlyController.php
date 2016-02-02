@@ -25,7 +25,7 @@ class ElderlyController extends Controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
        Config::set('auth.model', 'App\Volunteer');
-       $this->middleware('jwt.auth', 'jwt.refresh', ['except' => ['retrieveElderyInformation']]);
+       $this->middleware('jwt.auth', ['except' => ['retrieveElderyInformation']]);
    }
 
 // tested working with new database 

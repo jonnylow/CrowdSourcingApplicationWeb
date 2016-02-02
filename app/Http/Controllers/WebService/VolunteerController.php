@@ -26,7 +26,7 @@ class VolunteerController extends Controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
        Config::set('auth.model', 'App\Volunteer');
-       $this->middleware('jwt.auth', 'jwt.refresh', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
    }
 
    public function addUserAccount(Request $request ){
