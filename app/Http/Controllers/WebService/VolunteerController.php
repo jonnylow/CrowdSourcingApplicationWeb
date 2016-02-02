@@ -25,7 +25,8 @@ class VolunteerController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
+       Config::set('auth.model', 'App\Volunteer');
+       $this->middleware('jwt.auth', 'jwt.refresh', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -67,8 +68,7 @@ class VolunteerController extends Controller
                 'area_of_preference_2'      => $request->get('preferences2'),
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
-                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,
-                'is_approved'               => 'pending',]);
+                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,]);
         //}
     $check = $request->get('email');
     $email = Volunteer::where('email',$check)->get();

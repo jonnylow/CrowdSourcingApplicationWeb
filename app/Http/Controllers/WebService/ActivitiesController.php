@@ -25,7 +25,7 @@ class ActivitiesController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity', 'retrieveTransportByUser', 'retrieveRecommendedTransportActivity', 'addNewActivity', 'addUserAccount', 'checkActivityApplication', 'updateActivityStatus', 'withdraw','retrieveFilter']]);
+        $this->middleware('jwt.auth',  'jwt.refresh', ['except' => ['retrieveTransportActivityDetails', 'retrieveTransportActivity', 'retrieveTransportByUser', 'retrieveRecommendedTransportActivity', 'addNewActivity', 'addUserAccount', 'checkActivityApplication', 'updateActivityStatus', 'withdraw','retrieveFilter']]);
     }
 
     /**
@@ -51,12 +51,15 @@ class ActivitiesController extends Controller
 
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->upcoming()
+                ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->whereNotIn('activity_id', $appliedActivities)
                 ->get();
-
-                return response()->json(compact('activities'));
+                //->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
+                //$activities = Activity::with('departureCentre', 'arrivalCentre')->upcoming()->whereNotIn('activity_id', [1,2,3])->whereNotIn('activity_id', [3,4,5])->get()->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
+                
+                return response()->json($activities);
+                //return response()->json(compact('activities'));
             } else {
                 $approvedActivities = Activity::with('tasks')
                 ->whereHas('tasks', function ($query) {
@@ -64,7 +67,7 @@ class ActivitiesController extends Controller
                 })->lists('activity_id');
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->upcoming()
+                ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->get();
 
@@ -131,7 +134,7 @@ class ActivitiesController extends Controller
 // tested working with new database 
     public function retrieveRecommendedTransportActivity(Request $request)
     {
-        // retrieve the nearest upcoming activites based on dates
+        // retrieve the nearest UpcomingExact activites based on dates
         // limit will be determined by jonathan
         if ($request->get('limit') == null ) {
             $status = array("Missing parameter");
@@ -154,7 +157,7 @@ class ActivitiesController extends Controller
 
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->upcoming()
+                ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->whereNotIn('activity_id', $appliedActivities)
                 ->take($limit)
@@ -170,7 +173,7 @@ class ActivitiesController extends Controller
                 })->lists('activity_id');
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->upcoming()
+                ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->take($limit)
                 ->get();

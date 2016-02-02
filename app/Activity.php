@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Activity extends Model
 {
+    use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
@@ -26,10 +29,8 @@ class Activity extends Model
 
     /**
      * Additional fields to treat as Carbon instances (date object).
-     *1
-     * @var array
      */
-    protected $dates = ['datetime_start'];
+    protected $dates = ['datetime_start', 'deleted_at'];
 
     /**
      * Scope queries to activities that have passed.
@@ -62,6 +63,26 @@ class Activity extends Model
     }
 
     /**
+     * Scope queries to activities that have not passed.
+     *
+     * @var query
+     */
+    public function scopeUpcomingExact($query)
+    {
+        $query->where('datetime_start', '>', Carbon::now())->oldest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that are cancelled.
+     *
+     * @var query
+     */
+    public function scopeCancelled($query)
+    {
+        $query->onlyTrashed()->latest('datetime_start');
+    }
+
+    /**
      * Scope queries to activities that belongs to all centres associated with the staff.
      *
      * @var $query
@@ -87,35 +108,118 @@ class Activity extends Model
     }
 
     /**
+     * Get the approved volunteer(if any) for the activity, else return NULL.
+     */
+    public function getApprovedVolunteer()
+    {
+        $volunteers = $this->volunteers()->get();
+        foreach($volunteers as $volunteer) {
+            if($volunteer->pivot->approval == 'approved')
+                return $volunteer;
+        }
+        return null;
+    }
+
+    /**
+     * Get the current progress of the activity.
+     */
+    public function getProgress()
+    {
+        $tasks = $this->tasks;
+        $taskCount = $tasks->count();
+
+        if ($taskCount == 0) {
+            return 0; // Not Started
+        } else {
+            $groupByStatus = $tasks->groupBy('status');
+
+            if ($groupByStatus->has('completed')) {
+                return 100; // Completed
+            } else if ($groupByStatus->has('pick-up')) {
+                return 25; // Picked-up
+            } else if ($groupByStatus->has('at check-up')) {
+                return 50; // At Check-up
+            } else if ($groupByStatus->has('check-up completed')) {
+                return 75; // Check-up Completed
+            } else {
+                return 0; // Not Started
+            }
+        }
+    }
+
+    /**
+     * Get the application status of the activity.
+     */
+    public function getApplicationStatus()
+    {
+        $tasks = $this->tasks;
+        $taskCount = $tasks->count();
+
+        if ($taskCount == 0) {
+            return "Not Started";
+        } else {
+            $groupByStatus = $tasks->groupBy('status');
+            $groupByApproval = $tasks->groupBy('approval');
+
+            if ($groupByStatus->has('completed')) {
+                return "Completed";
+            } else if ($groupByStatus->has('picked-up') ||
+                $groupByStatus->has('at check-up') ||
+                $groupByStatus->has('check-up completed')
+            ) {
+                return "In-Progress";
+            } else if ($groupByApproval->has('approved')) {
+                return "Volunteer Approved";
+            } else if ($groupByApproval->has('pending')) {
+                return $groupByApproval->all()['pending']->count() . " Application(s) Received";
+            } else if ($groupByApproval->has('withdrawn')) {
+                return $groupByApproval->all()['withdrawn']->count() . " Application(s) Withdrawn";
+            } else if ($groupByApproval->has('rejected')) {
+                return $groupByApproval->all()['rejected']->count() . " Application(s) Rejected";
+            }
+        }
+    }
+
+    /**
      * Set the activity's starting date and time.
      */
-    public function setDateTimeStartAttribute($datetime)
+    public function setDatetimeStartAttribute($datetime)
     {
         $this->attributes['datetime_start'] = Carbon::parse($datetime);
     }
 
     /**
-     * Set the activity's expected duration in minutes.
+     * Get the hour section of the activity's duration, minutes are not retrieved.
+     *
+     * @return string
      */
-    public function setExpectedDurationMinutesAttribute($duration)
+    public function durationHour()
     {
-        $this->attributes['expected_duration_minutes'] = $duration * 60;
+        return floor($this->expected_duration_minutes / 60);
     }
 
     /**
-     * Set the activity's start location address.
+     * Get the minute section of the activity's duration, hours are not retrieved.
+     *
+     * @return string
      */
-    public function setLocationFromAddress($location)
+    public function durationMinute()
     {
-        $this->attributes['location_from'] = ucwords(strtolower($location));
+        return ($this->expected_duration_minutes % 60);
     }
 
     /**
-     * Set the activity's end  address.
+     * Get the activity's duration in text.
+     *
+     * @return string
      */
-    public function setLocationToAddress($location)
+    public function durationString()
     {
-        $this->attributes['location_to'] = ucwords(strtolower($location));
+        $time = $this->expected_duration_minutes;
+
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        return sprintf('%0d hour, %0d min', $hours, $minutes);
     }
 
     /**
@@ -172,7 +276,7 @@ class Activity extends Model
     public function volunteers()
     {
         return $this->belongsToMany('App\Volunteer', 'tasks', 'activity_id', 'volunteer_id')
-            ->withPivot('status', 'approval')
+            ->withPivot('status', 'approval', 'comment')
             ->withTimestamps();
     }
 }
