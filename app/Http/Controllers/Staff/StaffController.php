@@ -66,11 +66,14 @@ class StaffController extends Controller
     public function update($id, EditStaffRequest $request)
     {
         $staff = Staff::findOrFail($id);
+        $adminType = $request->get('admin');
+        if ($staff->is_admin)
+            $adminType = true;
 
         $staff->update([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
-            'is_admin'  => $request->get('admin'),
+            'is_admin'  => $adminType,
         ]);
 
         $staff->centres()->sync($request->get('centres'));
