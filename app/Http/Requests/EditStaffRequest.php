@@ -27,7 +27,7 @@ class EditStaffRequest extends Request
         return [
             'name'      => 'required|name',
             'email'     => 'required|email|unique:staff,email,' . $this->get('staff_id') . ',staff_id',
-            'admin'     => 'required|boolean',
+            'admin'     => 'boolean',
             'centres'   => 'required|array',
         ];
     }
