@@ -60,7 +60,10 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class=" dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome {{ Auth::user()->name }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="hidden-md">Welcome {{ Auth::user()->name }} <span class="caret"></span></span>
+                        <span class="visible-md-inline fa fa-fw fa-lg fa-caret-down"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('profile') }}"><span class="fa fa-fw fa-user"></span> My Profile</a></li>
                         <li><a href="{{ asset('profile/password') }}"><span class="fa fa-fw fa-lock"></span> Change Password</a></li>
