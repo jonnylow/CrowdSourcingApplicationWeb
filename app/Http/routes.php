@@ -15,7 +15,10 @@ Route::get('/', ['middleware' => 'guest', 'uses' => 'Auth\AuthController@getLogi
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
-Route::get('rank', ['middleware' => 'auth', 'uses' => 'Ranks\RankController@index']);
+Route::group(['middleware' => 'auth', 'namespace' => 'Ranks'], function() {
+    Route::get('rank', ['as' => 'ranks.index', 'uses' => 'RankController@index']);
+    Route::patch('rank', ['as' => 'ranks.update', 'uses' => 'RankController@update']);
+});
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);

@@ -17,11 +17,15 @@
                     } else {
                         error.insertAfter(element);
                     }
+                } else if(element.parents('td.has-error').length) {
+                    error.insertAfter(element);
                 }
             },
             highlight: function(element) { // highlight error inputs
                 if($(element).parents('div.inline-field').length) {
                     $(element).parent('div').removeClass('has-success').addClass('has-error');
+                } else if($(element).parents('.fixed-table-body').length) {
+                    $(element).parent('td').removeClass('has-success').addClass('has-error');
                 } else {
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // add the Bootstrap error class to the control group
                 }
@@ -37,6 +41,8 @@
              unhighlight: function(element) { // revert the change done by highlight
                  if($(element).parents('div.inline-field').length) {
                      $(element).parent('div').removeClass('has-error').addClass('has-success');
+                 } else if($(element).parents('.fixed-table-body').length) {
+                     $(element).parent('td').removeClass('has-error').addClass('has-success');
                  } else {
                      $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
                  }
@@ -45,6 +51,8 @@
             success: function(element) {
                 if($(element).parents('div.inline-field').length) {
                     $(element).parent('div').removeClass('has-error').addClass('has-success');
+                } else if($(element).parents('.fixed-table-body').length) {
+                    $(element).parent('td').removeClass('has-error').addClass('has-success');
                 } else {
                     $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // remove the Boostrap error class from the control group
                 }

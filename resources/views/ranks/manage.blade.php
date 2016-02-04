@@ -9,120 +9,148 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Manage Ranks</h1>
 
-            <div class="margin-bottom-xs" id="toolbar">
-                <a class="btn btn-default" onclick="insertRow()">Insert new row</a>
+            @include('errors.list')
+
+            {!! Form::open(['method' => 'PATCH', 'route' => ['ranks.update']]) !!}
+
+            <div class="row margin-bottom-sm">
+                <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-sort-name="rank" data-sort-order="asc" data-unique-id="rank">
+                    <thead>
+                    <tr>
+                        <th class="col-md-2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
+                        <th class="col-md-4" data-field="name" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Rank Name</th>
+                        <th class="col-md-4" data-field="points_req" data-halign="center" data-align="center" data-valign="middle" data-editable="true">Min. Points Required</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (count($ranks))
+                        @foreach ($ranks as $rank)
+                            <tr>
+                                <td>{{ $rank->rank }}</td>
+                                <td>{{ $rank->name }}</td>
+                                <td>
+                                    @if ($rank->min == 0)
+                                        {{ $rank->min }}
+                                    @else
+                                        {!! Form::number('rank_' . $rank->rank, $rank->min, ['class' => 'form-control', 'id' => 'rank_' . $rank->rank]) !!}
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    </tbody>
+                </table>
             </div>
 
-            <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-sort-name="rank" data-sort-order="asc" data-unique-id="rank">
-                <thead>
-                <tr>
-                    <th class="col-md-3" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
-                    <th class="col-md-4" data-field="name" data-searchable="true" data-halign="center" data-align="center" data-valign="middle" data-editable="true">Rank Name</th>
-                    <th class="col-md-3" data-field="points_req" data-halign="center" data-align="center" data-valign="middle" data-editable="true">Min. Points Required</th>
-                    <th class="col-md-2" data-field="removeButton" data-align="center" data-valign="middle"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (count($ranks))
-                    @for ($i=0; $i<count($ranks); $i++)
-                        <tr>
-                            <td>{{ $i+1 }}</td>
-                            <td>{{ $ranks[$i]->name }}</td>
-                            <td>{{ $ranks[$i]->min }}</td>
-                            <td>
-                                <a class="btn btn-danger btn-xs" onclick="removeRow({{ $ranks[$i]->rank }})">
-                                    <span class="glyphicon glyphicon-remove"></span> Delete row
-                                </a>
-                            </td>
-                        </tr>
-                    @endfor
-                @endif
-                </tbody>
-            </table>
+            <div class="form-group text-center">
+                {!! Form::submit('Save ranks', ['class' => 'btn btn-primary btn-lg']) !!}
+            </div>
+
+            {!! Form::close() !!}
 
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="remove-row-modal" tabindex="-1" role="dialog" aria-labelledby="removeRowLabel">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="removeRowLabel">Recovery password</h4>
-            </div>
-            {!! Form::open(['url' => asset('password/email')]) !!}
-            <div class="modal-body">
-                <p>Enter your email address</p>
-                {!! Form::email('recovery_email', null, ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Email']) !!}
-            </div>
-            <div class="modal-footer">
-                {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
-                {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-primary', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
-            </div>
-            {!! Form::close() !!}
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
 @endsection
 
 @section('page-script')
 
-<link rel="stylesheet" href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
-<script src="{{ asset('js/bootstrap-table-editable.min.js') }}"></script>
-<script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+{!! $validator !!}
+
 <script>
-    $.fn.editable.defaults.mode = 'inline';
-    $.fn.editable.defaults.ajaxOptions = {type: "put"};
+    function validateRank3() {
+        var rank2 = 65534;
 
-    var $table = $('#rank-table');
+        if($('#rank_2').valid()) {
+            rank2 = parseInt($('input[name="rank_2"]').val(), 10);
+        }
 
-//    //make username required
-//    $('#new_username').editable('option', 'validate', function(v) {
-//        if(!v) return 'Required field!';
-//    });
-//
-//    //make username required
-//    $('#new_username').editable('option', 'validate', function(v) {
-//        if(!v) return 'Required field!';
-//    });
-//
-//    function saveRefresh() {
-//
-//    }
-
-    $(function () {
-        $("[data-submit-confirm-text]").click(function(e){
-            var $el = $(this);
-            e.preventDefault();
-            var confirmText = $el.attr('data-submit-confirm-text');
-            bootbox.confirm(confirmText, function(result) {
-                if (result) {
-                    $el.closest('form').submit();
-                }
-            });
-        });
-    });
-
-    function removeRow(id) {
-        $table.bootstrapTable('removeByUniqueId', id);
-    };
-
-    function insertRow() {
-        var newRow = $table.bootstrapTable('getOptions').totalRows + 1;
-
-        $table.bootstrapTable('insertRow', {
-            index: 1,
-            row: {
-                rank: newRow,
-                name: 'Default',
-                points_req: '0',
-                removeButton: '<a class="btn btn-danger btn-xs" onclick="removeRow(' + newRow + ')"><span class="glyphicon glyphicon-remove"></span> Delete row</a>'
+        $('input[name="rank_3"]').rules('remove');
+        $('input[name="rank_3"]').rules('add', {
+            required: true,
+            digits: true,
+            min: 1,
+            max: rank2 - 1.0,
+            messages: {
+                required: "Point for rank 3 is required.",
+                digits: "Point for rank 3 must be a number.",
+                min: "Point for rank 3 must be more than 0.",
+                max: "Point for rank 3 must be less than " + rank2 + "."
             }
         });
+        $('input[name="rank_3"]').valid();
     }
+
+    function validateRank2() {
+        var rank3 = 1;
+        var rank1 = 65535;
+
+        if($('#rank_3').valid()) {
+            rank3 = parseInt($('input[name="rank_3"]').val(), 10);
+        }
+
+        if($('#rank_1').valid()) {
+            rank1 = parseInt($('input[name="rank_1"]').val(), 10);
+        }
+
+        $('input[name="rank_2"]').rules('remove');
+        $('input[name="rank_2"]').rules('add', {
+            required: true,
+            digits: true,
+            min: rank3 + 1.0,
+            max: rank1 - 1.0,
+            messages: {
+                required: "Point for rank 2 is required.",
+                digits: "Point for rank 2 must be a number.",
+                min: "Point for rank 2 must be more than  " + rank3 + ".",
+                max: "Point for rank 3 must be less than " + rank1 + "."
+            }
+        });
+        $('input[name="rank_2"]').valid();
+    }
+
+    function validateRank1() {
+        var rank2 = 2;
+
+        if($('#rank_2').valid()) {
+            rank2 = parseInt($('input[name="rank_2"]').val(), 10);
+        }
+
+        $('input[name="rank_1"]').rules('remove');
+        $('input[name="rank_1"]').rules('add', {
+            required: true,
+            digits: true,
+            min: rank2 + 1.0,
+            max: 65535,
+            messages: {
+                required: "Point for rank 1 is required.",
+                digits: "Point for rank 1 must be a number.",
+                min: "Point for rank 1 must be more than  " + rank2 + ".",
+                max: "Point for rank 1 must be less than 65536."
+            }
+        });
+        $('input[name="rank_1"]').valid();
+    }
+
+
+    $(document).on('change', '#rank_3', function () {
+        validateRank1();
+        validateRank2();
+        validateRank3();
+    });
+
+    $(document).on('change', '#rank_2', function () {
+        validateRank1();
+        validateRank2();
+        validateRank3();
+    });
+
+    $(document).on('change', '#rank_1', function () {
+        validateRank1();
+        validateRank2();
+        validateRank3();
+    });
 </script>
 
 @endsection
