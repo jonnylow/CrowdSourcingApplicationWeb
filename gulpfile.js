@@ -36,7 +36,6 @@ elixir(function(mix) {
         .copy(paths.bootstrap + 'dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js')
         .copy(paths.jsvalidation + 'js/jsvalidation.min.js', 'public/js/jsvalidation.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
-        .copy(paths.bootstraptable + 'dist/extensions/editable/bootstrap-table-editable.min.js', 'public/js/bootstrap-table-editable.min.js')
         .copy(paths.selectize + 'dist/js/standalone/selectize.min.js', 'public/js/selectize.min.js')
 
         .copy('resources/assets/images', 'public/images')

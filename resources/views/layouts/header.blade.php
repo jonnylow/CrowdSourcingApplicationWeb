@@ -16,7 +16,9 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Activities <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-fw fa-calendar"></span> Activities <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View Activities</a></li>
                         <li><a href="{{ asset('activities/create') }}"><span class="fa fa-fw fa-calendar-plus-o"></span> Add new Activity</a></li>
@@ -25,7 +27,9 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Volunteers <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-fw fa-heart"></span> Volunteers <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('volunteers') }}"><span class="fa fa-fw fa-users"></span> View Volunteers</a></li>
                         <li><a href="{{ asset('volunteers/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Volunteer</a></li>
@@ -34,7 +38,9 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seniors <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-fw fa-users"></span> Seniors <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('elderly') }}"><span class="fa fa-fw fa-users"></span> View Seniors</a></li>
                         <li><a href="{{ asset('elderly/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Senior</a></li>
@@ -42,7 +48,9 @@
                 </li>
                 @if (Auth::user()->is_admin)
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Staff <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-fw fa-cog"></span> Staff <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('staff') }}"><span class="fa fa-fw fa-users"></span> View Staff</a></li>
                         <li><a href="{{ asset('staff/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Staff</a></li>
