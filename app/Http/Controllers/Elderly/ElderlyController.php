@@ -101,11 +101,26 @@ class ElderlyController extends Controller
             'medical_condition'     => $request->get('medical_condition'),
         ]);
 
+        // Gets the languages that are currently in the database
+        $currentLanguages = $elderly->languages->lists('language', 'language');
+
+        // Adds any new languages into the database
         foreach($request->get('languages') as $language) {
-            ElderlyLanguage::create([
-                'elderly_id'    => $elderly->elderly_id,
-                'language'      => $language,
-            ]);
+            if($currentLanguages->has($language)) {
+                $currentLanguages->forget($language);
+            } else {
+                ElderlyLanguage::create([
+                    'elderly_id' => $elderly->elderly_id,
+                    'language' => $language,
+                ]);
+            }
+        }
+
+        // Remove any current languages that are not in the $request
+        foreach ($currentLanguages as $language) {
+            ElderlyLanguage::where('elderly_id', $id)
+                ->where('language', $language)
+                ->delete();
         }
 
         return back()->with('success', 'Senior is updated successfully!');
