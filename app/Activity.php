@@ -63,6 +63,17 @@ class Activity extends Model
     }
 
     /**
+     * Scope queries to activities in certain month ago.
+     *
+     * @var query
+     */
+    public function scopeSubMonth($query, $month)
+    {
+        $query->whereBetween('datetime_start', [Carbon::now()->subMonth($month)->startOfMonth(),
+            Carbon::now()->subMonth($month)->endOfMonth()]);
+    }
+
+    /**
      * Scope queries to activities that are cancelled.
      *
      * @var query
@@ -70,6 +81,80 @@ class Activity extends Model
     public function scopeCancelled($query)
     {
         $query->onlyTrashed()->latest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that are completed.
+     *
+     * @var query
+     */
+    public function scopeCompleted($query)
+    {
+        $query->withTrashed()
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.status', 'completed')->latest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that are unfilled (upcoming and no sign-up).
+     *
+     * @var query
+     */
+    public function scopeUnfilled($query)
+    {
+        $query->select('activities.*')
+            ->leftJoin('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where(function ($query) {
+                $query->whereNull('tasks.approval')
+                    ->orWhere(function ($orQuery) {
+                        $orQuery->whereNotIn('tasks.approval', ['pending', 'approved']);
+                    });
+            })->upcoming();
+    }
+
+    /**
+     * Scope queries to activities that are urgent (starting in a week and no sign-up).
+     *
+     * @var query
+     */
+    public function scopeUrgent($query)
+    {
+        $query->unfilled()
+            ->where('datetime_start', '<', Carbon::today()->addWeek());
+    }
+
+    /**
+     * Scope queries to activities that are awaiting approval.
+     *
+     * @var query
+     */
+    public function scopeAwaitingApproval($query)
+    {
+        $query->upcoming()
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.approval', 'pending');
+    }
+
+    /**
+     * Scope queries to activities that have approved volunteer.
+     *
+     * @var query
+     */
+    public function scopeApproved($query)
+    {
+        $query->upcoming()
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.approval', 'approved');
+    }
+
+    /**
+     * Scope queries to activities that belongs to the centre.
+     *
+     * @var query
+     */
+    public function scopeOfCentre($query, $centreId)
+    {
+        $query->where('centre_id', $centreId);
     }
 
     /**

@@ -17,7 +17,9 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-fw fa-calendar"></span> Activities <span class="caret"></span>
+                        <span class="fa fa-fw fa-calendar"></span>
+                        <strong>Activities</strong>
+                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('home') }}"><span class="fa fa-fw fa-list-alt"></span> View Activities</a></li>
@@ -28,7 +30,9 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-fw fa-heart"></span> Volunteers <span class="caret"></span>
+                        <span class="fa fa-fw fa-heart"></span>
+                        <strong>Volunteers</strong>
+                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('volunteers') }}"><span class="fa fa-fw fa-users"></span> View Volunteers</a></li>
@@ -39,7 +43,9 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-fw fa-users"></span> Seniors <span class="caret"></span>
+                        <span class="fa fa-fw fa-users"></span>
+                        <strong>Seniors</strong>
+                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('elderly') }}"><span class="fa fa-fw fa-users"></span> View Seniors</a></li>
@@ -49,7 +55,9 @@
                 @if (Auth::user()->is_admin)
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-fw fa-cog"></span> Staff <span class="caret"></span>
+                        <span class="fa fa-fw fa-cog"></span>
+                        <strong>Staff</strong>
+                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('staff') }}"><span class="fa fa-fw fa-users"></span> View Staff</a></li>
@@ -57,11 +65,16 @@
                     </ul>
                 </li>
                 @endif
+                <li class="dropdown">
+                    <li><a href="{{ asset('stats') }}"><span class="fa fa-fw fa-line-chart"></span> <strong>Statistics</strong></a></li>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class=" dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="hidden-md">Welcome {{ Auth::user()->name }} <span class="caret"></span></span>
+                        <span class="hidden-md">
+                            <strong>Welcome {{ Auth::user()->name }}</strong> <span class="caret"></span>
+                        </span>
                         <span class="visible-md-inline fa fa-fw fa-lg fa-caret-down"></span>
                     </a>
                     <ul class="dropdown-menu">

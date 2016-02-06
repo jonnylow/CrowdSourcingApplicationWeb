@@ -15,6 +15,12 @@ Route::get('/', ['middleware' => 'guest', 'uses' => 'Auth\AuthController@getLogi
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
+Route::group(['middleware' => 'auth', 'namespace' => 'Stats'], function() {
+    Route::get('stats', ['as' => 'stats.index', 'uses' => 'StatsController@index']);
+    Route::get('stats/getMainCharts', 'StatsController@ajaxRetrieveMainCharts');
+    Route::get('stats/getSubCharts', 'StatsController@ajaxRetrieveSubCharts');
+});
+
 Route::group(['middleware' => 'auth', 'namespace' => 'Ranks'], function() {
     Route::get('rank', ['as' => 'ranks.index', 'uses' => 'RankController@index']);
     Route::patch('rank', ['as' => 'ranks.update', 'uses' => 'RankController@update']);
