@@ -79,9 +79,24 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('retrieveTransportActivity', 'ActivitiesController@retrieveTransportActivity');
     Route::get('retrieveTransportActivityDetails', 'ActivitiesController@retrieveTransportActivityDetails');
 
+    Route::get('retrieveRecommendedTransportActivity', 'ActivitiesController@retrieveRecommendedTransportActivity');
+    Route::get('addNewActivity', 'ActivitiesController@addNewActivity');
+    Route::get('checkActivityApplication', 'ActivitiesController@checkActivityApplication');
+    Route::get('updateActivityStatus', 'ActivitiesController@updateActivityStatus');
+    Route::get('withdraw', 'ActivitiesController@withdraw');
+    Route::get('retrieveFilter', 'ActivitiesController@retrieveFilter');
+    Route::get('retrieveTransportByUser', 'ActivitiesController@retrieveTransportByUser');
+
     Route::get('addUserAccount', 'VolunteerController@addUserAccount');
     Route::get('checkEmail', 'VolunteerController@checkEmail');
     Route::get('checkNRIC', 'VolunteerController@checkNRIC');
     Route::get('retrieveUserAccounts', 'VolunteerController@retrieveUserAccounts');
     Route::get('retrieveUserDetails', 'VolunteerController@retrieveUserDetails');
+    Route::get('verifyUserEmailandPassword', 'VolunteerController@verifyUserEmailandPassword');
+    Route::get('updateUserAccount', 'VolunteerController@updateUserAccount');
+    Route::get('updateUserDetails', 'VolunteerController@updateUserDetails');
+    Route::get('retrieveMyTransportActivityDetails', 'VolunteerController@retrieveMyTransportActivityDetails');
+    Route::get('retrieveRankingDetails', 'VolunteerController@retrieveRankingDetails');
+
+    Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
 });

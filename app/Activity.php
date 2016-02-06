@@ -53,13 +53,23 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that have not passed.
+     * Scope queries to activities that have not passed today.
      *
      * @var query
      */
     public function scopeUpcoming($query)
     {
         $query->where('datetime_start', '>', Carbon::now()->endOfDay())->oldest('datetime_start');
+    }
+
+    /**
+     * Scope queries to activities that have not passed from the current exact time.
+     *
+     * @var query
+     */
+    public function scopeUpcomingExact($query)
+    {
+        $query->where('datetime_start', '>', Carbon::now())->oldest('datetime_start');
     }
 
     /**
