@@ -40,6 +40,22 @@
                     "reference": "origin/master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "nnnick/chartjs",
+                "version": "2.0.0-beta2",
+                "dist": {
+                    "url": "https://github.com/nnnick/Chart.js/archive/2.0.0-beta2.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/nnnick/Chart.js.git",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
         }
     ],
     "require": {
@@ -52,7 +68,8 @@
         "thomaspark/bootswatch": "3.3.*",
         "fortawesome/font-awesome": "4.*",
         "wenzhixin/bootstrap-table": "1.9.1",
-        "selectize/selectize.js": "0.12.1"
+        "selectize/selectize.js": "0.12.1",
+        "nnnick/chartjs": "2.0.0-beta2"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",

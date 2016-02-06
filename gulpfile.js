@@ -20,7 +20,8 @@ var paths = {
     'fontawesome': './vendor/fortawesome/font-awesome/',
     'jquery': './vendor/thomaspark/bootswatch/bower_components/jquery/',
     'jsvalidation': './public/vendor/jsvalidation/',
-    'selectize': './vendor/selectize/selectize.js/'
+    'selectize': './vendor/selectize/selectize.js/',
+    'chartjs': './vendor/nnnick/chartjs/'
 }
 
 elixir(function(mix) {
@@ -37,6 +38,7 @@ elixir(function(mix) {
         .copy(paths.jsvalidation + 'js/jsvalidation.min.js', 'public/js/jsvalidation.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.selectize + 'dist/js/standalone/selectize.min.js', 'public/js/selectize.min.js')
+        .copy(paths.chartjs + 'Chart.min.js', 'public/js/chart.min.js')
 
         .copy('resources/assets/images', 'public/images')
 
