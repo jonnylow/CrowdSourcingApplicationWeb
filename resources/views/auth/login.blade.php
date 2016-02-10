@@ -29,35 +29,12 @@
                     {!! Form::submit('Log in', ['class' => 'btn btn-primary btn-lg btn-block']) !!}
                 </div>
                 <div class="text-center">
-                    <a href="#forget-modal" class="forget-password" data-toggle="modal" data-target="#forget-modal">Forgot your password?</a>
+                    <a href="{{ asset('password/email') }}" class="forget-password">Forgot your password?</a>
                 </div>
             {!! Form::close() !!}
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="forget-modal" tabindex="-1" role="dialog" aria-labelledby="forgetModal">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="forgetModal">Recovery password</h4>
-            </div>
-            {!! Form::open(['url' => asset('password/email')]) !!}
-                <div class="modal-body">
-                    <p>Enter your email address</p>
-                    {!! Form::email('recovery_email', null, ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'placeholder' => 'Email']) !!}
-                </div>
-                <div class="modal-footer">
-                    {!! Form::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) !!}
-                    {!! Form::button('Send Password Reset Link', ['class' => 'btn btn-primary', 'onclick' => 'javascript:alert("Work in Progress")']) !!}
-                </div>
-            {!! Form::close() !!}
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
 
 @endsection
 

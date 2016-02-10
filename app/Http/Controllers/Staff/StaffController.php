@@ -38,7 +38,7 @@ class StaffController extends Controller
         $staff = Staff::create([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
-            'password'  => $randomString,
+            'password'  => bcrypt($randomString),
             'is_admin'  => $request->get('admin'),
         ]);
 

@@ -27,10 +27,11 @@ class ProfileController extends Controller
         if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
             $user = Auth::user();
 
-            $user->name = $request->get('name');
-            $user->email = $request->get('email');
+            $user->update([
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+            ]);
 
-            $user->save();
             return back()->with('success', 'Changes updated successfully!');
         } else {
             $errors = array_add($errors, 'current_password', 'Your current password is incorrect.');
@@ -55,9 +56,10 @@ class ProfileController extends Controller
         if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
             $user = Auth::user();
 
-            $user->password = $request->get('new_password');
+            $user->update([
+                'password' => bcrypt($request->get('new_password')),
+            ]);
 
-            $user->save();
             return back()->with('success', 'Changes updated successfully!');
         } else {
             $errors = array_add($errors, 'current_password', 'Your current password is incorrect.');

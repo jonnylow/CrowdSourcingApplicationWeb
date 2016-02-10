@@ -64,12 +64,12 @@ Route::group(['namespace' => 'Auth'], function() {
 
     Route::group(['prefix' => 'password'], function() {
         // Password reset link request routes
-        Route::get('email', 'PasswordController@getEmail');
-        Route::post('email', 'PasswordController@postEmail');
+        Route::get('email', ['as' => 'password.request.index', 'uses' => 'PasswordController@getEmail']);
+        Route::post('email', ['as' => 'password.request', 'uses' => 'PasswordController@postEmail']);
 
         // Password reset routes
-        Route::get('reset/{token}', 'PasswordController@getReset');
-        Route::post('reset', 'PasswordController@postReset');
+        Route::get('reset/{token}', ['as' => 'password.reset.index', 'uses' => 'PasswordController@getReset']);
+        Route::post('reset', ['as' => 'password.reset', 'uses' => 'PasswordController@postReset']);
     });
 });
 

@@ -69,14 +69,6 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the password attribute.
-     */
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
-    /**
      * Set the staff admin privilege.
      */
     public function setIsAdminAttribute($admin)
