@@ -74,7 +74,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'The start postal must be a valid postal code.');
+                $errors = array_add($errors, 'start_location', 'Start postal code does not exist.');
             }
         }
 
@@ -89,7 +89,7 @@ class ActivitiesController extends Controller
                 $endLocation->lng = $geoInfo['x'];
                 $endLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'end_location', 'The end postal must be a valid postal code.');
+                $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
             }
         }
 
@@ -105,7 +105,7 @@ class ActivitiesController extends Controller
             $elderly->centre_id = $request->get('centre');
 
             if(count($request->get('languages')) < 1) {
-                $errors = array_add($errors, 'languages', 'Language is required if senior is others.');
+                $errors = array_add($errors, 'languages', 'Language is required.');
             } else {
                 foreach($request->get('languages') as $language) {
                     $v = Validator::make(['language' => $language], ['language' => 'alpha']);
@@ -200,7 +200,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'The start postal must be a valid postal code.');
+                $errors = array_add($errors, 'start_location', 'Start postal code does not exist.');
             }
         }
 
@@ -215,7 +215,7 @@ class ActivitiesController extends Controller
                 $endLocation->lng = $geoInfo['x'];
                 $endLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'end_location', 'The end postal must be a valid postal code.');
+                $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
             }
         }
 
@@ -231,7 +231,7 @@ class ActivitiesController extends Controller
             $elderly->centre_id = $request->get('centre');
 
             if(count($request->get('languages')) < 1) {
-                $errors = array_add($errors, 'languages', 'Language is required if senior is others.');
+                $errors = array_add($errors, 'languages', 'Language is required.');
             } else {
                 foreach($request->get('languages') as $language) {
                     $v = Validator::make(['language' => $language], ['language' => 'alpha']);
