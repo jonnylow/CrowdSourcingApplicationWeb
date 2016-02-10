@@ -39,12 +39,12 @@ class ActivitiesController extends Controller
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
         $endLocations = Centre::all()->lists('name', 'centre_id');
-        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
+        $seniorList = Elderly::orderBy('name')->get()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
         $startLocations = $centreList->sort()->put('others', 'Others');
         $endLocations = $endLocations->sort()->put('others', 'Others');
-        $seniorList = $seniorList->sort()->put('others', 'Others');
+        $seniorList = $seniorList->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
@@ -165,12 +165,12 @@ class ActivitiesController extends Controller
         $activity = Activity::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
         $endLocations = Centre::all()->lists('name', 'centre_id');
-        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
+        $seniorList = Elderly::orderBy('name')->get()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
         $startLocations = $centreList->sort()->put('others', 'Others');
         $endLocations = $endLocations->sort()->put('others', 'Others');
-        $seniorList = $seniorList->sort()->put('others', 'Others');
+        $seniorList = $seniorList->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
