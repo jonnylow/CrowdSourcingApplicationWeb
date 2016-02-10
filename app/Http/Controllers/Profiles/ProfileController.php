@@ -12,33 +12,10 @@ use JsValidator;
 
 class ProfileController extends Controller
 {
-    public function edit()
+    public function view()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\UpdateProfileRequest');
-
         $profile = Auth::user();
         return view('profile.profile', compact('validator', 'profile'));
-    }
-
-    public function update(UpdateProfileRequest $request)
-    {
-        $errors = array();
-
-        if (Auth::attempt(['email' => Auth::user()->email, 'password' => $request->get('current_password')])) {
-            $user = Auth::user();
-
-            $user->update([
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-            ]);
-
-            return back()->with('success', 'Changes updated successfully!');
-        } else {
-            $errors = array_add($errors, 'current_password', 'Your current password is incorrect.');
-            return back()
-                ->withErrors($errors)
-                ->withInput();
-        }
     }
 
     public function editPassword()

@@ -27,8 +27,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Ranks'], function() {
 });
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
-    Route::get('/', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-    Route::patch('/', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+    Route::get('/', ['as' => 'profile.view', 'uses' => 'ProfileController@view']);
     Route::get('password', ['as' => 'profile.edit.password', 'uses' => 'ProfileController@editPassword']);
     Route::patch('password', ['as' => 'profile.update.password', 'uses' => 'ProfileController@updatePassword']);
 });
