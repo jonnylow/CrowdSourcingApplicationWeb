@@ -92,7 +92,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'name' => [
-            'name' => 'Name must contain only alphabets, commas, hyphens, or slashes.',
+            'name' => 'Name must contain only alphabets, spaces, commas, hyphens, or slashes.',
         ],
     ],
 

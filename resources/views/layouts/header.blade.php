@@ -65,9 +65,7 @@
                     </ul>
                 </li>
                 @endif
-                <li class="dropdown">
-                    <li><a href="{{ asset('stats') }}"><span class="fa fa-fw fa-line-chart"></span> <strong>Statistics</strong></a></li>
-                </li>
+                <li><a href="{{ asset('stats') }}"><span class="fa fa-fw fa-line-chart"></span> <strong>Statistics</strong></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class=" dropdown">
