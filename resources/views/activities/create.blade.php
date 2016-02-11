@@ -44,7 +44,7 @@
                                     </div>
                                     <!-- Time To Start Form Input -->
                                     <div class="col-md-4 form-group">
-                                        {!! Form::label('time', 'Time To Start (hh:mm AM/PM)', ['class' => 'control-label']) !!}
+                                        {!! Form::label('time', 'Time To Start (12-hour clock)', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
                                             <div class="col-md-4">{!! Form::number('time_hour', null, ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
                                             <div class="col-md-4">{!! Form::number('time_minute', null, ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
@@ -274,6 +274,102 @@
         create: true,
         createOnBlur: true,
         placeholder: 'e.g. English, Chinese'
+    });
+
+    // Validate date-field inputs
+    $(document).on('change', '.date-field', function () {
+        if($('input[name="date_year"]').valid()) {
+            var dateMonth = $('select[name="date_month"]').val();
+            var dateYear = $('input[name="date_year"]').val();
+            var numOfDays = 32 - new Date(dateYear, dateMonth - 1, 32).getDate();
+
+            $('input[name="date_day"]').rules('remove');
+            $('input[name="date_day"]').rules('add', {
+                required: true,
+                digits: true,
+                rangelength: [1, 2],
+                min: 1,
+                max: numOfDays,
+                messages: {
+                    required: "Day is required.",
+                    digits: "Day must be a number.",
+                    rangelength: "Day must be 1 or 2 digits.",
+                    min: "Day must be between 1 to " + numOfDays + ".",
+                    max: "Day must be between 1 to " + numOfDays + "."
+                }
+            });
+            $('input[name="date_day"]').valid();
+        }
+    });
+
+    // Validate duration_hour input
+    $(document).on('change', 'input[name="duration_hour"]', function () {
+        var durationHour = $('input[name="duration_hour"]').val();
+
+        $('input[name="duration_minute"]').rules('remove');
+        if(durationHour == 0) {
+            $('input[name="duration_minute"]').rules('add', {
+                required: true,
+                rangelength: [1, 2],
+                min: 30,
+                max: 59,
+                messages: {
+                    required: "Minute is required.",
+                    rangelength: "Minute must be 1 or 2 digits.",
+                    min: "Minute must be between 30 to 59.",
+                    max: "Minute must be between 30 to 59."
+                }
+            });
+        } else if(durationHour > 0) {
+            $('input[name="duration_minute"]').rules('add', {
+                required: true,
+                rangelength: [1, 2],
+                min: 0,
+                max: 59,
+                messages: {
+                    required: "Minute is required.",
+                    rangelength: "Minute must be 1 or 2 digits.",
+                    min: "Minute must be between 0 to 59.",
+                    max: "Minute must be between 0 to 59."
+                }
+            });
+        }
+        $('input[name="duration_minute"]').valid();
+    });
+
+    // Validate duration_minute input
+    $(document).on('change', 'input[name="duration_minute"]', function () {
+        var durationMinute = $('input[name="duration_minute"]').val();
+
+        $('input[name="duration_hour"]').rules('remove');
+        if(durationMinute == 0) {
+            $('input[name="duration_hour"]').rules('add', {
+                required: true,
+                rangelength: [1, 2],
+                min: 1,
+                max: 10,
+                messages: {
+                    required: "Hour is required.",
+                    rangelength: "Minute must be 1 or 2 digits.",
+                    min: "Hour must be between 1 to 10.",
+                    max: "Hour must be between 1 to 10."
+                }
+            });
+        } else if(durationMinute > 0) {
+            $('input[name="duration_hour"]').rules('add', {
+                required: true,
+                rangelength: [1, 2],
+                min: 0,
+                max: 10,
+                messages: {
+                    required: "Hour is required.",
+                    rangelength: "Minute must be 1 or 2 digits.",
+                    min: "Hour must be between 0 to 10.",
+                    max: "Hour must be between 0 to 10."
+                }
+            });
+        }
+        $('input[name="duration_hour"]').valid();
     });
 
     $('#start_location').on('change', function() {
