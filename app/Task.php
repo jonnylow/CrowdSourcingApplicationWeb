@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
@@ -20,6 +22,11 @@ class Task extends Model
      * @var array
      */
     protected $fillable = ['volunteer_id', 'activity_id', 'status', 'approval', 'comment'];
+
+    /**
+     * Additional fields to treat as Carbon instances (date object).
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Scope queries to tasks that belongs to a particular activity.

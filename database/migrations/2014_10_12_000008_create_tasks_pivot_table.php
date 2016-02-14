@@ -22,6 +22,7 @@ class CreateTasksPivotTable extends Migration
             $table->enum('approval', ['pending', 'withdrawn', 'rejected', 'approved'])->default('pending');
             $table->string('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -32,6 +32,30 @@ class Activity extends Model
      */
     protected $dates = ['datetime_start', 'deleted_at'];
 
+    /*
+     * Overwrite the boot function of Eloquent Model to listen for deleting event so as to
+     * cancel all associated tasks when an activity is cancelled.
+     */
+    protected static function boot() {
+        parent::boot();
+
+        Activity::deleting(function($activity) {
+            foreach($activity->tasks as $tasks) {
+                foreach($tasks as $task) {
+                    $task->delete();
+                }
+            }
+        });
+
+        Activity::restored(function($activity) {
+            foreach($activity->tasks as $tasks) {
+                foreach($tasks as $task) {
+                    $task->restore();
+                }
+            }
+        });
+    }
+
     /**
      * Scope queries to activities that have passed.
      *
