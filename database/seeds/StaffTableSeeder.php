@@ -32,7 +32,7 @@ class StaffTableSeeder extends Seeder
             Staff::create([
                 'name' => $fullName,
                 'email' => $email,
-                'password' => 'qwerty1234',
+                'password' => bcrypt('qwerty1234'),
                 'is_admin' => $faker->boolean(25), // 25% chance of getting true
             ]);
         }
