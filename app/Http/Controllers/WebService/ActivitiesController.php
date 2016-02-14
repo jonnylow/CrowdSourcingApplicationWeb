@@ -236,16 +236,49 @@ class ActivitiesController extends Controller
             $withdrawnTask = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->where('approval', '=' , 'withdrawn')->lists('activity_id');
             //return response()->json(compact('withdrawnTask'));
 
-            $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
-            //return response()->json(compact('email'));
+            $applyingActivity = Activity::findOrFail($actID);
 
-            if ($task->isEmpty()) {
+            if ($applyingActivity == null){
                 $status = array("do not exist");
                 return response()->json(compact('status'));
             } else {
-                $status = array("exist");
-                return response()->json(compact('status'));
+               $activityStartTime = $applyingActivity->datetime_start->toDateTimeString();
+               $activityDuration = $applyingActivity->expected_duration_minutes;
+               $activityEndTime = $applyingActivity->datetime_start->addMinutes($activityDuration)->toDateTimeString();
+
+               //$activityEndTime=$activityEndTime->toDateTimeString();
+
+                $sameTimeTask = Activity::where('datetime_start', '=', $activityStartTime)->lists('activity_id');
+
+                $sameTimeTaskWithEnd = Activity::whereBetween('datetime_start', [$activityStartTime,$activityEndTime ])->lists('activity_id');
+
+                //echo  $sameTimeTaskWithEnd;
+
+                $taskWithSameTime = Task::whereIn('activity_id',  $sameTimeTaskWithEnd)->where('volunteer_id', $userID)->lists('activity_id');
+
+                //echo $taskWithSameTime;
+                /*$sameTimeTask = Task::with('activities')
+                ->whereHas('activities', function ($query) {
+                    $query->where('datetime_start', '=', '2016-02-14 21:00:00');
+                })->lists('activity_id');*/
+
+                //echo  $sameTimeTask;
+
+
+                $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
+                //return response()->json(compact('email'));
+
+
+                if ($task->isEmpty() && $taskWithSameTime->isEmpty() ) {
+                    $status = array("do not exist");
+                    return response()->json(compact('status'));
+                } else {
+                    $status = array("exist");
+                    return response()->json(compact('status'));
+                } 
             }
+
+            
 
         }
 
