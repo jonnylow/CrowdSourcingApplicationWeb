@@ -23,7 +23,7 @@ class CreateCentresTable extends Migration
 
         // A quick hack to solve the case sensitive unique for address column
         // Source: http://shuber.io/case-insensitive-unique-constraints-in-postgres
-        DB::statement('CREATE UNIQUE INDEX centres_address_unique on staff (LOWER(address));');
+        DB::statement('CREATE UNIQUE INDEX centres_address_unique on centres (LOWER(address));');
     }
 
     /**
