@@ -48,7 +48,7 @@ class Elderly extends Model
 
         Elderly::restored(function($elderly) {
             foreach(['activities', 'languages'] as $relation) {
-                foreach($elderly->{$relation}->withTrashed() as $item) {
+                foreach($elderly->{$relation} as $item) {
                     $item->restore();
                 }
             }

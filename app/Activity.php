@@ -40,18 +40,14 @@ class Activity extends Model
         parent::boot();
 
         Activity::deleting(function($activity) {
-            foreach($activity->tasks as $tasks) {
-                foreach($tasks as $task) {
-                    $task->delete();
-                }
+            foreach($activity->tasks as $task) {
+                $task->delete();
             }
         });
 
         Activity::restored(function($activity) {
-            foreach($activity->tasks as $tasks) {
-                foreach($tasks as $task) {
-                    $task->restore();
-                }
+            foreach($activity->tasks as $task) {
+                $task->restore();
             }
         });
     }
