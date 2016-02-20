@@ -97,5 +97,10 @@
         $(document).on('change', '.btn-group .btn input', function () {
             $(this).valid();
         });
+
+        // Sets a custom email pattern for the built-in email validation rule.
+        $.validator.methods.email = function( value, element ) {
+            return this.optional( element ) || /^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,6})+$/.test( value );
+        }
     })
 </script>
