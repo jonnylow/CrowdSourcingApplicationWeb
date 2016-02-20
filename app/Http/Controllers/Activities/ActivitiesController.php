@@ -320,7 +320,12 @@ class ActivitiesController extends Controller
             ->where('approval', 'pending')
             ->firstOrFail();
 
-        $task->comment = $request->get('comment');
+        if($request->has('comment')) {
+            $task->comment = $request->get('comment');
+        } else {
+            $task->comment = "The position is unavailable."; // Default message if rejection reason is left blank by staff
+        }
+
         $task->approval = "rejected";
         $task->save();
 
