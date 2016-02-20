@@ -93,7 +93,12 @@
     .selectize-input.focus { border-color: #2C3E50; }
     .has-error .selectize-input, .has-error .selectize-input.focus { border-color: #e74c3c; }
     .has-success .selectize-input, .has-success .selectize-input.focus { border-color: #18bc9c; }
-    .selectize-input > input { padding: 2px 0px !important; }
+
+    .selectize-input > input {
+        color: #acb6c0;
+        padding: 2px 0px !important;
+    }
+
     ::-webkit-input-placeholder { color: #acb6c0; }
     :-moz-placeholder { color: #acb6c0; }
     ::-moz-placeholder { color: #acb6c0; }
