@@ -108,7 +108,7 @@ class ActivityRequest extends Request
             'time_hour.required'                        => 'Hour is required.',
             'time_hour.integer_between'                 => 'Hour must be between 1 to 12.',
             'time_minute.required'                      => 'Minute is required.',
-            'time_minute.integer_digits_and_between'    => 'Minute must be between 0 to 59.',
+            'time_minute.integer_digits_and_between'    => 'Minute must be a 2-digit number between 00 to 59.',
             'time_period.required'                      => 'AM/PM is required.',
             'time_period.in'                            => 'AM/PM is required.',
             'duration_hour.required'                    => 'Hour is required.',
