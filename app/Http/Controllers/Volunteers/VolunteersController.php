@@ -34,8 +34,11 @@ class VolunteersController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\CreateVolunteerRequest');
 
         $genderList = ['M' => 'Male', 'F' => 'Female'];
+        $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
+            'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
+            'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
 
-        return view('volunteers.create', compact('validator', 'genderList'));
+        return view('volunteers.create', compact('validator', 'genderList', 'preferenceList'));
     }
 
     public function store(CreateVolunteerRequest $request)
@@ -73,8 +76,11 @@ class VolunteersController extends Controller
 
         $volunteer = Volunteer::findOrFail($id);
         $genderList = ['M' => 'Male', 'F' => 'Female'];
+        $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
+            'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
+            'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
 
-        return view('volunteers.edit', compact('validator', 'volunteer', 'genderList'));
+        return view('volunteers.edit', compact('validator', 'volunteer', 'genderList', 'preferenceList'));
     }
 
     public function update($id, EditVolunteerRequest $request)

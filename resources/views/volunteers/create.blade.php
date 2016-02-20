@@ -104,12 +104,12 @@
                                     <!-- Volunteering Preference 1 Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('area_of_preference_1', 'Volunteering Preference 1', ['class' => 'control-label']) !!}
-                                        {!! Form::text('area_of_preference_1', null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::select('area_of_preference_1', $preferenceList, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Volunteering Preference 2 Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('area_of_preference_2', 'Volunteering Preference 2', ['class' => 'control-label']) !!}
-                                        {!! Form::text('area_of_preference_2', null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::select('area_of_preference_2', $preferenceList, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
