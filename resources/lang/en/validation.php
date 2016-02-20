@@ -91,11 +91,11 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'name' => [
-            'name' => 'Name must contain only alphabets, spaces, commas, hyphens, or slashes.',
+        'alpha_space' => [
+            'alpha_space' => 'The :attribute may only contain letters and spaces.',
         ],
-        'location' => [
-            'location' => 'Location must contain only alphabets, spaces, or numbers.',
+        'alpha_num_space' => [
+            'alpha_num_space' => 'The :attribute may only contain letters, numbers, and spaces.',
         ],
         'integer_between' => [
             'integer_between' => 'The :attribute must be between :min and :max.',

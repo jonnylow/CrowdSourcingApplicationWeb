@@ -26,7 +26,7 @@ class EditVolunteerRequest extends Request
     {
         return [
             'nric'                  => 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:volunteers,nric,' . $this->get('volunteer_id') . ',volunteer_id',
-            'name'                  => 'required|name',
+            'name'                  => 'required|alpha_space',
             'email'                 => 'required|email|unique:volunteers,email,' . $this->get('volunteer_id') . ',volunteer_id',
             'gender'                => 'required|in:M,F',
             'date_month'            => 'required|between:1,12',
@@ -72,7 +72,7 @@ class EditVolunteerRequest extends Request
             'nric.regex'                        => 'NRIC is invalid.',
             'nric.unique'                       => 'NRIC has been taken.',
             'name.required'                     => 'Name is required.',
-            'name.name'                         => 'Name must contain only alphabets, commas, hyphens, or slashes.',
+            'name.alpha_space'                  => 'Name must contain only letters or spaces.',
             'email.required'                    => 'Email address is required.',
             'email.email'                       => 'Email address is invalid.',
             'email.unique'                      => 'Email address has been taken.',

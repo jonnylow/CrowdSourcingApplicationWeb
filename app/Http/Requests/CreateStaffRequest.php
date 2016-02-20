@@ -25,7 +25,7 @@ class CreateStaffRequest extends Request
     public function rules()
     {
         return [
-            'name'      => 'required|name',
+            'name'      => 'required|alpha_space',
             'email'     => 'required|email|unique:staff,email,null,staff_id',
             'admin'     => 'required|boolean',
             'centres'   => 'required|array',
@@ -41,7 +41,7 @@ class CreateStaffRequest extends Request
     {
         return [
             'name.required'     => 'Name is required.',
-            'name.name'         => 'Name must contain only alphabets, commas, hyphens, or slashes.',
+            'name.alpha_space'  => 'Name must contain only letters or spaces.',
             'email.required'    => 'Email address is required.',
             'email.email'       => 'Email address is invalid.',
             'email.unique'      => 'Email address has been taken.',

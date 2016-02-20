@@ -27,12 +27,12 @@ class EditElderlyRequest extends Request
         return [
             'centre'            => 'required',
             'nric'              => 'required|regex:/^[STFGstfg][0-9]{7}[a-zA-Z]$/|unique:elderly,nric,' . $this->get('elderly_id') . ',elderly_id',
-            'name'              => 'required|name',
+            'name'              => 'required|alpha_space',
             'gender'            => 'required|in:M,F',
             'birth_year'        => 'required|integer|digits:4|min:1900|max:' . date('Y'),
             'languages'         => 'required|array',
             'medical_condition' => 'string',
-            'nok_name'          => 'required|name',
+            'nok_name'          => 'required|alpha_space',
             'nok_contact'       => 'required|digits:8|regex:/^[689][0-9]{7}/',
         ];
     }
@@ -50,7 +50,7 @@ class EditElderlyRequest extends Request
             'nric.regex'                => 'NRIC is invalid.',
             'nric.unique'               => 'NRIC has been taken.',
             'name.required'             => 'Name is required.',
-            'name.name'                 => 'Name must contain only alphabets, spaces, commas, hyphens, or slashes.',
+            'name.alpha_space'          => 'Name must contain only letters or spaces.',
             'gender.required'           => 'Gender is required.',
             'gender.in'                 => 'Gender must be either male or female.',
             'birth_year.required'       => 'Birth year is required.',
@@ -62,7 +62,7 @@ class EditElderlyRequest extends Request
             'languages.array'           => 'Language is required.',
             'medical_condition.string'  => 'Medical condition must be a string.',
             'nok_name.required'         => 'NOK\'s name is required.',
-            'nok_name.name'             => 'NOK\'s name must contain only alphabets, spaces, commas, hyphens, or slashes.',
+            'nok_name.alpha_space'      => 'NOK\'s name must contain only letters or spaces.',
             'nok_contact.required'      => 'Contact number is required.',
             'nok_contact.digits'        => 'Contact number must be 8 digits.',
             'nok_contact.regex'         => 'Contact number must starts with 6, 8, or 9.',

@@ -14,19 +14,27 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Custom Validator to check that name contains only letters, whitespaces or any of these characters ('/', ',', '-')
-        Validator::extend('name', function($attribute, $value) {
-            return is_string($value) && preg_match('/^[\pL\pM\s\/,-]+$/u', $value);
+        // Custom Validator to check that name contains only letters or whitespaces
+        Validator::extend('alpha_space', function($attribute, $value) {
+            if (preg_match('/^[\s]+$/u', $value)) {
+                return false;
+            }
+
+            return is_string($value) && preg_match('/^[\pL\pM\s]+$/u', $value);
         });
 
-        // Custom Validator to check that location contains only letters, whitespaces or numbers
-        Validator::extend('location', function($attribute, $value) {
+        // Custom Validator to check that location contains only letters, numbers, or whitespaces
+        Validator::extend('alpha_num_space', function($attribute, $value) {
+            if (preg_match('/^[\s]+$/u', $value)) {
+                return false;
+            }
+
             return is_string($value) && preg_match('/^[\pL\pM\pN\s]+$/u', $value);
         });
 
         // Custom Validator to check that the string contains only number (1 or 2 digits, leading 0s or not, not zero)
         // integer_between:min,max - int value must be between min and max.
-        Validator::extend('integerBetween', function($attribute, $value, $parameters) {
+        Validator::extend('integer_between', function($attribute, $value, $parameters) {
             if (count($parameters) !== 2) {
                 return false;
             } else {
@@ -45,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Custom Validator to check that the string contains only number, number of digits to specify (leading 0s or not, not zero)
         // integer_digits_and_between:digit,min,max - digit is the number of digits, int value must be between min and max.
-        Validator::extend('integerDigitsAndBetween', function($attribute, $value, $parameters) {
+        Validator::extend('integer_digits_and_between', function($attribute, $value, $parameters) {
             if (count($parameters) !== 3) {
                 return false;
             } else {
