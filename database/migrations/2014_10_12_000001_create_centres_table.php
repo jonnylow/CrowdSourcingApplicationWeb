@@ -15,11 +15,15 @@ class CreateCentresTable extends Migration
         Schema::create('centres', function (Blueprint $table) {
             $table->increments('centre_id');
             $table->string('name', 100);
-            $table->string('address');
+            $table->string('address')/*->unique()*/;
             $table->char('postal_code', 6);
             $table->float('lng');
             $table->float('lat');
         });
+
+        // A quick hack to solve the case sensitive unique for address column
+        // Source: http://shuber.io/case-insensitive-unique-constraints-in-postgres
+        DB::statement('CREATE UNIQUE INDEX centres_address_unique on staff (LOWER(address));');
     }
 
     /**

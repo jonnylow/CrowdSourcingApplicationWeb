@@ -94,6 +94,15 @@ return [
         'name' => [
             'name' => 'Name must contain only alphabets, spaces, commas, hyphens, or slashes.',
         ],
+        'location' => [
+            'location' => 'Location must contain only alphabets, spaces, or numbers.',
+        ],
+        'integer_between' => [
+            'integer_between' => 'The :attribute must be between :min and :max.',
+        ],
+        'integer_digits_and_between' => [
+            'integer_digits_and_between' => 'The :attribute must be :digits digits and between :min and :max.',
+        ],
     ],
 
     /*

@@ -38,17 +38,16 @@ class ActivitiesController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
 
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
-        $endLocations = Centre::all()->lists('name', 'centre_id');
-        $seniorList = Elderly::orderBy('name')->get()->lists('elderly_list', 'elderly_id');
+        $locationList = Centre::all()->lists('name', 'centre_id');
+        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
-        $startLocations = $centreList->sort()->put('others', 'Others');
-        $endLocations = $endLocations->sort()->put('others', 'Others');
-        $seniorList = $seniorList->put('others', 'Others');
+        $locationList = $locationList->sort()->put('others', 'Others');
+        $seniorList = $seniorList->sort()->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
+        return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
     public function store(ActivityRequest $request)
@@ -79,17 +78,21 @@ class ActivitiesController extends Controller
         }
 
         if($request->get('end_location') == "others") {
-            $postal = $request->get('end_postal');
-            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-
-            if($geoInfo['status'] == 'ok') {
-                $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
-                $endLocation->address = $geoInfo['address'];
-                $endLocation->postal_code = $postal;
-                $endLocation->lng = $geoInfo['x'];
-                $endLocation->lat = $geoInfo['y'];
+            if($request->get('start_location_name') == $request->get('end_location_name')) {
+                $endLocation = $startLocation;
             } else {
-                $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                $postal = $request->get('end_postal');
+                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+                if ($geoInfo['status'] == 'ok') {
+                    $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
+                    $endLocation->address = $geoInfo['address'];
+                    $endLocation->postal_code = $postal;
+                    $endLocation->lng = $geoInfo['x'];
+                    $endLocation->lat = $geoInfo['y'];
+                } else {
+                    $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                }
             }
         }
 
@@ -164,17 +167,16 @@ class ActivitiesController extends Controller
 
         $activity = Activity::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
-        $endLocations = Centre::all()->lists('name', 'centre_id');
-        $seniorList = Elderly::orderBy('name')->get()->lists('elderly_list', 'elderly_id');
+        $locationList = Centre::all()->lists('name', 'centre_id');
+        $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
         $timePeriodList = ['AM' => 'AM', 'PM' => 'PM'];
-        $startLocations = $centreList->sort()->put('others', 'Others');
-        $endLocations = $endLocations->sort()->put('others', 'Others');
-        $seniorList = $seniorList->put('others', 'Others');
+        $locationList = $locationList->sort()->put('others', 'Others');
+        $seniorList = $seniorList->sort()->put('others', 'Others');
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $seniorLanguages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
 
-        return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'startLocations', 'endLocations', 'seniorList', 'genderList', 'seniorLanguages'));
+        return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
     public function update($id, ActivityRequest $request)
@@ -205,17 +207,21 @@ class ActivitiesController extends Controller
         }
 
         if($request->get('end_location') == "others") {
-            $postal = $request->get('end_postal');
-            $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
-
-            if($geoInfo['status'] == 'ok') {
-                $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
-                $endLocation->address = $geoInfo['address'];
-                $endLocation->postal_code = $postal;
-                $endLocation->lng = $geoInfo['x'];
-                $endLocation->lat = $geoInfo['y'];
+            if($request->get('start_location_name') == $request->get('end_location_name')) {
+                $endLocation = $startLocation;
             } else {
-                $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                $postal = $request->get('end_postal');
+                $geoInfo = json_decode($this->postalCodeToAddress($postal), true);
+
+                if ($geoInfo['status'] == 'ok') {
+                    $endLocation->name = ucwords(strtolower($request->get('end_location_name')));
+                    $endLocation->address = $geoInfo['address'];
+                    $endLocation->postal_code = $postal;
+                    $endLocation->lng = $geoInfo['x'];
+                    $endLocation->lat = $geoInfo['y'];
+                } else {
+                    $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                }
             }
         }
 

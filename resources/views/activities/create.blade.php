@@ -38,16 +38,16 @@
                                         {!! Form::label('date', 'Date', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
                                             <div class="col-md-4">{!! Form::selectMonth('date_month', null, ['class' => 'form-control date-field', 'required']) !!}</div>
-                                            <div class="col-md-4">{!! Form::number('date_day', null, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
-                                            <div class="col-md-4">{!! Form::number('date_year', null, ['class' => 'form-control date-field', 'required', 'min' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_day', null, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_year', null, ['class' => 'form-control date-field', 'required', 'min' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
                                         </div>
                                     </div>
                                     <!-- Time To Start Form Input -->
                                     <div class="col-md-4 form-group">
                                         {!! Form::label('time', 'Time To Start (12-hour clock)', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
-                                            <div class="col-md-4">{!! Form::number('time_hour', null, ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
-                                            <div class="col-md-4">{!! Form::number('time_minute', null, ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('time_hour', null, ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('time_minute', null, ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
                                             <div class="col-md-4">{!! Form::select('time_period', $timePeriodList, null, ['class' => 'form-control', 'required']) !!}</div>
                                         </div>
                                     </div>
@@ -57,13 +57,13 @@
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('duration', 'Expected Duration (hours, minutes)', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
-                                            <div class="col-md-6">{!! Form::number('duration_hour', null, ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '10', 'placeholder' => 'Hour']) !!}</div>
-                                            <div class="col-md-6">{!! Form::number('duration_minute', null, ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                            <div class="col-md-6">{!! Form::text('duration_hour', null, ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '10', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-6">{!! Form::text('duration_minute', null, ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
                                         </div>
                                     </div>
                                     <!-- More Information Form Input -->
                                     <div class="col-md-9 form-group">
-                                        {!! Form::label('more_information', 'More Information', ['class' => 'control-label']) !!}
+                                        {!! Form::label('more_information', 'More Information (optional)', ['class' => 'control-label']) !!}
                                         {!! Form::textarea('more_information', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                     </div>
                                 </div>
@@ -86,16 +86,30 @@
                                 <div class="row">
                                     <!-- Start Location Form Input -->
                                     <div class="col-md-6 form-group">
-                                        {!! Form::label('start_location', 'Start Location', ['class' => 'control-label']) !!}
-                                        {!! Form::select('start_location', $startLocations, null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::label('start_location', 'Home', ['class' => 'control-label']) !!}
+                                        <div class="input-group">
+                                            {!! Form::select('start_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
+                                                New location
+                                            </button>
+                                        </span>
+                                        </div>
                                         <div class="collapse collapse-start-loc">
                                             <p class="help-block">Location will be saved when activity is added.</p>
                                         </div>
                                     </div>
                                     <!-- End Location Form Input -->
                                     <div class="col-md-6 form-group">
-                                        {!! Form::label('end_location', 'End Location', ['class' => 'control-label']) !!}
-                                        {!! Form::select('end_location', $endLocations, null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
+                                            <div class="input-group">
+                                            {!! Form::select('end_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
+                                                    New location
+                                                </button>
+                                            </span>
+                                        </div>
                                         <div class="collapse collapse-end-loc">
                                             <p class="help-block">Location will be saved when activity is added.</p>
                                         </div>
@@ -107,13 +121,13 @@
                                         <div class="panel-body">
                                             <!-- Start Location Name Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_location_name', 'Start Location Name', ['class' => 'control-label']) !!}
+                                                {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
                                                 {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home']) !!}
                                             </div>
                                             <!-- Start Location Postal Code Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_postal', 'Start Location Postal Code', ['class' => 'control-label']) !!}
-                                                {!! Form::number('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                                {!! Form::label('start_postal', 'Home Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::text('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -123,13 +137,13 @@
                                         <div class="panel-body">
                                             <!-- End Location Name Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('end_location_name', 'End Location Name', ['class' => 'control-label']) !!}
+                                                {!! Form::label('end_location_name', 'Appointment Venue Name', ['class' => 'control-label']) !!}
                                                 {!! Form::text('end_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Singapore General Hospital']) !!}
                                             </div>
                                             <!-- End Location Postal Code Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('end_postal', 'End Location Postal Code', ['class' => 'control-label']) !!}
-                                                {!! Form::number('end_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                                {!! Form::label('end_postal', 'Appointment Venue Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::text('end_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -150,12 +164,19 @@
                         </div>
                         <div id="collapse-senior-all" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-senior-all">
                             <div class="panel-body">
-                                <!-- Senior NRIC and Name Form Input -->
+                                <!-- Senior Name and NRIC Form Input -->
                                 <div class="col-md-8 col-md-offset-2 form-group">
-                                    {!! Form::label('senior', 'Senior NRIC & Name', ['class' => 'control-label']) !!}
-                                    {!! Form::select('senior', $seniorList, null, ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
+                                    <div class="input-group">
+                                        {!! Form::select('senior', $seniorList, null, ['class' => 'form-control', 'required']) !!}
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
+                                                New senior
+                                            </button>
+                                        </span>
+                                    </div>
                                     <div class="collapse collapse-senior">
-                                        <p class="help-block">Senior information will be saved when activity is added.</p>
+                                        <p class="help-block">Senior's information will be saved when activity is added.</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +203,7 @@
                                             <!-- Senior Birth Year Form Input -->
                                             <div class="col-md-3 form-group">
                                                 {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                                {!! Form::number('senior_birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
+                                                {!! Form::text('senior_birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
                                             </div>
 
                                         </div>
@@ -206,7 +227,7 @@
                                         <div class="row">
                                             <!-- Medical Condition Form Input -->
                                             <div class="col-md-12 form-group">
-                                                {!! Form::label('senior_medical', 'Medical Condition', ['class' => 'control-label']) !!}
+                                                {!! Form::label('senior_medical', 'Medical Condition (optional)', ['class' => 'control-label']) !!}
                                                 {!! Form::textarea('senior_medical', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                             </div>
                                         </div>
@@ -237,6 +258,10 @@
 <script type="text/javascript" src="{{ asset('js/selectize.min.js') }}"></script>
 
 <style>
+    .input-group-btn .btn {
+        border-width: 1px;
+    }
+
     .inline-field div:first-of-type {
         padding-left: 0px;
         padding-right: 5px;
@@ -256,10 +281,15 @@
         box-shadow: none !important;
         border: 2px solid #dce4ec;
     }
+
+    .selectize-input > input {
+        color: #acb6c0;
+        padding: 2px 0px !important;
+    }
+
     .selectize-input.focus { border-color: #2C3E50; }
     .has-error .selectize-input, .has-error .selectize-input.focus { border-color: #e74c3c; }
     .has-success .selectize-input, .has-success .selectize-input.focus { border-color: #18bc9c; }
-    .selectize-input > input { padding: 2px 0px !important; }
     ::-webkit-input-placeholder { color: #acb6c0; }
     :-moz-placeholder { color: #acb6c0; }
     ::-moz-placeholder { color: #acb6c0; }
@@ -271,9 +301,21 @@
         plugins: ['restore_on_backspace', 'remove_button'],
         delimiter: ',',
         persist: false,
-        create: true,
         createOnBlur: true,
-        placeholder: 'e.g. English, Chinese'
+        placeholder: 'e.g. English, Chinese',
+        create: function(input) {
+            if(/^[a-zA-Z]+$/.test(input)) {
+                return {
+                    value: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase(),
+                    text: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+                }
+            } else {
+                return {
+                    value: "",
+                    text: ""
+                }
+            }
+        }
     });
 
     // Validate date-field inputs
@@ -417,10 +459,12 @@
 
     $('.collapse-senior').on('show.bs.collapse', function () {
         $('#senior').val("others");
+        $('input[name="senior_others"]').val(true);
     });
 
     $('.collapse-senior').on('hide.bs.collapse', function () {
         $('#senior').prop("selectedIndex", 0);
+        $('input[name="senior_others"]').val(false);
     });
 
     $(document).ready(function() {

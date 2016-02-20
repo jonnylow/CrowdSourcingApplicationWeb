@@ -113,7 +113,7 @@ class Elderly extends Model
      */
     public function getElderlyListAttribute()
     {
-        return $this->attributes['nric'] . ' - ' . $this->attributes['name'];
+        return $this->attributes['name'] . ' - ' . $this->attributes['nric'];
     }
 
     /**
