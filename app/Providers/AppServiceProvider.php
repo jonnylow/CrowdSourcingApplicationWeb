@@ -38,7 +38,11 @@ class AppServiceProvider extends ServiceProvider
             if (count($parameters) !== 2) {
                 return false;
             } else {
-                if(is_string($value) && strlen($value) > 0 && strlen($value) <= 2) {
+                if(is_string($value) && strlen($value) == 1) {
+                    if (filter_var($value, FILTER_VALIDATE_INT) === 0 || filter_var($value, FILTER_VALIDATE_INT)) {
+                        return $value >= $parameters[0] && $value <= $parameters[1];
+                    }
+                } else if (is_string($value) && strlen($value) == 2) {
                     if (filter_var($value, FILTER_VALIDATE_INT)) {
                         return $value >= $parameters[0] && $value <= $parameters[1];
                     } else if (filter_var(substr($value, 0, 1), FILTER_VALIDATE_INT) === 0) {

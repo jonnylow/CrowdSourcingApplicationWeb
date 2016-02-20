@@ -392,7 +392,7 @@
                 max: 10,
                 messages: {
                     required: "Hour is required.",
-                    rangelength: "Minute must be 1 or 2 digits.",
+                    rangelength: "Hour must be 1 or 2 digits.",
                     min: "Hour must be between 1 to 10.",
                     max: "Hour must be between 1 to 10."
                 }
@@ -405,7 +405,7 @@
                 max: 10,
                 messages: {
                     required: "Hour is required.",
-                    rangelength: "Minute must be 1 or 2 digits.",
+                    rangelength: "Hour must be 1 or 2 digits.",
                     min: "Hour must be between 0 to 10.",
                     max: "Hour must be between 0 to 10."
                 }
