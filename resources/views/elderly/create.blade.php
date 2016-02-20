@@ -53,7 +53,7 @@
                                     <!-- Birth Year Form Input -->
                                     <div class="col-md-3 form-group">
                                         {!! Form::label('birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                        {!! Form::number('birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
+                                        {!! Form::text('birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
                                     </div>
                                     <!-- Languages Form Input -->
                                     <div class="col-md-6 form-group">
@@ -129,7 +129,12 @@
     .selectize-input.focus { border-color: #2C3E50; }
     .has-error .selectize-input, .has-error .selectize-input.focus { border-color: #e74c3c; }
     .has-success .selectize-input, .has-success .selectize-input.focus { border-color: #18bc9c; }
-    .selectize-input > input { padding: 2px 0px !important; }
+
+    .selectize-input > input {
+        color: #acb6c0;
+        padding: 2px 0px !important;
+    }
+
     ::-webkit-input-placeholder { color: #acb6c0; }
     :-moz-placeholder { color: #acb6c0; }
     ::-moz-placeholder { color: #acb6c0; }
@@ -141,9 +146,21 @@
         plugins: ['restore_on_backspace', 'remove_button'],
         delimiter: ',',
         persist: false,
-        create: true,
         createOnBlur: true,
-        placeholder: 'e.g. English, Chinese'
+        placeholder: 'e.g. English, Chinese',
+        create: function(input) {
+            if(/^[a-zA-Z]+$/.test(input)) {
+                return {
+                    value: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase(),
+                    text: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+                }
+            } else {
+                return {
+                    value: "",
+                    text: ""
+                }
+            }
+        }
     });
 </script>
 
