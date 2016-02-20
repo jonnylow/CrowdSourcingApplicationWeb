@@ -64,7 +64,7 @@
                                 <div class="row">
                                     <!-- Medical Condition Form Input -->
                                     <div class="col-md-12 form-group">
-                                        {!! Form::label('medical_condition', 'Medical Condition', ['class' => 'control-label']) !!}
+                                        {!! Form::label('medical_condition', 'Medical Condition (optional)', ['class' => 'control-label']) !!}
                                         {!! Form::textarea('medical_condition', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                     </div>
                                 </div>
