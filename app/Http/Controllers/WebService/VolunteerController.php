@@ -77,7 +77,7 @@ class VolunteerController extends Controller
     $volunteer = Volunteer::where('email',$check)->get();
     //return response()->json(compact('email'));
 
-    if ($email->isEmpty()){
+    if ($volunteer->isEmpty()){
       $status = array("error");
       return response()->json(compact('status'));
     } else {
