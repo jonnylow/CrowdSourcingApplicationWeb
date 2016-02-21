@@ -149,7 +149,7 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $phone = $request->get('phone');
             $volunteer = Volunteer::where('email', $email)->where('contact_no', $phone)->first();
-            if (is_null($volunteer)) {
+            if ( ! is_null($volunteer)) {
                 $password = str_random(12);
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
@@ -185,7 +185,7 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if (is_null($volunteer)) {
+            if ( ! is_null($volunteer)) {
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
@@ -200,8 +200,6 @@ class VolunteerController extends Controller
                 $status = array("error");
                 return response()->json(compact('status'));
             }
-
-
         }
     }
 
@@ -221,7 +219,7 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if (is_null($volunteer)) {
+            if ( ! is_null($volunteer)) {
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
