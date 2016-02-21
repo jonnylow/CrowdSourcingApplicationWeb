@@ -45,8 +45,8 @@ class StaffController extends Controller
         $staff->centres()->attach($request->get('centres'));
 
         Mail::send('emails.welcome_staff', compact('staff', 'randomString'), function ($message) {
-            $message->from('imchosen6@gmail.com', 'Admin');
-            $message->subject('Your CareGuide account has been created.');
+            $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+            $message->subject('Your CareGuide Staff account has been created.');
             $message->to('imchosen6@gmail.com');
         });
 

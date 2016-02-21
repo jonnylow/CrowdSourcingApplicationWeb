@@ -62,8 +62,8 @@ class VolunteersController extends Controller
         ]);
 
         Mail::send('emails.welcome_volunteer', compact('volunteer', 'randomString'), function ($message) {
-            $message->from('imchosen6@gmail.com', 'Admin');
-            $message->subject('Your CareGuide account has been created.');
+            $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+            $message->subject('Your CareGuide Volunteer account has been registered.');
             $message->to('imchosen6@gmail.com');
         });
 
@@ -110,6 +110,13 @@ class VolunteersController extends Controller
         if($volunteer->is_approved == 'pending') {
             $volunteer->is_approved = 'rejected';
             $volunteer->save();
+
+            Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+                $message->subject('Your CareGuide Volunteer account has been rejected.');
+                $message->to('imchosen6@gmail.com');
+            });
+
             return back()->with('success', 'Volunteer is rejected!');
         } else {
             return back()->with('error', 'Volunteer is ' . $volunteer->is_approved . 'already!');
@@ -122,6 +129,13 @@ class VolunteersController extends Controller
         if($volunteer->is_approved == 'pending') {
             $volunteer->is_approved = 'approved';
             $volunteer->save();
+
+            Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+                $message->subject('Your CareGuide Volunteer account has been approved.');
+                $message->to('imchosen6@gmail.com');
+            });
+
             return back()->with('success', 'Volunteer is approved!');
         } else {
             return back()->with('error', 'Volunteer is ' . $volunteer->is_approved . 'already!');
