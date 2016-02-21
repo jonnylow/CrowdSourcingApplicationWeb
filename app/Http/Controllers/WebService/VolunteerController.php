@@ -31,7 +31,7 @@ class VolunteerController extends Controller
        $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
    }
 
-   public function addUserAccount(Request $request ){
+   public function addUserAccount(Request $request){
       /*$validator = Validator::make($request->all(), [
             'nric'                    => 'required|string',
             'name'                    => 'required|string',
@@ -70,26 +70,22 @@ class VolunteerController extends Controller
                 'area_of_preference_2'      => $request->get('preferences2'),
                 'image_nric_front'          => $request->get('frontIC'),
                 'image_nric_back'           => $request->get('backIC'),
-                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,]);
+                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,
+          ]);
         //}
     $check = $request->get('email');
     $email = Volunteer::where('email',$check)->get();
     //return response()->json(compact('email'));
 
-
-    $message = "NRIC: " . $request->get('nric') ."\r\n Name: " . $request->get('name') . "\r\n Email: " . $request->get('email') . "\r\n Password: " . bcrypt($request->get('password')) . 
-      "\r\n gender: " . $request->get('gender') . "\r\n date_of_birth: " . $request->get('dob') . "\r\n contact_no: " . $request->get('phone') . "\r\n occupation: " . $request->get('occupation') .
-      "\r\n area_of_preference_1: " . $request->get('preferences1') . "\r\n area_of_preference_2: " . $request->get('preferences2')  ;
-
     if ($email->isEmpty()){
       $status = array("error");
       return response()->json(compact('status'));
     } else {
-      Mail::raw($message, function($message) {
-      $message->from('imchosen6@gmail.com', 'Admin');
-      $message->subject('[CareRide Alert] Volunteer Registration');
-      $message->to('imchosen6@gmail.com');
-      });
+        Mail::send('emails.volunteer_registration', compact('email'), function ($message) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+            $message->subject('A CareGuide Volunteer account has been registered and awaiting Approval.');
+            $message->to('imchosen6@gmail.com');
+        });
       $status = array("Created successfully");
       return response()->json(compact('status'));
     }
@@ -170,19 +166,19 @@ class VolunteerController extends Controller
    }
 
    public function verifyUserEmailandPassword(Request $request){
-      if ($request->has('email') && $request->has('phone') ) {
+      if ($request->has('email') && $request->has('phone')) {
         $email = $request->get('email');
           $phone = $request->get('phone');
           $volunteer = Volunteer::where('email', $email)->where('contact_no',$phone)->first();
           if ($volunteer){
             $password = str_random(12);
-            $message = "Hi " . $volunteer->name .", \r\n \r\n Your have requested for a temporary password : " . $password . ". Please Login and change your password immiediately! \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-            Mail::raw($message, function($message) {
-            $message->from('imchosen6@gmail.com', 'Admin');
-            $message->subject('CareRide Password Reset');
-            $message->to('imchosen6@gmail.com');
-            });
+
+              Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
+                  $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
+                  $message->subject('Your request for your CareGuide account password Reset.');
+                  $message->to('imchosen6@gmail.com');
+              });
+
             $volunteer->password = $password;
             $volunteer->save();
             $status = array("success");
@@ -212,13 +208,12 @@ class VolunteerController extends Controller
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
             if ($volunteer){
-              $message = "Hi " . $volunteer->name .", \r\n \r\n The password for your CareRide Account was recently changed. \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-              Mail::raw($message, function($message) {
-              $message->from('imchosen6@gmail.com', 'Admin');
-              $message->subject('CareRide password changed');
-              $message->to('imchosen6@gmail.com');
-              });
+                Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
+                    $message->subject('Your CareGuide account password was recently changed.');
+                    $message->to('imchosen6@gmail.com');
+                });
+
               $volunteer->password = $password;
               $volunteer->save();
               $status = array("success");
@@ -250,13 +245,12 @@ class VolunteerController extends Controller
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
             if ($volunteer){
-              $message = "Hi " . $volunteer->name .", \r\n \r\n You have updated the your personal particulars. \r\n If you did not change your personal particulars, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-              Mail::raw($message, function($message) {
-              $message->from('imchosen6@gmail.com', 'Admin');
-              $message->subject('CareRide details updated');
-              $message->to('imchosen6@gmail.com');
-              });
+                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+                    $message->subject('Your CareGuide account particulars was recently updated.');
+                    $message->to('imchosen6@gmail.com');
+                });
+
               $volunteer->contact_no = $number;
               $volunteer->name = $name;
               $volunteer->occupation = $occupation;
