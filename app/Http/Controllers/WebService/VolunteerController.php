@@ -74,14 +74,14 @@ class VolunteerController extends Controller
           ]);
         //}
     $check = $request->get('email');
-    $email = Volunteer::where('email',$check)->get();
+    $volunteer = Volunteer::where('email',$check)->get();
     //return response()->json(compact('email'));
 
     if ($email->isEmpty()){
       $status = array("error");
       return response()->json(compact('status'));
     } else {
-        Mail::send('emails.volunteer_registration', compact('email'), function ($message) {
+        Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) {
             $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
             $message->subject('A CareGuide Volunteer account has been registered and awaiting Approval.');
             $message->to('imchosen6@gmail.com');
