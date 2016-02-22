@@ -36,7 +36,7 @@
                                     <!-- NRIC Form Input -->
                                     <div class="col-md-4 form-group">
                                         {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
-                                        {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                        {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z', 'onBlur' => 'javascript:{this.value = this.value.toUpperCase(); }']) !!}
                                     </div>
                                     <!-- Name Form Input -->
                                     <div class="col-md-4 form-group">
