@@ -28,7 +28,7 @@ class VolunteerController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails']]);
+        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution']]);
     }
 
     public function addUserAccount(Request $request)
@@ -85,7 +85,7 @@ class VolunteerController extends Controller
 
     }
 
-// tested working with new database 
+// tested working with new database
     public function checkNRIC(Request $request)
     {
         $check = $request->get('nric');
@@ -122,7 +122,7 @@ class VolunteerController extends Controller
      }
 
     }*/
-// tested working with new database 
+// tested working with new database
     public function retrieveUserDetails(Request $request)
     {
         // retrieve all details based on volunteer id
@@ -274,6 +274,104 @@ class VolunteerController extends Controller
 
         }
 
+    }
+
+    public function graphInformation(Request $request){
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          //$today = Carbon::now();
+          //$dateFourMonths = Carbon::today()->subMonths(4)->toDateTimeString();
+          //$dateThreeMonths = Carbon::today()->subMonths(3)->toDateTimeString();
+          //$dateTwoMonths = Carbon::today()->subMonths(2)->toDateTimeString();
+          //$dateOneMonths = (new Carbon('first day of this month'))->toDateTimeString();
+          //$dateToday = $today->toDateTimeString();
+
+          // four months
+          $activitiesWithinFrame = Activity::completed()->subMonth(3)->lists('activities.activity_id');
+          $fourMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($fourMonthsUserList->isEmpty()){
+            $fourMonthsAgo = 0;
+          } else {
+            $fourMonthsAgo = Activity::whereIn('activity_id',$fourMonthsUserList)->sum('expected_duration_minutes');
+          }
+          // three months
+          $activitiesWithinFrame = Activity::completed()->subMonth(2)->lists('activities.activity_id');
+          $threeMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($threeMonthsUserList->isEmpty()){
+            $threeMonthsAgo = 0;
+          } else {
+            $threeMonthsAgo = Activity::whereIn('activity_id',$threeMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // two months
+          $activitiesWithinFrame = Activity::completed()->subMonth(1)->lists('activities.activity_id');
+          $twoMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($twoMonthsUserList->isEmpty()){
+            $twoMonthsAgo = 0;
+          } else {
+            $twoMonthsAgo = Activity::whereIn('activity_id',$twoMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // one months
+
+          $activitiesWithinFrame = Activity::completed()->subMonth(0)->lists('activities.activity_id');
+          $oneMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($oneMonthsUserList->isEmpty()){
+            $oneMonthAgo = 0;
+          } else {
+            $oneMonthAgo = Activity::whereIn('activity_id',$oneMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+
+
+          return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
+
+      } else {
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      }
+    }
+
+    public function getAllVolunteerContribution(){
+        $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
+
+        $totalTaskList = Task::where('status','completed')->lists('activity_id');
+        $totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
+
+        return response()->json(compact('totalVolunteers','totalTaskHours'));
+      }
+
+    public function volunteerLeaderboard(Request $request) {
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // user rank
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+          // User Minutes Completed
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          // top 10 volunteers
+          $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
+
+
+
+          return response()->json(compact('rank','totalHours','volunteersList'));
+
+      } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+      }
     }
 }
 
