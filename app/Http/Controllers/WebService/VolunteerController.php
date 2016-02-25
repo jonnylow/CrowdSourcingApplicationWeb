@@ -234,15 +234,18 @@ class VolunteerController extends Controller
     }
 
     public function updateUserDetails(Request $request)
-    {
-        if ($request->get('id') == null || $request->get('name') == null || $request->get('number') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
+    { 
+        if ($request->get('id') == null || $request->get('name') == null || $request->get('email') == null || $request->get('dob') == null|| $request->get('gender') == null || $request->get('hasCar') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
             
             $status = array("Missing parameter"); 
             return response()->json(compact('status'));
         } else {
             $volunteer_id = $request->get('id');
             $name = $request->get('name');
-            $number = $request->get('number');
+            $email = $request->get('email');
+            $dob = $request->get('dob');
+            $gender = $request->get('gender');
+            $hasCar = $request->get('hasCar');
             $occupation = $request->get('occupation');
             $p1 = $request->get('p1');
             $p2 = $request->get('p2');
@@ -257,8 +260,11 @@ class VolunteerController extends Controller
               $message->subject('CareRide details updated');
               $message->to('imchosen6@gmail.com');
               });
-              $volunteer->contact_no = $number;
+              $volunteer->email = $email;
               $volunteer->name = $name;
+              $volunteer->date_of_birth = $dob;
+              $volunteer->gender = $gender;
+              $volunteer->has_car = $hasCar;
               $volunteer->occupation = $occupation;
               $volunteer->area_of_preference_1 = $p1;
               $volunteer->area_of_preference_2 = $p2;
@@ -393,8 +399,6 @@ class VolunteerController extends Controller
           $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
           // top 10 volunteers
           $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
-
-
 
           return response()->json(compact('rank','totalHours','volunteersList'));
 
