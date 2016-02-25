@@ -97,6 +97,8 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('retrieveMyTransportActivityDetails', 'VolunteerController@retrieveMyTransportActivityDetails');
     Route::get('retrieveRankingDetails', 'VolunteerController@retrieveRankingDetails');
     Route::get('graphInformation', 'VolunteerController@graphInformation');
+    Route::get('getAllVolunteerContribution', 'VolunteerController@getAllVolunteerContribution');
+    
 
     Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
 

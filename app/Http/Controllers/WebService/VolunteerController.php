@@ -28,7 +28,7 @@ class VolunteerController extends Controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
        Config::set('auth.model', 'App\Volunteer');
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails']]);
+       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails','getAllVolunteerContribution']]);
    }
 
    public function addUserAccount(Request $request ){
@@ -365,11 +365,25 @@ class VolunteerController extends Controller
 
 
           return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
+        
+      } else {
         $status = array("Missing parameter"); 
         return response()->json(compact('status'));
       }
-
     }
+
+    public function getAllVolunteerContribution(){
+        $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
+
+        $totalTaskList = Task::where('status','completed')->lists('activity_id');
+        $totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
+
+        return response()->json(compact('totalVolunteers','totalTaskHours'));
+      }
+
+      
+
+    
 }
 
 
