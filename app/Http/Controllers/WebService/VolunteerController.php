@@ -305,6 +305,71 @@ class VolunteerController extends Controller
       }  
 
     }
+
+    public function graphInformation(Request $request){
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          //$today = Carbon::now();
+          //$dateFourMonths = Carbon::today()->subMonths(4)->toDateTimeString();
+          //$dateThreeMonths = Carbon::today()->subMonths(3)->toDateTimeString();
+          //$dateTwoMonths = Carbon::today()->subMonths(2)->toDateTimeString();
+          //$dateOneMonths = (new Carbon('first day of this month'))->toDateTimeString();
+          //$dateToday = $today->toDateTimeString();
+
+          // four months
+          $activitiesWithinFrame = Activity::completed()->subMonth(3)->lists('activities.activity_id');
+          $fourMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($fourMonthsUserList->isEmpty()){
+            $fourMonthsAgo = 0;
+          } else {
+            $fourMonthsAgo = Activity::whereIn('activity_id',$fourMonthsUserList)->sum('expected_duration_minutes');
+          }
+          // three months
+          $activitiesWithinFrame = Activity::completed()->subMonth(2)->lists('activities.activity_id');
+          $threeMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($threeMonthsUserList->isEmpty()){
+            $threeMonthsAgo = 0;
+          } else {
+            $threeMonthsAgo = Activity::whereIn('activity_id',$threeMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // two months
+          $activitiesWithinFrame = Activity::completed()->subMonth(1)->lists('activities.activity_id');
+          $twoMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($twoMonthsUserList->isEmpty()){
+            $twoMonthsAgo = 0;
+          } else {
+            $twoMonthsAgo = Activity::whereIn('activity_id',$twoMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // one months
+
+          $activitiesWithinFrame = Activity::completed()->subMonth(0)->lists('activities.activity_id');
+          $oneMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($oneMonthsUserList->isEmpty()){
+            $oneMonthAgo = 0;
+          } else {
+            $oneMonthAgo = Activity::whereIn('activity_id',$oneMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+
+
+          return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
+        $status = array("Missing parameter"); 
+        return response()->json(compact('status'));
+      }
+
+    }
 }
 
 
