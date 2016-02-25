@@ -381,9 +381,28 @@ class VolunteerController extends Controller
         return response()->json(compact('totalVolunteers','totalTaskHours'));
       }
 
-      
+    public function volunteerLeaderboard(Request $request) {
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // user rank 
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+          // User Minutes Completed
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          // top 10 volunteers
+          $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
 
-    
+
+
+          return response()->json(compact('rank','totalHours','volunteersList'));
+
+      } else {
+          $status = array("Missing parameter"); 
+          return response()->json(compact('status'));
+      }
+    }
 }
 
 
