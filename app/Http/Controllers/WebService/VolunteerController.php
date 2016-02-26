@@ -53,7 +53,7 @@ class VolunteerController extends Controller
 
         $volunteer = Volunteer::where('email', $request->get('email'))->first();
 
-        if (is_null($volunteer)) {
+        if ($volunteer->isEmpty()) {
             $status = array("error");
             return response()->json(compact('status'));
         } else {
@@ -149,7 +149,10 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $phone = $request->get('phone');
             $volunteer = Volunteer::where('email', $email)->where('contact_no', $phone)->first();
-            if ( ! is_null($volunteer)) {
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
+            } else {
                 $password = str_random(12);
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
@@ -162,15 +165,10 @@ class VolunteerController extends Controller
                 $volunteer->save();
                 $status = array("success");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("error");
-                return response()->json(compact('status'));
             }
         } else {
             $status = array("error");
             return response()->json(compact('status'));
-
-
         }
     }
 
@@ -185,7 +183,10 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ( ! is_null($volunteer)) {
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
+            } else {
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
@@ -196,50 +197,51 @@ class VolunteerController extends Controller
                 $volunteer->save();
                 $status = array("success");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("error");
-                return response()->json(compact('status'));
             }
         }
     }
 
     public function updateUserDetails(Request $request)
     {
-        if ($request->get('id') == null || $request->get('name') == null || $request->get('number') == null || $request->get('occupation') == null || $request->get('p1') == null || $request->get('p2') == null) {
+        if ($request->get('id') == null || $request->get('name') == null || $request->get('email') == null || $request->get('dob') == null|| $request->get('gender') == null || $request->get('hasCar') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
 
             $status = array("Missing parameter");
             return response()->json(compact('status'));
         } else {
             $volunteer_id = $request->get('id');
             $name = $request->get('name');
-            $number = $request->get('number');
+            $email = $request->get('email');
+            $dob = $request->get('dob');
+            $gender = $request->get('gender');
+            $hasCar = $request->get('hasCar');
             $occupation = $request->get('occupation');
             $p1 = $request->get('p1');
             $p2 = $request->get('p2');
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ( ! is_null($volunteer)) {
+            if ($volunteer->isEmpty()) {
+                $status = array("Error in sql statement");
+                return response()->json(compact('status'));
+            } else {
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
                     $message->to('imchosen6@gmail.com');
                 });
 
-                $volunteer->contact_no = $number;
+                $volunteer->email = $email;
                 $volunteer->name = $name;
+                $volunteer->date_of_birth = $dob;
+                $volunteer->gender = $gender;
+                $volunteer->has_car = $hasCar;
                 $volunteer->occupation = $occupation;
                 $volunteer->area_of_preference_1 = $p1;
                 $volunteer->area_of_preference_2 = $p2;
                 $volunteer->save();
                 $status = array("Update Success!");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("Error in sql statement");
-                return response()->json(compact('status'));
             }
-
-
         }
     }
 
@@ -363,8 +365,6 @@ class VolunteerController extends Controller
           $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
           // top 10 volunteers
           $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
-
-
 
           return response()->json(compact('rank','totalHours','volunteersList'));
 
