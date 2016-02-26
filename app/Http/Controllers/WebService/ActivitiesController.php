@@ -14,6 +14,7 @@ use App\Activity;
 use App\Task;
 use App\Centre;
 use App\Volunteer;
+use App\Rank;
 use Carbon\Carbon;
 
 
@@ -304,6 +305,9 @@ class ActivitiesController extends Controller
                 $volunteer = Volunteer::findOrFail($volunteer_id);
                 $currentTime=$volunteer->minutes_volunteered;
                 $volunteer->minutes_volunteered=$timeToAdd + $currentTime;
+                $newTime = floor($volunteer->minutes_volunteered / 60);
+                $newRank = Rank::where('min','<',$newTime)->value('rank_id');
+                $volunteer->rank_id=$newRank;
                 $volunteer->save();
             }
 
