@@ -20,187 +20,159 @@ use Mail;
 class VolunteerController extends Controller
 {
     public function __construct()
-   {
-       // Set the Eloquent model that should be used to retrieve your users
-       Config::set('auth.model', 'App\Volunteer');
+    {
+        // Set the Eloquent model that should be used to retrieve your users
+        Config::set('auth.model', 'App\Volunteer');
 
-       // Apply the jwt.auth middleware to all methods in this controller
-       // except for the authenticate method. We don't want to prevent
-       // the user from retrieving their token if they don't already have it
-       Config::set('auth.model', 'App\Volunteer');
-       $this->middleware('jwt.auth', ['except' => ['addUserAccount','checkEmail','checkNRIC','retrieveUserAccounts','retrieveUserDetails','verifyUserEmailandPassword','updateUserAccount','updateUserDetails','retrieveMyTransportActivityDetails','retrieveRankingDetails','getAllVolunteerContribution']]);
-   }
+        // Apply the jwt.auth middleware to all methods in this controller
+        // except for the authenticate method. We don't want to prevent
+        // the user from retrieving their token if they don't already have it
+        Config::set('auth.model', 'App\Volunteer');
+        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution']]);
+    }
 
-   public function addUserAccount(Request $request ){
-      /*$validator = Validator::make($request->all(), [
-            'nric'                    => 'required|string',
-            'name'                    => 'required|string',
-            'date_of_birth'           => 'required|date|after:today',
-            'email'                   => 'required|string',
-            'password'                => 'required|string',
-            'gender'                  => 'required',
-            'contact_no'              => 'required|string',
-            'occupation'              => 'required|string',
-            'has_car'                 => 'required|string',
-            'minutes_volunteered'     => 'required|string',
-            'area_of_preference_1'    => 'required|string',
-            'area_of_preference_2'    => 'required|string',
-            'image_nric_front'        => 'required|string',
-            'image_nric_back'         => 'required|string',
-            'is_approved'             => 'required|string',
-
+    public function addUserAccount(Request $request)
+    {
+        Volunteer::create([
+            'nric' => $request->get('nric'),
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'gender' => $request->get('gender'),
+            'date_of_birth' => $request->get('dob'),
+            'contact_no' => $request->get('phone'),
+            'occupation' => $request->get('occupation'),
+            'has_car' => $request->get('haveCar'),
+            'minutes_volunteered' => '0',
+            'area_of_preference_1' => $request->get('preferences1'),
+            'area_of_preference_2' => $request->get('preferences2'),
+            'image_nric_front' => $request->get('frontIC'),
+            'image_nric_back' => $request->get('backIC'),
+            'rank_id' => Rank::where('min', 0)->first()->rank_id,
         ]);
-      if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        } else {*/
-          Volunteer::create([
-                'nric'                      => $request->get('nric'),
-                'name'                      => $request->get('name'),
-                'email'                     => $request->get('email'),
-                'password'                  => $request->get('password'),
-                'gender'                    => $request->get('gender'),
-                'date_of_birth'             => $request->get('dob'),
-                'contact_no'                => $request->get('phone'),
-                'occupation'                => $request->get('occupation'),
-                'has_car'                   => $request->get('haveCar'),
-                'minutes_volunteered'       => '0',
-                'area_of_preference_1'      => $request->get('preferences1'),
-                'area_of_preference_2'      => $request->get('preferences2'),
-                'image_nric_front'          => $request->get('frontIC'),
-                'image_nric_back'           => $request->get('backIC'),
-                'rank_id'                   => Rank::where('min', 0)->first()->rank_id,]);
-        //}
-    $check = $request->get('email');
-    $email = Volunteer::where('email',$check)->get();
-    //return response()->json(compact('email'));
 
+        $volunteer = Volunteer::where('email', $request->get('email'))->first();
 
-    $message = "NRIC: " . $request->get('nric') ."\r\n Name: " . $request->get('name') . "\r\n Email: " . $request->get('email') . "\r\n Password: " . bcrypt($request->get('password')) . 
-      "\r\n gender: " . $request->get('gender') . "\r\n date_of_birth: " . $request->get('dob') . "\r\n contact_no: " . $request->get('phone') . "\r\n occupation: " . $request->get('occupation') .
-      "\r\n area_of_preference_1: " . $request->get('preferences1') . "\r\n area_of_preference_2: " . $request->get('preferences2')  ;
-
-    if ($email->isEmpty()){
-      $status = array("error");
-      return response()->json(compact('status'));
-    } else {
-      Mail::raw($message, function($message) {
-      $message->from('imchosen6@gmail.com', 'Admin');
-      $message->subject('[CareRide Alert] Volunteer Registration');
-      $message->to('imchosen6@gmail.com');
-      });
-      $status = array("Created successfully");
-      return response()->json(compact('status'));
-    }
-
-        
-   }
-// tested working with new database 
-   public function checkEmail(Request $request){
-    $check = $request->get('email');
-    //check if email exist in database - do not exist for no / exist for yes
-    $email = Volunteer::where('email',$check)->get();
-    //return response()->json(compact('email'));
-
-    if ($email->isEmpty()){
-      $status = array("do not exist");
-      return response()->json(compact('status'));
-    } else {
-      $status = array("exist");
-      return response()->json(compact('status'));
-    }
-    
-   }
-
-// tested working with new database 
-   public function checkNRIC(Request $request){
-    $check = $request->get('nric');
-    //check if email exist in database - do not exist for no / exist for yes
-    $nric = Volunteer::where('nric',$check)->get();
-    //return response()->json(compact('nric'));
-
-    if ($nric->isEmpty()){
-      $status = array("do not exist");
-      return response()->json(compact('status'));
-    } else {
-      $status = array("exist");
-      return response()->json(compact('status'));
-    }
-   }
-
-   /*public function retrieveUserAccounts(Request $request){
-    // retrieve volunetter id, name , email, isapproved
-    $check = $request->get('email');
-    //check if email exist in database - do not exist for no / exist for yes
-    $user = Volunteer::where('email',$check)->get();
-    //return response()->json(compact('user'));
-    $vid=$user->volunteer_id;
-    $name=$user->name;
-    $email=$user->email;
-    $approval=$user->is_approved;
-    $return=array($vid,$name,$email,$approval);
-
-    if ($email->isEmpty()){
-      $status = array("do not exist");
-      return response()->json(compact('status'));
-    } else {
-      return response()->json(compact('return'));
-    }
-
-   }*/
-// tested working with new database 
-   public function retrieveUserDetails(Request $request){
-    // retrieve all details based on volunteer id
-    $id = $request->get('id');
-    $volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->get();
-    $volunteerHours = Volunteer::findOrFail($id)->timeVolunteered();
-
-    //$volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->timeVolunteered()->get()->toArray();
-    //array_set($volunteerArray, 'volunteer.minutes_volunteered', $volunteerHours);
-
-    $volunteerRank = Volunteer::findOrFail($id)->rank_id;
-    $volunteerRank = $volunteerRank - 1;
-    if ($volunteerRank > 1){
-      $nextRank = Rank::findOrFail($volunteerRank);
-    } else {
-      $nextRank = '';
-    }
-    return response()->json(compact('volunteer','volunteerHours','nextRank'));
-   }
-
-   public function verifyUserEmailandPassword(Request $request){
-      if ($request->has('email') && $request->has('phone') ) {
-        $email = $request->get('email');
-          $phone = $request->get('phone');
-          $volunteer = Volunteer::where('email', $email)->where('contact_no',$phone)->first();
-          if ($volunteer){
-            $password = str_random(12);
-            $message = "Hi " . $volunteer->name .", \r\n \r\n Your have requested for a temporary password : " . $password . ". Please Login and change your password immiediately! \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-            Mail::raw($message, function($message) {
-            $message->from('imchosen6@gmail.com', 'Admin');
-            $message->subject('CareRide Password Reset');
-            $message->to('imchosen6@gmail.com');
-            });
-            $volunteer->password = $password;
-            $volunteer->save();
-            $status = array("success");
-            return response()->json(compact('status'));
-            } else {
+        if ($volunteer->isEmpty()) {
             $status = array("error");
             return response()->json(compact('status'));
-          }
+        } else {
+            Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+                $message->subject('A CareGuide Volunteer account has been registered and awaiting Approval.');
+                $message->to('imchosen6@gmail.com');
+            });
+            $status = array("Created successfully");
+            return response()->json(compact('status'));
+        }
+    }
+
+// tested working with new database
+    public function checkEmail(Request $request)
+    {
+        $check = $request->get('email');
+        //check if email exist in database - do not exist for no / exist for yes
+        $email = Volunteer::where('email', $check)->get();
+        //return response()->json(compact('email'));
+
+        if ($email->isEmpty()) {
+            $status = array("do not exist");
+            return response()->json(compact('status'));
+        } else {
+            $status = array("exist");
+            return response()->json(compact('status'));
+        }
+
+    }
+
+// tested working with new database
+    public function checkNRIC(Request $request)
+    {
+        $check = $request->get('nric');
+        //check if email exist in database - do not exist for no / exist for yes
+        $nric = Volunteer::where('nric', $check)->get();
+        //return response()->json(compact('nric'));
+
+        if ($nric->isEmpty()) {
+            $status = array("do not exist");
+            return response()->json(compact('status'));
+        } else {
+            $status = array("exist");
+            return response()->json(compact('status'));
+        }
+    }
+
+    /*public function retrieveUserAccounts(Request $request){
+     // retrieve volunetter id, name , email, isapproved
+     $check = $request->get('email');
+     //check if email exist in database - do not exist for no / exist for yes
+     $user = Volunteer::where('email',$check)->get();
+     //return response()->json(compact('user'));
+     $vid=$user->volunteer_id;
+     $name=$user->name;
+     $email=$user->email;
+     $approval=$user->is_approved;
+     $return=array($vid,$name,$email,$approval);
+
+     if ($email->isEmpty()){
+       $status = array("do not exist");
+       return response()->json(compact('status'));
+     } else {
+       return response()->json(compact('return'));
+     }
+
+    }*/
+// tested working with new database
+    public function retrieveUserDetails(Request $request)
+    {
+        // retrieve all details based on volunteer id
+        $id = $request->get('id');
+        $volunteer = Volunteer::with('rank')->where('volunteer_id', '=', $id)->get();
+        $volunteerHours = Volunteer::findOrFail($id)->timeVolunteered();
+
+        //$volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->timeVolunteered()->get()->toArray();
+        //array_set($volunteerArray, 'volunteer.minutes_volunteered', $volunteerHours);
+
+        $volunteerRank = Volunteer::findOrFail($id)->rank_id;
+        $volunteerRank = $volunteerRank - 1;
+        if ($volunteerRank > 1) {
+            $nextRank = Rank::findOrFail($volunteerRank);
+        } else {
+            $nextRank = '';
+        }
+        return response()->json(compact('volunteer', 'volunteerHours', 'nextRank'));
+    }
+
+    public function verifyUserEmailandPassword(Request $request)
+    {
+        if ($request->has('email') && $request->has('phone')) {
+            $email = $request->get('email');
+            $phone = $request->get('phone');
+            $volunteer = Volunteer::where('email', $email)->where('contact_no', $phone)->first();
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
+            } else {
+                $password = str_random(12);
+
+                Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
+                    $message->subject('Your request for your CareGuide account password Reset.');
+                    $message->to('imchosen6@gmail.com');
+                });
+
+                $volunteer->password = $password;
+                $volunteer->save();
+                $status = array("success");
+                return response()->json(compact('status'));
+            }
         } else {
             $status = array("error");
             return response()->json(compact('status'));
-          
-
-
         }
-   }
+    }
 
-   public function updateUserAccount(Request $request)
+    public function updateUserAccount(Request $request)
     {
         if ($request->get('id') == null || $request->get('password') == null) {
             $status = array("Missing parameter");
@@ -211,33 +183,29 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ($volunteer){
-              $message = "Hi " . $volunteer->name .", \r\n \r\n The password for your CareRide Account was recently changed. \r\n If you did not request for this password change, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-              Mail::raw($message, function($message) {
-              $message->from('imchosen6@gmail.com', 'Admin');
-              $message->subject('CareRide password changed');
-              $message->to('imchosen6@gmail.com');
-              });
-              $volunteer->password = $password;
-              $volunteer->save();
-              $status = array("success");
-              return response()->json(compact('status'));
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
             } else {
-              $status = array("error");
-              return response()->json(compact('status'));
-            }
+                Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
+                    $message->subject('Your CareGuide account password was recently changed.');
+                    $message->to('imchosen6@gmail.com');
+                });
 
-            
-            
+                $volunteer->password = $password;
+                $volunteer->save();
+                $status = array("success");
+                return response()->json(compact('status'));
+            }
         }
     }
 
     public function updateUserDetails(Request $request)
-    { 
+    {
         if ($request->get('id') == null || $request->get('name') == null || $request->get('email') == null || $request->get('dob') == null|| $request->get('gender') == null || $request->get('hasCar') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
-            
-            $status = array("Missing parameter"); 
+
+            $status = array("Missing parameter");
             return response()->json(compact('status'));
         } else {
             $volunteer_id = $request->get('id');
@@ -252,63 +220,61 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ($volunteer){
-              $message = "Hi " . $volunteer->name .", \r\n \r\n You have updated the your personal particulars. \r\n If you did not change your personal particulars, please contact us at xxx@xxx.xx. \r\n This is a system generated email";
-            
-              Mail::raw($message, function($message) {
-              $message->from('imchosen6@gmail.com', 'Admin');
-              $message->subject('CareRide details updated');
-              $message->to('imchosen6@gmail.com');
-              });
-              $volunteer->email = $email;
-              $volunteer->name = $name;
-              $volunteer->date_of_birth = $dob;
-              $volunteer->gender = $gender;
-              $volunteer->has_car = $hasCar;
-              $volunteer->occupation = $occupation;
-              $volunteer->area_of_preference_1 = $p1;
-              $volunteer->area_of_preference_2 = $p2;
-              $volunteer->save();
-              $status = array("Update Success!");
-              return response()->json(compact('status'));
+            if ($volunteer==null) {
+                $status = array("Error in sql statement");
+                return response()->json(compact('status'));
             } else {
-              $status = array("Error in sql statement");
-              return response()->json(compact('status'));
-            }
+                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+                    $message->subject('Your CareGuide account particulars was recently updated.');
+                    $message->to('imchosen6@gmail.com');
+                });
 
-            
-            
+                $volunteer->email = $email;
+                $volunteer->name = $name;
+                $volunteer->date_of_birth = $dob;
+                $volunteer->gender = $gender;
+                $volunteer->has_car = $hasCar;
+                $volunteer->occupation = $occupation;
+                $volunteer->area_of_preference_1 = $p1;
+                $volunteer->area_of_preference_2 = $p2;
+                $volunteer->save();
+                $status = array("Update Success!");
+                return response()->json(compact('status'));
+            }
         }
     }
 
-    public function retrieveMyTransportActivityDetails(Request $request){
-      if ($request->get('id') == null || $request->get('transportId') == null ){
-        $status = array("Missing parameter"); 
-        return response()->json(compact('status'));
-      } else {
-        $id = $request->get('id');
-        $transportId = $request->get('transportId');
+    public function retrieveMyTransportActivityDetails(Request $request)
+    {
+        if ($request->get('id') == null || $request->get('transportId') == null) {
+            $status = array("Missing parameter");
+            return response()->json(compact('status'));
+        } else {
+            $id = $request->get('id');
+            $transportId = $request->get('transportId');
 
-        $activities = Activity::with('departureCentre', 'arrivalCentre')->where('activity_id','=',$transportId)->get();
-        $task = Task::where('volunteer_id','=',$id)->where('activity_id','=',$transportId)->get();
-        return response()->json(compact('activities','task'));
-      }
+            $activities = Activity::with('departureCentre', 'arrivalCentre')->where('activity_id', '=', $transportId)->get();
+            $task = Task::where('volunteer_id', '=', $id)->where('activity_id', '=', $transportId)->get();
+            return response()->json(compact('activities', 'task'));
+        }
     }
 
-    public function retrieveRankingDetails(Request $request){
-      if ($request->get('id') == null ){
-        $status = array("Missing parameter"); 
-        return response()->json(compact('status'));
-      } else {
-        $volunteer_id = $request->get('id');
-        $volunteer = Volunteer::findOrFail($volunteer_id);
-        $minutesVolunteered = $volunteer->minutes_volunteered;
-        $completed = Task::where('volunteer_id','=',$volunteer_id)->where('status','=','completed')->count();
-        $withdrawn = Task::where('volunteer_id','=',$volunteer_id)->where('approval','=','withdrawn')->count();
-        
-        return response()->json(compact('volunteer_id','minutesVolunteered','completed','withdrawn'));
-        
-      }  
+    public function retrieveRankingDetails(Request $request)
+    {
+        if ($request->get('id') == null) {
+            $status = array("Missing parameter");
+            return response()->json(compact('status'));
+        } else {
+            $volunteer_id = $request->get('id');
+            $volunteer = Volunteer::findOrFail($volunteer_id);
+            $minutesVolunteered = $volunteer->minutes_volunteered;
+            $completed = Task::where('volunteer_id', '=', $volunteer_id)->where('status', '=', 'completed')->count();
+            $withdrawn = Task::where('volunteer_id', '=', $volunteer_id)->where('approval', '=', 'withdrawn')->count();
+
+            return response()->json(compact('volunteer_id', 'minutesVolunteered', 'completed', 'withdrawn'));
+
+        }
 
     }
 
@@ -371,9 +337,9 @@ class VolunteerController extends Controller
 
 
           return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
-        
+
       } else {
-        $status = array("Missing parameter"); 
+        $status = array("Missing parameter");
         return response()->json(compact('status'));
       }
     }
@@ -391,7 +357,7 @@ class VolunteerController extends Controller
       if ($request->get('token') != null){
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
           $id = $authenticatedUser->volunteer_id;
-          // user rank 
+          // user rank
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
           // User Minutes Completed
@@ -403,7 +369,7 @@ class VolunteerController extends Controller
           return response()->json(compact('rank','totalHours','volunteersList'));
 
       } else {
-          $status = array("Missing parameter"); 
+          $status = array("Missing parameter");
           return response()->json(compact('status'));
       }
     }
