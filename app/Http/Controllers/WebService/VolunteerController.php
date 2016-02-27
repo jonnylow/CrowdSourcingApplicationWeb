@@ -213,7 +213,7 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $dob = $request->get('dob');
             $gender = $request->get('gender');
-            $hasCar = $request->get('hasCar');
+            $hasCar = strtoupper($request->get('hasCar'));
             $occupation = $request->get('occupation');
             $p1 = $request->get('p1');
             $p2 = $request->get('p2');
@@ -230,16 +230,29 @@ class VolunteerController extends Controller
                     $message->to('imchosen6@gmail.com');
                 });
 
-                $volunteer->email = $email;
-                $volunteer->name = $name;
-                $volunteer->date_of_birth = $dob;
-                $volunteer->gender = $gender;
-                $volunteer->has_car = $hasCar;
-                $volunteer->occupation = $occupation;
-                $volunteer->area_of_preference_1 = $p1;
-                $volunteer->area_of_preference_2 = $p2;
-                $volunteer->save();
+                //$volunteer->email = $email;
+                //$volunteer->name = $name;
+                //$volunteer->date_of_birth = $dob;
+                //$volunteer->gender = $gender;
+                //$volunteer->has_car = 'FALSE';
+                //$volunteer->occupation = $occupation;
+                //$volunteer->area_of_preference_1 = $p1;
+                //$volunteer->area_of_preference_2 = $p2;
+                //$volunteer->save();
+                
+
+                $volunteer->update([
+                'name'     =>$name ,
+                'email'     => $email,
+                'gender'  => $gender,
+                'date_of_birth'  => $dob,
+                'occupation'  => $occupation,
+                'has_car'  => $hasCar,
+                'area_of_preference_1'  => $p1,
+                'area_of_preference_2'  => $p2,
+                ]);
                 $status = array("Update Success!");
+
                 return response()->json(compact('status'));
             }
         }
@@ -282,6 +295,7 @@ class VolunteerController extends Controller
       if ($request->get('token') != null){
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
           $id = $authenticatedUser->volunteer_id;
+          $volunteer = Volunteer::findOrFail($id);
           //$today = Carbon::now();
           //$dateFourMonths = Carbon::today()->subMonths(4)->toDateTimeString();
           //$dateThreeMonths = Carbon::today()->subMonths(3)->toDateTimeString();
@@ -297,6 +311,7 @@ class VolunteerController extends Controller
             $fourMonthsAgo = 0;
           } else {
             $fourMonthsAgo = Activity::whereIn('activity_id',$fourMonthsUserList)->sum('expected_duration_minutes');
+            $fourMonthsAgo = floor($fourMonthsAgo/60);
           }
           // three months
           $activitiesWithinFrame = Activity::completed()->subMonth(2)->lists('activities.activity_id');
@@ -306,6 +321,7 @@ class VolunteerController extends Controller
             $threeMonthsAgo = 0;
           } else {
             $threeMonthsAgo = Activity::whereIn('activity_id',$threeMonthsUserList)->sum('expected_duration_minutes');
+            $threeMonthsAgo = floor($threeMonthsAgo/60);
           }
 
           // two months
@@ -316,6 +332,8 @@ class VolunteerController extends Controller
             $twoMonthsAgo = 0;
           } else {
             $twoMonthsAgo = Activity::whereIn('activity_id',$twoMonthsUserList)->sum('expected_duration_minutes');
+
+            $twoMonthsAgo = floor($twoMonthsAgo/60);
           }
 
           // one months
@@ -327,13 +345,16 @@ class VolunteerController extends Controller
             $oneMonthAgo = 0;
           } else {
             $oneMonthAgo = Activity::whereIn('activity_id',$oneMonthsUserList)->sum('expected_duration_minutes');
+            $oneMonthAgo = floor($oneMonthAgo/60);
           }
 
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
 
-          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
-          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          //$taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          //$totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          $totalHours = $volunteer->minutes_volunteered;
+          $totalHours = floor($totalHours/60);
 
 
           return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
@@ -347,9 +368,11 @@ class VolunteerController extends Controller
     public function getAllVolunteerContribution(){
         $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
 
-        $totalTaskList = Task::where('status','completed')->lists('activity_id');
-        $totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
+        //$totalTaskList = Task::where('status','completed')->lists('activity_id');
+        //$totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
+        $totalTaskHours = Volunteer::sum('minutes_volunteered');
 
+        $totalTaskHours =floor($totalTaskHours/60);
         return response()->json(compact('totalVolunteers','totalTaskHours'));
       }
 
