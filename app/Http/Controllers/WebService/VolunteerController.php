@@ -220,7 +220,7 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ($volunteer->isEmpty()) {
+            if ($volunteer==null) {
                 $status = array("Error in sql statement");
                 return response()->json(compact('status'));
             } else {
@@ -372,6 +372,48 @@ class VolunteerController extends Controller
           $status = array("Missing parameter");
           return response()->json(compact('status'));
       }
+    }
+
+
+
+    public function todayActivity(Request $request){
+      if ($request->get('token') != null){
+          // Get Authenticated User
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // Retrieve Activties within today
+          $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
+          // Retrieve Related Activties within today related to volunteer
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('approval','approved')->lists('activity_id');
+          // Retrieve Activity details
+          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
+          return response()->json(compact('activityToReturn'));
+        } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+        }
+    }
+
+    public function todayActivityInProgress(Request $request){
+      if ($request->get('token') != null){
+          // Get Authenticated User
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // Retrieve Activties within today
+          $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
+          //echo count($todayactivities);
+          // Retrieve Related Activties within today related to volunteer
+          $groupStatus = collect(['pick-up','at check-up','check-up completed']);
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->lists('activity_id');
+          $taskStatus = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->where('volunteer_id',$id)->value('status');
+          // Retrieve Activity details
+          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->first();
+
+          return response()->json(compact('activityToReturn','taskStatus'));
+        } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+        }
     }
 }
 
