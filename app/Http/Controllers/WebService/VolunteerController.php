@@ -357,6 +357,8 @@ class VolunteerController extends Controller
       if ($request->get('token') != null){
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
           $id = $authenticatedUser->volunteer_id;
+          $volunteerEnquired = Volunteer::findOrFail($id);
+          $volunteerName = $volunteerEnquired->name;
           // user rank
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
@@ -366,7 +368,21 @@ class VolunteerController extends Controller
           // top 10 volunteers
           $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
 
-          return response()->json(compact('rank','totalHours','volunteersList'));
+          $returnArray = [];
+          $count = 1;
+          $pos = 0;
+          foreach ($volunteersList as $volunteer => $mins) {
+            if ( $count <= 10){
+              $returnArray = array_add($returnArray,$count, [$mins,$volunteer]) ;
+              if ($volunteerName == $mins){
+                $pos = $count;
+              }
+              $count= $count + 1;
+            }
+          }
+          
+
+          return response()->json(compact('rank','totalHours','returnArray','pos'));
 
       } else {
           $status = array("Missing parameter");
@@ -384,7 +400,7 @@ class VolunteerController extends Controller
           // Retrieve Activties within today
           $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
           // Retrieve Related Activties within today related to volunteer
-          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('approval','approved')->lists('activity_id');
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('approval','approved')->where('status','new task')->lists('activity_id');
           // Retrieve Activity details
           $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
           return response()->json(compact('activityToReturn'));
