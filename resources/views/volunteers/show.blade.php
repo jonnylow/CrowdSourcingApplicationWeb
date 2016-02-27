@@ -162,13 +162,17 @@
 
 @section('page-script')
 
-@include('partials.confirm')
-
 <style>
-    @media (min-width: 768px) {
+    @media (min-width: 1000px) {
         .dl-horizontal dt { width: 200px; }
         .dl-horizontal dd { margin-left: 220px; }
     }
 </style>
+
+@endsection
+
+@section('partials-script')
+
+@include('partials.confirm')
 
 @endsection

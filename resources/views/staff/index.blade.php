@@ -69,7 +69,7 @@
 
 @endsection
 
-@section('page-script')
+@section('partials-script')
 
 @include('partials.confirm')
 

@@ -21,5 +21,7 @@
         @include('layouts.footer')
 
         @yield('page-script')
+
+        @yield('partials-script')
     </body>
 </html>
