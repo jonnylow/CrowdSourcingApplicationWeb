@@ -188,7 +188,7 @@
                                         <!-- Senior NRIC Form Input -->
                                         <div class="col-md-3 form-group">
                                             {!! Form::label('senior_nric', 'Senior NRIC', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
+                                            {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z', 'onBlur' => 'javascript:{this.value = this.value.toUpperCase(); }']) !!}
                                         </div>
                                         <!-- Senior Name Form Input -->
                                         <div class="col-md-4 form-group">

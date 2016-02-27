@@ -28,7 +28,7 @@ class VolunteerController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails']]);
+        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution']]);
     }
 
     public function addUserAccount(Request $request)
@@ -53,7 +53,7 @@ class VolunteerController extends Controller
 
         $volunteer = Volunteer::where('email', $request->get('email'))->first();
 
-        if (is_null($volunteer)) {
+        if ($volunteer->isEmpty()) {
             $status = array("error");
             return response()->json(compact('status'));
         } else {
@@ -85,7 +85,7 @@ class VolunteerController extends Controller
 
     }
 
-// tested working with new database 
+// tested working with new database
     public function checkNRIC(Request $request)
     {
         $check = $request->get('nric');
@@ -122,7 +122,7 @@ class VolunteerController extends Controller
      }
 
     }*/
-// tested working with new database 
+// tested working with new database
     public function retrieveUserDetails(Request $request)
     {
         // retrieve all details based on volunteer id
@@ -149,7 +149,10 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $phone = $request->get('phone');
             $volunteer = Volunteer::where('email', $email)->where('contact_no', $phone)->first();
-            if ( ! is_null($volunteer)) {
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
+            } else {
                 $password = str_random(12);
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
@@ -162,15 +165,10 @@ class VolunteerController extends Controller
                 $volunteer->save();
                 $status = array("success");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("error");
-                return response()->json(compact('status'));
             }
         } else {
             $status = array("error");
             return response()->json(compact('status'));
-
-
         }
     }
 
@@ -185,7 +183,10 @@ class VolunteerController extends Controller
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ( ! is_null($volunteer)) {
+            if ($volunteer->isEmpty()) {
+                $status = array("error");
+                return response()->json(compact('status'));
+            } else {
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
@@ -196,50 +197,51 @@ class VolunteerController extends Controller
                 $volunteer->save();
                 $status = array("success");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("error");
-                return response()->json(compact('status'));
             }
         }
     }
 
     public function updateUserDetails(Request $request)
     {
-        if ($request->get('id') == null || $request->get('name') == null || $request->get('number') == null || $request->get('occupation') == null || $request->get('p1') == null || $request->get('p2') == null) {
+        if ($request->get('id') == null || $request->get('name') == null || $request->get('email') == null || $request->get('dob') == null|| $request->get('gender') == null || $request->get('hasCar') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
 
             $status = array("Missing parameter");
             return response()->json(compact('status'));
         } else {
             $volunteer_id = $request->get('id');
             $name = $request->get('name');
-            $number = $request->get('number');
+            $email = $request->get('email');
+            $dob = $request->get('dob');
+            $gender = $request->get('gender');
+            $hasCar = $request->get('hasCar');
             $occupation = $request->get('occupation');
             $p1 = $request->get('p1');
             $p2 = $request->get('p2');
 
             $volunteer = Volunteer::findOrFail($volunteer_id);
 
-            if ( ! is_null($volunteer)) {
+            if ($volunteer==null) {
+                $status = array("Error in sql statement");
+                return response()->json(compact('status'));
+            } else {
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
                     $message->to('imchosen6@gmail.com');
                 });
 
-                $volunteer->contact_no = $number;
+                $volunteer->email = $email;
                 $volunteer->name = $name;
+                $volunteer->date_of_birth = $dob;
+                $volunteer->gender = $gender;
+                $volunteer->has_car = $hasCar;
                 $volunteer->occupation = $occupation;
                 $volunteer->area_of_preference_1 = $p1;
                 $volunteer->area_of_preference_2 = $p2;
                 $volunteer->save();
                 $status = array("Update Success!");
                 return response()->json(compact('status'));
-            } else {
-                $status = array("Error in sql statement");
-                return response()->json(compact('status'));
             }
-
-
         }
     }
 
@@ -274,6 +276,160 @@ class VolunteerController extends Controller
 
         }
 
+    }
+
+    public function graphInformation(Request $request){
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          //$today = Carbon::now();
+          //$dateFourMonths = Carbon::today()->subMonths(4)->toDateTimeString();
+          //$dateThreeMonths = Carbon::today()->subMonths(3)->toDateTimeString();
+          //$dateTwoMonths = Carbon::today()->subMonths(2)->toDateTimeString();
+          //$dateOneMonths = (new Carbon('first day of this month'))->toDateTimeString();
+          //$dateToday = $today->toDateTimeString();
+
+          // four months
+          $activitiesWithinFrame = Activity::completed()->subMonth(3)->lists('activities.activity_id');
+          $fourMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($fourMonthsUserList->isEmpty()){
+            $fourMonthsAgo = 0;
+          } else {
+            $fourMonthsAgo = Activity::whereIn('activity_id',$fourMonthsUserList)->sum('expected_duration_minutes');
+          }
+          // three months
+          $activitiesWithinFrame = Activity::completed()->subMonth(2)->lists('activities.activity_id');
+          $threeMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($threeMonthsUserList->isEmpty()){
+            $threeMonthsAgo = 0;
+          } else {
+            $threeMonthsAgo = Activity::whereIn('activity_id',$threeMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // two months
+          $activitiesWithinFrame = Activity::completed()->subMonth(1)->lists('activities.activity_id');
+          $twoMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($twoMonthsUserList->isEmpty()){
+            $twoMonthsAgo = 0;
+          } else {
+            $twoMonthsAgo = Activity::whereIn('activity_id',$twoMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          // one months
+
+          $activitiesWithinFrame = Activity::completed()->subMonth(0)->lists('activities.activity_id');
+          $oneMonthsUserList = Task::whereIn('activity_id',$activitiesWithinFrame)->where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+
+          if ($oneMonthsUserList->isEmpty()){
+            $oneMonthAgo = 0;
+          } else {
+            $oneMonthAgo = Activity::whereIn('activity_id',$oneMonthsUserList)->sum('expected_duration_minutes');
+          }
+
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+
+
+          return response()->json(compact('fourMonthsAgo','threeMonthsAgo','twoMonthsAgo','oneMonthAgo','rank','totalHours'));
+
+      } else {
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      }
+    }
+
+    public function getAllVolunteerContribution(){
+        $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
+
+        $totalTaskList = Task::where('status','completed')->lists('activity_id');
+        $totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
+
+        return response()->json(compact('totalVolunteers','totalTaskHours'));
+      }
+
+    public function volunteerLeaderboard(Request $request) {
+      if ($request->get('token') != null){
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          $volunteerEnquired = Volunteer::findOrFail($id);
+          $volunteerName = $volunteerEnquired->name;
+          // user rank
+          $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
+          $rank = Rank::findOrFail($rankid)->name;
+          // User Minutes Completed
+          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          // top 10 volunteers
+          $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
+
+          $returnArray = [];
+          $count = 1;
+          $pos = 0;
+          foreach ($volunteersList as $volunteer => $mins) {
+            if ( $count <= 10){
+              $returnArray = array_add($returnArray,$count, [$mins,$volunteer]) ;
+              if ($volunteerName == $mins){
+                $pos = $count;
+              }
+              $count= $count + 1;
+            }
+          }
+          
+
+          return response()->json(compact('rank','totalHours','returnArray','pos'));
+
+      } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+      }
+    }
+
+
+
+    public function todayActivity(Request $request){
+      if ($request->get('token') != null){
+          // Get Authenticated User
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // Retrieve Activties within today
+          $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
+          // Retrieve Related Activties within today related to volunteer
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('approval','approved')->where('status','new task')->lists('activity_id');
+          // Retrieve Activity details
+          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
+          return response()->json(compact('activityToReturn'));
+        } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+        }
+    }
+
+    public function todayActivityInProgress(Request $request){
+      if ($request->get('token') != null){
+          // Get Authenticated User
+          $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
+          $id = $authenticatedUser->volunteer_id;
+          // Retrieve Activties within today
+          $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
+          //echo count($todayactivities);
+          // Retrieve Related Activties within today related to volunteer
+          $groupStatus = collect(['pick-up','at check-up','check-up completed']);
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->lists('activity_id');
+          $taskStatus = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->where('volunteer_id',$id)->value('status');
+          // Retrieve Activity details
+          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->first();
+
+          return response()->json(compact('activityToReturn','taskStatus'));
+        } else {
+          $status = array("Missing parameter");
+          return response()->json(compact('status'));
+        }
     }
 }
 

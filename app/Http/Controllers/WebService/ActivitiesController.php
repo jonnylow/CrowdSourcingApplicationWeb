@@ -14,6 +14,7 @@ use App\Activity;
 use App\Task;
 use App\Centre;
 use App\Volunteer;
+use App\Rank;
 use Carbon\Carbon;
 
 
@@ -52,15 +53,13 @@ class ActivitiesController extends Controller
                     ->lists('activity_id');
 
 
-                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                $activities = Activity::with('departureCentre', 'arrivalCentre')->with('elderly')
                 ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->whereNotIn('activity_id', $appliedActivities)
                 ->get();
-                //->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
-                //$activities = Activity::with('departureCentre', 'arrivalCentre')->upcoming()->whereNotIn('activity_id', [1,2,3])->whereNotIn('activity_id', [3,4,5])->get()->each(function ($item, $key) {return array_except($item, ['created_at', 'updated_at', 'deleted_at']);});
                 
-                //return response()->json($activities);
+                
                 return response()->json(compact('activities'));
             } else {
                 $approvedActivities = Activity::with('tasks')
@@ -304,6 +303,9 @@ class ActivitiesController extends Controller
                 $volunteer = Volunteer::findOrFail($volunteer_id);
                 $currentTime=$volunteer->minutes_volunteered;
                 $volunteer->minutes_volunteered=$timeToAdd + $currentTime;
+                $newTime = floor($volunteer->minutes_volunteered / 60);
+                $newRank = Rank::where('min','<',$newTime)->value('rank_id');
+                $volunteer->rank_id=$newRank;
                 $volunteer->save();
             }
 
@@ -339,6 +341,56 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         } else {
             $filter = $request->get('filter');
+
+            if ($filter == 'start'){
+                $activityList = Activity::groupBy('location_from_id')->lists('location_from_id');
+                $toReturn = [];
+                foreach ($activityList as $location){
+                    $locationName = Centre::findOrFail($location)->name;
+                    //echo $location;
+                    $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_from_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    
+                    
+                    $toReturn = array_add($toReturn,$locationName, $locationList) ;
+                   
+                }
+                
+
+                return response()->json($toReturn);
+
+            }elseif ($filter == 'end') {
+                $activityList = Activity::groupBy('location_to_id')->lists('location_to_id');
+                $toReturn = [];
+                foreach ($activityList as $location){
+                    $locationName = Centre::findOrFail($location)->name;
+                    //echo $location;
+                    $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_to_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    
+                    
+                    $toReturn = array_add($toReturn,$locationName, $locationList) ;
+                   
+                }
+                
+
+                return response()->json($toReturn);
+            }else {
+                $activityList = Activity::groupBy('datetime_start')->lists('datetime_start');
+                $toReturn = [];
+                foreach ($activityList as $dateTimeStart){
+                    $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('datetime_start','=',$dateTimeStart)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    
+                    if (!$locationList->isEmpty()){
+                        $toReturn = array_add($toReturn,$dateTimeStart, $locationList) ;
+                    }
+                }
+                
+
+                return response()->json($toReturn);
+
+            }
             
         }
         
