@@ -423,7 +423,7 @@ class VolunteerController extends Controller
           // Retrieve Activties within today
           $todayactivities = Activity::whereBetween('datetime_start',[Carbon::now()->startOfDay(),Carbon::now()->endOfDay()])->lists('activity_id');
           // Retrieve Related Activties within today related to volunteer
-          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('approval','approved')->where('status','new task')->lists('activity_id');
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('volunteer_id',$id)->where('approval','approved')->where('status','new task')->lists('activity_id');
           // Retrieve Activity details
           $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
           return response()->json(compact('activityToReturn'));
