@@ -203,11 +203,7 @@ class VolunteerController extends Controller
 
     public function updateUserDetails(Request $request)
     {
-        if ($request->get('id') == null || $request->get('name') == null || $request->get('email') == null || $request->get('dob') == null|| $request->get('gender') == null || $request->get('hasCar') == null || $request->get('occupation') == null || $request->get('p1') ==null || $request->get('p2') == null) {
-
-            $status = array("Missing parameter");
-            return response()->json(compact('status'));
-        } else {
+       
             $volunteer_id = $request->get('id');
             $name = $request->get('name');
             $email = $request->get('email');
@@ -255,7 +251,7 @@ class VolunteerController extends Controller
 
                 return response()->json(compact('status'));
             }
-        }
+        
     }
 
     public function retrieveMyTransportActivityDetails(Request $request)
