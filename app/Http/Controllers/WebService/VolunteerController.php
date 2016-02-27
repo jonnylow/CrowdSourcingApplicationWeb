@@ -421,7 +421,8 @@ class VolunteerController extends Controller
           // Retrieve Related Activties within today related to volunteer
           $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('volunteer_id',$id)->where('approval','approved')->where('status','new task')->lists('activity_id');
           // Retrieve Activity details
-          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
+          $activityToReturn = Activity::with('departureCentre', 'arrivalCentre')->whereIn('activity_id',$relatedActivty)->orderBy('datetime_start','asc')->get();
+
           return response()->json(compact('activityToReturn'));
         } else {
           $status = array("Missing parameter");
@@ -442,7 +443,7 @@ class VolunteerController extends Controller
           $relatedActivty = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->lists('activity_id');
           $taskStatus = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->where('volunteer_id',$id)->value('status');
           // Retrieve Activity details
-          $activityToReturn = Activity::whereIn('activity_id',$relatedActivty)->first();
+          $activityToReturn = Activity::with('departureCentre', 'arrivalCentre')->whereIn('activity_id',$relatedActivty)->first();
 
           return response()->json(compact('activityToReturn','taskStatus'));
         } else {
