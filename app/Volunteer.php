@@ -30,17 +30,16 @@ class Volunteer extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['nric', 'name', 'email', 'password', 'gender',
-        'date_of_birth', 'contact_no', 'occupation', 'has_car', 'minutes_volunteered',
-        'area_of_preference_1', 'area_of_preference_2', 'image_nric_front',
-        'image_nric_back', 'is_approved', 'rank_id'];
+    protected $fillable = ['name', 'email', 'password', 'gender', 'date_of_birth',
+        'contact_no', 'occupation', 'has_car', 'minutes_volunteered',
+        'area_of_preference_1', 'area_of_preference_2', 'is_approved', 'rank_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'image_nric_front', 'image_nric_back'];
+    protected $hidden = ['password'];
 
     /**
      * Additional fields to treat as Carbon instances (date object).
@@ -48,16 +47,6 @@ class Volunteer extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $dates = ['date_of_birth'];
-
-    /**
-     * Set the nric attribute.
-     *
-     * @var nric
-     */
-    public function setNricAttribute($nric)
-    {
-        $this->attributes['nric'] = strtoupper($nric);
-    }
 
     /**
      * Set the name attribute.
@@ -96,7 +85,17 @@ class Volunteer extends Model implements AuthenticatableContract,
      */
     public function setGenderAttribute($gender)
     {
-        $this->attributes['gender'] = strtoupper($gender);
+        $this->attributes['gender'] = strtoupper($gender) != '' ? $gender : null;
+    }
+
+    /**
+     * Set the occupation attribute.
+     *
+     * @var occupation
+     */
+    public function setOccupationAttribute($occupation)
+    {
+        $this->attributes['occupation'] = ucwords(trim($occupation)) != '' ? $occupation : null;
     }
 
     /**
@@ -109,6 +108,26 @@ class Volunteer extends Model implements AuthenticatableContract,
         } else {
             $this->attributes['has_car'] = false;
         }
+    }
+
+    /**
+     * Set the area of preference 1 attribute.
+     *
+     * @var area
+     */
+    public function setAreaOfPreference1Attribute($area)
+    {
+        $this->attributes['area_of_preference_1'] = ucfirst(trim($area)) != '' ? $area : null;
+    }
+
+    /**
+     * Set the area of preference 2 attribute.
+     *
+     * @var area
+     */
+    public function setAreaOfPreference2Attribute($area)
+    {
+        $this->attributes['area_of_preference_2'] = ucfirst(trim($area)) != '' ? $area : null;
     }
 
     /**

@@ -69,7 +69,6 @@
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
-                                <dt>NRIC:</dt><dd>{{ $volunteer->nric }}</dd>
                                 <dt>Date of Birth:</dt><dd>{{ $volunteer->date_of_birth->format('j M Y') }}</dd>
                                 <dt>Age:</dt><dd>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></dd>
                                 <dt>Gender:</dt><dd>{{ $volunteer->gender == 'M' ? 'Male' : 'Female' }}</dd>

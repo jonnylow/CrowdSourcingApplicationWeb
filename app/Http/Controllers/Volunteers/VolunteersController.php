@@ -46,7 +46,6 @@ class VolunteersController extends Controller
         $randomString = Str::random();
 
         $volunteer = Volunteer::create([
-            'nric'      => $request->get('nric'),
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
             'password'  => $randomString,
@@ -88,7 +87,6 @@ class VolunteersController extends Controller
         $volunteer = Volunteer::findOrFail($id);
 
         $volunteer->update([
-            'nric'      => $request->get('nric'),
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
             'gender'  => $request->get('gender'),

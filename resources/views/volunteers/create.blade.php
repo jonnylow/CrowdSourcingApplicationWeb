@@ -28,25 +28,32 @@
                         <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                             <div class="panel-body">
                                 <div class="row">
-                                    <!-- NRIC Form Input -->
-                                    <div class="col-md-4 form-group">
-                                        {!! Form::label('nric', 'NRIC', ['class' => 'control-label']) !!}
-                                        {!! Form::text('nric', null, ['class' => 'form-control', 'required', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z']) !!}
-                                    </div>
                                     <!-- Name Form Input -->
                                     <div class="col-md-5 form-group">
                                         {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
                                         {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
                                     </div>
-                                    <!-- Gender Form Input -->
+                                    <!-- Email Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
+                                        {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <!-- Car Ownership Form Input -->
                                     <div class="col-md-3 form-group">
-                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
-                                        {!! Form::select('gender', $genderList, null, ['class' => 'form-control', 'required']) !!}
+                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default {{ old('car') == "0" ? 'active' : null }}">
+                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') == "0" ? 'checked' : null }}> No car
+                                            </label>
+                                            <label class="btn btn-default {{ old('car') == "1" ? 'active' : null }}">
+                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') == "1" ? 'checked' : null }}> Has car
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <!-- Date of Birth Form Input -->
-                                    <div class="col-md-5 form-group">
+                                    <div class="col-md-7 form-group">
                                         {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
                                             <div class="col-md-4">{!! Form::selectMonth('date_month', null, ['class' => 'form-control date-field', 'required']) !!}</div>
@@ -54,13 +61,8 @@
                                             <div class="col-md-4">{!! Form::number('date_year', null, ['class' => 'form-control date-field', 'required', 'min' => '1900', 'max' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
                                         </div>
                                     </div>
-                                    <!-- Email Form Input -->
-                                    <div class="col-md-4 form-group">
-                                        {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-                                        {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
-                                    </div>
                                     <!-- Contact Number Form Input -->
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-5 form-group">
                                         {!! Form::label('contact_no', 'Contact Number', ['class' => 'control-label']) !!}
                                         {!! Form::tel('contact_no', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 98765432']) !!}
                                     </div>
@@ -74,7 +76,7 @@
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" href="#collapse-location" aria-expanded="true" aria-controls="collapse-location">
                                     <span class="fa fa-fw fa-clipboard"></span>
-                                    <strong>Additional Information</strong>
+                                    <strong>Optional Information</strong>
                                     <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                                 </a>
                             </h4>
@@ -82,34 +84,27 @@
                         <div id="collapse-location" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-location">
                             <div class="panel-body">
                                 <div class="row">
-                                    <!-- Car Ownership Form Input -->
-                                    <div class="col-md-5 form-group">
-                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('car') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') == "0" ? 'checked' : null }}> No car
-                                            </label>
-                                            <label class="btn btn-default {{ old('car') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') == "1" ? 'checked' : null }}> Has car
-                                            </label>
-                                        </div>
+                                    <!-- Gender Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
+                                        {!! Form::select('gender', $genderList, null, ['class' => 'form-control']) !!}
                                     </div>
                                     <!-- Occupation Form Input -->
-                                    <div class="col-md-7 form-group">
+                                    <div class="col-md-8 form-group">
                                         {!! Form::label('occupation', 'Occupation', ['class' => 'control-label']) !!}
-                                        {!! Form::text('occupation', null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::text('occupation', null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <!-- Volunteering Preference 1 Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('area_of_preference_1', 'Volunteering Preference 1', ['class' => 'control-label']) !!}
-                                        {!! Form::select('area_of_preference_1', $preferenceList, null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::select('area_of_preference_1', $preferenceList, null, ['class' => 'form-control']) !!}
                                     </div>
                                     <!-- Volunteering Preference 2 Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('area_of_preference_2', 'Volunteering Preference 2', ['class' => 'control-label']) !!}
-                                        {!! Form::select('area_of_preference_2', $preferenceList, null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::select('area_of_preference_2', $preferenceList, null, ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -148,6 +143,7 @@
         padding-right: 5px;
     }
     .btn-group {
+        margin-top: -2px;
         border: 2px solid transparent;
         border-radius: 6px;
     }
