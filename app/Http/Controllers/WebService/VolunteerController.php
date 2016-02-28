@@ -391,16 +391,17 @@ class VolunteerController extends Controller
           $count = 1;
           $pos = 0;
           foreach ($volunteersList as $volunteer => $mins) {
-            if ( $count <= 10){
-              $returnArray = array_add($returnArray,$count, [$mins,$volunteer]) ;
+            $returnString = $mins . "," . $volunteer . "," . $count;
+            $returnArray[] = $returnString;
+            //$returnArray = array_add($returnArray, $count,[$mins,$volunteer]) ;
               if ($volunteerName == $mins){
                 $pos = $count;
               }
               $count= $count + 1;
-            }
           }
-          
-
+          if (count($returnArray)>10){
+            $returnArray = array_slice($returnArray, 0, 9);
+          }
           return response()->json(compact('rank','totalHours','returnArray','pos'));
 
       } else {
