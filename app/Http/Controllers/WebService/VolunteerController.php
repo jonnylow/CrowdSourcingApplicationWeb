@@ -382,27 +382,32 @@ class VolunteerController extends Controller
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
           // User Minutes Completed
-          $taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
-          $totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
-          // top 10 volunteers
-          $volunteersList = Volunteer::orderBy('minutes_volunteered','desc')->lists('name','minutes_volunteered');
+          //$taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
+          //$totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
+          $totalMinutes = Volunteer::where('volunteer_id',$id)->value('minutes_volunteered');
 
-          $returnArray = [];
-          $count = 1;
+          $volunteersminutesList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('minutes_volunteered');
+          $volunteersNameList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('name');
+          $count = 0;
+          $xCount = 1;
           $pos = 0;
-          foreach ($volunteersList as $volunteer => $mins) {
-            $returnString = $mins . "," . $volunteer . "," . $count;
-            $returnArray[] = $returnString;
-            //$returnArray = array_add($returnArray, $count,[$mins,$volunteer]) ;
-              if ($volunteerName == $mins){
-                $pos = $count;
+          $returnArray = [];
+          $listSize =  count($volunteersminutesList)-1 ;
+          do  {
+            $stringToAdd = $volunteersminutesList[$count] . "," . $volunteersNameList[$count] . "," . $xCount ;
+            $returnArray[] =  $stringToAdd;
+            if ($volunteerName == $volunteersNameList[$count]){
+                $pos = $xCount;
               }
-              $count= $count + 1;
-          }
-          if (count($returnArray)>10){
-            $returnArray = array_slice($returnArray, 0, 9);
-          }
-          return response()->json(compact('rank','totalHours','returnArray','pos'));
+            $count = $count +1;
+            $xCount = $xCount + 1;
+          } while ($count <= $listSize );
+
+          // Limit 10 returns
+          //if (count($returnArray)>10){
+          //  $returnArray = array_slice($returnArray, 0, 9);
+          //}
+          return response()->json(compact('rank','totalMinutes','returnArray','pos'));
 
       } else {
           $status = array("Missing parameter");
