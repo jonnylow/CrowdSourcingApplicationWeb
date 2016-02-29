@@ -162,6 +162,7 @@ class ActivitiesController extends Controller
                 ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->whereNotIn('activity_id', $appliedActivities)
+                ->whereBetween('datetime_start',[Carbon::today(),Carbon::today()->addDays(14)])
                 ->take($limit)
                 ->get();
 
@@ -177,6 +178,7 @@ class ActivitiesController extends Controller
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
                 ->UpcomingExact()
                 ->whereNotIn('activity_id', $approvedActivities)
+                ->whereBetween('datetime_start',[Carbon::today(),Carbon::today()->addDays(14)])
                 ->take($limit)
                 ->get();
 
