@@ -260,27 +260,38 @@ class Activity extends Model
         $tasks = $this->tasks;
         $taskCount = $tasks->count();
 
-        if ($taskCount == 0) {
-            return "Not Started";
-        } else {
+        if($this->datetime_start->isPast() && ! $this->datetime_start->isToday()) {
             $groupByStatus = $tasks->groupBy('status');
-            $groupByApproval = $tasks->groupBy('approval');
 
-            if ($groupByStatus->has('completed')) {
+            if($groupByStatus->has('completed')) {
                 return "Completed";
-            } else if ($groupByStatus->has('picked-up') ||
-                $groupByStatus->has('at check-up') ||
-                $groupByStatus->has('check-up completed')
-            ) {
-                return "In-Progress";
-            } else if ($groupByApproval->has('approved')) {
-                return "Volunteer Approved";
-            } else if ($groupByApproval->has('pending')) {
-                return $groupByApproval->all()['pending']->count() . " Application(s) Received";
-            } else if ($groupByApproval->has('withdrawn')) {
-                return $groupByApproval->all()['withdrawn']->count() . " Application(s) Withdrawn";
-            } else if ($groupByApproval->has('rejected')) {
-                return $groupByApproval->all()['rejected']->count() . " Application(s) Rejected";
+            } else {
+                return "Not completed";
+            }
+        } else {
+            if ($taskCount == 0) {
+                return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+            } else {
+                $groupByStatus = $tasks->groupBy('status');
+                $groupByApproval = $tasks->groupBy('approval');
+
+                if ($groupByStatus->has('completed')) {
+                    return "Completed";
+                } else if ($groupByStatus->has('picked-up')) {
+                    return "Senior picked-up";
+                } else if ($groupByStatus->has('at check-up')) {
+                    return "Senior at check-up";
+                } else if ($groupByStatus->has('check-up completed')) {
+                    return "Senior check-up completed";
+                } else if ($groupByApproval->has('approved')) {
+                    return "Application confirmed <span class=\"fa fa-circle circle-green\" style=\"color:#18BC9C\"></span>";
+                } else if ($groupByApproval->has('pending')) {
+                    return "Application(s) received <span class=\"fa fa-circle circle-orange\" style=\"color:#F39C12\"></span>";
+                } else if ($groupByApproval->has('withdrawn')) {
+                    return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+                } else if ($groupByApproval->has('rejected')) {
+                    return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+                }
             }
         }
     }

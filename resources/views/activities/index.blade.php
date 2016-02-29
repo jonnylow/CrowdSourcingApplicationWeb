@@ -49,7 +49,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ $activity->getApplicationStatus() }} </td>
+                                    <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
                                         <a class="btn btn-default btn-xs disabled" href="#">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
@@ -88,7 +88,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ $activity->getApplicationStatus() }} </td>
+                                    <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
                                         <a class="btn btn-default btn-xs disabled" href="#">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
@@ -127,7 +127,7 @@
                                     <td>{{ $activity->arrivalCentre->name }}</td>
                                     <td>{{ $activity->datetime_start->format('D, j M Y, g:i a') }}</td>
                                     <td>{{ $activity->elderly->name }}</td>
-                                    <td>{{ $activity->getApplicationStatus() }} </td>
+                                    <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
                                         <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
                                             <span class="fa fa-lg fa-pencil"></span> Edit
