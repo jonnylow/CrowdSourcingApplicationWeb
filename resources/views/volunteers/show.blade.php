@@ -71,12 +71,12 @@
                             <dl class="dl-horizontal">
                                 <dt>Date of Birth:</dt><dd>{{ $volunteer->date_of_birth->format('j M Y') }}</dd>
                                 <dt>Age:</dt><dd>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></dd>
-                                <dt>Gender:</dt><dd>{{ $volunteer->gender == 'M' ? 'Male' : 'Female' }}</dd>
+                                <dt>Gender:</dt><dd>{{ is_null($volunteer->gender) ? '' : ($volunteer->gender == 'M' ? 'Male' : 'Female') }}</dd>
                                 <dt>Contact No:</dt><dd>{{ $volunteer->contact_no }}</dd>
                                 <dt>Has Car:</dt><dd>{{ $volunteer->has_car == true ? 'Yes' : 'No' }}</dd>
-                                <dt>Occupation:</dt><dd>{{ $volunteer->occupation }}</dd>
-                                <dt>Volunteering Preference 1:</dt><dd>{{ $volunteer->area_of_preference_1 }}</dd>
-                                <dt>Volunteering Preference 2:</dt><dd>{{ $volunteer->area_of_preference_2 }}</dd>
+                                <dt>Occupation:</dt><dd>{{ $volunteer->occupation or '' }}</dd>
+                                <dt>Volunteering Preference 1:</dt><dd>{{ $volunteer->area_of_preference_1 or '' }}</dd>
+                                <dt>Volunteering Preference 2:</dt><dd>{{ $volunteer->area_of_preference_2 or '' }}</dd>
                             </dl>
                         </div>
                     </div>
