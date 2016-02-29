@@ -181,9 +181,9 @@ class VolunteerController extends Controller
             $volunteer_id = $request->get('id');
             $password = $request->get('password');
 
-            $volunteer = Volunteer::findOrFail($volunteer_id);
+            $volunteer = Volunteer::find($volunteer_id);
 
-            if ($volunteer->isEmpty()) {
+            if ($volunteer==null) {
                 $status = array("error");
                 return response()->json(compact('status'));
             } else {
