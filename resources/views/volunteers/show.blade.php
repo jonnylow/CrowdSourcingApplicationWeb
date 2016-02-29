@@ -72,6 +72,7 @@
                                 <dt>Date of Birth:</dt><dd>{{ $volunteer->date_of_birth->format('j M Y') }}</dd>
                                 <dt>Age:</dt><dd>{{ $volunteer->age() }} <abbr title="years old">y/o</abbr></dd>
                                 <dt>Gender:</dt><dd>{{ is_null($volunteer->gender) ? '' : ($volunteer->gender == 'M' ? 'Male' : 'Female') }}</dd>
+                                <dt>Email:</dt><dd>{{ $volunteer->email }}</dd>
                                 <dt>Contact No:</dt><dd>{{ $volunteer->contact_no }}</dd>
                                 <dt>Has Car:</dt><dd>{{ $volunteer->has_car == true ? 'Yes' : 'No' }}</dd>
                                 <dt>Occupation:</dt><dd>{{ $volunteer->occupation or '' }}</dd>
