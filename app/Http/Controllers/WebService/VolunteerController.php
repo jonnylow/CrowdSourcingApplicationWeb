@@ -446,7 +446,7 @@ class VolunteerController extends Controller
           //echo count($todayactivities);
           // Retrieve Related Activties within today related to volunteer
           $groupStatus = collect(['pick-up','at check-up','check-up completed']);
-          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->lists('activity_id');
+          $relatedActivty = Task::whereIn('activity_id',$todayactivities)->where('volunteer_id',$id)->whereIn('status',$groupStatus)->lists('activity_id');
           $taskStatus = Task::whereIn('activity_id',$todayactivities)->whereIn('status',$groupStatus)->where('volunteer_id',$id)->value('status');
           // Retrieve Activity details
           $activityToReturn = Activity::with('departureCentre', 'arrivalCentre')->whereIn('activity_id',$relatedActivty)->first();
