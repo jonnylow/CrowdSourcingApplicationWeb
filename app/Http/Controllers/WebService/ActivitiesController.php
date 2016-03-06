@@ -243,19 +243,47 @@ class ActivitiesController extends Controller
                 $status = array("do not exist");
                 return response()->json(compact('status'));
             } else {
-               $activityStartTime = $applyingActivity->datetime_start->toDateTimeString();
+               $activityStartTime = $applyingActivity->datetime_start;
                $activityDuration = $applyingActivity->expected_duration_minutes;
-               $activityEndTime = $applyingActivity->datetime_start->addMinutes($activityDuration)->toDateTimeString();
+               $activityEndTime = $applyingActivity->datetime_start->addMinutes($activityDuration);
+               $activityFullDayStart = $applyingActivity->datetime_start->startOfDay()->toDateTimeString();
+               $activityFullDayEnd = $applyingActivity->datetime_start->endOfDay()->toDateTimeString();
+                
+               
+                //$sameTimeTask = Activity::where('datetime_start', '=', $activityStartTime)->lists('activity_id');
 
-               //$activityEndTime=$activityEndTime->toDateTimeString();
-
-                $sameTimeTask = Activity::where('datetime_start', '=', $activityStartTime)->lists('activity_id');
-
-                $sameTimeTaskWithEnd = Activity::whereBetween('datetime_start', [$activityStartTime,$activityEndTime ])->lists('activity_id');
-
+                $activitiesOnSameDay = Activity::whereBetween('datetime_start', [$activityFullDayStart,$activityFullDayEnd ])->where('activity_id','<>',$actID)->lists('activity_id');
+                //echo $activitiesOnSameDay;
                 //echo  $sameTimeTaskWithEnd;
+                $status = ['pending','rejected'];
 
-                $taskWithSameTime = Task::whereIn('activity_id',  $sameTimeTaskWithEnd)->where('volunteer_id', $userID)->lists('activity_id');
+                $taskofUserOnSameDay = Task::where('volunteer_id',$userID)->whereIn('activity_id',$activitiesOnSameDay)->whereNotIn('approval',$status)->lists('activity_id');
+                //echo $taskofUserOnSameDay;
+                $check = false;
+                foreach ($taskofUserOnSameDay as $activityID){
+                    $activity = Activity::find($activityID);
+                    $bStartTime = $activity->datetime_start;
+                    $bDuration = $activity->expected_duration_minutes;
+                    $bEndTime = $activity->datetime_start->addMinutes($bDuration);
+                    
+                    if ($activityStartTime->lte($bStartTime) &&  $bStartTime->lte($activityEndTime) && $activityEndTime->lte($bEndTime)){
+                       $check = true;
+                    }
+                    if ($bStartTime->lte($activityStartTime) &&  $activityStartTime->lte($bEndTime) && $bEndTime->lte($activityEndTime)){
+                       $check = true;
+                    }
+                    if ($activityStartTime->lte($bStartTime) &&  $bStartTime->lte($activityEndTime) && $bEndTime->lte($activityEndTime)){
+                       $check = true;
+                    }
+                    if ($bStartTime->lte($activityStartTime) &&  $activityStartTime->lte($bEndTime) && $activityEndTime->lte($bEndTime)){
+                       $check = true;
+                    }
+                    if ($activityStartTime->eq($bStartTime) &&  $activityEndTime->eq($bEndTime) ){
+                       $check = true;
+                    }
+
+
+                }
 
                 //echo $taskWithSameTime;
                 /*$sameTimeTask = Task::with('activities')
@@ -266,11 +294,11 @@ class ActivitiesController extends Controller
                 //echo  $sameTimeTask;
 
 
-                $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
+                //$task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
                 //return response()->json(compact('email'));
 
 
-                if ($task->isEmpty() && $taskWithSameTime->isEmpty() ) {
+                if (!$check) {
                     $status = array("do not exist");
                     return response()->json(compact('status'));
                 } else {
