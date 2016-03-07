@@ -104,7 +104,6 @@ class ActivitiesController extends Controller
             $elderly->next_of_kin_name = $request->get('senior_nok_name');
             $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
             $elderly->medical_condition = $request->get('senior_medical');
-            $elderly->image_photo = $request->get('senior_photo');
             $elderly->centre_id = $request->get('centre');
 
             if(count($request->get('languages')) < 1) {
@@ -233,7 +232,6 @@ class ActivitiesController extends Controller
             $elderly->next_of_kin_name = $request->get('senior_nok_name');
             $elderly->next_of_kin_contact = $request->get('senior_nok_contact');
             $elderly->medical_condition = $request->get('senior_medical');
-            $elderly->image_photo = $request->get('senior_photo');
             $elderly->centre_id = $request->get('centre');
 
             if(count($request->get('languages')) < 1) {

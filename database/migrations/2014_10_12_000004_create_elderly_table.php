@@ -21,7 +21,6 @@ class CreateElderlyTable extends Migration
             $table->string('next_of_kin_name', 100);
             $table->char('next_of_kin_contact', 8);
             $table->string('medical_condition')->nullable();
-            $table->string('image_photo')->nullable();
             $table->integer('centre_id')->unsigned();
             $table->foreign('centre_id')->references('centre_id')->on('centres');
             $table->timestamps();
