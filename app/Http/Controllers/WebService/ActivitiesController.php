@@ -398,15 +398,15 @@ class ActivitiesController extends Controller
                     //echo $location;
                     
                     $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('location_from_id',$location)->distinct()->lists('activity_id');
-                    
+                    $toReturn = array();
+
                     if (!$locationList->isEmpty()){
-                        $toReturn = array_add($toReturn,$locationName, $locationList) ;
-                        $return = ['location_to' => $toReturn];
+                        array_push($toReturn, array("location_from" => $locationName, "activity_ids" => implode(",", $locationList->toArray())));
                     }
                 }
                 
 
-                return response()->json($return);
+                return response()->json($toReturn);
 
             }elseif ($filter == 'end') {
                 $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
@@ -424,11 +424,11 @@ class ActivitiesController extends Controller
                     $stringToList = $locationName . ' ' . $locationList;
                     //$locationNameString = $locationNameString . ',' .  $locationName;
                     //$locationIdString = $locationIdString . ',' . $locationList;
+                    $toReturn = array();
+
                     if (!$locationList->isEmpty()){
-                        $toReturn = array_add($toReturn,$locationName, $locationList) ;
+                        array_push($toReturn, array("location_to" => $locationName, "activity_ids" => implode(",", $locationList->toArray())));
                     }
-                    
-                   
                 }
                 
 
@@ -440,8 +440,10 @@ class ActivitiesController extends Controller
                     $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
                     $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('datetime_start','=',$dateTimeStart)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
                     
+                    $toReturn = array();
+
                     if (!$locationList->isEmpty()){
-                        $toReturn = array_add($toReturn,$dateTimeStart, $locationList) ;
+                        array_push($toReturn, array("time" => $dateTimeStart, "activity_ids" => implode(",", $locationList->toArray())));
                     }
                 }
                 
