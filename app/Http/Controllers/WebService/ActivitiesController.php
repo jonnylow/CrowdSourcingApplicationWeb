@@ -388,13 +388,16 @@ class ActivitiesController extends Controller
 
             if ($filter == 'start'){
                 $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                //echo $notApproved;
                 $activityList = Activity::whereNotIn('activity_id',$notApproved)->groupBy('location_from_id')->lists('location_from_id');
+                //echo $activityList;
                 $toReturn = [];
                 foreach ($activityList as $location){
+                    //echo $location;
                     $locationName = Centre::findOrFail($location)->name;
                     //echo $location;
                     
-                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_from_id',$location)->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('location_from_id',$location)->distinct()->lists('activity_id');
                     
                     if (!$locationList->isEmpty()){
                         $toReturn = array_add($toReturn,$locationName, $locationList) ;
@@ -416,7 +419,7 @@ class ActivitiesController extends Controller
                     $locationName = Centre::findOrFail($location)->name;
                     //echo $location;
                     $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
-                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_to_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('location_to_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
                     //$stringToTitle = 'location_to';
                     $stringToList = $locationName . ' ' . $locationList;
                     //$locationNameString = $locationNameString . ',' .  $locationName;
@@ -435,7 +438,7 @@ class ActivitiesController extends Controller
                 $toReturn = [];
                 foreach ($activityList as $dateTimeStart){
                     $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
-                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('datetime_start','=',$dateTimeStart)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('datetime_start','=',$dateTimeStart)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
                     
                     if (!$locationList->isEmpty()){
                         $toReturn = array_add($toReturn,$dateTimeStart, $locationList) ;
