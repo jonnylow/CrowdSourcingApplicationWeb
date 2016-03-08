@@ -28,7 +28,7 @@ class VolunteerController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution']]);
+        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
     }
 
     public function addUserAccount(Request $request)
@@ -59,7 +59,6 @@ class VolunteerController extends Controller
         } else {
             Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) {
                 $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
-                $message->subject('A CareGuide Volunteer account has been registered and awaiting Approval.');
                 $message->to('imchosen6@gmail.com');
             });
             $status = array("Created successfully");
@@ -456,6 +455,24 @@ class VolunteerController extends Controller
           $status = array("Missing parameter");
           return response()->json(compact('status'));
         }
+    }
+
+    Public function sendFeedback(Request $request){
+      if ($request->get('email') != null && $request->get('feedback') != null){
+        $email = $request->get('email');
+        $feedback = $request->get('feedback');
+        Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+                    $message->subject('You have a new feedback from a user!');
+                    $message->to('imchosen6@gmail.com');
+                });
+        $status = array("Success");
+        return response()->json(compact('status'));
+      } else {
+        $status = array("Missing parameter");
+        return response()->json(compact('status'));
+      }
+
     }
 }
 

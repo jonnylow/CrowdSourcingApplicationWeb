@@ -101,6 +101,7 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('volunteerLeaderboard', 'VolunteerController@volunteerLeaderboard');
     Route::get('todayActivity', 'VolunteerController@todayActivity');
     Route::get('todayActivityInProgress', 'VolunteerController@todayActivityInProgress');
+    Route::get('sendFeedback', 'VolunteerController@sendFeedback');
     
     Route::get('retrieveElderyInformation', 'ElderlyController@retrieveElderyInformation');
 });
