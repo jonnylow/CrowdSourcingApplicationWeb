@@ -16,6 +16,7 @@ use App\Centre;
 use App\Volunteer;
 use App\Rank;
 use Carbon\Carbon;
+use Mail;
 
 
 class ActivitiesController extends Controller
@@ -207,11 +208,19 @@ class ActivitiesController extends Controller
             if ($task->isEmpty()) {
                 $user->activities()->attach($actID);
                 $status = array("Application Successful");
+                Mail::send('emails.volunteer_apply', compact('user'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Application');
+                    $message->to('imchosen6@gmail.com');
+                });
                 return response()->json(compact('status'));
             } elseif (sizeof($task)> 0) {
                 $taskUpdate = $task->first();
                 $taskUpdate->approval = "pending";
                 $taskUpdate->save();
+                Mail::send('emails.volunteer_apply', compact('user'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Application');
+                    $message->to('imchosen6@gmail.com');
+                });
                 $status = array("Reapplication Successful");
                 return response()->json(compact('status'));
             } else {
@@ -255,7 +264,7 @@ class ActivitiesController extends Controller
                 $activitiesOnSameDay = Activity::whereBetween('datetime_start', [$activityFullDayStart,$activityFullDayEnd ])->where('activity_id','<>',$actID)->lists('activity_id');
                 //echo $activitiesOnSameDay;
                 //echo  $sameTimeTaskWithEnd;
-                $status = ['pending','rejected'];
+                $status = ['rejected'];
 
                 $taskofUserOnSameDay = Task::where('volunteer_id',$userID)->whereIn('activity_id',$activitiesOnSameDay)->whereNotIn('approval',$status)->lists('activity_id');
                 //echo $taskofUserOnSameDay;
@@ -354,11 +363,16 @@ class ActivitiesController extends Controller
         } else {
             $volunteer_id = $request->get('volunteer_id');
             $activity_id = $request->get('activity_id');
+            $volunteer = Volunteer::findOrFail($volunteer_id);
 
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'withdrawn']);
             //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
 
             $status = array("Withdrawn from activity.");
+            Mail::send('emails.volunteer_withdraw', compact('volunteer'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Withdrawal');
+                    $message->to('imchosen6@gmail.com');
+                });
             return response()->json(compact('status'));
             //$check = Task::findOrFail($task->id);
         }
@@ -373,33 +387,44 @@ class ActivitiesController extends Controller
             $filter = $request->get('filter');
 
             if ($filter == 'start'){
-                $activityList = Activity::groupBy('location_from_id')->lists('location_from_id');
+                $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                $activityList = Activity::whereNotIn('activity_id',$notApproved)->groupBy('location_from_id')->lists('location_from_id');
                 $toReturn = [];
                 foreach ($activityList as $location){
                     $locationName = Centre::findOrFail($location)->name;
                     //echo $location;
-                    $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
-                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_from_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
                     
+                    $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_from_id',$location)->distinct()->lists('activity_id');
                     
-                    $toReturn = array_add($toReturn,$locationName, $locationList) ;
-                   
+                    if (!$locationList->isEmpty()){
+                        $toReturn = array_add($toReturn,$locationName, $locationList) ;
+                        $return = ['location_to' => $toReturn];
+                    }
                 }
                 
 
-                return response()->json($toReturn);
+                return response()->json($return);
 
             }elseif ($filter == 'end') {
+                $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
+                $notcompleted = Task::where('status','=','completed')->distinct()->lists('activity_id');
                 $activityList = Activity::groupBy('location_to_id')->lists('location_to_id');
                 $toReturn = [];
+                $locationNameString = "";
+                $locationIdString = "";
                 foreach ($activityList as $location){
                     $locationName = Centre::findOrFail($location)->name;
                     //echo $location;
                     $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
                     $locationList = Activity::where('datetime_start','>',Carbon::now())->where('location_to_id',$location)->whereNotIn('activity_id',$notApproved)->distinct()->lists('activity_id');
+                    //$stringToTitle = 'location_to';
+                    $stringToList = $locationName . ' ' . $locationList;
+                    //$locationNameString = $locationNameString . ',' .  $locationName;
+                    //$locationIdString = $locationIdString . ',' . $locationList;
+                    if (!$locationList->isEmpty()){
+                        $toReturn = array_add($toReturn,$locationName, $locationList) ;
+                    }
                     
-                    
-                    $toReturn = array_add($toReturn,$locationName, $locationList) ;
                    
                 }
                 
