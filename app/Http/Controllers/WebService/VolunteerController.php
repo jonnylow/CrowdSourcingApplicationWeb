@@ -149,7 +149,7 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $phone = $request->get('phone');
             $volunteer = Volunteer::where('email', $email)->where('contact_no', $phone)->first();
-            if ($volunteer==null) {
+            if ($volunteer->isEmpty()) {
                 $status = array("error");
                 return response()->json(compact('status'));
             } else {
