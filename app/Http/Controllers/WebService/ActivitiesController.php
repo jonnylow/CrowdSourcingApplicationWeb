@@ -17,6 +17,7 @@ use App\Volunteer;
 use App\Rank;
 use Carbon\Carbon;
 use Mail;
+use DB;
 
 
 class ActivitiesController extends Controller
@@ -105,16 +106,18 @@ class ActivitiesController extends Controller
                 ->lists('activity_id');
 
                 $activities = Activity::with('departureCentre', 'arrivalCentre')
-                ->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')
+                ->whereIn('activity_id', $uncompletedActivities)->orderBy('datetime_start','desc')
                 ->get();
 
                 //$activities = $activities->sortBy('activity_id');
 
-                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')->get();
+                //$task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')->get();
 
+                //$taskTwo = Activity::with('tasks')->where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('datetime_start','desc')->get();
+                $taskTwo = DB::table('activities')->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')->where('tasks.volunteer_id','=',$id)->whereIn('activities.activity_id', $uncompletedActivities)->orderBy('activities.datetime_start','desc')->get();
                 //$task = $task->sortBy('activity_id');
 
-               return response()->json(compact('activities','task'));
+               return response()->json(compact('taskTwo'));
 
 
             } else if($type == "2") {
@@ -126,9 +129,9 @@ class ActivitiesController extends Controller
                 ->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')
                 ->get();
 
-                $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')->get();
-
-                return response()->json(compact('activities','task'));
+                //$task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')->get();
+                $taskTwo = DB::table('activities')->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')->where('tasks.volunteer_id','=',$id)->whereIn('activities.activity_id', $volunteerActivities)->orderBy('activities.datetime_start','desc')->get();
+                return response()->json(compact('taskTwo'));
             }
         }
 
