@@ -58,7 +58,8 @@ class VolunteerController extends Controller
             return response()->json(compact('status'));
         } else {
             Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) {
-                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
+                $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
+                $message->subject('New Volunteer Registration');
                 $message->to('imchosen6@gmail.com');
             });
             $status = array("Created successfully");
@@ -155,7 +156,7 @@ class VolunteerController extends Controller
                 $password = str_random(12);
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
+                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('Your request for your CareGuide account password Reset.');
                     $message->to('imchosen6@gmail.com');
                 });

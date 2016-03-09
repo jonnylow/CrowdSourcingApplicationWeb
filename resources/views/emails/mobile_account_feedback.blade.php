@@ -1,6 +1,6 @@
 <p>Hi!</p>
 <br>
-<p>You have a new reply from  {{ $email }} CareGuide account was recently updated.</p>
+<p>You have a new feedback from  {{ $email }}.</p>
 <br>
 <p>This is the feedback as follows :{{ $feedback }} </p>
 <br>

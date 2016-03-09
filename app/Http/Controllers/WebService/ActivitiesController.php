@@ -201,6 +201,7 @@ class ActivitiesController extends Controller
             $userID = $request->get('volunteer_id');
             $user = Volunteer::findOrFail($userID);
             $actID = $request->get('activity_id');
+            $appliedActivity = Activity::findOrFail($actID);
 
             $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->get();
             //return response()->json(compact('email'));
@@ -208,8 +209,9 @@ class ActivitiesController extends Controller
             if ($task->isEmpty()) {
                 $user->activities()->attach($actID);
                 $status = array("Application Successful");
-                Mail::send('emails.volunteer_apply', compact('user'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Application');
+                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
+                    $message->subject('A volunteer has applied for an activity');
                     $message->to('imchosen6@gmail.com');
                 });
                 return response()->json(compact('status'));
@@ -217,8 +219,9 @@ class ActivitiesController extends Controller
                 $taskUpdate = $task->first();
                 $taskUpdate->approval = "pending";
                 $taskUpdate->save();
-                Mail::send('emails.volunteer_apply', compact('user'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Application');
+                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
+                    $message->subject('A volunteer has applied for an activity');
                     $message->to('imchosen6@gmail.com');
                 });
                 $status = array("Reapplication Successful");
@@ -364,13 +367,15 @@ class ActivitiesController extends Controller
             $volunteer_id = $request->get('volunteer_id');
             $activity_id = $request->get('activity_id');
             $volunteer = Volunteer::findOrFail($volunteer_id);
+            $withdrawnActivity = Activity::findOrFail($activity_id);
 
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'withdrawn']);
             //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
 
             $status = array("Withdrawn from activity.");
-            Mail::send('emails.volunteer_withdraw', compact('volunteer'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Withdrawal');
+            Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
+                    $message->subject('A volunteer has withdrawn from an activity');
                     $message->to('imchosen6@gmail.com');
                 });
             return response()->json(compact('status'));
