@@ -12,6 +12,7 @@ use App\Elderly;
 use App\ElderlyLanguage;
 use App\Task;
 use Auth;
+use Carbon\Carbon;
 use JsValidator;
 use Validator;
 
@@ -19,9 +20,23 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
-        $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())->upcoming()->get();
-        $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())->today()->get();
-        $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())->past()->get();
+        $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.status', '<>', 'completed')
+            ->orWhere('datetime_start', '>', Carbon::now()->endOfDay())
+            ->oldest('datetime_start')->get();
+
+        $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
+            ->orWhere('tasks.status', '<>', 'completed')
+            ->oldest('datetime_start')->get();
+
+        $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.status', 'completed')
+            ->orWhere('datetime_start', '<', Carbon::today())
+            ->latest('datetime_start')->get();
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }

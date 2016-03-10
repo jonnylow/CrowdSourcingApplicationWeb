@@ -60,7 +60,7 @@
                                 <dt>Start Date:</dt>
                                 <dd>
                                     {{ $activity->datetime_start->format('D, j M Y') }}
-                                    @if ($activity->datetime_start->isFuture())
+                                    @if ($activity->datetime_start->isFuture() && $activity->getProgress() <= 0)
                                         {!! Form::open(['method' => 'DELETE', 'route' => ['activities.destroy', $activity->activity_id]]) !!}
                                         <a href="#" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
                                            data-type="warning" data-title="Cancel Activity" data-message="Are you sure you want to cancel this activity?"
