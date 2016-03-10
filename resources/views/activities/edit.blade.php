@@ -340,8 +340,8 @@
                     max: "Day must be between 1 to " + numOfDays + "."
                 }
             });
-            $('input[name="date_day"]').valid();
         }
+        $('input[name="date_day"]').valid();
     });
 
     // Validate duration_hour input
@@ -429,6 +429,8 @@
 
     $('.collapse-start-loc').on('hide.bs.collapse', function () {
         $('#start_location').prop("selectedIndex", 0);
+        $('#start_location_name').val('');
+        $('#start_postal').val('');
     });
 
     $('#end_location').on('change', function() {
@@ -446,6 +448,8 @@
 
     $('.collapse-end-loc').on('hide.bs.collapse', function () {
         $('#end_location').prop("selectedIndex", 0);
+        $('#end_location_name').val('');
+        $('#end_postal').val('');
     });
 
     $('#senior').on('change', function() {
