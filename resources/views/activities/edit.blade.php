@@ -122,7 +122,7 @@
                                         <!-- Start Location Name Form Input -->
                                         <div class="col-md-6 form-group">
                                             {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home']) !!}
+                                            {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
                                         </div>
                                         <!-- Start Location Postal Code Form Input -->
                                         <div class="col-md-6 form-group">
@@ -138,7 +138,7 @@
                                         <!-- End Location Name Form Input -->
                                         <div class="col-md-6 form-group">
                                             {!! Form::label('end_location_name', 'Appointment Venue Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('end_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Singapore General Hospital']) !!}
+                                            {!! Form::text('end_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Singapore General Hospital', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
                                         </div>
                                         <!-- End Location Postal Code Form Input -->
                                         <div class="col-md-6 form-group">
