@@ -209,7 +209,7 @@ class VolunteerController extends Controller
             $email = $request->get('email');
             $dob = $request->get('dob');
             $gender = $request->get('gender');
-            $hasCar = strtoupper($request->get('hasCar'));
+            $hasCar = $request->get('hasCar');
             $occupation = $request->get('occupation');
             $p1 = $request->get('p1');
             $p2 = $request->get('p2');
@@ -243,7 +243,7 @@ class VolunteerController extends Controller
                 'gender'  => $gender,
                 'date_of_birth'  => $dob,
                 'occupation'  => $occupation,
-                'has_car'  => $hasCar,
+                'has_car'  => $request->get('hasCar'),
                 'area_of_preference_1'  => $p1,
                 'area_of_preference_2'  => $p2,
                 ]);
