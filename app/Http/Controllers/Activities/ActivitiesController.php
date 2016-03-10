@@ -14,6 +14,7 @@ use App\Task;
 use Auth;
 use Carbon\Carbon;
 use JsValidator;
+use Mail;
 use Validator;
 
 class ActivitiesController extends Controller
@@ -310,9 +311,18 @@ class ActivitiesController extends Controller
 
         foreach ($activity->volunteers as $volunteer) {
             if($volunteer->pivot->approval == "pending" || $volunteer->pivot->approval == "approved") {
-                $volunteer->pivot->comment = "Auto-rejection. Activity is cancelled.";
+                $volunteer->pivot->comment = "Activity is cancelled.";
                 $volunteer->pivot->approval = "rejected";
                 $volunteer->pivot->save();
+
+                $approval = $volunteer->pivot->approval;
+                $reason = $volunteer->pivot->comment;
+
+                Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+                    $message->subject('Your application for CareGuide activity has been rejected.');
+                    $message->to('imchosen6@gmail.com');
+                });
             }
         }
         $activity->delete();
@@ -342,23 +352,51 @@ class ActivitiesController extends Controller
         $task->approval = "rejected";
         $task->save();
 
+        $activity = $task->activity;
+        $approval = $task->approval;
+        $reason = $task->comment;
+
+        Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+            $message->subject('Your application for CareGuide activity has been rejected.');
+            $message->to('imchosen6@gmail.com');
+        });
+
         return back()->with('success', 'Volunteer is rejected!');
     }
 
     public function approveVolunteer($activityId, $volunteerId) {
         $tasks = Task::ofActivity($activityId)->get();
+        $activity = Activity::findOrFail($activityId);
 
         foreach($tasks as $task) {
             if($task->approval == "pending") {
                 if ($task->volunteer_id == $volunteerId) {
                     $task->approval = "approved";
+
                 } else {
-                    $task->comment = "Auto-rejection. Activity is taken up by another volunteer.";
+                    $task->comment = "Activity is taken up by another volunteer.";
                     $task->approval = "rejected";
                 }
             }
             $task->save();
+
+            $approval = $task->approval;
+            $reason = $task->comment;
+
+            Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+                $message->subject('Your application for CareGuide activity has been rejected.');
+                $message->to('imchosen6@gmail.com');
+            });
         }
+
+        Mail::send('emails.activity_approve', compact('activity', 'approval'), function ($message) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+            $message->subject('Your application for CareGuide activity has been approved.');
+            $message->to('imchosen6@gmail.com');
+        });
+
         return back()->with('success', 'Volunteer is approved!');
     }
 
