@@ -99,6 +99,12 @@ class VolunteersController extends Controller
             'area_of_preference_2'  => $request->get('area_of_preference_2'),
         ]);
 
+        Mail::send('emails.volunteer_update', compact('volunteer'), function ($message) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+            $message->subject('Your CareGuide account particulars was recently updated.');
+            $message->to('imchosen6@gmail.com');
+        });
+
         return back()->with('success', 'Volunteer is updated successfully!');
     }
 
