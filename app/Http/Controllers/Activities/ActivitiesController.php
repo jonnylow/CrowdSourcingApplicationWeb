@@ -21,16 +21,17 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
+        $completedActivities = Activity::join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->where('tasks.status', 'completed')->lists('activities.activity_id')->toArray();
+
         $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
-            ->where('tasks.status', '<>', 'completed')
-            ->orWhere('datetime_start', '>', Carbon::now()->endOfDay())
+            ->whereNotIn('activity_id', $completedActivities)
+            ->where('datetime_start', '>', Carbon::now()->endOfDay())
             ->oldest('datetime_start')->get();
 
         $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
+            ->whereNotIn('activity_id', $completedActivities)
             ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
-            ->orWhere('tasks.status', '<>', 'completed')
             ->oldest('datetime_start')->get();
 
         $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
