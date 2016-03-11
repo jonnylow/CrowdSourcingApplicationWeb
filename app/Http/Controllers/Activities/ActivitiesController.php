@@ -35,8 +35,7 @@ class ActivitiesController extends Controller
             ->oldest('datetime_start')->get();
 
         $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
-            ->where('tasks.status', 'completed')
+            ->whereIn('activity_id', $completedActivities)
             ->orWhere('datetime_start', '<', Carbon::today())
             ->latest('datetime_start')->get();
 
