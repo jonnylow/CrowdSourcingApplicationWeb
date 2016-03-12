@@ -277,7 +277,7 @@ class Activity extends Model
 
                 if ($groupByStatus->has('completed')) {
                     return "Completed";
-                } else if ($groupByStatus->has('picked-up')) {
+                } else if ($groupByStatus->has('pick-up')) {
                     return "Senior picked-up";
                 } else if ($groupByStatus->has('at check-up')) {
                     return "Senior at check-up";

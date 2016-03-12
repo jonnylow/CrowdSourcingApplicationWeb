@@ -187,6 +187,57 @@
 
 @endsection
 
+@section('page-script')
+
+<script>
+    var currentProgress = 0;
+
+    if ($('div.progress').find('div.progress-bar').length) {
+        currentProgress = parseFloat($('div.progress-bar>span').html()) / 100.0;
+    }
+
+    (function poll() {
+        setTimeout(function () {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '{{ asset('/activities/' . $activity->activity_id . '/progress') }}',
+                success: function (data) {
+                    var progress = parseInt(data.progress);
+
+                    if(progress > 0 && currentProgress < progress) {
+                        currentProgress = progress;
+                        var label = "Activity not started";
+
+                        if (progress <= 25)
+                            label = "Heading to check-up...";
+                        else if (progress <= 50)
+                            label = "At check-up...";
+                        else if (progress <= 75)
+                            label = " Heading back to centre...";
+                        else if (progress == 100)
+                            label = "Back at centre...";
+
+                        if ($('div.progress').find('div.progress-bar').length) {
+                            $('div.progress-bar').css('width', progress + "%");
+                            $('div.progress-bar>span').html(progress + "%");
+                            $('div.progress-bar>p>strong').html(label);
+                        } else {
+                            $('div.progress').empty();
+                            $('div.progress').append('<div class="progress-bar progress-bar-success" style="width:' + progress + '%"></div>');
+                            $('div.progress-bar').append('<span class="sr-only">' + progress + '%</span>');
+                            $('div.progress-bar').append('<p class="text-center text-uppercase"><strong>' + label + '</strong></p>');
+                        }
+                    }
+                },
+                complete: poll
+            });
+        }, 15000);
+    })();
+</script>
+
+@endsection
+
 @section('partials-script')
 
 @include('partials.confirm')

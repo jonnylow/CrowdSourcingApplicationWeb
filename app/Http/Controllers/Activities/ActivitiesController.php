@@ -400,6 +400,13 @@ class ActivitiesController extends Controller
         return back()->with('success', 'Volunteer is approved!');
     }
 
+    public function retrieveProgress($activityId)
+    {
+        $activity = Activity::findOrFail($activityId);
+
+        return json_encode(['progress' => $activity->getProgress()]);
+    }
+
     public function addressToLatLng($address)
     {
         $validator = Validator::make([$address], [

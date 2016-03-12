@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'pr
 });
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Activities'], function() {
+    Route::get('activities/{activities}/progress', ['as' => 'activities.progress', 'uses' => 'ActivitiesController@retrieveProgress']);
     Route::patch('activities/{activities}/approve/{volunteer}', ['as' => 'activities.approve.volunteer', 'uses' => 'ActivitiesController@approveVolunteer']);
     Route::patch('activities/{activities}/reject/{volunteer}', ['as' => 'activities.reject.volunteer', 'uses' => 'ActivitiesController@rejectVolunteer']);
     Route::get('activities/cancelled', ['as' => 'activities.cancelled', 'uses' => 'ActivitiesController@showCancelled']);
