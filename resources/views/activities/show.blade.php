@@ -61,7 +61,7 @@
                                 <dd>
                                     {{ $activity->datetime_start->format('D, j M Y') }}
                                     @if ($activity->datetime_start->isFuture() && $activity->getProgress() <= 0)
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['activities.destroy', $activity->activity_id]]) !!}
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['activities.destroy', $activity->activity_id], 'id' => 'form-activity-cancel']) !!}
                                         <a href="#" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
                                            data-type="warning" data-title="Cancel Activity" data-message="Are you sure you want to cancel this activity?"
                                            data-yes="Yes" data-no="No">
@@ -192,9 +192,8 @@
 <script>
     var currentProgress = 0;
 
-    if ($('div.progress').find('div.progress-bar').length) {
+    if ($('div.progress').find('div.progress-bar').length)
         currentProgress = parseFloat($('div.progress-bar>span').html()) / 100.0;
-    }
 
     (function poll() {
         setTimeout(function () {
@@ -223,6 +222,7 @@
                             $('div.progress-bar>span').html(progress + "%");
                             $('div.progress-bar>p>strong').html(label);
                         } else {
+                            $('#form-activity-cancel').remove();
                             $('div.progress').empty();
                             $('div.progress').append('<div class="progress-bar progress-bar-success" style="width:' + progress + '%"></div>');
                             $('div.progress-bar').append('<span class="sr-only">' + progress + '%</span>');
