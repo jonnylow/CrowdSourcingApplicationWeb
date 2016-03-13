@@ -27,16 +27,18 @@
                     </small>
                 </h1>
             </div>
-            @if($volunteer->is_approved == 'pending')
+            @if($volunteer->is_approved !== 'approved')
                 <div class="col-md-5 pull-down">
                     <div class="btn-toolbar pull-right">
-                        <div class="btn-group margin-bottom-xs">
-                            {!! Form::open(['method' => 'PATCH', 'route' => ['volunteers.reject', $volunteer->volunteer_id]]) !!}
-                            <a class="btn btn-danger btn-md" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
-                               data-type="question" data-title="Reject Volunteer" data-message="Are you sure you want to reject {{ $volunteer->name }}?"
-                               data-yes="Reject" data-no="Cancel">Reject Volunteer</a>
-                            {!! Form::close() !!}
-                        </div>
+                        @if($volunteer->is_approved === 'pending')
+                            <div class="btn-group margin-bottom-xs">
+                                {!! Form::open(['method' => 'PATCH', 'route' => ['volunteers.reject', $volunteer->volunteer_id]]) !!}
+                                <a class="btn btn-danger btn-md" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                   data-type="question" data-title="Reject Volunteer" data-message="Are you sure you want to reject {{ $volunteer->name }}?"
+                                   data-yes="Reject" data-no="Cancel">Reject Volunteer</a>
+                                {!! Form::close() !!}
+                            </div>
+                        @endif
                         <div class="btn-group margin-bottom-xs">
                             {!! Form::open(['method' => 'PATCH', 'route' => ['volunteers.approve', $volunteer->volunteer_id]]) !!}
                             <a class="btn btn-success btn-md" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"

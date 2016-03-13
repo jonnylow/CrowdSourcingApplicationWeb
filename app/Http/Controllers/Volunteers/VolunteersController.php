@@ -137,7 +137,7 @@ class VolunteersController extends Controller
     public function approveVolunteer($id) {
         $volunteer = Volunteer::findOrFail($id);
 
-        if($volunteer->is_approved == 'pending') {
+        if($volunteer->is_approved !== 'approved') {
             $volunteer->is_approved = 'approved';
             $volunteer->save();
 
