@@ -58,8 +58,8 @@
                                         {!! Form::label('date_of_birth', 'Date of Birth', ['class' => 'control-label']) !!}
                                         <div class="inline-field">
                                             <div class="col-md-4">{!! Form::selectMonth('date_month', $volunteer->date_of_birth->month, ['class' => 'form-control date-field', 'required']) !!}</div>
-                                            <div class="col-md-4">{!! Form::number('date_day', $volunteer->date_of_birth->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
-                                            <div class="col-md-4">{!! Form::number('date_year', $volunteer->date_of_birth->year, ['class' => 'form-control date-field', 'required', 'min' => '1900', 'max' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_day', $volunteer->date_of_birth->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_year', $volunteer->date_of_birth->year, ['class' => 'form-control date-field', 'required', 'min' => '1900', 'max' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
                                         </div>
                                     </div>
                                     <!-- Contact Number Form Input -->
@@ -98,7 +98,7 @@
                                     <!-- Minutes Volunteered Form Input -->
                                     <div class="col-md-5 form-group">
                                         {!! Form::label('minutes_volunteered', 'Total Time Volunteered (in minutes)', ['class' => 'control-label']) !!}
-                                        {!! Form::number('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
+                                        {!! Form::text('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -156,5 +156,33 @@
     .has-error .btn-group, .has-error .btn-group.focus { border-color: #e74c3c; }
     .has-success .btn-group, .has-success .btn-group.focus { border-color: #18bc9c; }
 </style>
+
+<script>
+    // Validate date-field inputs
+    $(document).on('change', '.date-field', function () {
+        if($('input[name="date_year"]').valid()) {
+            var dateMonth = $('select[name="date_month"]').val();
+            var dateYear = $('input[name="date_year"]').val();
+            var numOfDays = 32 - new Date(dateYear, dateMonth - 1, 32).getDate();
+
+            $('input[name="date_day"]').rules('remove');
+            $('input[name="date_day"]').rules('add', {
+                required: true,
+                digits: true,
+                rangelength: [1, 2],
+                min: 1,
+                max: numOfDays,
+                messages: {
+                    required: "Day is required.",
+                    digits: "Day must be a number.",
+                    rangelength: "Day must be 1 or 2 digits.",
+                    min: "Day must be between 1 to " + numOfDays + ".",
+                    max: "Day must be between 1 to " + numOfDays + "."
+                }
+            });
+        }
+        $('input[name="date_day"]').valid();
+    });
+</script>
 
 @endsection
