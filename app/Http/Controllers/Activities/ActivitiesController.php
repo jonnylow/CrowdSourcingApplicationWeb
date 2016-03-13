@@ -89,7 +89,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Start postal code does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
             }
         }
 
@@ -107,7 +107,7 @@ class ActivitiesController extends Controller
                     $endLocation->lng = $geoInfo['x'];
                     $endLocation->lat = $geoInfo['y'];
                 } else {
-                    $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                    $errors = array_add($errors, 'end_location', 'Postal code for appointment venue does not exist.');
                 }
             }
         }
@@ -128,7 +128,7 @@ class ActivitiesController extends Controller
                 foreach($request->get('languages') as $language) {
                     $v = Validator::make(['language' => $language], ['language' => 'alpha']);
                     if ($v->fails()) {
-                        $errors = array_add($errors, 'languages', 'Language must be valid word.');
+                        $errors = array_add($errors, 'languages', 'Language must be valid words.');
                     }
                 }
             }
@@ -217,7 +217,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Start postal code does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
             }
         }
 
@@ -235,7 +235,7 @@ class ActivitiesController extends Controller
                     $endLocation->lng = $geoInfo['x'];
                     $endLocation->lat = $geoInfo['y'];
                 } else {
-                    $errors = array_add($errors, 'end_location', 'End postal code does not exist.');
+                    $errors = array_add($errors, 'end_location', 'Postal code for appointment venue does not exist.');
                 }
             }
         }
@@ -256,7 +256,7 @@ class ActivitiesController extends Controller
                 foreach($request->get('languages') as $language) {
                     $v = Validator::make(['language' => $language], ['language' => 'alpha']);
                     if ($v->fails()) {
-                        $errors = array_add($errors, 'languages', 'Language must be valid word.');
+                        $errors = array_add($errors, 'languages', 'Language must be valid words.');
                     }
                 }
             }
