@@ -21,13 +21,17 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading-information">
-                        <h4 class="panel-title">
+                        <h4 class="panel-title vertical-center">
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
                                 <span class="fa fa-fw fa-user"></span>
                                 <strong>Information</strong>
                                 <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
+                        <a class="btn btn-primary btn-xs pull-right" href="{{ route('elderly.edit', $elderly->elderly_id) }}">
+                            <span class="fa fa-lg fa-pencil"></span> Edit Senior
+                        </a>
+                        <div class="clearfix"></div>
                     </div>
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                         <div class="panel-body">

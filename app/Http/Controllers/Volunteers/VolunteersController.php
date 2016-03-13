@@ -112,7 +112,7 @@ class VolunteersController extends Controller
             $message->to('imchosen6@gmail.com');
         });
 
-        return back()->with('success', 'Volunteer is updated successfully!');
+        return redirect()->route('volunteers.show', compact('volunteer'))->with('success', 'Volunteer is updated successfully!');
     }
 
     public function rejectVolunteer($id) {

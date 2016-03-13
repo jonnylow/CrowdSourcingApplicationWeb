@@ -123,7 +123,7 @@ class ElderlyController extends Controller
                 ->delete();
         }
 
-        return back()->with('success', 'Senior is updated successfully!');
+        return redirect()->route('elderly.show', compact('elderly'))->with('success', 'Senior is updated successfully!');
     }
 
     public function destroy($id)
