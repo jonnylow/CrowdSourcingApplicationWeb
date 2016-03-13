@@ -30,7 +30,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <!-- Name Form Input -->
-                                    <div class="col-md-5 form-group">
+                                    <div class="col-md-4 form-group">
                                         {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
                                         {!! Form::text('name', $volunteer->name, ['class' => 'form-control', 'required']) !!}
                                     </div>
@@ -39,17 +39,10 @@
                                         {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
                                         {!! Form::email('email', $volunteer->email, ['class' => 'form-control', 'required']) !!}
                                     </div>
-                                    <!-- Car Ownership Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '0' ? 'active' : null : $volunteer->has_car == false ? 'active' : null }}">
-                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') !== null ? old('car') == '0' ? 'checked' : null : $volunteer->has_car == false ? 'checked' : null }}> No car
-                                            </label>
-                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '1' ? 'active' : null : $volunteer->has_car == true ? 'active' : null }}">
-                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') !== null ? old('car') == '1' ? 'checked' : null : $volunteer->has_car == true ? 'checked' : null }}> Has car
-                                            </label>
-                                        </div>
+                                    <!-- Gender Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
+                                        {!! Form::select('gender', $genderList, $volunteer->gender, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -66,6 +59,25 @@
                                     <div class="col-md-5 form-group">
                                         {!! Form::label('contact_no', 'Contact Number', ['class' => 'control-label']) !!}
                                         {!! Form::tel('contact_no', $volunteer->contact_no, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 98765432']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Car Ownership Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '0' ? 'active' : null : $volunteer->has_car == false ? 'active' : null }}">
+                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') !== null ? old('car') == '0' ? 'checked' : null : $volunteer->has_car == false ? 'checked' : null }}> No car
+                                            </label>
+                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '1' ? 'active' : null : $volunteer->has_car == true ? 'active' : null }}">
+                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') !== null ? old('car') == '1' ? 'checked' : null : $volunteer->has_car == true ? 'checked' : null }}> Has car
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- Minutes Volunteered Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        {!! Form::label('minutes_volunteered', 'Total Time Volunteered (in minutes)', ['class' => 'control-label']) !!}
+                                        {!! Form::text('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -85,20 +97,10 @@
                         <div id="collapse-location" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-location">
                             <div class="panel-body">
                                 <div class="row">
-                                    <!-- Gender Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
-                                        {!! Form::select('gender', $genderList, $volunteer->gender, ['class' => 'form-control']) !!}
-                                    </div>
                                     <!-- Occupation Form Input -->
-                                    <div class="col-md-4 form-group">
+                                    <div class="col-md-6 col-md-offset-3 form-group">
                                         {!! Form::label('occupation', 'Occupation', ['class' => 'control-label']) !!}
                                         {!! Form::text('occupation', $volunteer->occupation, ['class' => 'form-control']) !!}
-                                    </div>
-                                    <!-- Minutes Volunteered Form Input -->
-                                    <div class="col-md-5 form-group">
-                                        {!! Form::label('minutes_volunteered', 'Total Time Volunteered (in minutes)', ['class' => 'control-label']) !!}
-                                        {!! Form::text('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
                                     </div>
                                 </div>
                                 <div class="row">

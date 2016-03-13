@@ -29,7 +29,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <!-- Name Form Input -->
-                                    <div class="col-md-5 form-group">
+                                    <div class="col-md-4 form-group">
                                         {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
                                         {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
                                     </div>
@@ -38,17 +38,10 @@
                                         {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
                                         {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
                                     </div>
-                                    <!-- Car Ownership Form Input -->
-                                    <div class="col-md-3 form-group">
-                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('car') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') == "0" ? 'checked' : null }}> No car
-                                            </label>
-                                            <label class="btn btn-default {{ old('car') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') == "1" ? 'checked' : null }}> Has car
-                                            </label>
-                                        </div>
+                                    <!-- Gender Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
+                                        {!! Form::select('gender', $genderList, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -65,6 +58,20 @@
                                     <div class="col-md-5 form-group">
                                         {!! Form::label('contact_no', 'Contact Number', ['class' => 'control-label']) !!}
                                         {!! Form::tel('contact_no', null, ['class' => 'form-control', 'required', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 98765432']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Car Ownership Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default {{ old('car') == "0" ? 'active' : null }}">
+                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') == "0" ? 'checked' : null }}> No car
+                                            </label>
+                                            <label class="btn btn-default {{ old('car') == "1" ? 'active' : null }}">
+                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') == "1" ? 'checked' : null }}> Has car
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -84,13 +91,8 @@
                         <div id="collapse-location" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-location">
                             <div class="panel-body">
                                 <div class="row">
-                                    <!-- Gender Form Input -->
-                                    <div class="col-md-4 form-group">
-                                        {!! Form::label('gender', 'Gender', ['class' => 'control-label']) !!}
-                                        {!! Form::select('gender', $genderList, null, ['class' => 'form-control']) !!}
-                                    </div>
                                     <!-- Occupation Form Input -->
-                                    <div class="col-md-8 form-group">
+                                    <div class="col-md-6 col-md-offset-3 form-group">
                                         {!! Form::label('occupation', 'Occupation', ['class' => 'control-label']) !!}
                                         {!! Form::text('occupation', null, ['class' => 'form-control']) !!}
                                     </div>

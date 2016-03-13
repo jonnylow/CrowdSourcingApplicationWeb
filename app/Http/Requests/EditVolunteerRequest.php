@@ -27,7 +27,7 @@ class EditVolunteerRequest extends Request
         return [
             'name'                  => 'required|alpha_space',
             'email'                 => 'required|email|unique:volunteers,email,' . $this->get('volunteer_id') . ',volunteer_id',
-            'gender'                => 'in:M,F',
+            'gender'                => 'required|in:M,F',
             'date_month'            => 'required|between:1,12',
             'date_day'              => 'required|integer_between:1,31',
             'date_year'             => 'required|integer|digits:4|min:1900|max:' . date('Y'),
@@ -72,6 +72,7 @@ class EditVolunteerRequest extends Request
             'email.required'                    => 'Email address is required.',
             'email.email'                       => 'Email address is invalid.',
             'email.unique'                      => 'Email address has been taken.',
+            'gender.required'                   => 'Gender is required.',
             'gender.in'                         => 'Gender must be either male or female.',
             'date_month.required'               => 'Month is required.',
             'date_month.between'                => 'Month must be between January to December.',

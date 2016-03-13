@@ -37,6 +37,10 @@ class VolunteersController extends Controller
         $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
             'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
             'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
+        $preferenceList = array_combine($preferenceList, $preferenceList);
+        $preferenceList = collect($preferenceList);
+        $preferenceList->prepend("Select a volunteering preference", "");
+
 
         return view('volunteers.create', compact('validator', 'genderList', 'preferenceList'));
     }
@@ -78,6 +82,9 @@ class VolunteersController extends Controller
         $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
             'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
             'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
+        $preferenceList = array_combine($preferenceList, $preferenceList);
+        $preferenceList = collect($preferenceList);
+        $preferenceList->prepend("Select a volunteering preference", "");
 
         return view('volunteers.edit', compact('validator', 'volunteer', 'genderList', 'preferenceList'));
     }
