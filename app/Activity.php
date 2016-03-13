@@ -150,7 +150,7 @@ class Activity extends Model
     public function scopeUrgent($query)
     {
         $query->unfilled()
-            ->where('datetime_start', '<', Carbon::today()->addWeek());
+            ->where('datetime_start', '<', Carbon::today()->addWeek(2));
     }
 
     /**
