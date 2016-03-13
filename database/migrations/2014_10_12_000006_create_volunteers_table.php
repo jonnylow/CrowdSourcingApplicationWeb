@@ -17,7 +17,7 @@ class CreateVolunteersTable extends Migration
             $table->string('name', 100);
             $table->string('email')/*->unique()*/;
             $table->string('password', 60);
-            $table->enum('gender', ['M', 'F'])->nullable();
+            $table->enum('gender', ['M', 'F']);
             $table->date('date_of_birth');
             $table->char('contact_no', 8);
             $table->string('occupation')->nullable();

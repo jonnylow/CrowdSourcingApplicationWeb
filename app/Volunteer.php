@@ -85,7 +85,7 @@ class Volunteer extends Model implements AuthenticatableContract,
      */
     public function setGenderAttribute($gender)
     {
-        $this->attributes['gender'] = strtoupper($gender) != '' ? $gender : null;
+        $this->attributes['gender'] = strtoupper($gender);
     }
 
     /**
