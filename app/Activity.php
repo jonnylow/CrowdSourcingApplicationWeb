@@ -297,6 +297,26 @@ class Activity extends Model
     }
 
     /**
+     * Get the application status of the activity for tooltip display.
+     */
+    public function getTooltipStatus()
+    {
+        $status = $this->getApplicationStatus();
+
+        if (starts_with($status, "Completed")) {
+            return "Activity has completed";
+        } else if (starts_with($status, "Not completed")) {
+            return "Activity has passed";
+        } else if (starts_with($status, "Senior")) {
+            return "Activity is in progress";
+        } else if (starts_with($status, "Application confirmed")) {
+            return "Activity has confirmed volunteer";
+        } else if (starts_with($status, "Application(s) received")) {
+            return "Activity has volunteer waiting for approval";
+        }
+    }
+
+    /**
      * Set the activity's starting date and time.
      */
     public function setDatetimeStartAttribute($datetime)

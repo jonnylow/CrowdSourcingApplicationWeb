@@ -16,3 +16,7 @@ $('#accordion .panel-collapse').on('hidden.bs.collapse', function () {
 }).children().on('hidden.bs.collapse', function (e) {
     e.stopPropagation(); // Stop the inner collapsible panel from toggling the icon
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});

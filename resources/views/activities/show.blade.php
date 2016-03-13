@@ -54,12 +54,15 @@
                             </a>
                         </h4>
                         @if (starts_with($activity->getApplicationStatus(), 'No application'))
-                            <a class="btn btn-primary btn-xs pull-right" href="{{ route('activities.edit', $activity->activity_id) }}">
+                            <div class="pull-right">
+                                <a class="btn btn-primary btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
                         @else
-                            <a class="btn btn-default btn-xs pull-right disabled" href="#">
+                            <div class="pull-right" data-toggle="tooltip" data-placement="top" title="{{ $activity->getTooltipStatus() }}">
+                                <a class="btn btn-primary btn-xs disabled" href="#">
                         @endif
-                            <span class="fa fa-lg fa-pencil"></span> Edit Activity
-                        </a>
+                                <span class="fa fa-lg fa-pencil"></span> Edit Activity
+                            </a>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
