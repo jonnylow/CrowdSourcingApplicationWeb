@@ -9,240 +9,238 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Edit an Activity</h1>
 
-            @include('errors.list')
-
             {!! Form::model($activity, ['method' => 'PATCH', 'route' => ['activities.update', $activity->activity_id]]) !!}
 
-            <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group margin-bottom-md" id="accordion" role="tablist" aria-multiselectable="true">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-information">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
-                                <span class="fa fa-fw fa-calendar"></span>
-                                <strong>Information</strong>
-                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
-                        <div class="panel-body">
-                            <div class="row">
-                                <!-- Centre Form Input -->
-                                <div class="col-md-3 form-group">
-                                    {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
-                                    {!! Form::select('centre', $centreList, $activity->centre_id, ['class' => 'form-control', 'required']) !!}
-                                </div>
-                                <!-- Date Form Input -->
-                                <div class="col-md-5 form-group">
-                                    {!! Form::label('date', 'Date', ['class' => 'control-label']) !!}
-                                    <div class="inline-field">
-                                        <div class="col-md-4">{!! Form::selectMonth('date_month', $activity->datetime_start->month, ['class' => 'form-control date-field', 'required']) !!}</div>
-                                        <div class="col-md-4">{!! Form::text('date_day', $activity->datetime_start->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
-                                        <div class="col-md-4">{!! Form::text('date_year', $activity->datetime_start->year, ['class' => 'form-control date-field', 'required', 'min' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading-information">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
+                                    <span class="fa fa-fw fa-calendar"></span>
+                                    <strong>Information</strong>
+                                    <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <!-- Centre Form Input -->
+                                    <div class="col-md-3 form-group">
+                                        {!! Form::label('centre', 'For', ['class' => 'control-label']) !!}
+                                        {!! Form::select('centre', $centreList, $activity->centre_id, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <!-- Date Form Input -->
+                                    <div class="col-md-5 form-group">
+                                        {!! Form::label('date', 'Date', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-4">{!! Form::selectMonth('date_month', $activity->datetime_start->month, ['class' => 'form-control date-field', 'required']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_day', $activity->datetime_start->day, ['class' => 'form-control date-field', 'required', 'min' => '1', 'max' => '31', 'placeholder' => 'Day']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('date_year', $activity->datetime_start->year, ['class' => 'form-control date-field', 'required', 'min' => Carbon\Carbon::now()->year, 'placeholder' => 'Year']) !!}</div>
+                                        </div>
+                                    </div>
+                                    <!-- Time To Start Form Input -->
+                                    <div class="col-md-4 form-group">
+                                        {!! Form::label('time', 'Time To Start (12-hour clock)', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-4">{!! Form::text('time_hour', $activity->datetime_start->format('h'), ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-4">{!! Form::text('time_minute', $activity->datetime_start->format('i'), ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                            <div class="col-md-4">{!! Form::select('time_period', $timePeriodList, $activity->datetime_start->format('A'), ['class' => 'form-control', 'required']) !!}</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Time To Start Form Input -->
-                                <div class="col-md-4 form-group">
-                                    {!! Form::label('time', 'Time To Start (12-hour clock)', ['class' => 'control-label']) !!}
-                                    <div class="inline-field">
-                                        <div class="col-md-4">{!! Form::text('time_hour', $activity->datetime_start->format('h'), ['class' => 'form-control', 'required', 'min' => '1', 'max' => '12', 'placeholder' => 'Hour']) !!}</div>
-                                        <div class="col-md-4">{!! Form::text('time_minute', $activity->datetime_start->format('i'), ['class' => 'form-control', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
-                                        <div class="col-md-4">{!! Form::select('time_period', $timePeriodList, $activity->datetime_start->format('A'), ['class' => 'form-control', 'required']) !!}</div>
+                                <div class="row">
+                                    <!-- Duration Form Input -->
+                                    <div class="col-md-3 form-group">
+                                        {!! Form::label('duration', 'Expected Duration (hours, minutes)', ['class' => 'control-label']) !!}
+                                        <div class="inline-field">
+                                            <div class="col-md-6">{!! Form::text('duration_hour', $activity->durationHour(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '10', 'placeholder' => 'Hour']) !!}</div>
+                                            <div class="col-md-6">{!! Form::text('duration_minute', $activity->durationMinute(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <!-- Duration Form Input -->
-                                <div class="col-md-3 form-group">
-                                    {!! Form::label('duration', 'Expected Duration (hours, minutes)', ['class' => 'control-label']) !!}
-                                    <div class="inline-field">
-                                        <div class="col-md-6">{!! Form::text('duration_hour', $activity->durationHour(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '10', 'placeholder' => 'Hour']) !!}</div>
-                                        <div class="col-md-6">{!! Form::text('duration_minute', $activity->durationMinute(), ['class' => 'form-control duration-field', 'required', 'min' => '0', 'max' => '59', 'placeholder' => 'Minute']) !!}</div>
+                                    <!-- More Information Form Input -->
+                                    <div class="col-md-9 form-group">
+                                        {!! Form::label('more_information', 'More Information (optional)', ['class' => 'control-label']) !!}
+                                        {!! Form::textarea('more_information', $activity->more_information, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                     </div>
-                                </div>
-                                <!-- More Information Form Input -->
-                                <div class="col-md-9 form-group">
-                                    {!! Form::label('more_information', 'More Information (optional)', ['class' => 'control-label']) !!}
-                                    {!! Form::textarea('more_information', $activity->more_information, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-location">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-location" aria-expanded="true" aria-controls="collapse-location">
-                                <span class="fa fa-fw fa-map-marker"></span>
-                                <strong>Activity Location</strong>
-                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-location" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-location">
-                        <div class="panel-body">
-                            <div class="row">
-                                <!-- Start Location Form Input -->
-                                <div class="col-md-6 form-group">
-                                    {!! Form::label('start_location', 'Home', ['class' => 'control-label']) !!}
-                                    <div class="input-group">
-                                        {!! Form::select('start_location', $locationList, $activity->location_from_id, ['class' => 'form-control', 'required']) !!}
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
-                                                New location
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <div class="collapse collapse-start-loc">
-                                        <p class="help-block">Location will be saved when activity is added.</p>
-                                    </div>
-                                </div>
-                                <!-- End Location Form Input -->
-                                <div class="col-md-6 form-group">
-                                    {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
-                                    <div class="input-group">
-                                        {!! Form::select('end_location', $locationList, $activity->location_to_id, ['class' => 'form-control', 'required']) !!}
-                                        <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading-location">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse-location" aria-expanded="true" aria-controls="collapse-location">
+                                    <span class="fa fa-fw fa-map-marker"></span>
+                                    <strong>Activity Location</strong>
+                                    <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-location" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-location">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <!-- Start Location Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        {!! Form::label('start_location', 'Home', ['class' => 'control-label']) !!}
+                                        <div class="input-group">
+                                            {!! Form::select('start_location', $locationList, $activity->location_from_id, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
                                                     New location
                                                 </button>
                                             </span>
+                                        </div>
+                                        <div class="collapse collapse-start-loc">
+                                            <p class="help-block">Location will be saved when activity is added.</p>
+                                        </div>
                                     </div>
-                                    <div class="collapse collapse-end-loc">
-                                        <p class="help-block">Location will be saved when activity is added.</p>
+                                    <!-- End Location Form Input -->
+                                    <div class="col-md-6 form-group">
+                                        {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
+                                        <div class="input-group">
+                                            {!! Form::select('end_location', $locationList, $activity->location_to_id, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
+                                                        New location
+                                                    </button>
+                                                </span>
+                                        </div>
+                                        <div class="collapse collapse-end-loc">
+                                            <p class="help-block">Location will be saved when activity is added.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="collapse collapse-start-loc">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <!-- Start Location Name Form Input -->
+                                            <div class="col-md-6 form-group">
+                                                {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
+                                                {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
+                                            </div>
+                                            <!-- Start Location Postal Code Form Input -->
+                                            <div class="col-md-6 form-group">
+                                                {!! Form::label('start_postal', 'Home Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::text('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse collapse-end-loc">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <!-- End Location Name Form Input -->
+                                            <div class="col-md-6 form-group">
+                                                {!! Form::label('end_location_name', 'Appointment Venue Name', ['class' => 'control-label']) !!}
+                                                {!! Form::text('end_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Singapore General Hospital', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
+                                            </div>
+                                            <!-- End Location Postal Code Form Input -->
+                                            <div class="col-md-6 form-group">
+                                                {!! Form::label('end_postal', 'Appointment Venue Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::text('end_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading-senior-all">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#collapse-senior-all" aria-expanded="true" aria-controls="collapse-senior-all">
+                                    <span class="fa fa-fw fa-user"></span>
+                                    <strong>Senior Information</strong>
+                                    <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-senior-all" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-senior-all">
+                            <div class="panel-body">
+                                <!-- Senior Name and NRIC Form Input -->
+                                <div class="col-md-8 col-md-offset-2 form-group">
+                                    {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
+                                    <div class="input-group">
+                                        {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required']) !!}
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
+                                                    New senior
+                                                </button>
+                                            </span>
+                                    </div>
+                                    <div class="collapse collapse-senior">
+                                        <p class="help-block">Senior's information will be saved when activity is added.</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="collapse collapse-start-loc">
+                            <div class="collapse collapse-senior">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                        <!-- Start Location Name Form Input -->
-                                        <div class="col-md-6 form-group">
-                                            {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
+                                        <div class="row">
+                                            <!-- Senior NRIC Form Input -->
+                                            <div class="col-md-3 form-group">
+                                                {!! Form::label('senior_nric', 'Senior NRIC', ['class' => 'control-label']) !!}
+                                                {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z', 'onBlur' => 'javascript:{this.value = this.value.toUpperCase(); }']) !!}
+                                            </div>
+                                            <!-- Senior Name Form Input -->
+                                            <div class="col-md-4 form-group">
+                                                {!! Form::label('senior_name', 'Senior Name', ['class' => 'control-label']) !!}
+                                                {!! Form::text('senior_name', null, ['class' => 'form-control']) !!}
+                                            </div>
+                                            <!-- Senior Gender Form Input -->
+                                            <div class="col-md-2 form-group">
+                                                {!! Form::label('senior_gender', 'Senior Gender', ['class' => 'control-label']) !!}
+                                                {!! Form::select('senior_gender', $genderList, null, ['class' => 'form-control']) !!}
+                                            </div>
+                                            <!-- Senior Birth Year Form Input -->
+                                            <div class="col-md-3 form-group">
+                                                {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
+                                                {!! Form::text('senior_birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
+                                            </div>
+
                                         </div>
-                                        <!-- Start Location Postal Code Form Input -->
-                                        <div class="col-md-6 form-group">
-                                            {!! Form::label('start_postal', 'Home Postal Code', ['class' => 'control-label']) !!}
-                                            {!! Form::text('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                        <div class="row">
+                                            <!-- Senior Languages Form Input -->
+                                            <div class="col-md-4 form-group">
+                                                {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
+                                                {!! Form::select('languages[]', $seniorLanguages, null, ['class' => 'form-control', 'id' => 'languages', 'multiple']) !!}
+                                            </div>
+                                            <!-- Next-of-Kin Name Form Input -->
+                                            <div class="col-md-4 form-group">
+                                                {!! Form::label('senior_nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
+                                                {!! Form::text('senior_nok_name', null, ['class' => 'form-control']) !!}
+                                            </div>
+                                            <!-- Next-of-Kin Contact Number Form Input -->
+                                            <div class="col-md-4 form-group">
+                                                {!! Form::label('senior_nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
+                                                {!! Form::tel('senior_nok_contact', null, ['class' => 'form-control', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="collapse collapse-end-loc">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <!-- End Location Name Form Input -->
-                                        <div class="col-md-6 form-group">
-                                            {!! Form::label('end_location_name', 'Appointment Venue Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('end_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Singapore General Hospital', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
-                                        </div>
-                                        <!-- End Location Postal Code Form Input -->
-                                        <div class="col-md-6 form-group">
-                                            {!! Form::label('end_postal', 'Appointment Venue Postal Code', ['class' => 'control-label']) !!}
-                                            {!! Form::text('end_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
+                                        <div class="row">
+                                            <!-- Medical Condition Form Input -->
+                                            <div class="col-md-12 form-group">
+                                                {!! Form::label('senior_medical', 'Medical Condition (optional)', ['class' => 'control-label']) !!}
+                                                {!! Form::textarea('senior_medical', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-senior-all">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-senior-all" aria-expanded="true" aria-controls="collapse-senior-all">
-                                <span class="fa fa-fw fa-user"></span>
-                                <strong>Senior Information</strong>
-                                <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse-senior-all" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-senior-all">
-                        <div class="panel-body">
-                            <!-- Senior Name and NRIC Form Input -->
-                            <div class="col-md-8 col-md-offset-2 form-group">
-                                {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
-                                <div class="input-group">
-                                    {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required']) !!}
-                                    <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
-                                                New senior
-                                            </button>
-                                        </span>
-                                </div>
-                                <div class="collapse collapse-senior">
-                                    <p class="help-block">Senior's information will be saved when activity is added.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse collapse-senior">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <!-- Senior NRIC Form Input -->
-                                        <div class="col-md-3 form-group">
-                                            {!! Form::label('senior_nric', 'Senior NRIC', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_nric', null, ['class' => 'form-control', 'size' => '9', 'pattern' => '^[STFGstfg][0-9]{7}[a-zA-Z]', 'placeholder' => 'e.g. S1234567Z', 'onBlur' => 'javascript:{this.value = this.value.toUpperCase(); }']) !!}
-                                        </div>
-                                        <!-- Senior Name Form Input -->
-                                        <div class="col-md-4 form-group">
-                                            {!! Form::label('senior_name', 'Senior Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_name', null, ['class' => 'form-control']) !!}
-                                        </div>
-                                        <!-- Senior Gender Form Input -->
-                                        <div class="col-md-2 form-group">
-                                            {!! Form::label('senior_gender', 'Senior Gender', ['class' => 'control-label']) !!}
-                                            {!! Form::select('senior_gender', $genderList, null, ['class' => 'form-control']) !!}
-                                        </div>
-                                        <!-- Senior Birth Year Form Input -->
-                                        <div class="col-md-3 form-group">
-                                            {!! Form::label('senior_birth_year', 'Birth Year', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_birth_year', null, ['class' => 'form-control', 'required', 'min' => '1900', 'placeholder' => 'e.g. 1965']) !!}
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <!-- Senior Languages Form Input -->
-                                        <div class="col-md-4 form-group">
-                                            {!! Form::label('languages[]', 'Languages Spoken', ['class' => 'control-label']) !!}
-                                            {!! Form::select('languages[]', $seniorLanguages, null, ['class' => 'form-control', 'id' => 'languages', 'multiple']) !!}
-                                        </div>
-                                        <!-- Next-of-Kin Name Form Input -->
-                                        <div class="col-md-4 form-group">
-                                            {!! Form::label('senior_nok_name', 'Next-of-Kin Name', ['class' => 'control-label']) !!}
-                                            {!! Form::text('senior_nok_name', null, ['class' => 'form-control']) !!}
-                                        </div>
-                                        <!-- Next-of-Kin Contact Number Form Input -->
-                                        <div class="col-md-4 form-group">
-                                            {!! Form::label('senior_nok_contact', 'Next-of-Kin Contact Number', ['class' => 'control-label']) !!}
-                                            {!! Form::tel('senior_nok_contact', null, ['class' => 'form-control', 'maxlength' => '8', 'pattern' => '^[689][0-9]{7}', 'placeholder' => 'e.g. 67654321']) !!}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <!-- Medical Condition Form Input -->
-                                        <div class="col-md-12 form-group">
-                                            {!! Form::label('senior_medical', 'Medical Condition (optional)', ['class' => 'control-label']) !!}
-                                            {!! Form::textarea('senior_medical', null, ['class' => 'form-control', 'rows' => '5', 'placeholder' => 'Optional']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Submit Button Form Input -->
+                <div class="form-group text-center">
+                    {!! Form::submit('Update activity', ['class' => 'btn btn-primary btn-lg']) !!}
                 </div>
-
-            </div>
-
-            <!-- Submit Button Form Input -->
-            <div class="form-group text-center">
-                {!! Form::submit('Update activity', ['class' => 'btn btn-primary btn-lg']) !!}
-            </div>
 
             {!! Form::close() !!}
         </div>

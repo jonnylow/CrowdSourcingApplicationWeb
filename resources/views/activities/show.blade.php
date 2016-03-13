@@ -46,13 +46,21 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading-information">
-                        <h4 class="panel-title">
+                        <h4 class="panel-title vertical-center">
                             <a role="button" data-toggle="collapse" href="#collapse-information" aria-expanded="true" aria-controls="collapse-information">
                                 <span class="fa fa-fw fa-calendar"></span>
                                 <strong>Activity Information</strong>
                                 <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
+                        @if (starts_with($activity->getApplicationStatus(), 'No application'))
+                            <a class="btn btn-primary btn-xs pull-right" href="{{ route('activities.edit', $activity->activity_id) }}">
+                        @else
+                            <a class="btn btn-default btn-xs pull-right disabled" href="#">
+                        @endif
+                            <span class="fa fa-lg fa-pencil"></span> Edit Activity
+                        </a>
+                        <div class="clearfix"></div>
                     </div>
                     <div id="collapse-information" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-information">
                         <div class="panel-body">

@@ -301,7 +301,7 @@ class ActivitiesController extends Controller
                 'staff_id'                  => Auth::user()->staff_id,
             ]);
 
-            return back()->with('success', 'Activity is updated successfully!');
+            return redirect()->route('activities.show', compact('activity'))->with('success', 'Activity is updated successfully!');
         }
     }
 

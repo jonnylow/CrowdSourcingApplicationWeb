@@ -7,10 +7,6 @@
 <div class="container-fluid margin-bottom-lg">
     <div class="row margin-bottom-sm">
         <div class="col-md-3"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
-
-        <div class="col-md-9">
-            <!-- Widget here -->
-        </div>
     </div>
 
     <div class="row margin-bottom-sm">
