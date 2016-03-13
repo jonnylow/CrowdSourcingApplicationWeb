@@ -268,7 +268,7 @@ class Activity extends Model
             } else {
                 return "Not completed";
             }
-        } else {
+        } else { // Any activity that starts today or in the future
             if ($taskCount == 0) {
                 return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
             } else {
@@ -313,6 +313,12 @@ class Activity extends Model
             return "Activity has confirmed volunteer";
         } else if (starts_with($status, "Application(s) received")) {
             return "Activity has volunteer waiting for approval";
+        } else if ($this->datetime_start->isToday()) {
+            if ($this->datetime_start->isPast()) {
+                return "Activity has passed";
+            } else {
+                return "Activity is today";
+            }
         }
     }
 
