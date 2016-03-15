@@ -386,17 +386,22 @@ class VolunteerController extends Controller
           //$totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
           $totalMinutes = Volunteer::where('volunteer_id',$id)->value('minutes_volunteered');
 
-          $volunteersminutesList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('minutes_volunteered');
-          $volunteersNameList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('name');
+          //$volunteersminutesList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('minutes_volunteered');
+          //$volunteersNameList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('name');
+          $volunteerIdList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('volunteer_id');
           $count = 0;
           $xCount = 1;
           $pos = 0;
           $returnArray = [];
-          $listSize =  count($volunteersminutesList)-1 ;
+          $listSize =  count($volunteerIdList)-1 ;
           do  {
-            $stringToAdd = $volunteersminutesList[$count] . "," . $volunteersNameList[$count] . "," . $xCount ;
+            $volunteerID = $volunteerIdList[$count];
+            $volunteer = Volunteer::find($volunteerID);
+            $volunteerName = $volunteer->name;
+            $volunteerMinutes = $volunteer->minutes_volunteered;
+            $stringToAdd = $volunteerMinutes . "," . $volunteerName . "," . $xCount ;
             $returnArray[] =  $stringToAdd;
-            if ($volunteerName == $volunteersNameList[$count]){
+            if ($id == $volunteerID){
                 $pos = $xCount;
               }
             $count = $count +1;
