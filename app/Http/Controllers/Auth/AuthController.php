@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\Staff;
 use Validator;
+use URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -103,5 +105,11 @@ class AuthController extends Controller
             $this->validator([])
         );
         return view('auth.register', compact('validator'));
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect(URL::previous());
     }
 }
