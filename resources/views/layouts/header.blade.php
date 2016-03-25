@@ -52,7 +52,6 @@
                         <li><a href="{{ asset('elderly/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Senior</a></li>
                     </ul>
                 </li>
-                @if (Auth::user()->is_admin)
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="fa fa-fw fa-cog"></span>
@@ -67,7 +66,6 @@
                         <li><a href="{{ asset('centres/create') }}"><span class="fa fa-fw fa-map-pin"></span> Add new location</a></li>
                     </ul>
                 </li>
-                @endif
                 <li><a href="{{ asset('stats') }}"><span class="fa fa-fw fa-line-chart"></span> <strong>Statistics</strong></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -24,9 +24,8 @@
                         <thead>
                             <tr>
                                 <th class="col-md-4" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Location Name</th>
-                                <th class="col-md-4" data-field="address" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Address</th>
+                                <th class="col-md-5" data-field="address" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Address</th>
                                 <th class="col-md-2" data-field="postal" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Postal Code</th>
-                                <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" data-align="center" data-valign="middle"></th>
                             </tr>
                         </thead>
@@ -42,15 +41,6 @@
                                             <span class="fa fa-lg fa-pencil"></span> Edit
                                         </a>
                                     </td>
-                                    <td>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['centres.destroy', $centre->centre_id]]) !!}
-                                        <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
-                                           data-type="warning" data-title="Remove Location" data-message="Are you sure you want to remove {{ $centre->name }}?"
-                                           data-yes="Remove" data-no="Cancel">
-                                            <span class="fa fa-lg fa-trash"></span> Remove
-                                        </a>
-                                        {!! Form::close() !!}
-                                    </td>
                                 </tr>
                             @endforeach
                         @endif
@@ -62,13 +52,5 @@
     </div>
 
 </div>
-
-@include('partials.confirm')
-
-@endsection
-
-@section('partials-script')
-
-@include('partials.confirm')
 
 @endsection

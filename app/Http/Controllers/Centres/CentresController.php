@@ -88,14 +88,6 @@ class CentresController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $centre = Centre::findOrFail($id);
-        $centre->delete();
-
-        return back()->with('success', 'Location is removed successfully!');
-    }
-
     public function postalCodeToAddress(Request $request)
     {
         $postal = $request->get('postal');
