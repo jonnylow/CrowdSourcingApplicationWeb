@@ -15,16 +15,7 @@ Route::get('/', ['middleware' => 'guest', 'uses' => 'Auth\AuthController@getLogi
 
 Route::get('home', ['middleware' => 'auth', 'uses' => 'Activities\ActivitiesController@index']);
 
-Route::group(['middleware' => 'auth', 'namespace' => 'Stats'], function() {
-    Route::get('stats', ['as' => 'stats.index', 'uses' => 'StatsController@index']);
-    Route::get('stats/getMainCharts', 'StatsController@ajaxRetrieveMainCharts');
-    Route::get('stats/getSubCharts', 'StatsController@ajaxRetrieveSubCharts');
-});
-
-Route::group(['middleware' => 'auth', 'namespace' => 'Ranks'], function() {
-    Route::get('rank', ['as' => 'ranks.index', 'uses' => 'RankController@index']);
-    Route::patch('rank', ['as' => 'ranks.update', 'uses' => 'RankController@update']);
-});
+Route::post('postal-to-address', ['middleware' => 'auth', 'uses' => 'Centres\CentresController@postalCodeToAddress']);
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Profiles', 'prefix' => 'profile'], function() {
     Route::get('/', ['as' => 'profile.view', 'uses' => 'ProfileController@view']);
@@ -52,6 +43,21 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Elderly'], function() {
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Staff'], function() {
     Route::resource('staff', 'StaffController');
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Centres'], function() {
+    Route::resource('centres', 'CentresController');
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Ranks'], function() {
+    Route::get('rank', ['as' => 'ranks.index', 'uses' => 'RankController@index']);
+    Route::patch('rank', ['as' => 'ranks.update', 'uses' => 'RankController@update']);
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Stats'], function() {
+    Route::get('stats', ['as' => 'stats.index', 'uses' => 'StatsController@index']);
+    Route::get('stats/getMainCharts', 'StatsController@ajaxRetrieveMainCharts');
+    Route::get('stats/getSubCharts', 'StatsController@ajaxRetrieveSubCharts');
 });
 
 Route::group(['namespace' => 'Auth'], function() {

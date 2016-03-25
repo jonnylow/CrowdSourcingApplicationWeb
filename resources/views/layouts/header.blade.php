@@ -62,6 +62,9 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('staff') }}"><span class="fa fa-fw fa-users"></span> View Staff</a></li>
                         <li><a href="{{ asset('staff/create') }}"><span class="fa fa-fw fa-user-plus"></span> Add new Staff</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ asset('centres') }}"><span class="fa fa-fw fa-map-signs"></span> View Locations</a></li>
+                        <li><a href="{{ asset('centres/create') }}"><span class="fa fa-fw fa-map-pin"></span> Add new location</a></li>
                     </ul>
                 </li>
                 @endif

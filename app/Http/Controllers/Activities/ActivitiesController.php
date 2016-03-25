@@ -407,26 +407,6 @@ class ActivitiesController extends Controller
         return json_encode(['progress' => $activity->getProgress()]);
     }
 
-    public function addressToLatLng($address)
-    {
-        $validator = Validator::make([$address], [
-            'address' => 'required|string',
-        ]);
-
-        if ($validator->passes()) {
-            $client = new \GuzzleHttp\Client();
-            $responseFromAddr = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&countryCode=SGP&maxLocations=1&outFields=*&address=' . $address);
-            $responseFromAddr = json_decode($responseFromAddr->getBody(), true);
-            if (count($responseFromAddr['candidates'])) {
-                $response = $responseFromAddr['candidates'][0]['location'];
-                $json['x'] = $response['x'];
-                $json['y'] = $response['y'];
-
-                return json_encode($json);
-            }
-        }
-    }
-
     public function postalCodeToAddress($postal)
     {
         $client = new \GuzzleHttp\Client();
@@ -447,26 +427,12 @@ class ActivitiesController extends Controller
             if (count($responseFromLatLng['GeocodeInfo'])) {
                 $fromLatLng = $responseFromLatLng['GeocodeInfo'][0];
 
-                if (empty($fromLatLng['BUILDINGNAME']) || strpos($fromLatLng['BUILDINGNAME'], "HDB") !== false) {
-                    $responseFromLatLng = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=' . $lng . ',' . $lat);
-                    $responseFromLatLng = json_decode($responseFromLatLng->getBody(), true);
+                $neighbourhood = $fromLatLng['BUILDINGNAME'];
+                $address = $fromLatLng['BLOCK'] . " " . $fromLatLng['ROAD'] . ", Singapore " . $fromLatLng['POSTALCODE'];
+                $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
+                $json['address'] = ucwords(strtolower($address));
 
-                    if (isset($responseFromLatLng['address'])) {
-                        $neighbourhood = $responseFromLatLng['address']['Address'];
-                        $address = $responseFromLatLng['address']['Match_addr'];
-                        $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
-                        $json['address'] = ucwords(strtolower($address));
-
-                        return json_encode($json);
-                    }
-                } else {
-                    $neighbourhood = $fromLatLng['BUILDINGNAME'];
-                    $address = $fromLatLng['BLOCK'] . " " . $fromLatLng['ROAD'] . ", " . $fromLatLng['POSTALCODE'] . ", Singapore";
-                    $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
-                    $json['address'] = ucwords(strtolower($address));
-
-                    return json_encode($json);
-                }
+                return json_encode($json);
             }
         } else {
             return json_encode(['status' => 'error']);
