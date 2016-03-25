@@ -33,5 +33,6 @@ class Kernel extends HttpKernel
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
         'staff.centre' => \App\Http\Middleware\RedirectIfStaffDiffCentre::class,
         'elderly.centre' => \App\Http\Middleware\RedirectIfElderlyDiffCentre::class,
+        'activities.centre' => \App\Http\Middleware\RedirectIfActivityDiffCentre::class,
     ];
 }

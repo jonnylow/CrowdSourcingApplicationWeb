@@ -19,25 +19,51 @@ use Validator;
 
 class ActivitiesController extends Controller
 {
+    public function __construct()
+    {
+        // Apply the activities.centre middleware to only show, edit, update, destroy, rejectVolunteer and approveVolunteer methods.
+        // We only allow admin, or regular staff from the same centre, to access them.
+        $this->middleware('activities.centre', ['only' => ['show', 'edit', 'update', 'destroy', 'rejectVolunteer', 'approveVolunteer']]);
+    }
+
     public function index()
     {
         $completedActivities = Activity::join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
             ->where('tasks.status', 'completed')->lists('activities.activity_id')->toArray();
 
-        $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereNotIn('activity_id', $completedActivities)
-            ->where('datetime_start', '>', Carbon::now()->endOfDay())
-            ->oldest('datetime_start')->get();
+        if (Auth::user()->is_admin) {
+            $upcoming = Activity::with('elderly')
+                ->whereNotIn('activity_id', $completedActivities)
+                ->where('datetime_start', '>', Carbon::now()->endOfDay())
+                ->oldest('datetime_start')->get();
 
-        $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereNotIn('activity_id', $completedActivities)
-            ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
-            ->oldest('datetime_start')->get();
+            $today = Activity::with('elderly')
+                ->whereNotIn('activity_id', $completedActivities)
+                ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
+                ->oldest('datetime_start')->get();
 
-        $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereIn('activity_id', $completedActivities)
-            ->orWhere('datetime_start', '<', Carbon::today())
-            ->latest('datetime_start')->get();
+            $past = Activity::with('elderly')
+                ->where(function ($query) use ($completedActivities) {
+                    $query->whereIn('activity_id', $completedActivities)
+                        ->orWhere('datetime_start', '<', Carbon::today());
+                })->latest('datetime_start')->get();
+        } else {
+            $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->whereNotIn('activity_id', $completedActivities)
+                ->where('datetime_start', '>', Carbon::now()->endOfDay())
+                ->oldest('datetime_start')->get();
+
+            $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->whereNotIn('activity_id', $completedActivities)
+                ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
+                ->oldest('datetime_start')->get();
+
+            $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->where(function ($query) use ($completedActivities) {
+                    $query->whereIn('activity_id', $completedActivities)
+                        ->orWhere('datetime_start', '<', Carbon::today());
+                })->latest('datetime_start')->get();
+        }
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
@@ -53,7 +79,11 @@ class ActivitiesController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
 
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
+
         $locationList = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
@@ -181,7 +211,12 @@ class ActivitiesController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
 
         $activity = Activity::findOrFail($id);
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
+
         $locationList = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 

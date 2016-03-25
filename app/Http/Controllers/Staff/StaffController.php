@@ -25,10 +25,10 @@ class StaffController extends Controller
 
     public function index()
     {
-        $centreStaff = Staff::ofCentres(Auth::user())->get();
-
         if (Auth::user()->is_admin)
             $centreStaff = Staff::all();
+        else
+            $centreStaff = Staff::ofCentres(Auth::user())->get();
 
         return view('staff.index', compact('centreStaff'));
     }
@@ -37,10 +37,10 @@ class StaffController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
 
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
-
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
 
         return view('staff.create', compact('validator', 'centreList'));
     }
@@ -72,10 +72,11 @@ class StaffController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\EditStaffRequest');
 
         $staff = Staff::findOrFail($id);
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
         return view('staff.edit', compact('validator', 'staff', 'centreList'));
     }
