@@ -4,14 +4,25 @@
             <span aria-hidden="true">&times;</span>
         </button>
         @if (count($errors))
-            <strong>Please double-check and try again.</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            <div class="col-md-2 text-center">
+                <div class="row"><strong><h4>Error!</h4></strong></div>
+                <div class="row"><span class="fa fa-times-circle-o fa-2x"></span></div>
+            </div>
+            <div class="col-md-9">
+                <strong>Please double-check and try again.</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @elseif (Session::has('success'))
-            {{ Session::get('success') }}
+            <div class="col-md-2 text-center">
+                <div class="row"><strong><h4>Success!</h4></strong></div>
+                <div class="row"><span class="fa fa-check-circle-o fa-2x"></span></div>
+            </div>
+            <div class="col-md-9 text-center"><h4>{{ Session::get('success') }}</h4></div>
         @endif
+        <div class="clearfix"></div>
     </div>
 @endif
