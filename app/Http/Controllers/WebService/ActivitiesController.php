@@ -105,7 +105,7 @@ class ActivitiesController extends Controller
                 ->where('tasks.status', '<>', 'completed')
                 ->lists('activity_id');
 
-                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                $activities = Activity::with('departureCentre', 'arrivalCentre','elderly')
                 ->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')
                 ->get();
 
@@ -125,7 +125,7 @@ class ActivitiesController extends Controller
                 ->lists('activity_id');
 
 
-                $activities = Activity::with('departureCentre', 'arrivalCentre')
+                $activities = Activity::with('departureCentre', 'arrivalCentre','elderly')
                 ->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')
                 ->get();
 
