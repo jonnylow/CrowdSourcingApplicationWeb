@@ -9,15 +9,26 @@ use App\Http\Requests\EditStaffRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Staff;
+use App\Centre;
 use Auth;
 use JsValidator;
 use Mail;
 
 class StaffController extends Controller
 {
+    public function __construct()
+    {
+        // Apply the staff.centre middleware to only edit, update and destroy methods.
+        // We only allow admin, or regular staff from the same centre, to access them.
+        $this->middleware('staff.centre', ['only' => ['edit', 'update', 'destroy']]);
+    }
+
     public function index()
     {
         $centreStaff = Staff::ofCentres(Auth::user())->get();
+
+        if (Auth::user()->is_admin)
+            $centreStaff = Staff::all();
 
         return view('staff.index', compact('centreStaff'));
     }
@@ -26,7 +37,10 @@ class StaffController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
 
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
 
         return view('staff.create', compact('validator', 'centreList'));
     }
@@ -59,6 +73,9 @@ class StaffController extends Controller
 
         $staff = Staff::findOrFail($id);
         $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
 
         return view('staff.edit', compact('validator', 'staff', 'centreList'));
     }
