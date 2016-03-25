@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateElderlyRequest;
 use App\Http\Requests\EditElderlyRequest;
 use App\Http\Controllers\Controller;
+use App\Centre;
 use App\Elderly;
 use App\ElderlyLanguage;
 use Auth;
@@ -14,9 +15,19 @@ use JsValidator;
 
 class ElderlyController extends Controller
 {
+    public function __construct()
+    {
+        // Apply the elderly.centre middleware to only show, edit, update and destroy methods.
+        // We only allow admin, or regular staff from the same centre, to access them.
+        $this->middleware('elderly.centre', ['only' => ['show', 'edit', 'update', 'destroy']]);
+    }
+
     public function index()
     {
         $elderlyInCentres = Elderly::with('languages')->ofCentreForStaff(Auth::user())->get();
+
+        if (Auth::user()->is_admin)
+            $elderlyInCentres = Elderly::with('languages')->get();
 
         return view('elderly.index', compact('elderlyInCentres'));
     }
@@ -32,9 +43,12 @@ class ElderlyController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateElderlyRequest');
 
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
 
         if(is_array(old('languages'))) {
             foreach (old('languages') as $l) {
@@ -73,9 +87,12 @@ class ElderlyController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\EditElderlyRequest');
 
         $elderly = Elderly::findOrFail($id);
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
         $genderList = ['M' => 'Male', 'F' => 'Female'];
         $languages = ElderlyLanguage::distinct()->lists('language', 'language')->sort();
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
 
         if(is_array(old('languages'))) {
             foreach (old('languages') as $l) {
