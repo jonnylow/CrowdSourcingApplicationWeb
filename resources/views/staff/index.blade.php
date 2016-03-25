@@ -37,21 +37,37 @@
                                 <tr>
                                     <td>{{ $staff->name }}</td>
                                     <td>{{ $staff->email }}</td>
-                                    <td>{{ $staff->is_admin ? "Admin" : "Regular Staff" }}</td>
+                                    <td>{{ $staff->is_admin ? "Administrator" : "Regular Staff" }}</td>
                                     <td>{{ $staff->centres->lists('name')->sort()->implode(', ') }}</td>
                                     <td>
-                                        <a class="btn btn-default btn-xs" href="{{ route('staff.edit', $staff->staff_id) }}">
-                                            <span class="fa fa-lg fa-pencil"></span> Edit
-                                        </a>
+                                        @if (Auth::user()->staff_id === $staff->staff_id && ! Auth::user()->is_admin)
+                                            <div data-toggle="tooltip" data-placement="top" title="You cannot edit your own profile.">
+                                                <a class="btn btn-default btn-xs disabled" href="#">
+                                                    <span class="fa fa-lg fa-pencil"></span> Edit
+                                                </a>
+                                            </div>
+                                        @else
+                                            <a class="btn btn-default btn-xs" href="{{ route('staff.edit', $staff->staff_id) }}">
+                                                <span class="fa fa-lg fa-pencil"></span> Edit
+                                            </a>
+                                        @endif
                                     </td>
                                     <td>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['staff.destroy', $staff->staff_id]]) !!}
-                                        <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
-                                           data-type="warning" data-title="Remove Staff" data-message="Are you sure you want to remove {{ $staff->name }}?"
-                                           data-yes="Remove" data-no="Cancel">
-                                            <span class="fa fa-lg fa-trash"></span> Remove
-                                        </a>
-                                        {!! Form::close() !!}
+                                        @if (Auth::user()->staff_id === $staff->staff_id)
+                                            <div data-toggle="tooltip" data-placement="top" title="You cannot remove your own profile.">
+                                                <a class="btn btn-danger btn-xs disabled" href="#">
+                                                    <span class="fa fa-lg fa-trash"></span> Remove
+                                                </a>
+                                            </div>
+                                        @else
+                                            {!! Form::open(['method' => 'DELETE', 'route' => ['staff.destroy', $staff->staff_id]]) !!}
+                                                <a class="btn btn-danger btn-xs" type="submit" data-toggle="modal" data-target="#confirmModal" data-size="modal-sm"
+                                                   data-type="warning" data-title="Remove Staff" data-message="Are you sure you want to remove {{ $staff->name }}?"
+                                                   data-yes="Remove" data-no="Cancel">
+                                                    <span class="fa fa-lg fa-trash"></span> Remove
+                                                </a>
+                                            {!! Form::close() !!}
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

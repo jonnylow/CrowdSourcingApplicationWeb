@@ -130,15 +130,16 @@
                                     <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
                                         @if (starts_with($activity->getApplicationStatus(), 'No application'))
-                                            <div>
-                                                <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
+                                            <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
+                                                <span class="fa fa-lg fa-pencil"></span> Edit
+                                            </a>
                                         @else
                                             <div data-toggle="tooltip" data-placement="top" title="{{ $activity->getTooltipStatus() }}">
                                                 <a class="btn btn-default btn-xs disabled" href="#">
+                                                    <span class="fa fa-lg fa-pencil"></span> Edit
+                                                </a>
+                                            </div>
                                         @endif
-                                                <span class="fa fa-lg fa-pencil"></span> Edit
-                                            </a>
-                                        </div>
                                     </td>
                                     <td>
                                         <a class="btn btn-info btn-xs" href="{{ route('activities.show', $activity->activity_id) }}">

@@ -40,21 +40,16 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    @if (Auth::user()->is_admin)
                                     <!-- Staff Type Form Input -->
                                     <div class="col-md-5 form-group">
-                                        <div>{!! Form::label('admin', 'Staff Type', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('admin') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="0" autocomplete="off" {{ old('admin') == "0" ? 'checked' : null }}> Regular
-                                            </label>
-                                            <label class="btn btn-default {{ old('admin') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="1" autocomplete="off" {{ old('admin') == "1" ? 'checked' : null }}> Admin
-                                            </label>
-                                        </div>
+                                        {!! Form::label('type', 'Staff Type', ['class' => 'control-label']) !!}
+                                        {!! Form::select('type', $staffType, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
+                                    @endif
                                     <!-- Centres Form Input -->
                                     <div class="col-md-7 form-group">
-                                        {!! Form::label('centres[]', 'Centres in charge', ['class' => 'control-label']) !!}
+                                        {!! Form::label('centres[]', 'Senior Centres in charge', ['class' => 'control-label']) !!}
                                         {!! Form::select('centres[]', $centreList, null, ['class' => 'form-control', 'id' => 'centres', 'required', 'multiple']) !!}
                                     </div>
                                 </div>

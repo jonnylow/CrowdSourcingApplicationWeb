@@ -44,10 +44,9 @@ class EditStaffRequest extends Request
             'email.required'    => 'Email address is required.',
             'email.email'       => 'Email address is invalid.',
             'email.unique'      => 'Email address has been taken.',
-            'admin.required'    => 'Staff type is required.',
-            'admin.boolean'     => 'Staff type must be either regular or admin.',
-            'centres.required'  => 'Centre is required.',
-            'centres.array'     => 'Centre is required.',
+            'admin.boolean'     => 'Staff type must be either regular staff or administrator.',
+            'centres.required'  => 'Senior centre is required.',
+            'centres.array'     => 'Senior centre is required.',
         ];
     }
 }

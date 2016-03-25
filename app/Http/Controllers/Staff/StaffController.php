@@ -37,12 +37,14 @@ class StaffController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
 
+        $staffType = [true => 'Administrator', false => 'Regular Staff'];
+
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
         else
             $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
 
-        return view('staff.create', compact('validator', 'centreList'));
+        return view('staff.create', compact('validator', 'staffType', 'centreList'));
     }
 
     public function store(CreateStaffRequest $request)
@@ -53,7 +55,7 @@ class StaffController extends Controller
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
             'password'  => bcrypt($randomString),
-            'is_admin'  => $request->get('admin'),
+            'is_admin'  => $request->has('type') ? $request->get('type') : false,
         ]);
 
         $staff->centres()->attach($request->get('centres'));
@@ -69,41 +71,46 @@ class StaffController extends Controller
 
     public function edit($id)
     {
+        if (Auth::user()->staff_id == $id && ! Auth::user()->is_admin) {
+            return redirect('staff')->withErrors(['You cannot edit your own profile.']);
+        }
+
         $validator = JsValidator::formRequest('App\Http\Requests\EditStaffRequest');
 
         $staff = Staff::findOrFail($id);
+        $staffType = [true => 'Administrator', false => 'Regular Staff'];
 
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
         else
             $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
 
-        return view('staff.edit', compact('validator', 'staff', 'centreList'));
+        return view('staff.edit', compact('validator', 'staff', 'staffType', 'centreList'));
     }
 
     public function update($id, EditStaffRequest $request)
     {
         $staff = Staff::findOrFail($id);
-        $adminType = $request->get('admin');
-        if ($staff->is_admin)
-            $adminType = true;
 
         $staff->update([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
-            'is_admin'  => $adminType,
+            'is_admin'  => $request->has('type') ? $request->get('type') : false,
         ]);
 
         $staff->centres()->sync($request->get('centres'));
 
-        return back()->with('success', 'Staff is updated successfully!');
+        return redirect('staff')->with('success', 'Staff is updated successfully!');
     }
 
     public function destroy($id)
     {
-        $staff = Staff::findOrFail($id);
-        $staff->delete();
-
-        return back()->with('success', 'Staff is removed successfully!');
+        if ( ! Auth::user()->staff_id == $id) {
+            $staff = Staff::findOrFail($id);
+            $staff->delete();
+            return back()->with('success', 'Staff is removed successfully!');
+        } else {
+            return redirect('staff')->withErrors(['You cannot remove your own profile.']);
+        }
     }
 }
