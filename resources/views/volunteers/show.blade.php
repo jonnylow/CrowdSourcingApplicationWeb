@@ -132,8 +132,8 @@
                                         <th class="col-md-1" data-field="start_time" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Time</th>
                                         <th class="col-md-1" data-field="end_time" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">End Time</th>
                                         <th class="col-md-2" data-field="senior_name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
-                                        <th class="col-md-2" data-field="start_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Start Location</th>
-                                        <th class="col-md-2" data-field="end_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">End Location</th>
+                                        <th class="col-md-2" data-field="start_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
+                                        <th class="col-md-2" data-field="end_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                         <th class="col-md-2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                     </tr>
                                 </thead>

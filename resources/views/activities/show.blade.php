@@ -105,9 +105,9 @@
                     <div id="collapse-address" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-address">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
-                                <dt>Start From:</dt>
+                                <dt>Branch At:</dt>
                                 <dd><address><strong>{{ $activity->departureCentre->name }}</strong><br>{{ $activity->departureCentre->address }}</address></dd>
-                                <dt>Check-up At:</dt>
+                                <dt>Appointment At:</dt>
                                 <dd><address><strong>{{ $activity->arrivalCentre->name }}</strong><br>{{  $activity->arrivalCentre->address }}</address></dd>
                             </dl>
                         </div>

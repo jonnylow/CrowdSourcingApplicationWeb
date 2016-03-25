@@ -84,7 +84,7 @@
                                 <div class="row">
                                     <!-- Start Location Form Input -->
                                     <div class="col-md-6 form-group">
-                                        {!! Form::label('start_location', 'Home', ['class' => 'control-label']) !!}
+                                        {!! Form::label('start_location', 'Branch', ['class' => 'control-label']) !!}
                                         <div class="input-group">
                                             {!! Form::select('start_location', $locationList, $activity->location_from_id, ['class' => 'form-control', 'required']) !!}
                                             <span class="input-group-btn">
@@ -119,12 +119,12 @@
                                         <div class="panel-body">
                                             <!-- Start Location Name Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
+                                                {!! Form::label('start_location_name', 'Branch Name', ['class' => 'control-label']) !!}
                                                 {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
                                             </div>
                                             <!-- Start Location Postal Code Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_postal', 'Home Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::label('start_postal', 'Branch Postal Code', ['class' => 'control-label']) !!}
                                                 {!! Form::text('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
                                             </div>
                                         </div>

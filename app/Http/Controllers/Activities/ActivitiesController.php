@@ -119,7 +119,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for branch does not exist.');
             }
         }
 
@@ -252,7 +252,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for branch does not exist.');
             }
         }
 
