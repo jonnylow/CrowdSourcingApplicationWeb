@@ -129,7 +129,7 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
-                                        @if (starts_with($activity->getApplicationStatus(), 'No application'))
+                                        @if (str_contains($activity->getApplicationStatus(), 'No application'))
                                             <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
                                                 <span class="fa fa-lg fa-pencil"></span> Edit
                                             </a>

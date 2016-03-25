@@ -270,7 +270,7 @@ class Activity extends Model
             }
         } else { // Any activity that starts today or in the future
             if ($taskCount == 0) {
-                return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+                return "<span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span> No application";
             } else {
                 $groupByStatus = $tasks->groupBy('status');
                 $groupByApproval = $tasks->groupBy('approval');
@@ -284,13 +284,13 @@ class Activity extends Model
                 } else if ($groupByStatus->has('check-up completed')) {
                     return "Senior check-up completed";
                 } else if ($groupByApproval->has('approved')) {
-                    return "Application confirmed <span class=\"fa fa-circle circle-green\" style=\"color:#18BC9C\"></span>";
+                    return "<span class=\"fa fa-circle circle-green\" style=\"color:#18BC9C\"></span> Application confirmed";
                 } else if ($groupByApproval->has('pending')) {
-                    return "Application(s) received <span class=\"fa fa-circle circle-orange\" style=\"color:#F39C12\"></span>";
+                    return "<span class=\"fa fa-circle circle-orange\" style=\"color:#F39C12\"></span> Application(s) received";
                 } else if ($groupByApproval->has('withdrawn')) {
-                    return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+                    return "<span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span> No application";
                 } else if ($groupByApproval->has('rejected')) {
-                    return "No application <span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span>";
+                    return "<span class=\"fa fa-circle circle-red\" style=\"color:#E74C3C\"></span> No application";
                 }
             }
         }
@@ -303,15 +303,15 @@ class Activity extends Model
     {
         $status = $this->getApplicationStatus();
 
-        if (starts_with($status, "Completed")) {
+        if (str_contains($status, "Completed")) {
             return "Activity has completed";
-        } else if (starts_with($status, "Not completed")) {
+        } else if (str_contains($status, "Not completed")) {
             return "Activity has passed";
-        } else if (starts_with($status, "Senior")) {
+        } else if (str_contains($status, "Senior")) {
             return "Activity is in progress";
-        } else if (starts_with($status, "Application confirmed")) {
+        } else if (str_contains($status, "Application confirmed")) {
             return "Activity has confirmed volunteer";
-        } else if (starts_with($status, "Application(s) received")) {
+        } else if (str_contains($status, "Application(s) received")) {
             return "Activity has volunteer waiting for approval";
         } else if ($this->datetime_start->isToday()) {
             if ($this->datetime_start->isPast()) {
