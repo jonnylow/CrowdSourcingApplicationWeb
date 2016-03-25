@@ -89,11 +89,12 @@
                                         {!! Form::label('start_location', 'Branch', ['class' => 'control-label']) !!}
                                         <div class="input-group">
                                             {!! Form::select('start_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
-                                                New location
-                                            </button>
-                                        </span>
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
+                                                    Add new location
+                                                </button>
+                                            </span>
                                         </div>
                                         <div class="collapse collapse-start-loc">
                                             <p class="help-block">Location will be saved when activity is added.</p>
@@ -104,9 +105,10 @@
                                         {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
                                             <div class="input-group">
                                             {!! Form::select('end_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
-                                                    New location
+                                                    Add new location
                                                 </button>
                                             </span>
                                         </div>
@@ -169,9 +171,10 @@
                                     {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
                                     <div class="input-group">
                                         {!! Form::select('senior', $seniorList, null, ['class' => 'form-control', 'required']) !!}
+                                        <span class="input-group-btn"></span>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
-                                                New senior
+                                                Add new senior
                                             </button>
                                         </span>
                                     </div>

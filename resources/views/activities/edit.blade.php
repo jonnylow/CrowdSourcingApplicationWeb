@@ -87,9 +87,10 @@
                                         {!! Form::label('start_location', 'Branch', ['class' => 'control-label']) !!}
                                         <div class="input-group">
                                             {!! Form::select('start_location', $locationList, $activity->location_from_id, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
-                                                    New location
+                                                    Add new location
                                                 </button>
                                             </span>
                                         </div>
@@ -102,11 +103,12 @@
                                         {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
                                         <div class="input-group">
                                             {!! Form::select('end_location', $locationList, $activity->location_to_id, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
-                                                        New location
-                                                    </button>
-                                                </span>
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
+                                                    Add new location
+                                                </button>
+                                            </span>
                                         </div>
                                         <div class="collapse collapse-end-loc">
                                             <p class="help-block">Location will be saved when activity is added.</p>
@@ -167,11 +169,12 @@
                                     {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
                                     <div class="input-group">
                                         {!! Form::select('senior', $seniorList, $activity->elderly_id, ['class' => 'form-control', 'required']) !!}
+                                        <span class="input-group-btn"></span>
                                         <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
-                                                    New senior
-                                                </button>
-                                            </span>
+                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
+                                                Add new senior
+                                            </button>
+                                        </span>
                                     </div>
                                     <div class="collapse collapse-senior">
                                         <p class="help-block">Senior's information will be saved when activity is added.</p>
