@@ -377,7 +377,7 @@ class ActivitiesController extends Controller
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'withdrawn']);
             //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
 
-            $status = array("Withdrawn from activity.");
+            $status = array("Withdrawn from activity");
             Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has withdrawn from an activity');
@@ -468,6 +468,8 @@ class ActivitiesController extends Controller
                             $query->where('approval', '=','rejected')
                             ->orWhere('approval', '=','pending');})
                             ->lists('activity_id');
+
+                        
                         $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
                         $notcompleted = Task::where('status','=','completed')->distinct()->lists('activity_id');
                         $activityList = Activity::groupBy('location_to_id')->lists('location_to_id');
