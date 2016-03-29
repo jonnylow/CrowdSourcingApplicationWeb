@@ -13,6 +13,7 @@ use App\Activity;
 use App\Task;
 use App\Volunteer;
 use App\Rank;
+use App\Staff;
 use Carbon\Carbon;
 use Mail;
 
@@ -53,14 +54,16 @@ class VolunteerController extends Controller
 
         $volunteer = Volunteer::where('email', $request->get('email'))->first();
 
+        $mailingList = Staff::where('is_admin','TRUE')->lists('email')->toArray();
+
         if ($volunteer==null) {
             $status = array("error");
             return response()->json(compact('status'));
         } else {
-            Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) {
+            Mail::send('emails.volunteer_registration', compact('volunteer'),function ($message) use ($mailingList){
                 $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                 $message->subject('New Volunteer Registration');
-                $message->to('imchosen6@gmail.com');
+                $message->bcc($mailingList);
             });
             $status = array("Created successfully");
             return response()->json(compact('status'));
@@ -102,26 +105,7 @@ class VolunteerController extends Controller
         }
     }
 
-    /*public function retrieveUserAccounts(Request $request){
-     // retrieve volunetter id, name , email, isapproved
-     $check = $request->get('email');
-     //check if email exist in database - do not exist for no / exist for yes
-     $user = Volunteer::where('email',$check)->get();
-     //return response()->json(compact('user'));
-     $vid=$user->volunteer_id;
-     $name=$user->name;
-     $email=$user->email;
-     $approval=$user->is_approved;
-     $return=array($vid,$name,$email,$approval);
 
-     if ($email->isEmpty()){
-       $status = array("do not exist");
-       return response()->json(compact('status'));
-     } else {
-       return response()->json(compact('return'));
-     }
-
-    }*/
 // tested working with new database
     public function retrieveUserDetails(Request $request)
     {
@@ -130,8 +114,6 @@ class VolunteerController extends Controller
         $volunteer = Volunteer::with('rank')->where('volunteer_id', '=', $id)->get();
         $volunteerHours = Volunteer::findOrFail($id)->timeVolunteered();
 
-        //$volunteer = Volunteer::with('rank')->where('volunteer_id','=',$id)->timeVolunteered()->get()->toArray();
-        //array_set($volunteerArray, 'volunteer.minutes_volunteered', $volunteerHours);
 
         $volunteerRank = Volunteer::findOrFail($id)->rank_id;
         $volunteerRank = $volunteerRank - 1;
@@ -155,10 +137,10 @@ class VolunteerController extends Controller
             } else {
                 $password = str_random(12);
 
-                Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) {
+                Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('Your request for your CareGuide account password Reset.');
-                    $message->to('imchosen6@gmail.com');
+                    $message->bcc($volunteer->email,$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -187,10 +169,10 @@ class VolunteerController extends Controller
                 $status = array("error");
                 return response()->json(compact('status'));
             } else {
-                Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) {
+                Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
-                    $message->to('imchosen6@gmail.com');
+                    $message->to($volunteer->email,$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -220,22 +202,11 @@ class VolunteerController extends Controller
                 $status = array("Error in sql statement");
                 return response()->json(compact('status'));
             } else {
-                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) {
+                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
-                    $message->to('imchosen6@gmail.com');
+                    $message->bcc($volunteer->email,$volunteer->name);
                 });
-
-                //$volunteer->email = $email;
-                //$volunteer->name = $name;
-                //$volunteer->date_of_birth = $dob;
-                //$volunteer->gender = $gender;
-                //$volunteer->has_car = 'FALSE';
-                //$volunteer->occupation = $occupation;
-                //$volunteer->area_of_preference_1 = $p1;
-                //$volunteer->area_of_preference_2 = $p2;
-                //$volunteer->save();
-                
 
                 $volunteer->update([
                 'name'     =>$name ,
@@ -292,12 +263,6 @@ class VolunteerController extends Controller
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
           $id = $authenticatedUser->volunteer_id;
           $volunteer = Volunteer::findOrFail($id);
-          //$today = Carbon::now();
-          //$dateFourMonths = Carbon::today()->subMonths(4)->toDateTimeString();
-          //$dateThreeMonths = Carbon::today()->subMonths(3)->toDateTimeString();
-          //$dateTwoMonths = Carbon::today()->subMonths(2)->toDateTimeString();
-          //$dateOneMonths = (new Carbon('first day of this month'))->toDateTimeString();
-          //$dateToday = $today->toDateTimeString();
 
           // four months
           $activitiesWithinFrame = Activity::completed()->subMonth(3)->lists('activities.activity_id');
@@ -347,8 +312,6 @@ class VolunteerController extends Controller
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
 
-          //$taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
-          //$totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
           $totalHours = $volunteer->minutes_volunteered;
           $totalHours = floor($totalHours/60);
 
@@ -364,8 +327,6 @@ class VolunteerController extends Controller
     public function getAllVolunteerContribution(){
         $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
 
-        //$totalTaskList = Task::where('status','completed')->lists('activity_id');
-        //$totalTaskHours = Activity::whereIn('activity_id',$totalTaskList)->sum('expected_duration_minutes');
         $totalTaskHours = Volunteer::sum('minutes_volunteered');
 
         $totalTaskHours =floor($totalTaskHours/60);
@@ -381,13 +342,8 @@ class VolunteerController extends Controller
           // user rank
           $rankid = Volunteer::where('volunteer_id',$id)->value('rank_id');
           $rank = Rank::findOrFail($rankid)->name;
-          // User Minutes Completed
-          //$taskUserDone = Task::where('volunteer_id',$id)->where('status','completed')->lists('activity_id');
-          //$totalHours = Activity::whereIn('activity_id',$taskUserDone)->sum('expected_duration_minutes');
           $totalMinutes = Volunteer::where('volunteer_id',$id)->value('minutes_volunteered');
 
-          //$volunteersminutesList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('minutes_volunteered');
-          //$volunteersNameList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('name');
           $volunteerIdList = Volunteer::where('is_approved','approved')->orderBy('minutes_volunteered','desc')->lists('volunteer_id');
           $count = 0;
           $xCount = 1;
@@ -408,10 +364,6 @@ class VolunteerController extends Controller
             $xCount = $xCount + 1;
           } while ($count <= $listSize );
 
-          // Limit 10 returns
-          //if (count($returnArray)>10){
-          //  $returnArray = array_slice($returnArray, 0, 9);
-          //}
           return response()->json(compact('rank','totalMinutes','returnArray','pos'));
 
       } else {
@@ -467,10 +419,10 @@ class VolunteerController extends Controller
       if ($request->get('email') != null && $request->get('feedback') != null){
         $email = $request->get('email');
         $feedback = $request->get('feedback');
-        Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+        Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message)  use ($email) {
+                    $message->from($email, 'CareGuide Account Management');
                     $message->subject('You have a new feedback from a user!');
-                    $message->to('imchosen6@gmail.com');
+                    $message->bcc('imchosen6@gmail.com');
                 });
         $status = array("Success");
         return response()->json(compact('status'));
