@@ -15,6 +15,7 @@ use App\Task;
 use App\Centre;
 use App\Volunteer;
 use App\Rank;
+use App\Staff;
 use Carbon\Carbon;
 use Mail;
 use DB;
@@ -74,7 +75,6 @@ class ActivitiesController extends Controller
                 ->whereNotIn('activity_id', $approvedActivities)
                 ->get();
 
-                //return response()->json($activities);
                 return response()->json(compact('activities'));
             }
     }
@@ -87,9 +87,6 @@ class ActivitiesController extends Controller
 
         return response()->json(compact('activity'));
     }
-// find activity details that is not completed by user ->1
-// find activity details that are completed ->2
-
     public function retrieveTransportByUser(Request $request)
     {
         if ($request->get('id') == null && $request->get('type') == null) {
@@ -109,13 +106,10 @@ class ActivitiesController extends Controller
                 ->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')
                 ->get();
 
-                //$activities = $activities->sortBy('activity_id');
+                
 
                 $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('activity_id','asc')->get();
 
-                //$taskTwo = Activity::with('tasks')->where('volunteer_id','=',$id)->whereIn('activity_id', $uncompletedActivities)->orderBy('datetime_start','desc')->get();
-                //$taskTwo = DB::table('activities')->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')->where('tasks.volunteer_id','=',$id)->whereIn('activities.activity_id', $uncompletedActivities)->orderBy('activities.datetime_start','desc')->get();
-                //$task = $task->sortBy('activity_id');
 
                return response()->json(compact('activities','task'));
 
@@ -130,7 +124,7 @@ class ActivitiesController extends Controller
                 ->get();
 
                 $task = Task::where('volunteer_id','=',$id)->whereIn('activity_id', $volunteerActivities)->orderBy('activity_id','asc')->get();
-                //$taskTwo = DB::table('activities')->join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')->where('tasks.volunteer_id','=',$id)->whereIn('activities.activity_id', $volunteerActivities)->orderBy('activities.datetime_start','desc')->get();
+                
                 return response()->json(compact('activities','task'));
             }
         }
@@ -206,26 +200,30 @@ class ActivitiesController extends Controller
             $actID = $request->get('activity_id');
             $appliedActivity = Activity::findOrFail($actID);
 
+            $mailingList = Staff::where('is_admin','TRUE')->lists('email')->toArray();
+
             $task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->get();
-            //return response()->json(compact('email'));
+            
 
             if ($task->isEmpty()) {
                 $user->activities()->attach($actID);
                 $status = array("Application Successful");
-                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) {
+                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
-                    $message->to('imchosen6@gmail.com');
+                    $message->bcc($mailingList);
                 });
+
+                
                 return response()->json(compact('status'));
             } elseif (sizeof($task)> 0) {
                 $taskUpdate = $task->first();
                 $taskUpdate->approval = "pending";
                 $taskUpdate->save();
-                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) {
+                Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
-                    $message->to('imchosen6@gmail.com');
+                    $message->bcc($mailingList);
                 });
                 $status = array("Reapplication Successful");
                 return response()->json(compact('status'));
@@ -250,7 +248,7 @@ class ActivitiesController extends Controller
             $actID = $request->get('activity_id');
 
             $withdrawnTask = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->where('approval', '=' , 'withdrawn')->lists('activity_id');
-            //return response()->json(compact('withdrawnTask'));
+            
 
             $applyingActivity = Activity::findOrFail($actID);
 
@@ -265,15 +263,13 @@ class ActivitiesController extends Controller
                $activityFullDayEnd = $applyingActivity->datetime_start->endOfDay()->toDateTimeString();
                 
                
-                //$sameTimeTask = Activity::where('datetime_start', '=', $activityStartTime)->lists('activity_id');
+                
 
                 $activitiesOnSameDay = Activity::whereBetween('datetime_start', [$activityFullDayStart,$activityFullDayEnd ])->where('activity_id','<>',$actID)->lists('activity_id');
-                //echo $activitiesOnSameDay;
-                //echo  $sameTimeTaskWithEnd;
                 $status = ['rejected'];
 
                 $taskofUserOnSameDay = Task::where('volunteer_id',$userID)->whereIn('activity_id',$activitiesOnSameDay)->whereNotIn('approval',$status)->lists('activity_id');
-                //echo $taskofUserOnSameDay;
+                
                 $check = false;
                 foreach ($taskofUserOnSameDay as $activityID){
                     $activity = Activity::find($activityID);
@@ -299,20 +295,6 @@ class ActivitiesController extends Controller
 
 
                 }
-
-                //echo $taskWithSameTime;
-                /*$sameTimeTask = Task::with('activities')
-                ->whereHas('activities', function ($query) {
-                    $query->where('datetime_start', '=', '2016-02-14 21:00:00');
-                })->lists('activity_id');*/
-
-                //echo  $sameTimeTask;
-
-
-                //$task = Task::where('volunteer_id', $userID)->where('activity_id', $actID)->whereNotIn('activity_id', $withdrawnTask)->get();
-                //return response()->json(compact('email'));
-
-
                 if (!$check) {
                     $status = array("do not exist");
                     return response()->json(compact('status'));
@@ -340,8 +322,7 @@ class ActivitiesController extends Controller
             $status = $request->get('status');
 
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['status' => $status]);
-            //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
-
+           
             if ($status == "completed"){
                 $activity = Activity::findOrFail($activity_id);
                 $timeToAdd =$activity->expected_duration_minutes;
@@ -358,7 +339,6 @@ class ActivitiesController extends Controller
 
             $status = array("Update Successful");
             return response()->json(compact('status'));
-            //$check = Task::findOrFail($task->id);
         }
     }
 
@@ -375,16 +355,16 @@ class ActivitiesController extends Controller
             $withdrawnActivity = Activity::findOrFail($activity_id);
 
             $task = Task::where('volunteer_id', $volunteer_id)->where('activity_id', $activity_id)->update(['approval' => 'withdrawn']);
-            //$checkTask = Task::where('volunteer_id',$volunteer_id)->where('activity_id',$activity_id)->get();
+            
 
-            $status = array("Withdrawn from activity.");
-            Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) {
+            $mailingList = Staff::where('is_admin','TRUE')->lists('email')->toArray();
+            $status = array("Withdrawn from activity");
+            Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) use ($mailingList) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has withdrawn from an activity');
-                    $message->to('imchosen6@gmail.com');
+                    $message->to($mailingList);
                 });
             return response()->json(compact('status'));
-            //$check = Task::findOrFail($task->id);
         }
     }
 
@@ -468,6 +448,8 @@ class ActivitiesController extends Controller
                             $query->where('approval', '=','rejected')
                             ->orWhere('approval', '=','pending');})
                             ->lists('activity_id');
+
+                        
                         $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
                         $notcompleted = Task::where('status','=','completed')->distinct()->lists('activity_id');
                         $activityList = Activity::groupBy('location_to_id')->lists('location_to_id');
