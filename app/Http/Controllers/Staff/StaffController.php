@@ -37,7 +37,7 @@ class StaffController extends Controller
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
 
-        $staffType = [true => 'Administrator', false => 'Regular Staff'];
+        $staffType = [false => 'Regular Staff', true => 'Administrator'];
 
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
@@ -55,7 +55,7 @@ class StaffController extends Controller
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
             'password'  => bcrypt($randomString),
-            'is_admin'  => $request->has('type') ? $request->get('type') : false,
+            'is_admin'  => $request->has('admin') ? $request->get('admin') : false,
         ]);
 
         $staff->centres()->attach($request->get('centres'));
@@ -78,7 +78,7 @@ class StaffController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\EditStaffRequest');
 
         $staff = Staff::findOrFail($id);
-        $staffType = [true => 'Administrator', false => 'Regular Staff'];
+        $staffType = [false => 'Regular Staff', true => 'Administrator'];
 
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
@@ -95,7 +95,7 @@ class StaffController extends Controller
         $staff->update([
             'name'      => $request->get('name'),
             'email'     => $request->get('email'),
-            'is_admin'  => $request->has('type') ? $request->get('type') : false,
+            'is_admin'  => $request->has('admin') ? $request->get('admin') : false,
         ]);
 
         $staff->centres()->sync($request->get('centres'));
@@ -105,7 +105,7 @@ class StaffController extends Controller
 
     public function destroy($id)
     {
-        if ( ! Auth::user()->staff_id == $id) {
+        if (Auth::user()->staff_id !== $id) {
             $staff = Staff::findOrFail($id);
             $staff->delete();
             return back()->with('success', 'Staff is removed successfully!');

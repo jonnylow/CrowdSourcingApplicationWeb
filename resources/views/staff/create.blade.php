@@ -43,8 +43,8 @@
                                     @if (Auth::user()->is_admin)
                                     <!-- Staff Type Form Input -->
                                     <div class="col-md-5 form-group">
-                                        {!! Form::label('type', 'Staff Type', ['class' => 'control-label']) !!}
-                                        {!! Form::select('type', $staffType, null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::label('admin', 'Staff Type', ['class' => 'control-label']) !!}
+                                        {!! Form::select('admin', $staffType, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     @endif
                                     <!-- Centres Form Input -->
