@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Senior List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="seniors">
                         <thead>
                             <tr>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>

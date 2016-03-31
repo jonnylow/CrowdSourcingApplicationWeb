@@ -18,7 +18,7 @@
             {!! Form::open(['method' => 'PATCH', 'route' => ['ranks.update']]) !!}
 
             <div class="row margin-bottom-sm">
-                <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-sort-name="rank" data-sort-order="asc" data-unique-id="rank">
+                <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-sort-name="rank" data-sort-order="asc" data-cookie="true" data-cookie-id-table="ranks">
                     <thead>
                     <tr>
                         <th class="col-md-2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>

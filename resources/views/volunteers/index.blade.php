@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Volunteer List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="nric">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="nric" data-cookie="true" data-cookie-id-table="volunteers">
                         <thead>
                             <tr>
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>

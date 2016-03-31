@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Cancelled Activity List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="cancelledActivities">
                         <thead>
                         <tr>
                             <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>

@@ -17,15 +17,15 @@
 
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" id="activity-tabs">
                 <li><a href="#past" aria-controls="past" role="tab" data-toggle="tab"><strong>Past Activities</strong></a></li>
-                <li class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab"><strong>Today's Activities</strong></a></li>
+                <li><a href="#today" aria-controls="today" role="tab" data-toggle="tab"><strong>Today's Activities</strong></a></li>
                 <li><a href="#upcoming" aria-controls="upcoming" role="tab" data-toggle="tab"><strong>Upcoming Activities</strong></a></li>
             </ul>
 
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane table-responsive fade" id="past">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="pastActivities">
                         <thead>
                             <tr>
                                 <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
@@ -65,8 +65,8 @@
                     </table>
                 </div> <!-- /.tab-pane .table-responsive -->
 
-                <div role="tabpanel" class="tab-pane table-responsive fade in active" id="today">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                <div role="tabpanel" class="tab-pane table-responsive fade in" id="today">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="todayActivities">
                         <thead>
                             <tr>
                                 <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
@@ -107,7 +107,7 @@
                 </div> <!-- /.tab-pane .table-responsive -->
 
                 <div role="tabpanel" class="tab-pane table-responsive fade" id="upcoming">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="upcomingActivities">
                         <thead>
                             <tr>
                                 <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
@@ -167,6 +167,24 @@
         $('#today .fixed-table-toolbar .search input').attr('placeholder', 'Search today\'s activities');
         $('#upcoming .fixed-table-toolbar .search input').attr('placeholder', 'Search upcoming activities');
     });
+
+    $('#activityTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on('shown.bs.tab', function (e) {
+        var id = $(e.target).attr('href').substr(1);
+        window.location.hash = '#/' + id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash.replace(/^#\//, '#') || "";
+    if (hash === "")
+        $('#activityTabs a[href="#today"]').tab('show');
+    else
+        $('#activityTabs a[href="' + hash + '"]').tab('show');
 </script>
 
 @endsection

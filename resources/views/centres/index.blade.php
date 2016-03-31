@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Location List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="name">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="name" data-cookie="true" data-cookie-id-table="locations">
                         <thead>
                             <tr>
                                 <th class="col-md-4" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Location Name</th>
