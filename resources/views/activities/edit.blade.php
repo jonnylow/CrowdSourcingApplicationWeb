@@ -9,7 +9,11 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Edit an Activity</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-8 col-md-offset-2">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::model($activity, ['method' => 'PATCH', 'route' => ['activities.update', $activity->activity_id]]) !!}
 

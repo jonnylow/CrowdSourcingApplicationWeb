@@ -9,7 +9,11 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Add new Senior</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['route' => 'elderly.store']) !!}
 

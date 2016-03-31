@@ -54,7 +54,11 @@
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 

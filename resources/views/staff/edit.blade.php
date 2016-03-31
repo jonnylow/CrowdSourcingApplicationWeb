@@ -9,7 +9,11 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Edit a Staff</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::model($staff, ['method' => 'PATCH', 'route' => ['staff.update', $staff->staff_id]]) !!}
                 {!! Form::hidden('staff_id', $staff->staff_id) !!}

@@ -9,7 +9,11 @@
         <div class="col-md-6 col-md-offset-3">
             <h1>Add new Location</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-12">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['route' => 'centres.store']) !!}
 

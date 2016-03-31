@@ -9,7 +9,11 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Manage Ranks</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-8 col-md-offset-2">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['method' => 'PATCH', 'route' => ['ranks.update']]) !!}
 
