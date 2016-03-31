@@ -9,6 +9,8 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Edit a Volunteer</h1>
 
+            @include('errors.list')
+
             {!! Form::model($volunteer, ['method' => 'PATCH', 'route' => ['volunteers.update', $volunteer->volunteer_id]]) !!}
                 {!! Form::hidden('volunteer_id', $volunteer->volunteer_id) !!}
 
