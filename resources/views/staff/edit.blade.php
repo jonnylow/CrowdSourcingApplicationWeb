@@ -99,13 +99,6 @@
     :-moz-placeholder { color: #acb6c0; }
     ::-moz-placeholder { color: #acb6c0; }
     :-ms-input-placeholder { color: #acb6c0; }
-
-    .btn-group {
-        border: 2px solid transparent;
-        border-radius: 6px;
-    }
-    .has-error .btn-group, .has-error .btn-group.focus { border-color: #e74c3c; }
-    .has-success .btn-group, .has-success .btn-group.focus { border-color: #18bc9c; }
 </style>
 
 <script>

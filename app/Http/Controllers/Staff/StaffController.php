@@ -105,7 +105,7 @@ class StaffController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->staff_id !== $id) {
+        if (Auth::user()->staff_id != $id) {
             $staff = Staff::findOrFail($id);
             $staff->delete();
             return back()->with('success', 'Staff is removed successfully!');

@@ -64,20 +64,13 @@
                                 <div class="row">
                                     <!-- Car Ownership Form Input -->
                                     <div class="col-md-6 form-group">
-                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '0' ? 'active' : null : $volunteer->has_car == false ? 'active' : null }}">
-                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') !== null ? old('car') == '0' ? 'checked' : null : $volunteer->has_car == false ? 'checked' : null }}> No car
-                                            </label>
-                                            <label class="btn btn-default {{ old('car') !== null ? old('car') == '1' ? 'active' : null : $volunteer->has_car == true ? 'active' : null }}">
-                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') !== null ? old('car') == '1' ? 'checked' : null : $volunteer->has_car == true ? 'checked' : null }}> Has car
-                                            </label>
-                                        </div>
+                                        {!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}
+                                        {!! Form::select('car', $carType, $volunteer->has_car ? 1 : 0, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <!-- Minutes Volunteered Form Input -->
                                     <div class="col-md-6 form-group">
                                         {!! Form::label('minutes_volunteered', 'Total Time Volunteered (in minutes)', ['class' => 'control-label']) !!}
-                                        {!! Form::text('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
+                                        {!! Form::text('minutes_volunteered', $volunteer->minutes_volunteered, ['class' => 'form-control', 'min' => '0', 'max' => '99999999', 'pattern' => '[0-9]+']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -155,8 +148,6 @@
         border: 2px solid transparent;
         border-radius: 6px;
     }
-    .has-error .btn-group, .has-error .btn-group.focus { border-color: #e74c3c; }
-    .has-success .btn-group, .has-success .btn-group.focus { border-color: #18bc9c; }
 </style>
 
 <script>

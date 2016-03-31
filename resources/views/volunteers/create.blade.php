@@ -63,15 +63,8 @@
                                 <div class="row">
                                     <!-- Car Ownership Form Input -->
                                     <div class="col-md-6 form-group">
-                                        <div>{!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('car') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="0" autocomplete="off" {{ old('car') == "0" ? 'checked' : null }}> No car
-                                            </label>
-                                            <label class="btn btn-default {{ old('car') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="car" value="1" autocomplete="off" {{ old('car') == "1" ? 'checked' : null }}> Has car
-                                            </label>
-                                        </div>
+                                        {!! Form::label('car', 'Car Ownership', ['class' => 'control-label']) !!}
+                                        {!! Form::select('car', $carType, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -144,13 +137,6 @@
         padding-left: 5px;
         padding-right: 5px;
     }
-    .btn-group {
-        margin-top: -2px;
-        border: 2px solid transparent;
-        border-radius: 6px;
-    }
-    .has-error .btn-group, .has-error .btn-group.focus { border-color: #e74c3c; }
-    .has-success .btn-group, .has-success .btn-group.focus { border-color: #18bc9c; }
 </style>
 
 <script>

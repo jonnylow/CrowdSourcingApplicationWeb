@@ -34,6 +34,7 @@ class VolunteersController extends Controller
         $validator = JsValidator::formRequest('App\Http\Requests\CreateVolunteerRequest');
 
         $genderList = ['M' => 'Male', 'F' => 'Female'];
+        $carType = [false => 'No car', true => 'Has car'];
         $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
             'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
             'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
@@ -42,7 +43,7 @@ class VolunteersController extends Controller
         $preferenceList->prepend("Select a volunteering preference", "");
 
 
-        return view('volunteers.create', compact('validator', 'genderList', 'preferenceList'));
+        return view('volunteers.create', compact('validator', 'genderList', 'carType', 'preferenceList'));
     }
 
     public function store(CreateVolunteerRequest $request)
@@ -79,6 +80,7 @@ class VolunteersController extends Controller
 
         $volunteer = Volunteer::findOrFail($id);
         $genderList = ['M' => 'Male', 'F' => 'Female'];
+        $carType = [false => 'No car', true => 'Has car'];
         $preferenceList = ['Befriend senior citizens', 'Design/Maintain Webpage', 'Lead games/exercises',
             'Organise fund raising activities', 'Organise publicity events', 'Organize social activities',
             'Prepare publicity materials', 'Prepare tea/snacks', 'Written translation for brochures'];
@@ -86,7 +88,7 @@ class VolunteersController extends Controller
         $preferenceList = collect($preferenceList);
         $preferenceList->prepend("Select a volunteering preference", "");
 
-        return view('volunteers.edit', compact('validator', 'volunteer', 'genderList', 'preferenceList'));
+        return view('volunteers.edit', compact('validator', 'volunteer', 'genderList', 'carType', 'preferenceList'));
     }
 
     public function update($id, EditVolunteerRequest $request)
