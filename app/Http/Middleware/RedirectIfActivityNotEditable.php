@@ -6,7 +6,7 @@ use App\Activity;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class RedirectIfActivityDiffCentre
+class RedirectIfActivityNotEditable
 {
     /**
      * The Guard implementation.
@@ -35,14 +35,12 @@ class RedirectIfActivityDiffCentre
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $this->auth->user()->is_admin) {
-            $activitiesInCentres = collect(Activity::ofCentreForStaff($this->auth->user())->get()->lists('activity_id'));
+        $activity = Activity::findOrFail($request->route()->parameter('activities'));
 
-            if ( ! $activitiesInCentres->contains($request->route()->parameter('activities'))) {
-                return redirect('/activities');
-            }
+        if (str_contains($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday()) {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect('/activities');
     }
 }

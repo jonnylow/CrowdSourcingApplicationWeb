@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Activities;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ActivityRequest;
+use App\Http\Requests\CreateActivityRequest;
+use App\Http\Requests\EditActivityRequest;
 use App\Http\Controllers\Controller;
 use App\Activity;
 use App\Centre;
@@ -24,6 +25,10 @@ class ActivitiesController extends Controller
         // Apply the activities.centre middleware to only show, edit, update, destroy, rejectVolunteer and approveVolunteer methods.
         // We only allow admin, or regular staff from the same centre, to access them.
         $this->middleware('activities.centre', ['only' => ['show', 'edit', 'update', 'destroy', 'rejectVolunteer', 'approveVolunteer']]);
+
+        // Apply the activities.edit middleware to only edit and update methods.
+        // We only allow staff to edit activity that has no applicant and not starts today or before.
+        $this->middleware('activities.edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -77,7 +82,7 @@ class ActivitiesController extends Controller
 
     public function create()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\CreateActivityRequest');
 
         if (Auth::user()->is_admin)
             $centreList = Centre::all()->lists('name', 'centre_id')->sort();
@@ -96,7 +101,7 @@ class ActivitiesController extends Controller
         return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
-    public function store(ActivityRequest $request)
+    public function store(CreateActivityRequest $request)
     {
         $errors = array();
 
@@ -208,7 +213,7 @@ class ActivitiesController extends Controller
 
     public function edit($id)
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\EditActivityRequest');
 
         $activity = Activity::findOrFail($id);
 
@@ -229,7 +234,7 @@ class ActivitiesController extends Controller
         return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
-    public function update($id, ActivityRequest $request)
+    public function update($id, EditActivityRequest $request)
     {
         $errors = array();
 

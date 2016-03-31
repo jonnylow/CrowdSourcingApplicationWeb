@@ -53,7 +53,7 @@
                                 <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
-                        @if (starts_with($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday())
+                        @if (str_contains($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday())
                             <div class="pull-right">
                                 <a class="btn btn-primary btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
                         @else

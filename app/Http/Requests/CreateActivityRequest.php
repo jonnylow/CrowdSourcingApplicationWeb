@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 
-class ActivityRequest extends Request
+class CreateActivityRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -117,7 +117,7 @@ class ActivityRequest extends Request
             'more_information.string'                   => 'Additional information must be a string.',
             'start_location.required'                   => 'Branch is required.',
             'start_location_name.alpha_num_space'       => 'Name for branch must contain only letters, numbers, or spaces.',
-            'start_location_name.unique'                => 'branch is already in the system.',
+            'start_location_name.unique'                => 'Branch is already in the system.',
             'start_location_name.required_if'           => 'Name for branch is required.',
             'start_postal.digits'                       => 'Postal code for branch must be 6 digits.',
             'start_postal.required_if'                  => 'Postal code for branch is required.',

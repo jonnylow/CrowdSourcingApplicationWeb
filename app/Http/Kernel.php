@@ -34,5 +34,6 @@ class Kernel extends HttpKernel
         'staff.centre' => \App\Http\Middleware\RedirectIfStaffDiffCentre::class,
         'elderly.centre' => \App\Http\Middleware\RedirectIfElderlyDiffCentre::class,
         'activities.centre' => \App\Http\Middleware\RedirectIfActivityDiffCentre::class,
+        'activities.edit' => \App\Http\Middleware\RedirectIfActivityNotEditable::class,
     ];
 }

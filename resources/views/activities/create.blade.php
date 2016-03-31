@@ -426,12 +426,20 @@
         }
     });
 
+    $('button[aria-controls="collapse-start-loc"], .collapse-start-loc').on('click hide.bs.collapse', function (e) {
+        var value = $('#start_location').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#start_location').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-start-loc').on('show.bs.collapse', function () {
         $('#start_location').val("others");
+        $('button[aria-controls="collapse-start-loc"]').html("Cancel adding location");
     });
 
     $('.collapse-start-loc').on('hide.bs.collapse', function () {
-        $('#start_location').prop("selectedIndex", 0);
+        $('button[aria-controls="collapse-start-loc"]').html("Add new location");
         $('#start_location_name').val('');
         $('#start_postal').val('');
     });
@@ -445,12 +453,20 @@
         }
     });
 
+    $('button[aria-controls="collapse-end-loc"], .collapse-end-loc').on('click hide.bs.collapse', function (e) {
+        var value = $('#end_location').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#end_location').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-end-loc').on('show.bs.collapse', function () {
         $('#end_location').val("others");
+        $('button[aria-controls="collapse-end-loc"]').html("Cancel adding location");
     });
 
     $('.collapse-end-loc').on('hide.bs.collapse', function () {
-        $('#end_location').prop("selectedIndex", 0);
+        $('button[aria-controls="collapse-end-loc"]').html("Add new location");
         $('#end_location_name').val('');
         $('#end_postal').val('');
     });
@@ -464,14 +480,28 @@
         }
     });
 
+    $('button[aria-controls="collapse-senior"], .collapse-senior').on('click hide.bs.collapse', function (e) {
+        var value = $('#senior').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#senior').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-senior').on('show.bs.collapse', function () {
         $('#senior').val("others");
-        $('input[name="senior_others"]').val(true);
+        $('button[aria-controls="collapse-senior"]').html("Cancel adding senior");
     });
 
     $('.collapse-senior').on('hide.bs.collapse', function () {
-        $('#senior').prop("selectedIndex", 0);
-        $('input[name="senior_others"]').val(false);
+        $('button[aria-controls="collapse-senior"]').html("Add new senior");
+        $('#senior_nric').val('');
+        $('#senior_name').val('');
+        $('#senior_gender').prop("selectedIndex", 0);
+        $('#senior_birth_year').val('');
+        $('#languages')[0].selectize.clear();
+        $('#senior_nok_name').val('');
+        $('#senior_nok_contact').val('');
+        $('#senior_medical').val('');
     });
 
     $(document).ready(function() {
