@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs" id="activity-tabs">
+            <ul class="nav nav-tabs" id="activityTabs">
                 <li><a href="#past" aria-controls="past" role="tab" data-toggle="tab"><strong>Past Activities</strong></a></li>
                 <li><a href="#today" aria-controls="today" role="tab" data-toggle="tab"><strong>Today's Activities</strong></a></li>
                 <li><a href="#upcoming" aria-controls="upcoming" role="tab" data-toggle="tab"><strong>Upcoming Activities</strong></a></li>
@@ -180,11 +180,11 @@
     });
 
     // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash.replace(/^#\//, '#') || "";
-    if (hash === "")
-        $('#activityTabs a[href="#today"]').tab('show');
-    else
+    var hash = window.location.hash.replace(/^#\//, '#');
+    if (hash)
         $('#activityTabs a[href="' + hash + '"]').tab('show');
+    else
+        $('#activityTabs a[href="#today"]').tab('show');
 </script>
 
 @endsection
