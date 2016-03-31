@@ -60,10 +60,12 @@ class StaffController extends Controller
 
         $staff->centres()->attach($request->get('centres'));
 
-        Mail::send('emails.welcome_staff', compact('staff', 'randomString'), function ($message) {
+        $email = $staff->email;
+        
+        Mail::send('emails.welcome_staff', compact('staff', 'randomString'), function ($message) use ($email) {
             $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
             $message->subject('Your CareGuide Staff account has been created.');
-            $message->to('imchosen6@gmail.com');
+            $message->bcc($email);
         });
 
         return redirect('staff')->with('success', 'Staff is added successfully!');
@@ -107,6 +109,14 @@ class StaffController extends Controller
     {
         if (Auth::user()->staff_id != $id) {
             $staff = Staff::findOrFail($id);
+            $email = $staff->email;
+
+            Mail::send('emails.remove_staff', compact('staff'), function ($message) use ($email) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+                $message->subject('Your CareGuide Staff account has been removed.');
+                $message->bcc($email);
+            });
+
             $staff->delete();
             return back()->with('success', 'Staff is removed successfully!');
         } else {

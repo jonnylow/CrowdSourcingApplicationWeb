@@ -65,7 +65,7 @@ class Volunteer extends Model implements AuthenticatableContract,
      */
     public function setEmailAttribute($email)
     {
-        $this->attributes['email'] = trim($email);
+        $this->attributes['email'] = strtolower(trim($email));
     }
 
     /**
