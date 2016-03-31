@@ -172,3 +172,9 @@
 </script>
 
 @endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
+
+@endsection
