@@ -80,6 +80,16 @@
 
 @endsection
 
+@section('page-script')
+
+<script>
+    $(document).ready(function() {
+        $('.bootstrap-table .fixed-table-toolbar .search input').attr('placeholder', 'Search seniors');
+    });
+</script>
+
+@endsection
+
 @section('partials-script')
 
 @include('partials.confirm')

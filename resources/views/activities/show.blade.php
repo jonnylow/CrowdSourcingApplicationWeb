@@ -205,6 +205,10 @@
 @section('page-script')
 
 <script>
+    $(document).ready(function() {
+        $('#collapse-volunteer .fixed-table-toolbar .search input').attr('placeholder', 'Search volunteers');
+    });
+
     var currentProgress = 0;
 
     if ($('div.progress').find('div.progress-bar').length)

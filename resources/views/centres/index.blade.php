@@ -55,6 +55,16 @@
 
 @endsection
 
+@section('page-script')
+
+<script>
+    $(document).ready(function() {
+        $('.bootstrap-table .fixed-table-toolbar .search input').attr('placeholder', 'Search locations');
+    });
+</script>
+
+@endsection
+
 @section('auth-script')
 
 @include('auth._redirect_if_no_auth')
