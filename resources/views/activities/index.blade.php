@@ -107,14 +107,14 @@
                 </div> <!-- /.tab-pane .table-responsive -->
 
                 <div role="tabpanel" class="tab-pane table-responsive fade" id="upcoming">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="upcomingActivities">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-filter-control="true" data-cookie="true" data-cookie-id-table="upcomingActivities">
                         <thead>
                             <tr>
                                 <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
                                 <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                 <th class="col-md-2" data-field="datetime_start" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Date & Time</th>
                                 <th class="col-md-2" data-field="senior" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
-                                <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
+                                <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-filter-control="select" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                 <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" data-align="center" data-valign="middle"></th>
                             </tr>
@@ -161,11 +161,14 @@
 
 @section('page-script')
 
+<script type="text/javascript" src="{{ asset('js/bootstrap-table-filter-control.min.js') }}"></script>
+
 <script>
     $(document).ready(function() {
         $('#past .fixed-table-toolbar .search input').attr('placeholder', 'Search past activities');
         $('#today .fixed-table-toolbar .search input').attr('placeholder', 'Search today\'s activities');
         $('#upcoming .fixed-table-toolbar .search input').attr('placeholder', 'Search upcoming activities');
+        $('#upcoming th[data-field="status"] .filterControl select').find('option:eq(0)').html("Choose application status");
     });
 
     // store the currently selected tab in the hash value
