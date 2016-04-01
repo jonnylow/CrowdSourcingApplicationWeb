@@ -410,7 +410,7 @@ class ActivitiesController extends Controller
         $tasks = Task::ofActivity($activityId)->get();
         $activity = Activity::findOrFail($activityId);
 
-        $rejectReason = "Activity is taken up by another volunteer."; // Default reason by system
+        $reason = "Activity is taken up by another volunteer."; // Default reason by system
         $rejectMailingList = array();
         $acceptEmail = "";
 
@@ -422,7 +422,7 @@ class ActivitiesController extends Controller
                     $task->approval = "approved";
                     $acceptEmail = $email;
                 } else {
-                    $task->comment = $rejectReason;
+                    $task->comment = $reason;
                     $task->approval = "rejected";
                     array_push($rejectMailingList, $email);
                 }
@@ -430,7 +430,7 @@ class ActivitiesController extends Controller
             $task->save();
         }
 
-        Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) use ($rejectMailingList) {
+        Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($rejectMailingList) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
             $message->subject('Your application for an CareGuide activity has been rejected.');
             $message->bcc($rejectMailingList);
