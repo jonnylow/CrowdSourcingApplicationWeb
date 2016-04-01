@@ -16,6 +16,7 @@ use App\Rank;
 use App\Staff;
 use Carbon\Carbon;
 use Mail;
+use TransmitSMS;
 
 
 class VolunteerController extends Controller
@@ -29,7 +30,21 @@ class VolunteerController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
+        $this->middleware('jwt.auth', ['except' => ['sendSMS', 'addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
+    }
+
+    public function sendSMS(Request $request)
+    {
+        $result = TransmitSMS::sendSms($request->get('message'), $request->get('number'), 'CareGuide');
+
+        if($result->error->code=='SUCCESS') {
+            $json['status'] = "sent";
+            return response()->json($json);
+        } else {
+            $json['status'] = "not sent";
+            $json['error'] = $result->error->code;
+            return response()->json($json);
+        }
     }
 
     public function addUserAccount(Request $request)

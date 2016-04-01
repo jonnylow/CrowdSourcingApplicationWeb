@@ -10,6 +10,10 @@
             "url": "https://github.com/missbossy/Faker.git"
         },
         {
+            "type": "git",
+            "url": "https://github.com/changhuapeng/transmitsms-api.git"
+        },
+        {
             "type": "package",
             "package": {
                 "name": "wenzhixin/bootstrap-table",
@@ -69,7 +73,8 @@
         "fortawesome/font-awesome": "4.*",
         "wenzhixin/bootstrap-table": "1.10.*",
         "selectize/selectize.js": "0.12.1",
-        "nnnick/chartjs": "2.0.0-beta2"
+        "nnnick/chartjs": "2.0.0-beta2",
+        "abreeden/transmitsms-api": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",

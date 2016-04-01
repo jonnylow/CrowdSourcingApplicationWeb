@@ -4,9 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cf5b95aaba2ae73acb3364b41431ed8",
-    "content-hash": "537c97933c474f713085927cc66296c1",
+    "hash": "2021c2827dd9beced3463985ca90d5ef",
+    "content-hash": "da9b3aca656068cb97f717627480a12d",
     "packages": [
+        {
+            "name": "abreeden/transmitsms-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/changhuapeng/transmitsms-api.git",
+                "reference": "a68423b8f35ae6c099947db9ba80f7689a7e0e27"
+            },
+            "require": {
+                "illuminate/support": "5.1.*",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Abreeden\\TransmitsmsApi\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Ashley Breeden",
+                    "email": "ash@apbtechnology.com.au"
+                }
+            ],
+            "description": "Provides support for SMS providers using the TransmitSMS backend and pacakges the existing PHP class file as a composer package",
+            "time": "2016-04-01 12:02:03"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
@@ -3975,6 +4002,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "nnnick/chartjs": 10,
+        "abreeden/transmitsms-api": 20,
         "fzaninotto/faker": 20
     },
     "prefer-stable": false,

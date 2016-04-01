@@ -161,6 +161,11 @@ return [
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        /*
+         * TransmitSMS API Service Provider...
+         */
+        Abreeden\TransmitsmsApi\TransmitsmsApiServiceProvider::class,
+
     ],
 
     /*
@@ -214,6 +219,7 @@ return [
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
+        'TransmitSMS' => Abreeden\TransmitsmsApi\Facades\TransmitsmsApiFacade::class,
 
     ],
 

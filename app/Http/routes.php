@@ -93,6 +93,7 @@ Route::group(['namespace' => 'WebService', 'prefix' => 'api'], function() {
     Route::get('retrieveFilter', 'ActivitiesController@retrieveFilter');
     Route::get('retrieveTransportByUser', 'ActivitiesController@retrieveTransportByUser');
 
+    Route::get('sendSMS', 'VolunteerController@sendSMS');
     Route::get('addUserAccount', 'VolunteerController@addUserAccount');
     Route::get('checkEmail', 'VolunteerController@checkEmail');
     Route::get('checkNRIC', 'VolunteerController@checkNRIC');
