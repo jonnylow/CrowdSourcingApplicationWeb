@@ -202,13 +202,7 @@ class VolunteerController extends Controller
                 $status = array("Error in sql statement");
                 return response()->json(compact('status'));
             } else {
-                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
-                    $message->subject('Your CareGuide account particulars was recently updated.');
-                    $message->bcc($volunteer->email,$volunteer->name);
-                });
-
-                $volunteer->update([
+              $volunteer->update([
                 'name'     =>$name ,
                 'email'     => $email,
                 'gender'  => $gender,
@@ -219,6 +213,14 @@ class VolunteerController extends Controller
                 'area_of_preference_2'  => $p2,
                 ]);
                 $status = array("Update Success!");
+                
+                Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
+                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
+                    $message->subject('Your CareGuide account particulars was recently updated.');
+                    $message->bcc($volunteer->email,$volunteer->name);
+                });
+
+                
 
                 return response()->json(compact('status'));
             }
