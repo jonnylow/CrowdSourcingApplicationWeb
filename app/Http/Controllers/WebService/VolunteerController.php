@@ -421,10 +421,11 @@ class VolunteerController extends Controller
       if ($request->get('email') != null && $request->get('feedback') != null){
         $email = $request->get('email');
         $feedback = $request->get('feedback');
-        Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message)  use ($email) {
+        $mailingList = Staff::where('is_admin','TRUE')->lists('email')->toArray();
+        Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message)  use ($email,$mailingList) {
                     $message->from($email, 'CareGuide Account Management');
                     $message->subject('You have a new feedback from a user!');
-                    $message->bcc('imchosen6@gmail.com');
+                    $message->bcc($mailingList);
                 });
         $status = array("Success");
         return response()->json(compact('status'));
