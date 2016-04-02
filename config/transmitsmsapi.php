@@ -14,12 +14,8 @@ return [
     |--------------------------------------------------------------------------
     | SMS API Secret
     |--------------------------------------------------------------------------
-    |
-    | Specify the length of time (in minutes) that the token will be valid for.
-    | Defaults to 1 hour
-    |
     */
 
-    'secret' => env('SMS_API_SECRET', 'secret'),
+    'secret' => env('SMS_SECRET', 'secret'),
 
 ];

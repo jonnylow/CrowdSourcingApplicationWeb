@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/changhuapeng/transmitsms-api.git",
-                "reference": "a68423b8f35ae6c099947db9ba80f7689a7e0e27"
+                "reference": "5861272b88af56d959252f0b67148c18697157ed"
             },
             "require": {
                 "illuminate/support": "5.1.*",
@@ -32,7 +32,7 @@
                 }
             ],
             "description": "Provides support for SMS providers using the TransmitSMS backend and pacakges the existing PHP class file as a composer package",
-            "time": "2016-04-01 12:02:03"
+            "time": "2016-04-01 14:09:01"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -610,16 +610,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.31",
+            "version": "v5.1.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d899fbda59bf3ffcde11a9b443c01043b76f40b3"
+                "reference": "bdb01c499305ede9d6f8caec57649bbaca4dd5e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d899fbda59bf3ffcde11a9b443c01043b76f40b3",
-                "reference": "d899fbda59bf3ffcde11a9b443c01043b76f40b3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bdb01c499305ede9d6f8caec57649bbaca4dd5e3",
+                "reference": "bdb01c499305ede9d6f8caec57649bbaca4dd5e3",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +633,7 @@
                 "monolog/monolog": "~1.11",
                 "mtdowling/cron-expression": "~1.0",
                 "nesbot/carbon": "~1.19",
-                "paragonie/random_compat": "~1.1",
+                "paragonie/random_compat": "~1.4",
                 "php": ">=5.5.9",
                 "psy/psysh": "0.7.*",
                 "swiftmailer/swiftmailer": "~5.1",
@@ -734,7 +734,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-02-24 15:13:21"
+            "time": "2016-04-01 18:52:14"
         },
         {
             "name": "laravelcollective/html",
