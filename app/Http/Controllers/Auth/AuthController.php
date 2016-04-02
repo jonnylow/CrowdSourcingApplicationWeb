@@ -106,10 +106,4 @@ class AuthController extends Controller
         );
         return view('auth.register', compact('validator'));
     }
-
-    public function getLogout()
-    {
-        Auth::logout();
-        return redirect(URL::previous());
-    }
 }
