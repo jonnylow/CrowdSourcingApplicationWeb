@@ -16,7 +16,7 @@
                                 <span class="fa fa-lg fa-check"></span> Training is completed
                             </span>
                         @elseif($volunteer->is_approved == 'rejected')
-                            <span class="label label-danger">
+                            <span class="label label-default">
                                 <span class="fa fa-lg fa-times"></span> Volunteer is rejected
                             </span>
                         @else
