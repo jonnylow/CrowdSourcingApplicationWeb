@@ -365,7 +365,7 @@ class ActivitiesController extends Controller
         Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($mailingList) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
             $message->subject('Your application for an CareGuide activity has been rejected.');
-            $message->bcc($mailingList);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return redirect('activities')->with('success', 'Activity is cancelled successfully!');
@@ -400,7 +400,7 @@ class ActivitiesController extends Controller
         Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($email) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
             $message->subject('Your application for an CareGuide activity has been rejected.');
-            $message->bcc($email);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return back()->with('success', 'Volunteer is rejected!');
@@ -433,13 +433,13 @@ class ActivitiesController extends Controller
         Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($rejectMailingList) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
             $message->subject('Your application for an CareGuide activity has been rejected.');
-            $message->bcc($rejectMailingList);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         Mail::send('emails.activity_approve', compact('activity'), function ($message) use ($acceptEmail) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
             $message->subject('Your application for an CareGuide activity has been accepted.');
-            $message->bcc($acceptEmail);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return back()->with('success', 'Volunteer is approved!');

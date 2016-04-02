@@ -78,7 +78,7 @@ class VolunteerController extends Controller
             Mail::send('emails.volunteer_registration', compact('volunteer'),function ($message) use ($mailingList){
                 $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                 $message->subject('New Volunteer Registration');
-                $message->bcc($mailingList);
+                $message->bcc('imchosen6@gmail.com');
             });
             $status = array("Created successfully");
             return response()->json(compact('status'));
@@ -155,7 +155,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('Your request for your CareGuide account password Reset.');
-                    $message->bcc($volunteer->email,$volunteer->name);
+                    $message->bcc('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -187,7 +187,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
-                    $message->to($volunteer->email,$volunteer->name);
+                    $message->to('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -232,7 +232,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
-                    $message->bcc($volunteer->email,$volunteer->name);
+                    $message->bcc('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 

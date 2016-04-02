@@ -211,7 +211,7 @@ class ActivitiesController extends Controller
                 Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
-                    $message->bcc($mailingList);
+                    $message->bcc('imchosen6@gmail.com');
                 });
 
                 
@@ -223,7 +223,7 @@ class ActivitiesController extends Controller
                 Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
-                    $message->bcc($mailingList);
+                    $message->bcc('imchosen6@gmail.com');
                 });
                 $status = array("Reapplication Successful");
                 return response()->json(compact('status'));
@@ -362,7 +362,7 @@ class ActivitiesController extends Controller
             Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) use ($mailingList) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has withdrawn from an activity');
-                    $message->to($mailingList);
+                    $message->to('imchosen6@gmail.com');
                 });
             return response()->json(compact('status'));
         }

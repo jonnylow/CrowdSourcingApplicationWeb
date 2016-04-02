@@ -70,7 +70,7 @@ class VolunteersController extends Controller
         Mail::send('emails.welcome_volunteer', compact('volunteer', 'randomString'), function ($message) use ($email) {
             $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
             $message->subject('Your CareGuide Volunteer account has been registered.');
-            $message->bcc($email);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return redirect('volunteers')->with('success', 'Volunteers is added successfully!');
@@ -115,7 +115,7 @@ class VolunteersController extends Controller
         Mail::send('emails.volunteer_update', compact('volunteer'), function ($message) use ($email) {
             $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
             $message->subject('Your CareGuide account particulars was recently updated.');
-            $message->bcc($email);
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return redirect()->route('volunteers.show', compact('volunteer'))->with('success', 'Volunteer is updated successfully!');
@@ -133,7 +133,7 @@ class VolunteersController extends Controller
             Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) use ($email) {
                 $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
                 $message->subject('Your CareGuide Volunteer account has been rejected.');
-                $message->bcc($email);
+                $message->bcc('imchosen6@gmail.com');
             });
 
             return back()->with('success', 'Volunteer is rejected!');
@@ -154,7 +154,7 @@ class VolunteersController extends Controller
             Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) use ($email) {
                 $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
                 $message->subject('Your CareGuide Volunteer account has been approved.');
-                $message->bcc($email);
+                $message->bcc('imchosen6@gmail.com');
             });
 
             return back()->with('success', 'Volunteer is approved!');
