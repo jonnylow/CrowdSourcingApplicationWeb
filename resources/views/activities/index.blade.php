@@ -168,7 +168,7 @@
         $('#past .fixed-table-toolbar .search input').attr('placeholder', 'Search past activities');
         $('#today .fixed-table-toolbar .search input').attr('placeholder', 'Search today\'s activities');
         $('#upcoming .fixed-table-toolbar .search input').attr('placeholder', 'Search upcoming activities');
-        $('#upcoming th[data-field="status"] .filterControl select').find('option:eq(0)').html("Choose application status");
+        $('#upcoming th[data-field="status"] .filterControl select').find('option:eq(0)').html("Choose status");
     });
 
     // store the currently selected tab in the hash value
