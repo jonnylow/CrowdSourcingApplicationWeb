@@ -24,7 +24,7 @@
                         <thead>
                             <tr>
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>
-                                <th class="col-md-1" rowspan="2" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
+                                <th class="col-md-1" rowspan="2" data-field="age" data-sortable="true" data-sorter="numericOnly" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
                                 <th class="col-md-1" rowspan="2" data-field="contact" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Contact Number</th>
                                 <th class="col-md-1" rowspan="2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
                                 <th class="col-md-1" rowspan="2" data-field="car" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Has Car</th>

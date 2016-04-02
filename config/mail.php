@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'do-not-reply@centreforseniors.org.sg', 'name' => 'Do-Not-Reply'],
+    'from' => ['address' => 'do-not-reply@careguide.com', 'name' => 'CareGuide'],
 
     /*
     |--------------------------------------------------------------------------

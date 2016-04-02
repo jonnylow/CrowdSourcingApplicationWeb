@@ -7,7 +7,7 @@
             @if (count($errors))
                 <div class="col-md-3 text-center">
                     <div class="row"><strong><h4>Error!</h4></strong></div>
-                    <div class="row"><span class="fa fa-times-circle-o fa-2x"></span></div>
+                    <div class="row"><span class="fa fa-times-circle-o fa-3x"></span></div>
                 </div>
                 <div class="col-md-9">
                     <strong>Please double-check and try again.</strong>
@@ -19,10 +19,12 @@
                 </div>
             @elseif (Session::has('success'))
                 <div class="col-md-3 text-center">
-                    <div class="row"><strong><h4>Success!</h4></strong></div>
-                    <div class="row"><span class="fa fa-check-circle-o fa-2x"></span></div>
+                    <span class="fa fa-check-circle-o fa-4x"></span>
                 </div>
-                <div class="col-md-9 text-center"><h4>{{ Session::get('success') }}</h4></div>
+                <div class="col-md-9">
+                    <div class="row"><strong><h4>Success!</h4></strong></div>
+                    <div class="row"><h4>{{ Session::get('success') }}</h4></div>
+                </div>
             @endif
         </div>
         <div class="clearfix"></div>

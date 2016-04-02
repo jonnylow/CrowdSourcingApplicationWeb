@@ -136,7 +136,7 @@
                                         <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                         <th class="col-md-3" data-field="volunteer_name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Applicant Name</th>
                                         <th class="col-md-1" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
-                                        <th class="col-md-1" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
+                                        <th class="col-md-1" data-field="age" data-sortable="true" data-sorter="numericOnly" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
                                         <th class="col-md-1" data-field="rank" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
                                         <th class="col-md-2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                         <th class="col-md-2" data-field="applied_time" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Applied on</th>

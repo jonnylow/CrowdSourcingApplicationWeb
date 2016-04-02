@@ -38,6 +38,7 @@ elixir(function(mix) {
         .copy(paths.jsvalidation + 'js/jsvalidation.min.js', 'public/js/jsvalidation.min.js')
         .copy(paths.bootstraptable + 'dist/bootstrap-table.min.js', 'public/js/bootstrap-table.min.js')
         .copy(paths.bootstraptable + 'dist/extensions/cookie/bootstrap-table-cookie.min.js', 'public/js/bootstrap-table-cookie.min.js')
+        .copy(paths.bootstraptable + 'dist/extensions/natural-sorting/bootstrap-table-natural-sorting.min.js', 'public/js/bootstrap-table-natural-sorting.min.js')
         .copy(paths.bootstraptable + 'dist/extensions/filter-control/bootstrap-table-filter-control.min.js', 'public/js/bootstrap-table-filter-control.min.js')
         .copy(paths.selectize + 'dist/js/standalone/selectize.min.js', 'public/js/selectize.min.js')
         .copy(paths.chartjs + 'Chart.min.js', 'public/js/chart.min.js')
