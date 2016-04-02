@@ -4,13 +4,21 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var d = new Date().getTime();
-        if ($('#reloadValue').val().length == 0) {
-            $('#reloadValue').val(d);
-            $('body').show();
-        } else {
-            $('#reloadValue').val('');
-            location.reload();
-        }
+
+        window.onpageshow = function(event) {
+            if ($('#reloadValue').val().length == 0) {
+                $('#reloadValue').val(d);
+                $('body').show();
+            } else {
+                if (event.persisted) {
+                    $('#reloadValue').val('');
+                    window.location.reload();
+                } else {
+                    $('#reloadValue').val('');
+                    location.reload();
+                }
+            }
+        };
     });
 </script>
 
