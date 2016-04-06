@@ -442,6 +442,11 @@
         $('button[aria-controls="collapse-start-loc"]').html("Cancel adding location");
     });
 
+    $('.collapse-start-loc').on('shown.bs.collapse', function () {
+        if ($('#start_location').find('option').length > 1)
+            $('#start_location_name').focus();
+    });
+
     $('.collapse-start-loc').on('hide.bs.collapse', function () {
         $('button[aria-controls="collapse-start-loc"]').html("Add new location");
         $('#start_location_name').val('');
@@ -469,6 +474,11 @@
         $('button[aria-controls="collapse-end-loc"]').html("Cancel adding location");
     });
 
+    $('.collapse-end-loc').on('shown.bs.collapse', function () {
+        if ($('#end_location').find('option').length > 1)
+            $('#end_location_name').focus();
+    });
+
     $('.collapse-end-loc').on('hide.bs.collapse', function () {
         $('button[aria-controls="collapse-end-loc"]').html("Add new location");
         $('#end_location_name').val('');
@@ -494,6 +504,11 @@
     $('.collapse-senior').on('show.bs.collapse', function () {
         $('#senior').val("others");
         $('button[aria-controls="collapse-senior"]').html("Cancel adding senior");
+    });
+
+    $('.collapse-senior').on('shown.bs.collapse', function () {
+        if ($('#senior').find('option').length > 1)
+            $('#senior_nric').focus();
     });
 
     $('.collapse-senior').on('hide.bs.collapse', function () {
