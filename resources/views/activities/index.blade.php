@@ -5,8 +5,27 @@
 @section('content')
 
 <div class="container-fluid margin-bottom-lg">
-    <div class="row margin-bottom-sm">
-        <div class="col-md-3"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
+    <div class="col-md-12 margin-bottom-sm">
+        <div class="row">
+            <div class="col-md-3 pull-down"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
+
+            <div class="col-md-4 col-md-offset-5" id="legend">
+                <h4>Legend:</h4>
+
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-red"></span></div>
+                    <div class="col-sm-11"><p>No volunteer sign up</p></div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-orange"></span></div>
+                    <div class="col-sm-11"><p>Volunteer(s) waiting for approval</p></div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-green"></span></div>
+                    <div class="col-sm-11"><p>Volunteer confirmed for the activity</p></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row margin-bottom-sm">
@@ -162,6 +181,19 @@
 @section('page-script')
 
 <script type="text/javascript" src="{{ asset('js/bootstrap-table-filter-control.min.js') }}"></script>
+
+<style>
+    #legend {
+        border: 2px solid #ddd;
+        background-color: #ecf0f1;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+    }
+
+    #legend .circle-red { color: #E74C3C; }
+    #legend .circle-orange { color: #F39C12; }
+    #legend .circle-green { color: #18BC9C; }
+</style>
 
 <script>
     $(document).ready(function() {
