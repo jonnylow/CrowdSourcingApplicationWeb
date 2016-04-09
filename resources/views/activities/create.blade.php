@@ -9,7 +9,11 @@
         <div class="col-md-10 col-md-offset-1">
             <h1>Add new Activity</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-8 col-md-offset-2">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['route' => 'activities.store']) !!}
 
@@ -86,14 +90,15 @@
                                 <div class="row">
                                     <!-- Start Location Form Input -->
                                     <div class="col-md-6 form-group">
-                                        {!! Form::label('start_location', 'Home', ['class' => 'control-label']) !!}
+                                        {!! Form::label('start_location', 'Branch', ['class' => 'control-label']) !!}
                                         <div class="input-group">
                                             {!! Form::select('start_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
-                                                New location
-                                            </button>
-                                        </span>
+                                                <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-start-loc" aria-expanded="false" aria-controls="collapse-start-loc">
+                                                    Add new location
+                                                </button>
+                                            </span>
                                         </div>
                                         <div class="collapse collapse-start-loc">
                                             <p class="help-block">Location will be saved when activity is added.</p>
@@ -104,9 +109,10 @@
                                         {!! Form::label('end_location', 'Appointment Venue', ['class' => 'control-label']) !!}
                                             <div class="input-group">
                                             {!! Form::select('end_location', $locationList, null, ['class' => 'form-control', 'required']) !!}
+                                            <span class="input-group-btn"></span>
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-end-loc" aria-expanded="false" aria-controls="collapse-end-loc">
-                                                    New location
+                                                    Add new location
                                                 </button>
                                             </span>
                                         </div>
@@ -121,12 +127,12 @@
                                         <div class="panel-body">
                                             <!-- Start Location Name Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_location_name', 'Home Name', ['class' => 'control-label']) !!}
+                                                {!! Form::label('start_location_name', 'Branch Name', ['class' => 'control-label']) !!}
                                                 {!! Form::text('start_location_name', null, ['class' => 'form-control', 'placeholder' => 'e.g. Henderson Home', 'onBlur' => 'javascript:{this.value = this.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});}']) !!}
                                             </div>
                                             <!-- Start Location Postal Code Form Input -->
                                             <div class="col-md-6 form-group">
-                                                {!! Form::label('start_postal', 'Home Postal Code', ['class' => 'control-label']) !!}
+                                                {!! Form::label('start_postal', 'Branch Postal Code', ['class' => 'control-label']) !!}
                                                 {!! Form::text('start_postal', null, ['class' => 'form-control', 'maxlength' => '6', 'pattern' => '[0-9]{6}', 'placeholder' => 'e.g. 123456']) !!}
                                             </div>
                                         </div>
@@ -169,9 +175,10 @@
                                     {!! Form::label('senior', 'Senior Name & NRIC', ['class' => 'control-label']) !!}
                                     <div class="input-group">
                                         {!! Form::select('senior', $seniorList, null, ['class' => 'form-control', 'required']) !!}
+                                        <span class="input-group-btn"></span>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" data-toggle="collapse" data-target=".collapse-senior" aria-expanded="false" aria-controls="collapse-senior">
-                                                New senior
+                                                Add new senior
                                             </button>
                                         </span>
                                     </div>
@@ -423,12 +430,25 @@
         }
     });
 
+    $('button[aria-controls="collapse-start-loc"], .collapse-start-loc').on('click hide.bs.collapse', function (e) {
+        var value = $('#start_location').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#start_location').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-start-loc').on('show.bs.collapse', function () {
         $('#start_location').val("others");
+        $('button[aria-controls="collapse-start-loc"]').html("Cancel adding location");
+    });
+
+    $('.collapse-start-loc').on('shown.bs.collapse', function () {
+        if ($('#start_location').find('option').length > 1)
+            $('#start_location_name').focus();
     });
 
     $('.collapse-start-loc').on('hide.bs.collapse', function () {
-        $('#start_location').prop("selectedIndex", 0);
+        $('button[aria-controls="collapse-start-loc"]').html("Add new location");
         $('#start_location_name').val('');
         $('#start_postal').val('');
     });
@@ -442,12 +462,25 @@
         }
     });
 
+    $('button[aria-controls="collapse-end-loc"], .collapse-end-loc').on('click hide.bs.collapse', function (e) {
+        var value = $('#end_location').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#end_location').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-end-loc').on('show.bs.collapse', function () {
         $('#end_location').val("others");
+        $('button[aria-controls="collapse-end-loc"]').html("Cancel adding location");
+    });
+
+    $('.collapse-end-loc').on('shown.bs.collapse', function () {
+        if ($('#end_location').find('option').length > 1)
+            $('#end_location_name').focus();
     });
 
     $('.collapse-end-loc').on('hide.bs.collapse', function () {
-        $('#end_location').prop("selectedIndex", 0);
+        $('button[aria-controls="collapse-end-loc"]').html("Add new location");
         $('#end_location_name').val('');
         $('#end_postal').val('');
     });
@@ -461,14 +494,33 @@
         }
     });
 
+    $('button[aria-controls="collapse-senior"], .collapse-senior').on('click hide.bs.collapse', function (e) {
+        var value = $('#senior').val();
+        if (e.type === 'hide' && value === "others") {
+            $('#senior').prop("selectedIndex", 0);
+        }
+    });
+
     $('.collapse-senior').on('show.bs.collapse', function () {
         $('#senior').val("others");
-        $('input[name="senior_others"]').val(true);
+        $('button[aria-controls="collapse-senior"]').html("Cancel adding senior");
+    });
+
+    $('.collapse-senior').on('shown.bs.collapse', function () {
+        if ($('#senior').find('option').length > 1)
+            $('#senior_nric').focus();
     });
 
     $('.collapse-senior').on('hide.bs.collapse', function () {
-        $('#senior').prop("selectedIndex", 0);
-        $('input[name="senior_others"]').val(false);
+        $('button[aria-controls="collapse-senior"]').html("Add new senior");
+        $('#senior_nric').val('');
+        $('#senior_name').val('');
+        $('#senior_gender').prop("selectedIndex", 0);
+        $('#senior_birth_year').val('');
+        $('#languages')[0].selectize.clear();
+        $('#senior_nok_name').val('');
+        $('#senior_nok_contact').val('');
+        $('#senior_medical').val('');
     });
 
     $(document).ready(function() {
@@ -477,5 +529,11 @@
         if($('#senior').val() == "others") { $('.collapse-senior').collapse('show'); }
     });
 </script>
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

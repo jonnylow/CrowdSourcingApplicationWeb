@@ -23,5 +23,7 @@
         @yield('page-script')
 
         @yield('partials-script')
+
+        @yield('auth-script')
     </body>
 </html>

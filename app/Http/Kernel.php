@@ -31,5 +31,9 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+        'staff.centre' => \App\Http\Middleware\RedirectIfStaffDiffCentre::class,
+        'elderly.centre' => \App\Http\Middleware\RedirectIfElderlyDiffCentre::class,
+        'activities.centre' => \App\Http\Middleware\RedirectIfActivityDiffCentre::class,
+        'activities.edit' => \App\Http\Middleware\RedirectIfActivityNotEditable::class,
     ];
 }

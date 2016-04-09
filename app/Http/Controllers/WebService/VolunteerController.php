@@ -16,6 +16,7 @@ use App\Rank;
 use App\Staff;
 use Carbon\Carbon;
 use Mail;
+use TransmitSMS;
 
 
 class VolunteerController extends Controller
@@ -29,7 +30,21 @@ class VolunteerController extends Controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
         Config::set('auth.model', 'App\Volunteer');
-        $this->middleware('jwt.auth', ['except' => ['addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
+        $this->middleware('jwt.auth', ['except' => ['sendSMS', 'addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
+    }
+
+    public function sendSMS(Request $request)
+    {
+        $result = TransmitSMS::sendSms($request->get('message'), $request->get('number'), 'CareGuide');
+
+        if($result->error->code=='SUCCESS') {
+            $json['status'] = "sent";
+            return response()->json($json);
+        } else {
+            $json['status'] = "not sent";
+            $json['error'] = $result->error->code;
+            return response()->json($json);
+        }
     }
 
     public function addUserAccount(Request $request)
@@ -63,7 +78,7 @@ class VolunteerController extends Controller
             Mail::send('emails.volunteer_registration', compact('volunteer'),function ($message) use ($mailingList){
                 $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                 $message->subject('New Volunteer Registration');
-                $message->bcc($mailingList);
+                $message->bcc('imchosen6@gmail.com');
             });
             $status = array("Created successfully");
             return response()->json(compact('status'));
@@ -140,7 +155,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('Your request for your CareGuide account password Reset.');
-                    $message->bcc($volunteer->email,$volunteer->name);
+                    $message->bcc('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -172,7 +187,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
-                    $message->to($volunteer->email,$volunteer->name);
+                    $message->to('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 $volunteer->password = $password;
@@ -217,7 +232,7 @@ class VolunteerController extends Controller
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
-                    $message->bcc($volunteer->email,$volunteer->name);
+                    $message->bcc('imchosen6@gmail.com',$volunteer->name);
                 });
 
                 

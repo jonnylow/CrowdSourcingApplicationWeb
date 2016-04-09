@@ -15,7 +15,7 @@
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group">
                     {!! Form::label('email', 'Email address', ['class' => 'control-label']) !!}
-                    {!! Form::email('email', $_GET['email'], ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email']) !!}
+                    {!! Form::email('email', $_GET['email'], ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email', 'onBlur' => 'javascript:{this.value = this.value.toLowerCase(); }']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('password', 'New Password', ['class' => 'control-label']) !!}

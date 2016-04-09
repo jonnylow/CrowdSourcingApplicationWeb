@@ -21,7 +21,7 @@
             {!! Form::open(['route' => 'password.request']) !!}
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     {!! Form::label('email', 'Enter your email address', ['class' => 'control-label']) !!}
-                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email']) !!}
+                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email', 'onBlur' => 'javascript:{this.value = this.value.toLowerCase(); }']) !!}
 
                     @if ($errors->has('email'))
                         <span class="help-block">

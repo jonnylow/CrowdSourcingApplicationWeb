@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Activities;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ActivityRequest;
+use App\Http\Requests\CreateActivityRequest;
+use App\Http\Requests\EditActivityRequest;
 use App\Http\Controllers\Controller;
 use App\Activity;
 use App\Centre;
@@ -19,25 +20,55 @@ use Validator;
 
 class ActivitiesController extends Controller
 {
+    public function __construct()
+    {
+        // Apply the activities.centre middleware to only show, edit, update, destroy, rejectVolunteer and approveVolunteer methods.
+        // We only allow admin, or regular staff from the same centre, to access them.
+        $this->middleware('activities.centre', ['only' => ['show', 'edit', 'update', 'destroy', 'rejectVolunteer', 'approveVolunteer']]);
+
+        // Apply the activities.edit middleware to only edit and update methods.
+        // We only allow staff to edit activity that has no applicant and not starts today or before.
+        $this->middleware('activities.edit', ['only' => ['edit', 'update']]);
+    }
+
     public function index()
     {
         $completedActivities = Activity::join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
             ->where('tasks.status', 'completed')->lists('activities.activity_id')->toArray();
 
-        $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereNotIn('activity_id', $completedActivities)
-            ->where('datetime_start', '>', Carbon::now()->endOfDay())
-            ->oldest('datetime_start')->get();
+        if (Auth::user()->is_admin) {
+            $upcoming = Activity::with('elderly')
+                ->whereNotIn('activity_id', $completedActivities)
+                ->where('datetime_start', '>', Carbon::now()->endOfDay())
+                ->oldest('datetime_start')->get();
 
-        $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereNotIn('activity_id', $completedActivities)
-            ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
-            ->oldest('datetime_start')->get();
+            $today = Activity::with('elderly')
+                ->whereNotIn('activity_id', $completedActivities)
+                ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
+                ->oldest('datetime_start')->get();
 
-        $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
-            ->whereIn('activity_id', $completedActivities)
-            ->orWhere('datetime_start', '<', Carbon::today())
-            ->latest('datetime_start')->get();
+            $past = Activity::with('elderly')
+                ->where(function ($query) use ($completedActivities) {
+                    $query->whereIn('activity_id', $completedActivities)
+                        ->orWhere('datetime_start', '<', Carbon::today());
+                })->latest('datetime_start')->get();
+        } else {
+            $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->whereNotIn('activity_id', $completedActivities)
+                ->where('datetime_start', '>', Carbon::now()->endOfDay())
+                ->oldest('datetime_start')->get();
+
+            $today = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->whereNotIn('activity_id', $completedActivities)
+                ->whereBetween('datetime_start', [Carbon::today(), Carbon::now()->endOfDay()])
+                ->oldest('datetime_start')->get();
+
+            $past = Activity::with('elderly')->ofCentreForStaff(Auth::user())
+                ->where(function ($query) use ($completedActivities) {
+                    $query->whereIn('activity_id', $completedActivities)
+                        ->orWhere('datetime_start', '<', Carbon::today());
+                })->latest('datetime_start')->get();
+        }
 
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
@@ -51,9 +82,13 @@ class ActivitiesController extends Controller
 
     public function create()
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\CreateActivityRequest');
 
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
+
         $locationList = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
@@ -66,7 +101,7 @@ class ActivitiesController extends Controller
         return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
-    public function store(ActivityRequest $request)
+    public function store(CreateActivityRequest $request)
     {
         $errors = array();
 
@@ -89,7 +124,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for branch does not exist.');
             }
         }
 
@@ -178,10 +213,15 @@ class ActivitiesController extends Controller
 
     public function edit($id)
     {
-        $validator = JsValidator::formRequest('App\Http\Requests\ActivityRequest');
+        $validator = JsValidator::formRequest('App\Http\Requests\EditActivityRequest');
 
         $activity = Activity::findOrFail($id);
-        $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id');
+
+        if (Auth::user()->is_admin)
+            $centreList = Centre::all()->lists('name', 'centre_id')->sort();
+        else
+            $centreList = Auth::user()->centres()->get()->lists('name', 'centre_id')->sort();
+
         $locationList = Centre::all()->lists('name', 'centre_id');
         $seniorList = Elderly::all()->lists('elderly_list', 'elderly_id');
 
@@ -194,7 +234,7 @@ class ActivitiesController extends Controller
         return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
-    public function update($id, ActivityRequest $request)
+    public function update($id, EditActivityRequest $request)
     {
         $errors = array();
 
@@ -217,7 +257,7 @@ class ActivitiesController extends Controller
                 $startLocation->lng = $geoInfo['x'];
                 $startLocation->lat = $geoInfo['y'];
             } else {
-                $errors = array_add($errors, 'start_location', 'Postal code for home does not exist.');
+                $errors = array_add($errors, 'start_location', 'Postal code for branch does not exist.');
             }
         }
 
@@ -308,24 +348,25 @@ class ActivitiesController extends Controller
     public function destroy($id)
     {
         $activity = Activity::with('volunteers')->findOrFail($id);
+        $reason = "Activity is cancelled.";
+        $mailingList = array();
 
         foreach ($activity->volunteers as $volunteer) {
             if($volunteer->pivot->approval == "pending" || $volunteer->pivot->approval == "approved") {
-                $volunteer->pivot->comment = "Activity is cancelled.";
+                array_push($mailingList, $volunteer->email);
+
+                $volunteer->pivot->comment = $reason;
                 $volunteer->pivot->approval = "rejected";
                 $volunteer->pivot->save();
-
-                $approval = $volunteer->pivot->approval;
-                $reason = $volunteer->pivot->comment;
-
-                Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-                    $message->subject('Your application for CareGuide activity has been rejected.');
-                    $message->to('imchosen6@gmail.com');
-                });
             }
         }
         $activity->delete();
+
+        Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($mailingList) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+            $message->subject('Your application for an CareGuide activity has been rejected.');
+            $message->bcc('imchosen6@gmail.com');
+        });
 
         return redirect('activities')->with('success', 'Activity is cancelled successfully!');
     }
@@ -343,23 +384,23 @@ class ActivitiesController extends Controller
             ->where('approval', 'pending')
             ->firstOrFail();
 
+        $reason = "The position is unavailable."; // Default message if rejection reason is left blank by staff
+
         if($request->has('comment')) {
-            $task->comment = $request->get('comment');
-        } else {
-            $task->comment = "The position is unavailable."; // Default message if rejection reason is left blank by staff
+            $reason = $request->get('comment');
         }
 
+        $task->comment = $reason;
         $task->approval = "rejected";
         $task->save();
 
         $activity = $task->activity;
-        $approval = $task->approval;
-        $reason = $task->comment;
+        $email = $task->volunteer->email;
 
-        Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
+        Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($email) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-            $message->subject('Your application for CareGuide activity has been rejected.');
-            $message->to('imchosen6@gmail.com');
+            $message->subject('Your application for an CareGuide activity has been rejected.');
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return back()->with('success', 'Volunteer is rejected!');
@@ -369,32 +410,36 @@ class ActivitiesController extends Controller
         $tasks = Task::ofActivity($activityId)->get();
         $activity = Activity::findOrFail($activityId);
 
+        $reason = "Activity is taken up by another volunteer."; // Default reason by system
+        $rejectMailingList = array();
+        $acceptEmail = "";
+
         foreach($tasks as $task) {
             if($task->approval == "pending") {
+                $email = $task->volunteer->email;
+
                 if ($task->volunteer_id == $volunteerId) {
                     $task->approval = "approved";
-
+                    $acceptEmail = $email;
                 } else {
-                    $task->comment = "Activity is taken up by another volunteer.";
+                    $task->comment = $reason;
                     $task->approval = "rejected";
+                    array_push($rejectMailingList, $email);
                 }
             }
             $task->save();
-
-            $approval = $task->approval;
-            $reason = $task->comment;
-
-            Mail::send('emails.activity_reject', compact('activity', 'approval', 'reason'), function ($message) {
-                $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-                $message->subject('Your application for CareGuide activity has been rejected.');
-                $message->to('imchosen6@gmail.com');
-            });
         }
 
-        Mail::send('emails.activity_approve', compact('activity', 'approval'), function ($message) {
+        Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($rejectMailingList) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-            $message->subject('Your application for CareGuide activity has been approved.');
-            $message->to('imchosen6@gmail.com');
+            $message->subject('Your application for an CareGuide activity has been rejected.');
+            $message->bcc('imchosen6@gmail.com');
+        });
+
+        Mail::send('emails.activity_approve', compact('activity'), function ($message) use ($acceptEmail) {
+            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+            $message->subject('Your application for an CareGuide activity has been accepted.');
+            $message->bcc('imchosen6@gmail.com');
         });
 
         return back()->with('success', 'Volunteer is approved!');
@@ -405,26 +450,6 @@ class ActivitiesController extends Controller
         $activity = Activity::findOrFail($activityId);
 
         return json_encode(['progress' => $activity->getProgress()]);
-    }
-
-    public function addressToLatLng($address)
-    {
-        $validator = Validator::make([$address], [
-            'address' => 'required|string',
-        ]);
-
-        if ($validator->passes()) {
-            $client = new \GuzzleHttp\Client();
-            $responseFromAddr = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&countryCode=SGP&maxLocations=1&outFields=*&address=' . $address);
-            $responseFromAddr = json_decode($responseFromAddr->getBody(), true);
-            if (count($responseFromAddr['candidates'])) {
-                $response = $responseFromAddr['candidates'][0]['location'];
-                $json['x'] = $response['x'];
-                $json['y'] = $response['y'];
-
-                return json_encode($json);
-            }
-        }
     }
 
     public function postalCodeToAddress($postal)
@@ -447,26 +472,12 @@ class ActivitiesController extends Controller
             if (count($responseFromLatLng['GeocodeInfo'])) {
                 $fromLatLng = $responseFromLatLng['GeocodeInfo'][0];
 
-                if (empty($fromLatLng['BUILDINGNAME']) || strpos($fromLatLng['BUILDINGNAME'], "HDB") !== false) {
-                    $responseFromLatLng = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=' . $lng . ',' . $lat);
-                    $responseFromLatLng = json_decode($responseFromLatLng->getBody(), true);
+                $neighbourhood = $fromLatLng['BUILDINGNAME'];
+                $address = $fromLatLng['BLOCK'] . " " . $fromLatLng['ROAD'] . ", Singapore " . $fromLatLng['POSTALCODE'];
+                $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
+                $json['address'] = ucwords(strtolower($address));
 
-                    if (isset($responseFromLatLng['address'])) {
-                        $neighbourhood = $responseFromLatLng['address']['Address'];
-                        $address = $responseFromLatLng['address']['Match_addr'];
-                        $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
-                        $json['address'] = ucwords(strtolower($address));
-
-                        return json_encode($json);
-                    }
-                } else {
-                    $neighbourhood = $fromLatLng['BUILDINGNAME'];
-                    $address = $fromLatLng['BLOCK'] . " " . $fromLatLng['ROAD'] . ", " . $fromLatLng['POSTALCODE'] . ", Singapore";
-                    $json['neighbourhood'] = ucwords(strtolower($neighbourhood));
-                    $json['address'] = ucwords(strtolower($address));
-
-                    return json_encode($json);
-                }
+                return json_encode($json);
             }
         } else {
             return json_encode(['status' => 'error']);

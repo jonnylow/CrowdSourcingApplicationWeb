@@ -40,7 +40,11 @@
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
@@ -53,7 +57,7 @@
                                 <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
-                        @if (starts_with($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday())
+                        @if (str_contains($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday())
                             <div class="pull-right">
                                 <a class="btn btn-primary btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
                         @else
@@ -105,9 +109,9 @@
                     <div id="collapse-address" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-address">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
-                                <dt>Start From:</dt>
+                                <dt>Branch At:</dt>
                                 <dd><address><strong>{{ $activity->departureCentre->name }}</strong><br>{{ $activity->departureCentre->address }}</address></dd>
-                                <dt>Check-up At:</dt>
+                                <dt>Appointment At:</dt>
                                 <dd><address><strong>{{ $activity->arrivalCentre->name }}</strong><br>{{  $activity->arrivalCentre->address }}</address></dd>
                             </dl>
                         </div>
@@ -132,7 +136,7 @@
                                         <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                         <th class="col-md-3" data-field="volunteer_name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Applicant Name</th>
                                         <th class="col-md-1" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
-                                        <th class="col-md-1" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
+                                        <th class="col-md-1" data-field="age" data-sortable="true" data-sorter="numericOnly" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
                                         <th class="col-md-1" data-field="rank" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
                                         <th class="col-md-2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                         <th class="col-md-2" data-field="applied_time" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Applied on</th>
@@ -201,6 +205,10 @@
 @section('page-script')
 
 <script>
+    $(document).ready(function() {
+        $('#collapse-volunteer .fixed-table-toolbar .search input').attr('placeholder', 'Search volunteers');
+    });
+
     var currentProgress = 0;
 
     if ($('div.progress').find('div.progress-bar').length)
@@ -252,5 +260,11 @@
 @section('partials-script')
 
 @include('partials.confirm')
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

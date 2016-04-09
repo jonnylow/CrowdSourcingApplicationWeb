@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Senior List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="seniors">
                         <thead>
                             <tr>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
@@ -28,7 +28,7 @@
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>
                                 <th class="col-md-1" rowspan="2" data-field="gender" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Gender</th>
                                 <th class="col-md-1" rowspan="2" data-field="centre" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Centre</th>
-                                <th class="col-md-2" rowspan="2" data-field="languages" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Languages</th>
+                                <th class="col-md-2" rowspan="2" data-field="languages" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Language Spoken</th>
                                 <th class="col-md-2" colspan="2" data-halign="center" data-align="center" data-valign="middle">Next-of-Kin</th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" rowspan="2" data-align="center" data-valign="middle"></th>
@@ -80,8 +80,24 @@
 
 @endsection
 
+@section('page-script')
+
+<script>
+    $(document).ready(function() {
+        $('.bootstrap-table .fixed-table-toolbar .search input').attr('placeholder', 'Search seniors');
+    });
+</script>
+
+@endsection
+
 @section('partials-script')
 
 @include('partials.confirm')
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

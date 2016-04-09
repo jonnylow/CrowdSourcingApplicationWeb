@@ -9,12 +9,16 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Manage Ranks</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-8 col-md-offset-2">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['method' => 'PATCH', 'route' => ['ranks.update']]) !!}
 
             <div class="row margin-bottom-sm">
-                <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-sort-name="rank" data-sort-order="asc" data-unique-id="rank">
+                <table id="rank-table" class="table table-striped table-bordered table-hover" data-toggle="table" data-sort-name="rank" data-sort-order="asc" data-cookie="true" data-cookie-id-table="ranks">
                     <thead>
                     <tr>
                         <th class="col-md-2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
@@ -152,5 +156,11 @@
         validateRank3();
     });
 </script>
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

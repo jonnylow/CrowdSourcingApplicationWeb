@@ -9,7 +9,11 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Add new Staff</h1>
 
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['route' => 'staff.store']) !!}
 
@@ -40,21 +44,16 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    @if (Auth::user()->is_admin)
                                     <!-- Staff Type Form Input -->
                                     <div class="col-md-5 form-group">
-                                        <div>{!! Form::label('admin', 'Staff Type', ['class' => 'control-label']) !!}</div>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default {{ old('admin') == "0" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="0" autocomplete="off" {{ old('admin') == "0" ? 'checked' : null }}> Regular
-                                            </label>
-                                            <label class="btn btn-default {{ old('admin') == "1" ? 'active' : null }}">
-                                                <input type="radio" name="admin" value="1" autocomplete="off" {{ old('admin') == "1" ? 'checked' : null }}> Admin
-                                            </label>
-                                        </div>
+                                        {!! Form::label('admin', 'Staff Type', ['class' => 'control-label']) !!}
+                                        {!! Form::select('admin', $staffType, null, ['class' => 'form-control', 'required']) !!}
                                     </div>
+                                    @endif
                                     <!-- Centres Form Input -->
                                     <div class="col-md-7 form-group">
-                                        {!! Form::label('centres[]', 'Centres in charge', ['class' => 'control-label']) !!}
+                                        {!! Form::label('centres[]', 'Senior Centres in charge', ['class' => 'control-label']) !!}
                                         {!! Form::select('centres[]', $centreList, null, ['class' => 'form-control', 'id' => 'centres', 'required', 'multiple']) !!}
                                     </div>
                                 </div>
@@ -103,13 +102,6 @@
     :-moz-placeholder { color: #acb6c0; }
     ::-moz-placeholder { color: #acb6c0; }
     :-ms-input-placeholder { color: #acb6c0; }
-
-    .btn-group {
-        border: 2px solid transparent;
-        border-radius: 6px;
-    }
-    .has-error .btn-group, .has-error .btn-group.focus { border-color: #e74c3c; }
-    .has-success .btn-group, .has-success .btn-group.focus { border-color: #18bc9c; }
 </style>
 
 <script>
@@ -120,5 +112,11 @@
         placeholder: 'e.g. Henderson Home'
     });
 </script>
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

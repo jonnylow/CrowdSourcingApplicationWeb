@@ -5,8 +5,27 @@
 @section('content')
 
 <div class="container-fluid margin-bottom-lg">
-    <div class="row margin-bottom-sm">
-        <div class="col-md-3"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
+    <div class="col-md-12 margin-bottom-sm">
+        <div class="row">
+            <div class="col-md-3 pull-down"><a href="activities/create" class="btn btn-primary btn-lg">Add new Activity</a></div>
+
+            <div class="col-md-4 col-md-offset-5" id="legend">
+                <h4>Legend:</h4>
+
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-red"></span></div>
+                    <div class="col-sm-11"><p>No volunteer sign up</p></div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-orange"></span></div>
+                    <div class="col-sm-11"><p>Volunteer(s) waiting for approval</p></div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-sm-1"><span class="fa fa-circle circle-green"></span></div>
+                    <div class="col-sm-11"><p>Volunteer confirmed for the activity</p></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row margin-bottom-sm">
@@ -17,19 +36,19 @@
 
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" id="activityTabs">
                 <li><a href="#past" aria-controls="past" role="tab" data-toggle="tab"><strong>Past Activities</strong></a></li>
-                <li class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab"><strong>Today's Activities</strong></a></li>
+                <li><a href="#today" aria-controls="today" role="tab" data-toggle="tab"><strong>Today's Activities</strong></a></li>
                 <li><a href="#upcoming" aria-controls="upcoming" role="tab" data-toggle="tab"><strong>Upcoming Activities</strong></a></li>
             </ul>
 
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane table-responsive fade" id="past">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="pastActivities">
                         <thead>
                             <tr>
-                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">From</th>
-                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">To</th>
+                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
+                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                 <th class="col-md-2" data-field="datetime_start" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Date & Time</th>
                                 <th class="col-md-2" data-field="senior" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
                                 <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
@@ -65,12 +84,12 @@
                     </table>
                 </div> <!-- /.tab-pane .table-responsive -->
 
-                <div role="tabpanel" class="tab-pane table-responsive fade in active" id="today">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                <div role="tabpanel" class="tab-pane table-responsive fade in" id="today">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-cookie="true" data-cookie-id-table="todayActivities">
                         <thead>
                             <tr>
-                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">From</th>
-                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">To</th>
+                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
+                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                 <th class="col-md-2" data-field="datetime_start" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Date & Time</th>
                                 <th class="col-md-2" data-field="senior" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
                                 <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
@@ -107,14 +126,14 @@
                 </div> <!-- /.tab-pane .table-responsive -->
 
                 <div role="tabpanel" class="tab-pane table-responsive fade" id="upcoming">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-filter-control="true" data-cookie="true" data-cookie-id-table="upcomingActivities">
                         <thead>
                             <tr>
-                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">From</th>
-                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">To</th>
+                                <th class="col-md-2" data-field="location_from" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
+                                <th class="col-md-2" data-field="location_to" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                 <th class="col-md-2" data-field="datetime_start" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Date & Time</th>
                                 <th class="col-md-2" data-field="senior" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
-                                <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
+                                <th class="col-md-2" data-field="status" data-sortable="true" data-searchable="true" data-filter-control="select" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                 <th class="col-md-1" data-align="center" data-valign="middle"></th>
                                 <th class="col-md-1" data-align="center" data-valign="middle"></th>
                             </tr>
@@ -129,16 +148,17 @@
                                     <td>{{ $activity->elderly->name }}</td>
                                     <td>{!! $activity->getApplicationStatus() !!}</td>
                                     <td>
-                                        @if (starts_with($activity->getApplicationStatus(), 'No application'))
-                                            <div>
-                                                <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
+                                        @if (str_contains($activity->getApplicationStatus(), 'No application'))
+                                            <a class="btn btn-default btn-xs" href="{{ route('activities.edit', $activity->activity_id) }}">
+                                                <span class="fa fa-lg fa-pencil"></span> Edit
+                                            </a>
                                         @else
                                             <div data-toggle="tooltip" data-placement="top" title="{{ $activity->getTooltipStatus() }}">
                                                 <a class="btn btn-default btn-xs disabled" href="#">
+                                                    <span class="fa fa-lg fa-pencil"></span> Edit
+                                                </a>
+                                            </div>
                                         @endif
-                                                <span class="fa fa-lg fa-pencil"></span> Edit
-                                            </a>
-                                        </div>
                                     </td>
                                     <td>
                                         <a class="btn btn-info btn-xs" href="{{ route('activities.show', $activity->activity_id) }}">
@@ -160,12 +180,47 @@
 
 @section('page-script')
 
+<script type="text/javascript" src="{{ asset('js/bootstrap-table-filter-control.min.js') }}"></script>
+
+<style>
+    #legend {
+        border: 2px solid #ddd;
+        background-color: #ecf0f1;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+    }
+
+    #legend .circle-red { color: #E74C3C; }
+    #legend .circle-orange { color: #F39C12; }
+    #legend .circle-green { color: #18BC9C; }
+</style>
+
 <script>
     $(document).ready(function() {
         $('#past .fixed-table-toolbar .search input').attr('placeholder', 'Search past activities');
         $('#today .fixed-table-toolbar .search input').attr('placeholder', 'Search today\'s activities');
         $('#upcoming .fixed-table-toolbar .search input').attr('placeholder', 'Search upcoming activities');
+        $('#upcoming th[data-field="status"] .filterControl select').find('option:eq(0)').html("Choose status");
     });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on('shown.bs.tab', function (e) {
+        var id = $(e.target).attr('href').substr(1);
+        window.location.hash = '#/' + id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash.replace(/^#\//, '#');
+    if (hash)
+        $('#activityTabs a[href="' + hash + '"]').tab('show');
+    else
+        $('#activityTabs a[href="#today"]').tab('show');
 </script>
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

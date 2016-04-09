@@ -16,7 +16,7 @@
                                 <span class="fa fa-lg fa-check"></span> Training is completed
                             </span>
                         @elseif($volunteer->is_approved == 'rejected')
-                            <span class="label label-danger">
+                            <span class="label label-default">
                                 <span class="fa fa-lg fa-times"></span> Volunteer is rejected
                             </span>
                         @else
@@ -54,7 +54,11 @@
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @include('errors.list')
+            <div class="row margin-bottom-sm">
+                <div class="col-md-6 col-md-offset-3">
+                    @include('errors.list')
+                </div>
+            </div>
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
@@ -113,16 +117,16 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading-volunteer">
+                    <div class="panel-heading" role="tab" id="heading-history">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" href="#collapse-volunteer" aria-expanded="true" aria-controls="collapse-volunteer">
+                            <a role="button" data-toggle="collapse" href="#collapse-history" aria-expanded="true" aria-controls="collapse-history">
                                 <span class="fa fa-fw fa-history"></span>
                                 <strong>Activity History</strong>
                                 <span class="icon-arrow fa fa-lg fa-chevron-up"></span>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapse-volunteer" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-volunteer">
+                    <div id="collapse-history" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-history">
                         <div class="panel-body table-responsive">
                             <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
                                 <thead>
@@ -132,8 +136,8 @@
                                         <th class="col-md-1" data-field="start_time" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Start Time</th>
                                         <th class="col-md-1" data-field="end_time" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">End Time</th>
                                         <th class="col-md-2" data-field="senior_name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Senior's Name</th>
-                                        <th class="col-md-2" data-field="start_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Start Location</th>
-                                        <th class="col-md-2" data-field="end_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">End Location</th>
+                                        <th class="col-md-2" data-field="start_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Branch</th>
+                                        <th class="col-md-2" data-field="end_location" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Appointment Venue</th>
                                         <th class="col-md-2" data-field="status" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Status</th>
                                     </tr>
                                 </thead>
@@ -176,10 +180,22 @@
     }
 </style>
 
+<script>
+    $(document).ready(function() {
+        $('#collapse-history .fixed-table-toolbar .search input').attr('placeholder', 'Search activity history');
+    });
+</script>
+
 @endsection
 
 @section('partials-script')
 
 @include('partials.confirm')
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

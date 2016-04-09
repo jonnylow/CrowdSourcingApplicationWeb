@@ -8,7 +8,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h1>Change your Password</h1>
-            @include('errors.list')
+
+            <div class="row margin-bottom-sm">
+                <div class="col-md-8 col-md-offset-2">
+                    @include('errors.list')
+                </div>
+            </div>
 
             {!! Form::open(['class' => 'form-horizontal', 'method' => 'PATCH', 'route' => 'profile.update.password']) !!}
                 <!-- Current Password Form Input -->
@@ -46,5 +51,11 @@
 @section('page-script')
 
 {!! $validator !!}
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

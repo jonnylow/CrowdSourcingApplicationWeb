@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 
 class EditVolunteerRequest extends Request
 {
@@ -34,7 +33,7 @@ class EditVolunteerRequest extends Request
             'contact_no'            => 'required|digits:8|regex:/^[689][0-9]{7}/',
             'occupation'            => 'alpha_space',
             'car'                   => 'required|boolean',
-            'minutes_volunteered'   => 'required|integer|min:0|max:99999999',
+            'minutes_volunteered'   => 'required|integer|digits_between:1,8|min:0|max:99999999',
             'area_of_preference_1'  => 'string|different:area_of_preference_2',
             'area_of_preference_2'  => 'string|different:area_of_preference_1',
 
@@ -53,6 +52,18 @@ class EditVolunteerRequest extends Request
             $combinedDate = implode('-', [$this->get('date_year'), str_pad($this->get('date_month'), 2, '0', STR_PAD_LEFT), str_pad($this->get('date_day'), 2, '0', STR_PAD_LEFT)]);
             $this->merge([
                 'date_of_birth' => $combinedDate,
+            ]);
+        }
+
+        if (is_string($this->get('minutes_volunteered'))) {
+            if (ltrim($this->get('minutes_volunteered'), '0') != '') {
+                $minutes = ltrim($this->get('minutes_volunteered'), '0');
+            } else {
+                $minutes = '0';
+            }
+
+            $this->merge([
+                'minutes_volunteered' => $minutes,
             ]);
         }
 

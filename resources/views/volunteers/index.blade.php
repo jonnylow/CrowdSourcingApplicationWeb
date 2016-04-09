@@ -20,11 +20,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Volunteer List</h4></div>
                 <div class="panel-body table-responsive">
-                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="nric">
+                    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-sort-name="nric" data-cookie="true" data-cookie-id-table="volunteers">
                         <thead>
                             <tr>
                                 <th class="col-md-2" rowspan="2" data-field="name" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Name</th>
-                                <th class="col-md-1" rowspan="2" data-field="age" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
+                                <th class="col-md-1" rowspan="2" data-field="age" data-sortable="true" data-sorter="numericOnly" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Age</th>
                                 <th class="col-md-1" rowspan="2" data-field="contact" data-sortable="true" data-searchable="true" data-halign="center" data-align="center" data-valign="middle">Contact Number</th>
                                 <th class="col-md-1" rowspan="2" data-field="rank" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Rank</th>
                                 <th class="col-md-1" rowspan="2" data-field="car" data-sortable="true" data-halign="center" data-align="center" data-valign="middle">Has Car</th>
@@ -71,5 +71,21 @@
     </div>
 
 </div>
+
+@endsection
+
+@section('page-script')
+
+<script>
+    $(document).ready(function() {
+        $('.bootstrap-table .fixed-table-toolbar .search input').attr('placeholder', 'Search volunteers');
+    });
+</script>
+
+@endsection
+
+@section('auth-script')
+
+@include('auth._redirect_if_no_auth')
 
 @endsection

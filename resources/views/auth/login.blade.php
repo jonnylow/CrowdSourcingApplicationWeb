@@ -14,7 +14,7 @@
             {!! Form::open(['url' => asset('auth/login'), 'role' => 'login']) !!}
                 <div class="form-group">
                     {!! Form::label('email', 'Email', ['class' => 'control-label sr-only']) !!}
-                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email']) !!}
+                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'required', 'autofocus', 'placeholder' => 'Email', 'onBlur' => 'javascript:{this.value = this.value.toLowerCase(); }']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('password', 'Password', ['class' => 'control-label sr-only']) !!}

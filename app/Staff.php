@@ -69,6 +69,16 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
+     * Set the email attribute.
+     *
+     * @var email
+     */
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = strtolower(trim($email));
+    }
+
+    /**
      * Set the staff admin privilege.
      */
     public function setIsAdminAttribute($admin)

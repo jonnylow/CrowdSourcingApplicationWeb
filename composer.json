@@ -10,12 +10,16 @@
             "url": "https://github.com/missbossy/Faker.git"
         },
         {
+            "type": "git",
+            "url": "https://github.com/changhuapeng/transmitsms-api.git"
+        },
+        {
             "type": "package",
             "package": {
                 "name": "wenzhixin/bootstrap-table",
-                "version": "1.9.1",
+                "version": "1.10.1",
                 "dist": {
-                    "url": "https://github.com/wenzhixin/bootstrap-table/archive/1.9.1.zip",
+                    "url": "https://github.com/wenzhixin/bootstrap-table/archive/1.10.1.zip",
                     "type": "zip"
                 },
                 "source": {
@@ -67,9 +71,10 @@
         "proengsoft/laravel-jsvalidation": "~1.1",
         "thomaspark/bootswatch": "3.3.*",
         "fortawesome/font-awesome": "4.*",
-        "wenzhixin/bootstrap-table": "1.9.1",
+        "wenzhixin/bootstrap-table": "1.10.*",
         "selectize/selectize.js": "0.12.1",
-        "nnnick/chartjs": "2.0.0-beta2"
+        "nnnick/chartjs": "2.0.0-beta2",
+        "abreeden/transmitsms-api": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "dev-singapore",
