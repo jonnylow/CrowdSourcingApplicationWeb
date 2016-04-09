@@ -35,9 +35,9 @@ class ActivitiesController extends Controller
     }
 
     /**
-     * Handle an authentication attempt.
-     *
-     * @return Response
+     * Retrieves all activties that are avaliable, if authenticated, checks for user applied activities
+     * @param $token
+     * @return JSON array of activities  
      */
     public function retrieveTransportActivity(Request $request)
     {
@@ -79,7 +79,11 @@ class ActivitiesController extends Controller
             }
     }
 
-// tested working with new database 
+    /**
+     * Retrieves Transport activties with location based on transport IDs
+     * @param $transportId
+     * @return JSON array of activities  
+     */
     public function retrieveTransportActivityDetails(Request $request)
     {
         $id = $request->get('transportId');
@@ -131,11 +135,14 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database 
+    /**
+     * Retrieves a number of recommended activities that are urgent. If authenticated, counter check with user applied activities
+     * @param $limit
+     * @param $token
+     * @return JSON array of activities 
+     */
     public function retrieveRecommendedTransportActivity(Request $request)
     {
-        // retrieve the nearest UpcomingExact activites based on dates
-        // limit will be determined by jonathan
         if ($request->get('limit') == null ) {
             $status = array("Missing parameter");
             return response()->json(compact('status'));
@@ -188,7 +195,12 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database
+    /**
+     * Handles the application of activites for user. 
+     * @param $volunteer_id
+     * @param $activity_id
+     * @return JSON Array with Status
+     */
     public function addNewActivity(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null) {
@@ -236,7 +248,12 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database 
+    /**
+     * Handles the checking to prevent user from applying from activities from the same time period of another activity
+     * @param $volunteer_id
+     * @param $activity_id
+     * @return JSON Array with Status 
+     */
     public function checkActivityApplication(Request $request)
     {
 
@@ -310,7 +327,13 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database , pending update from task.php
+    /**
+     * Handles the status updates through activity. If completed, compute points and add points to user.
+     * @param $volunteer_id
+     * @param $activity_id
+     * @param $status
+     * @return JSON Array with Status
+     */
     public function updateActivityStatus(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null || $request->get('status') == null) {
@@ -342,7 +365,11 @@ class ActivitiesController extends Controller
         }
     }
 
-// New Error types
+    /**
+     * Handles the withdrawal of activity from user
+     * @param $volunteer_id
+     * @return JSON Array with Status 
+     */
     public function withdraw(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null) {
@@ -367,7 +394,11 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         }
     }
-
+    /**
+     * Retrieves the filters for activity search
+     * @param $filter
+     * @return JSON array of filtered search with activity IDs
+     */
     public function retrieveFilter(Request $request)
     {
         if ($request->get('filter') == null){
