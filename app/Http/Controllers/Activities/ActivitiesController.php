@@ -430,11 +430,13 @@ class ActivitiesController extends Controller
             $task->save();
         }
 
-        Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($rejectMailingList) {
-            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-            $message->subject('Your application for an CareGuide activity has been rejected.');
-            $message->bcc($rejectMailingList);
-        });
+        if ( ! empty($rejectMailingList)) {
+            Mail::send('emails.activity_reject', compact('activity', 'reason'), function ($message) use ($rejectMailingList) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+                $message->subject('Your application for an CareGuide activity has been rejected.');
+                $message->bcc($rejectMailingList);
+            });
+        }
 
         Mail::send('emails.activity_approve', compact('activity'), function ($message) use ($acceptEmail) {
             $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
