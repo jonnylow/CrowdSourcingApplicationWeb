@@ -438,11 +438,13 @@ class ActivitiesController extends Controller
             });
         }
 
-        Mail::send('emails.activity_approve', compact('activity'), function ($message) use ($acceptEmail) {
-            $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
-            $message->subject('Your application for an CareGuide activity has been accepted.');
-            $message->bcc($acceptEmail);
-        });
+        if ( ! empty($acceptEmail)) {
+            Mail::send('emails.activity_approve', compact('activity'), function ($message) use ($acceptEmail) {
+                $message->from('imchosen6@gmail.com', 'CareGuide Activity Management');
+                $message->subject('Your application for an CareGuide activity has been accepted.');
+                $message->bcc($acceptEmail);
+            });
+        }
 
         return back()->with('success', 'Volunteer is approved!');
     }
