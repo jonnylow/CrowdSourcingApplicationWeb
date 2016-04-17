@@ -117,7 +117,7 @@ class StatsController extends Controller
 
             $scaleLabel = array('display' => true, 'fontFamily' => 'Lato', 'fontSize' => 16);
             $xTicks = array('fontFamily' => 'Lato', 'fontSize' => 16);
-            $yTicks = array('fontFamily' => 'Lato', 'fontSize' => 16, 'maxTicksLimit' => 6, 'min' => 0, 'suggestedMax' => 30);
+            $yTicks = array('fontFamily' => 'Lato', 'fontSize' => 16, 'maxTicksLimit' => 6, 'min' => 0, 'suggestedMax' => 15);
             array_set($charts, 'options.scales.xAxes', array(['position' => 'top', 'scaleLabel' => $scaleLabel, 'ticks' => $xTicks]));
             array_set($charts, 'options.scales.yAxes', array(['scaleLabel' => $scaleLabel, 'ticks' => $yTicks]));
 
