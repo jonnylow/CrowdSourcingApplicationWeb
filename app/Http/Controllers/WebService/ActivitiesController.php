@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Http\Controllers\WebService\VolunteerAuthController;
 use Config;
 use App\Activity;
 use App\Task;
@@ -18,11 +17,15 @@ use App\Rank;
 use App\Staff;
 use Carbon\Carbon;
 use Mail;
-use DB;
 
 
 class ActivitiesController extends Controller
 {
+    /**
+     * Instantiate a new ActivitiesController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Set the Eloquent model that should be used to retrieve your users
@@ -35,9 +38,10 @@ class ActivitiesController extends Controller
     }
 
     /**
-     * Handle an authentication attempt.
+     * Retrieves all activities that are available, if authenticated, checks for user applied activities.
      *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of activities
      */
     public function retrieveTransportActivity(Request $request)
     {
@@ -79,7 +83,12 @@ class ActivitiesController extends Controller
             }
     }
 
-// tested working with new database 
+    /**
+     * Retrieves Transport activities with location based on transport IDs.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of activities
+     */
     public function retrieveTransportActivityDetails(Request $request)
     {
         $id = $request->get('transportId');
@@ -131,11 +140,14 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database 
+    /**
+     * Retrieves a number of recommended activities that are urgent. If authenticated, counter check with user applied activities.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of activities
+     */
     public function retrieveRecommendedTransportActivity(Request $request)
     {
-        // retrieve the nearest UpcomingExact activites based on dates
-        // limit will be determined by jonathan
         if ($request->get('limit') == null ) {
             $status = array("Missing parameter");
             return response()->json(compact('status'));
@@ -188,7 +200,12 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database
+    /**
+     * Handles the application of activities for user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with Status
+     */
     public function addNewActivity(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null) {
@@ -236,7 +253,12 @@ class ActivitiesController extends Controller
 
     }
 
-// tested working with new database 
+    /**
+     * Handles the checking to prevent user from applying from activities from the same time period of another activity.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with Status
+     */
     public function checkActivityApplication(Request $request)
     {
 
@@ -261,8 +283,6 @@ class ActivitiesController extends Controller
                $activityEndTime = $applyingActivity->datetime_start->addMinutes($activityDuration);
                $activityFullDayStart = $applyingActivity->datetime_start->startOfDay()->toDateTimeString();
                $activityFullDayEnd = $applyingActivity->datetime_start->endOfDay()->toDateTimeString();
-                
-               
                 
 
                 $activitiesOnSameDay = Activity::whereBetween('datetime_start', [$activityFullDayStart,$activityFullDayEnd ])->where('activity_id','<>',$actID)->lists('activity_id');
@@ -293,7 +313,6 @@ class ActivitiesController extends Controller
                        $check = true;
                     }
 
-
                 }
                 if (!$check) {
                     $status = array("do not exist");
@@ -303,14 +322,16 @@ class ActivitiesController extends Controller
                     return response()->json(compact('status'));
                 } 
             }
-
-            
-
         }
 
     }
 
-// tested working with new database , pending update from task.php
+    /**
+     * Handles the status updates through activity. If completed, compute points and add points to user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with Status
+     */
     public function updateActivityStatus(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null || $request->get('status') == null) {
@@ -342,7 +363,12 @@ class ActivitiesController extends Controller
         }
     }
 
-// New Error types
+    /**
+     * Handles the withdrawal of activity from user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with Status
+     */
     public function withdraw(Request $request)
     {
         if ($request->get('volunteer_id') == null || $request->get('activity_id') == null) {
@@ -367,7 +393,13 @@ class ActivitiesController extends Controller
             return response()->json(compact('status'));
         }
     }
-
+    
+    /**
+     * Retrieves the filters for activity search.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of filtered search with activity IDs
+     */
     public function retrieveFilter(Request $request)
     {
         if ($request->get('filter') == null){
@@ -392,18 +424,15 @@ class ActivitiesController extends Controller
                             ->lists('activity_id');
 
                         $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
-                        //echo $notApproved;
                         $activityList = Activity::whereNotIn('activity_id',$notApproved)->groupBy('location_from_id')->lists('location_from_id');
-                        //echo $activityList;
+                        
                         $toReturn = [];
                         foreach ($activityList as $location){
-                            //echo $location;
+                            
                             $locationName = Centre::findOrFail($location)->name;
-                            //echo $location;
                             
                             $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$approvedActivities)->whereNotIn('activity_id',$appliedActivities)->whereNotIn('activity_id',$notApproved)->where('location_from_id',$location)->distinct()->lists('activity_id');
-                            //$toReturn = array();
-
+                            
                             if (!$locationList->isEmpty()){
                                 array_push($toReturn, array("location_from" => $locationName, "activity_ids" => implode(",", $locationList->toArray())));
                             }
@@ -411,30 +440,20 @@ class ActivitiesController extends Controller
                         return response()->json($toReturn);
                     } else {
                         $notApproved = Task::where('approval','=','approved')->distinct()->lists('activity_id');
-                        //echo $notApproved;
                         $activityList = Activity::whereNotIn('activity_id',$notApproved)->groupBy('location_from_id')->lists('location_from_id');
-                        //echo $activityList;
+                        
                         $toReturn = [];
                         foreach ($activityList as $location){
-                            //echo $location;
                             $locationName = Centre::findOrFail($location)->name;
-                            //echo $location;
-                            
                             $locationList = Activity::where('datetime_start','>',Carbon::now())->whereNotIn('activity_id',$notApproved)->where('location_from_id',$location)->distinct()->lists('activity_id');
-                            //$toReturn = array();
-
+                            
                             if (!$locationList->isEmpty()){
                                 array_push($toReturn, array("location_from" => $locationName, "activity_ids" => implode(",", $locationList->toArray())));
                             }
                         }
-                        
-
                         return response()->json($toReturn);
                     }
-
-                
-
-            }elseif ($filter == 'end') {
+            } elseif ($filter == 'end') {
                 if ($request->get('token') != null){
                         $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
                         $id = $authenticatedUser->volunteer_id;
@@ -501,7 +520,7 @@ class ActivitiesController extends Controller
                         return response()->json($toReturn);
                     }
                 
-            }else {
+            } else {
                 if ($request->get('token') != null){
                         $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
                         $id = $authenticatedUser->volunteer_id;
@@ -552,11 +571,6 @@ class ActivitiesController extends Controller
             }
             
         }
-        
-        
-
-
-        
     }
 
 }

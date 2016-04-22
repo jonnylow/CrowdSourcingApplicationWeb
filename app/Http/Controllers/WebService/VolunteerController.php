@@ -21,6 +21,11 @@ use TransmitSMS;
 
 class VolunteerController extends Controller
 {
+    /**
+     * Instantiate a new VolunteerController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Set the Eloquent model that should be used to retrieve your users
@@ -33,6 +38,12 @@ class VolunteerController extends Controller
         $this->middleware('jwt.auth', ['except' => ['sendSMS', 'addUserAccount', 'checkEmail', 'checkNRIC', 'retrieveUserAccounts', 'retrieveUserDetails', 'verifyUserEmailandPassword', 'updateUserAccount', 'updateUserDetails', 'retrieveMyTransportActivityDetails', 'retrieveRankingDetails', 'getAllVolunteerContribution','sendFeedback']]);
     }
 
+    /**
+     * Retrieves all activities that are available, if authenticated, checks for user applied activities.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function sendSMS(Request $request)
     {
         $result = TransmitSMS::sendSms($request->get('message'), $request->get('number'), 'CareGuide');
@@ -47,6 +58,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Handles registration process of new volunteer.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function addUserAccount(Request $request)
     {
         Volunteer::create([
@@ -85,7 +102,12 @@ class VolunteerController extends Controller
         }
     }
 
-// tested working with new database
+    /**
+     * Check if email has been used.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function checkEmail(Request $request)
     {
         $check = $request->get('email');
@@ -103,7 +125,12 @@ class VolunteerController extends Controller
 
     }
 
-// tested working with new database
+    /**
+     * Checks if the NRIC has been used.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function checkNRIC(Request $request)
     {
         $check = $request->get('nric');
@@ -120,8 +147,12 @@ class VolunteerController extends Controller
         }
     }
 
-
-// tested working with new database
+    /**
+     * Retrieves the user information based on volunteer ID.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of Volunteer information
+     */
     public function retrieveUserDetails(Request $request)
     {
         // retrieve all details based on volunteer id
@@ -140,6 +171,12 @@ class VolunteerController extends Controller
         return response()->json(compact('volunteer', 'volunteerHours', 'nextRank'));
     }
 
+    /**
+     * Handles the password reset request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function verifyUserEmailandPassword(Request $request)
     {
         if ($request->has('email') && $request->has('phone')) {
@@ -169,6 +206,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Handles password changes for user account.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function updateUserAccount(Request $request)
     {
         if ($request->get('id') == null || $request->get('password') == null) {
@@ -198,6 +241,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Handles information changes for user profile.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function updateUserDetails(Request $request)
     {
        
@@ -242,6 +291,12 @@ class VolunteerController extends Controller
         
     }
 
+    /**
+     * Retrieves activities based on user and activity.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status
+     */
     public function retrieveMyTransportActivityDetails(Request $request)
     {
         if ($request->get('id') == null || $request->get('transportId') == null) {
@@ -257,6 +312,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Retrieves ranking of the user based on user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array status
+     */
     public function retrieveRankingDetails(Request $request)
     {
         if ($request->get('id') == null) {
@@ -275,6 +336,12 @@ class VolunteerController extends Controller
 
     }
 
+    /**
+     * Retrieves statistics of user activity for past months for user dashboard.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with each month's hours and total hours and rank
+     */
     public function graphInformation(Request $request){
       if ($request->get('token') != null){
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
@@ -341,6 +408,11 @@ class VolunteerController extends Controller
       }
     }
 
+    /**
+     * Retrieves total amount of volunteered hours for non-authenticated dashboard.
+     * 
+     * @return  JSON  array with total volunteers and total hours
+     */
     public function getAllVolunteerContribution(){
         $totalVolunteers = Volunteer::where('is_approved','approved')->count('volunteer_id');
 
@@ -350,6 +422,12 @@ class VolunteerController extends Controller
         return response()->json(compact('totalVolunteers','totalTaskHours'));
       }
 
+    /**
+     * Retrieves information for volunteer leaderboard.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array with top 10 users and position
+     */
     public function volunteerLeaderboard(Request $request) {
       if ($request->get('token') != null){
           $authenticatedUser = JWTAuth::setToken($request->get('token'))->authenticate();
@@ -389,8 +467,12 @@ class VolunteerController extends Controller
       }
     }
 
-
-
+    /**
+     * Retrieves information for volunteer's activity of the day.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of activity
+     */
     public function todayActivity(Request $request){
       if ($request->get('token') != null){
           // Get Authenticated User
@@ -410,6 +492,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Retrieves information for volunteer's activity of the day that is in progress.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  array of status of activity with activity
+     */
     public function todayActivityInProgress(Request $request){
       if ($request->get('token') != null){
           // Get Authenticated User
@@ -432,6 +520,12 @@ class VolunteerController extends Controller
         }
     }
 
+    /**
+     * Handles the feedback from users.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
     Public function sendFeedback(Request $request){
       if ($request->get('email') != null && $request->get('feedback') != null){
         $email = $request->get('email');
@@ -450,5 +544,3 @@ class VolunteerController extends Controller
 
     }
 }
-
-

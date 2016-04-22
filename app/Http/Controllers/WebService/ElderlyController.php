@@ -6,18 +6,20 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Config;
 use App\Activity;
-use App\Task;
-use App\Volunteer;
 use App\Elderly;
 use Carbon\Carbon;
 
 
 class ElderlyController extends Controller
 {
+    /**
+     * Instantiate a new ElderlyController instance.
+     *
+     * @return void
+     */
     public function __construct()
    {
        // Set the Eloquent model that should be used to retrieve your users
@@ -29,7 +31,12 @@ class ElderlyController extends Controller
        $this->middleware('jwt.auth', ['except' => ['retrieveElderyInformation']]);
    }
 
-// tested working with new database 
+    /**
+     * Retrieves information of elderly based on transport ID.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  JSON  elderly or status
+     */
    public function retrieveElderyInformation(Request $request){
         if ( $request->get('transportId'  ) == null){
         $status = array("Missing parameter");
@@ -49,10 +56,7 @@ class ElderlyController extends Controller
             return response()->json(compact('elderly'));
           }
       }
-
    }
-
-   
 }
 
 
