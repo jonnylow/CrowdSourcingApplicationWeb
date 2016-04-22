@@ -7,5 +7,5 @@
     <li>Date/Time of Activity: {{ $appliedActivity->datetime_start }}</li>
    	<li>Approve it here:<a href="{{ $link = url('activities', [$appliedActivity->activity_id]) }}">{{ $link }}</a></li>
 </ul>
-<p>Should you have any questions, please contact us at <a href="mailto:imchosen6@gmail.com">imchosen6@gmail.com</a>.</p>
+<p>Should you have any questions, please contact us at <a href="mailto:{{ env('MAIL_CONTACT') }}">{{ env('MAIL_CONTACT') }}</a>.</p>
 <p>This is a system generated email so please do not reply to this email.</p>

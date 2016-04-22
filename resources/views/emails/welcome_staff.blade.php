@@ -8,5 +8,5 @@
     <li>Username: {{ $staff->email }}</li>
     <li>Password: {{ $randomString }}</li>
 </ul>
-<p>Should you ever encounter problems with your account, please contact us at <a href="mailto:imchosen6@gmail.com">imchosen6@gmail.com</a>.</p>
+<p>Should you ever encounter problems with your account, please contact us at <a href="mailto:{{ env('MAIL_CONTACT') }}">{{ env('MAIL_CONTACT') }}</a>.</p>
 <p>This is a system generated email so please do not reply to this email.</p>

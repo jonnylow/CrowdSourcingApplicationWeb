@@ -99,7 +99,6 @@ class VolunteersController extends Controller
         $email = $volunteer->email;
 
         Mail::send('emails.welcome_volunteer', compact('volunteer', 'randomString'), function ($message) use ($email) {
-            $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
             $message->subject('Your CareGuide Volunteer account has been registered.');
             $message->bcc($email);
         });
@@ -159,7 +158,6 @@ class VolunteersController extends Controller
         $email = $volunteer->email;
 
         Mail::send('emails.volunteer_update', compact('volunteer'), function ($message) use ($email) {
-            $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
             $message->subject('Your CareGuide account particulars was recently updated.');
             $message->bcc($email);
         });
@@ -184,7 +182,6 @@ class VolunteersController extends Controller
             $email = $volunteer->email;
 
             Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) use ($email) {
-                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
                 $message->subject('Your CareGuide Volunteer account has been rejected.');
                 $message->bcc($email);
             });
@@ -212,7 +209,6 @@ class VolunteersController extends Controller
             $email = $volunteer->email;
 
             Mail::send('emails.volunteer_approval', compact('volunteer'), function ($message) use ($email) {
-                $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
                 $message->subject('Your CareGuide Volunteer account has been approved.');
                 $message->bcc($email);
             });

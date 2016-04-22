@@ -226,7 +226,6 @@ class ActivitiesController extends Controller
                 $user->activities()->attach($actID);
                 $status = array("Application Successful");
                 Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
-                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
                     $message->bcc($mailingList);
                 });
@@ -238,7 +237,6 @@ class ActivitiesController extends Controller
                 $taskUpdate->approval = "pending";
                 $taskUpdate->save();
                 Mail::send('emails.volunteer_apply', compact('user','appliedActivity'), function ($message) use ($mailingList){
-                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has applied for an activity');
                     $message->bcc($mailingList);
                 });
@@ -386,7 +384,6 @@ class ActivitiesController extends Controller
             $mailingList = Staff::where('is_admin','TRUE')->lists('email')->toArray();
             $status = array("Withdrawn from activity");
             Mail::send('emails.volunteer_withdraw', compact('volunteer','withdrawnActivity'), function ($message) use ($mailingList) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('A volunteer has withdrawn from an activity');
                     $message->to($mailingList);
                 });

@@ -93,7 +93,6 @@ class VolunteerController extends Controller
             return response()->json(compact('status'));
         } else {
             Mail::send('emails.volunteer_registration', compact('volunteer'),function ($message) use ($mailingList){
-                $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                 $message->subject('New Volunteer Registration');
                 $message->bcc($mailingList);
             });
@@ -190,7 +189,6 @@ class VolunteerController extends Controller
                 $password = str_random(12);
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) use ($volunteer) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Adminstrator');
                     $message->subject('Your request for your CareGuide account password Reset.');
                     $message->bcc($volunteer->email,$volunteer->name);
                 });
@@ -228,7 +226,6 @@ class VolunteerController extends Controller
                 return response()->json(compact('status'));
             } else {
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) use ($volunteer) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Password Management');
                     $message->subject('Your CareGuide account password was recently changed.');
                     $message->to($volunteer->email,$volunteer->name);
                 });
@@ -279,7 +276,6 @@ class VolunteerController extends Controller
                 $status = array("Update Success!");
                 
                 Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
-                    $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                     $message->subject('Your CareGuide account particulars was recently updated.');
                     $message->bcc($volunteer->email,$volunteer->name);
                 });
@@ -531,7 +527,6 @@ class VolunteerController extends Controller
         $email = $request->get('email');
         $feedback = $request->get('feedback');
         Mail::send('emails.mobile_account_feedback', compact('email','feedback'), function ($message)  use ($email) {
-                    $message->from($email, 'CareGuide Account Management');
                     $message->subject('You have a new feedback from a user!');
                     $message->bcc('imchosen6@gmail.com');
                 });

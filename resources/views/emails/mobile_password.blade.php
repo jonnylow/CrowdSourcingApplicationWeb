@@ -7,5 +7,5 @@
 <br>
 <p>If you've received this email in error, it's likely that another user entered your contact information by mistake while trying to reset a password.</p>
 <br>
-<p>Should you ever encounter problems, please contact us at <a href="mailto:imchosen6@gmail.com">imchosen6@gmail.com</a>.</p>
+<p>Should you ever encounter problems, please contact us at <a href="mailto:{{ env('MAIL_CONTACT') }}">{{ env('MAIL_CONTACT') }}</a>.</p>
 <p>This is a system generated email so please do not reply to this email.</p>

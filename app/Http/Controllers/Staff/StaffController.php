@@ -92,7 +92,6 @@ class StaffController extends Controller
         $email = $staff->email;
         
         Mail::send('emails.welcome_staff', compact('staff', 'randomString'), function ($message) use ($email) {
-            $message->from('imchosen6@gmail.com', 'CareGuide Account Registration');
             $message->subject('Your CareGuide Staff account has been created.');
             $message->bcc($email);
         });
@@ -163,7 +162,6 @@ class StaffController extends Controller
             $email = $staff->email;
 
             Mail::send('emails.remove_staff', compact('staff'), function ($message) use ($email) {
-                $message->from('imchosen6@gmail.com', 'CareGuide Account Management');
                 $message->subject('Your CareGuide Staff account has been removed.');
                 $message->bcc($email);
             });

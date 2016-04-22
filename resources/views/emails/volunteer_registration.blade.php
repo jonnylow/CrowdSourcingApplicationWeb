@@ -6,5 +6,5 @@
     <li>Contact: {{ $volunteer->contact_no }}</li>
 </ul>
 <br>
-<p>Should you have any questions, please contact us at <a href="mailto:imchosen6@gmail.com">imchosen6@gmail.com</a>.</p>
+<p>Should you have any questions, please contact us at <a href="mailto:{{ env('MAIL_CONTACT') }}">{{ env('MAIL_CONTACT') }}</a>.</p>
 <p>This is a system generated email so please do not reply to this email.</p>

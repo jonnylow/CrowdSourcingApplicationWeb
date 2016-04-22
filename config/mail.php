@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'do-not-reply@careguide.com', 'name' => 'CareGuide'],
+    'from' => ['address' => env('MAIL_FROM'), 'name' => env('MAIL_NAME')],
 
     /*
     |--------------------------------------------------------------------------
