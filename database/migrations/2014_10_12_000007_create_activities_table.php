@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the activities table in the database.
+ */
 class CreateActivitiesTable extends Migration
 {
     /**

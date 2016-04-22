@@ -1,3 +1,4 @@
+{{-- Error/Success message view partial --}}
 @if (count($errors) || Session::has('success'))
     <div class="alert alert-{{ count($errors) ? 'danger' : 'success' }} alert-dismissible fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

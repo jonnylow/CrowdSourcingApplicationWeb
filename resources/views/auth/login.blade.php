@@ -1,3 +1,4 @@
+{{-- Login view page --}}
 @extends('layouts.master')
 
 @section('title', 'Login')

@@ -1,3 +1,4 @@
+{{-- View a volunteer view page --}}
 @extends('layouts.master')
 
 @section('title', $volunteer->name)

@@ -1,3 +1,4 @@
+{{-- View all cancelled activities view page --}}
 @extends('layouts.master')
 
 @section('title', 'Cancelled Activities')

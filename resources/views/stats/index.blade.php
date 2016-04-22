@@ -1,3 +1,4 @@
+{{-- View statistics page --}}
 @extends('layouts.master')
 
 @section('title', 'Statistics')

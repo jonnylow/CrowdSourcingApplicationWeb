@@ -6,6 +6,11 @@ use App\Activity;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
+/**
+ * Redirection middleware that controls if activity is editable.
+ *
+ * @package App\Http\Middleware
+ */
 class RedirectIfActivityNotEditable
 {
     /**
@@ -37,6 +42,7 @@ class RedirectIfActivityNotEditable
     {
         $activity = Activity::findOrFail($request->route()->parameter('activities'));
 
+        // Allows only activity that has no applicant and starts in the future
         if (str_contains($activity->getApplicationStatus(), 'No application') && ! $activity->datetime_start->isToday()) {
             return $next($request);
         }

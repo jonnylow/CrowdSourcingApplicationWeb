@@ -14,8 +14,18 @@ use Auth;
 use JsValidator;
 use Mail;
 
+/**
+ * Resource controller that handles the logic when managing staff.
+ *
+ * @package App\Http\Controllers\Staff
+ */
 class StaffController extends Controller
 {
+    /**
+     * Instantiate a new StaffController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Apply the staff.centre middleware to only edit, update and destroy methods.
@@ -23,6 +33,12 @@ class StaffController extends Controller
         $this->middleware('staff.centre', ['only' => ['edit', 'update', 'destroy']]);
     }
 
+    /**
+     * Show the index page for all staff.
+     * Responds to requests to GET /staff
+     *
+     * @return Response
+     */
     public function index()
     {
         if (Auth::user()->is_admin)
@@ -33,6 +49,12 @@ class StaffController extends Controller
         return view('staff.index', compact('centreStaff'));
     }
 
+    /**
+     * Show the form to add a new staff.
+     * Responds to requests to GET /staff/create
+     *
+     * @return Response
+     */
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateStaffRequest');
@@ -47,6 +69,13 @@ class StaffController extends Controller
         return view('staff.create', compact('validator', 'staffType', 'centreList'));
     }
 
+    /**
+     * Store a new staff.
+     * Responds to requests to POST /staff
+     *
+     * @param  \App\Http\Requests\CreateStaffRequest  $request
+     * @return Response
+     */
     public function store(CreateStaffRequest $request)
     {
         $randomString = Str::random();
@@ -71,6 +100,13 @@ class StaffController extends Controller
         return redirect('staff')->with('success', 'Staff is added successfully!');
     }
 
+    /**
+     * Show the form to edit a staff.
+     * Responds to requests to GET /staff/{id}/edit
+     *
+     * @param  int  $id  the ID of the staff
+     * @return Response
+     */
     public function edit($id)
     {
         if (Auth::user()->staff_id == $id && ! Auth::user()->is_admin) {
@@ -90,6 +126,14 @@ class StaffController extends Controller
         return view('staff.edit', compact('validator', 'staff', 'staffType', 'centreList'));
     }
 
+    /**
+     * Update an existing staff.
+     * Responds to requests to PUT /staff/{id}
+     *
+     * @param  int  $id  the ID of the staff
+     * @param  \App\Http\Requests\EditStaffRequest  $request
+     * @return Response
+     */
     public function update($id, EditStaffRequest $request)
     {
         $staff = Staff::findOrFail($id);
@@ -105,6 +149,13 @@ class StaffController extends Controller
         return redirect('staff')->with('success', 'Staff is updated successfully!');
     }
 
+    /**
+     * Delete an staff.
+     * Responds to requests to DELETE /staff/{id}
+     *
+     * @param  int  $id  the ID of the staff
+     * @return Response
+     */
     public function destroy($id)
     {
         if (Auth::user()->staff_id != $id) {

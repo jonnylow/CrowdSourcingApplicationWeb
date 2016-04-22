@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the rank table in the database.
+ */
 class CreateRanksTable extends Migration
 {
     /**

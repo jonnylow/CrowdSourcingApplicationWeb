@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when editing location/centre.
+ *
+ * @package App\Http\Requests
+ */
 class EditCentreRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class EditCentreRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of centre.
+     * Validation rules used when editing location/centre.
      *
      * @return array
      */

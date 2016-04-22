@@ -1,3 +1,4 @@
+{{-- View all seniors view page --}}
 @extends('layouts.master')
 
 @section('title', 'Seniors')

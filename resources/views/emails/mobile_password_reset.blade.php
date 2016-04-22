@@ -1,3 +1,4 @@
+{{-- Email for volunteer whose password is updated on CareGuide mobile --}}
 <p>Hi {{ $volunteer->name }}</p>
 <br>
 <p>The password for your {{ $volunteer->email }} CareGuide account was recently changed.</p>

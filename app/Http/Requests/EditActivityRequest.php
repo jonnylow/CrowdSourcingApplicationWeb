@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when editing activity.
+ *
+ * @package App\Http\Requests
+ */
 class EditActivityRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class EditActivityRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of activity.
+     * Validation rules used when editing activity.
      *
      * @return array
      */
@@ -58,11 +63,13 @@ class EditActivityRequest extends Request
     }
 
     /**
-     * Validate request
+     * Custom validation by overwriting the validate function.
+     * 
      * @return
      */
     public function validate()
     {
+        // Format the date fields: month, date and year, into a date string (e.g. 2000-01-31)
         if (is_string($this->get('date_month')) && is_string($this->get('date_day')) && is_string($this->get('date_year'))) {
             $combinedDate = implode('-', [$this->get('date_year'), str_pad($this->get('date_month'), 2, '0', STR_PAD_LEFT), str_pad($this->get('date_day'), 2, '0', STR_PAD_LEFT)]);
             $this->merge([
@@ -70,6 +77,7 @@ class EditActivityRequest extends Request
             ]);
         }
 
+        // Format the time fields: hour, minute and period, into a time string (e.g. 08:05 am)
         if (is_string($this->get('time_hour')) && is_string($this->get('time_minute')) && is_string($this->get('time_period'))) {
             $combinedTime = str_pad($this->get('time_hour'), 2, '0', STR_PAD_LEFT) . ":" . str_pad($this->get('time_minute'), 2, '0', STR_PAD_LEFT) . " " . $this->get('time_period');
             $this->merge([
@@ -77,6 +85,7 @@ class EditActivityRequest extends Request
             ]);
         }
 
+        // Convert the activity duration into minutes
         if (is_integer((int)$this->get('duration_hour')) && is_integer((int)$this->get('duration_minute'))) {
             $combinedDuration = (int)$this->get('duration_hour') * 60 + (int)$this->get('duration_minute');
             $this->merge([

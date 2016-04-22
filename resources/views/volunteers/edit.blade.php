@@ -1,3 +1,4 @@
+{{-- Edit a volunteer view page --}}
 @extends('layouts.master')
 
 @section('title', 'Edit a Volunteer')

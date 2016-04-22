@@ -1,3 +1,4 @@
+{{-- Add new senior view page --}}
 @extends('layouts.master')
 
 @section('title', 'Add new Senior')

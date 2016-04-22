@@ -1,3 +1,4 @@
+{{-- Subchart view partial when a single centre is selected --}}
 <table class="table table-striped table-bordered table-hover" data-toggle="table">
     <thead>
         <tr>

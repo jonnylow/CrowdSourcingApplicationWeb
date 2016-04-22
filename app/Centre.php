@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Centre class that interact with its corresponding table in the database.
+ *
+ * @package App
+ */
 class Centre extends Model
 {
     /**
@@ -12,11 +17,23 @@ class Centre extends Model
      * @var string
      */
     protected $table = 'centres';
+
+    /**
+     * The primary key in the database table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'centre_id';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes in the database table that are mass assignable.
      *
      * @var array
      */
@@ -25,6 +42,9 @@ class Centre extends Model
 
     /**
      * Set the centre's name.
+     *
+     * @param  string  $name  the name of the centre
+     * @return void
      */
     public function setNameAttribute($name)
     {
@@ -32,7 +52,9 @@ class Centre extends Model
     }
 
     /**
-     * Get the staff associated with the centre.
+     * Get the staff that are in charge the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of staff that are in charge of the centre.
      */
     public function staff()
     {
@@ -40,7 +62,9 @@ class Centre extends Model
     }
 
     /**
-     * Get the elderly associated with the centre.
+     * Get the elderly that belong to the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of elderly that belong to the centre.
      */
     public function elderly()
     {
@@ -48,7 +72,9 @@ class Centre extends Model
     }
 
     /**
-     * Get the activities associated with the centre.
+     * Get the activities that belong to the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of activities that belong the centre.
      */
     public function activities()
     {
@@ -56,7 +82,9 @@ class Centre extends Model
     }
 
     /**
-     * Get the activities that will arrive at the centre.
+     * Get the activities that will end at the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of activities that will end at the centre.
      */
     public function arrivalActivities()
     {
@@ -65,6 +93,8 @@ class Centre extends Model
 
     /**
      * Get the activities that will start at the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of activities that will start at the centre.
      */
     public function departureActivities()
     {

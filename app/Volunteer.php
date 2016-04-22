@@ -11,6 +11,11 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Carbon\Carbon;
 
+/**
+ * Volunteer class that interact with its corresponding table in the database.
+ *
+ * @package App
+ */
 class Volunteer extends Model implements AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
@@ -23,10 +28,16 @@ class Volunteer extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'volunteers';
+
+    /**
+     * The primary key in the database table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'volunteer_id';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes in the database table that are mass assignable.
      *
      * @var array
      */
@@ -35,23 +46,24 @@ class Volunteer extends Model implements AuthenticatableContract,
         'area_of_preference_1', 'area_of_preference_2', 'is_approved', 'rank_id'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes in the database table that are hidden for array.
      *
      * @var array
      */
     protected $hidden = ['password'];
 
     /**
-     * Additional fields to treat as Carbon instances (date object).
+     * Additional fields to be mutated to Carbon instances (date object).
      *
      * @var array
      */
     protected $dates = ['date_of_birth'];
 
     /**
-     * Set the name attribute.
+     * Set the volunteer's name.
      *
-     * @var name
+     * @param  string  $name  the volunteer's name
+     * @return void
      */
     public function setNameAttribute($name)
     {
@@ -59,9 +71,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the email attribute.
+     * Set the volunteer's email address.
      *
-     * @var email
+     * @param  string  $email  the volunteer's email address
+     * @return void
      */
     public function setEmailAttribute($email)
     {
@@ -69,9 +82,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the password attribute.
+     * Set the volunteer's password.
      *
-     * @var password
+     * @param  string  $password  the volunteer's password
+     * @return void
      */
     public function setPasswordAttribute($password)
     {
@@ -79,9 +93,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the gender attribute.
+     * Set the volunteer's gender.
      *
-     * @var gender
+     * @param  string  $gender  "M" if the volunteer is a male, "F" if otherwise
+     * @return void
      */
     public function setGenderAttribute($gender)
     {
@@ -89,9 +104,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the occupation attribute.
+     * Set the volunteer's occupation.
      *
-     * @var occupation
+     * @param  string  $occupation  the volunteer's occupation, occupation will be set to NULL if blank string is passed.
+     * @return void
      */
     public function setOccupationAttribute($occupation)
     {
@@ -100,6 +116,9 @@ class Volunteer extends Model implements AuthenticatableContract,
 
     /**
      * Set if the volunteer has car.
+     *
+     * @param  bool  $car  TRUE, "1" or 1 if the volunteer has a car, FALSE, "0" or 0 otherwise.
+     * @return void
      */
     public function setHasCarAttribute($car)
     {
@@ -111,9 +130,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the area of preference 1 attribute.
+     * Set the volunteer's first volunteering preference.
      *
-     * @var area
+     * @param  string  $area  the volunteer's preference, preference will be set to NULL if blank string is passed.
+     * @return void
      */
     public function setAreaOfPreference1Attribute($area)
     {
@@ -121,9 +141,10 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the area of preference 2 attribute.
+     * Set the volunteer's second volunteering preference.
      *
-     * @var area
+     * @param  string  $area  the volunteer's preference, preference will be set to NULL if blank string is passed.
+     * @return void
      */
     public function setAreaOfPreference2Attribute($area)
     {
@@ -133,7 +154,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     /**
      * Get the volunteer's rank points.
      *
-     * @return int
+     * @return  int  the volunteer's rank points.
      */
     public function rankPoints()
     {
@@ -143,9 +164,9 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the volunteer's volunteered time.
+     * Get the volunteer's volunteered time in textual form.
      *
-     * @return string
+     * @return  string  the volunteer's volunteered time.
      */
     public function timeVolunteered()
     {
@@ -159,7 +180,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     /**
      * Get the volunteer's completed activities count.
      *
-     * @return integer
+     * @return  int  the number of completed activities for the volunteer.
      */
     public function numOfCompletedActivity()
     {
@@ -169,7 +190,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     /**
      * Get the volunteer's withdrawn activity application count.
      *
-     * @return integer
+     * @return  int  the number of withdrawn activity application for the volunteer.
      */
     public function numOfWithdrawnActivity()
     {
@@ -179,7 +200,7 @@ class Volunteer extends Model implements AuthenticatableContract,
     /**
      * Get the volunteer's age.
      *
-     * @return string
+     * @return  int  the volunteer's age.
      */
     public function age()
     {
@@ -187,7 +208,9 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the rank that the volunteer is at.
+     * Get the rank of the volunteer.
+     *
+     * @return  \App\Rank  the rank of the volunteer.
      */
     public function rank()
     {
@@ -195,7 +218,9 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * The task application that is associated with the volunteer.
+     * Get the task applications that are associated with the volunteer.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of task applications that are associated with the volunteer.
      */
     public function tasks()
     {
@@ -203,7 +228,9 @@ class Volunteer extends Model implements AuthenticatableContract,
     }
 
     /**
-     * The activities that the volunteer has registered for.
+     * Get the activities that are associated with the volunteer.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of activities that are associated with the volunteer.
      */
     public function activities()
     {

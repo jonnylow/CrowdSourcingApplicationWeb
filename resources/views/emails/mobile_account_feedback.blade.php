@@ -1,3 +1,4 @@
+{{-- Email for staff when feedback is received from CareGuide mobile --}}
 <p>Hi!</p>
 <br>
 <p>You have a new feedback from  {{ $email }}.</p>

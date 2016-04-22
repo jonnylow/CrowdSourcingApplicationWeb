@@ -1,3 +1,4 @@
+{{-- Email for volunteer whose profile is updated on CareGuide web --}}
 <p>Hi {{ $volunteer->name }}</p>
 <br>
 <p>The particulars for your {{ $volunteer->email }} CareGuide account was recently updated by a staff.</p>

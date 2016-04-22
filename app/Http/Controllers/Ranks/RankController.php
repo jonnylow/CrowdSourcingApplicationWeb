@@ -9,8 +9,19 @@ use App\Http\Controllers\Controller;
 use App\Rank;
 use JsValidator;
 
+/**
+ * Resource controller that handles the logic when managing ranks.
+ *
+ * @package App\Http\Controllers\Ranks
+ */
 class RankController extends Controller
 {
+    /**
+     * Show the form to manage the ranks.
+     * Responds to requests to GET /rank
+     *
+     * @return Response
+     */
     public function index()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\RankRequest');
@@ -20,6 +31,13 @@ class RankController extends Controller
         return view('ranks.manage', compact('validator', 'ranks'));
     }
 
+    /**
+     * Update an rank.
+     * Responds to requests to PATCH /rank
+     *
+     * @param  \App\Http\Requests\RankRequest  $request
+     * @return Response
+     */
     public function update(RankRequest $request)
     {
         $currentRank1 = Rank::where('rank', 1)->first();

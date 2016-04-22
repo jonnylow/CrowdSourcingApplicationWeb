@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the elderly table in the database.
+ */
 class CreateElderlyTable extends Migration
 {
     /**

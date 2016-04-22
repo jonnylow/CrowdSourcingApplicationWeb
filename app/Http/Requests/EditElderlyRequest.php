@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when editing elderly/senior.
+ *
+ * @package App\Http\Requests
+ */
 class EditElderlyRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class EditElderlyRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of elderly.
+     * Validation rules used when editing elderly/senior.
      *
      * @return array
      */

@@ -1,3 +1,4 @@
+{{-- Email for staff when a volunteer signs up for an activity --}}
 <p>You have a new activity application from  {{ $user->email }}. Please log in to review the volunteer.</p>
 <br>
 <p>The applied activity is :</p>

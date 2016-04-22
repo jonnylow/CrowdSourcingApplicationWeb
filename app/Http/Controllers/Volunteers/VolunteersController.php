@@ -13,8 +13,19 @@ use App\Rank;
 use JsValidator;
 use Mail;
 
+/**
+ * Resource controller that handles the logic when managing volunteer.
+ *
+ * @package App\Http\Controllers\Volunteers
+ */
 class VolunteersController extends Controller
 {
+    /**
+     * Show the index page for all volunteers.
+     * Responds to requests to GET /volunteers
+     *
+     * @return Response
+     */
     public function index()
     {
         $volunteers = Volunteer::all();
@@ -22,6 +33,13 @@ class VolunteersController extends Controller
         return view('volunteers.index', compact('volunteers'));
     }
 
+    /**
+     * Show the information for the given volunteer.
+     * Responds to requests to GET /volunteers/{id}
+     *
+     * @param  int  $id  the ID of the volunteer
+     * @return Response
+     */
     public function show($id)
     {
         $volunteer = Volunteer::with('activities')->findOrFail($id);
@@ -29,6 +47,12 @@ class VolunteersController extends Controller
         return view('volunteers.show', compact('volunteer'));
     }
 
+    /**
+     * Show the form to add a new volunteer.
+     * Responds to requests to GET /volunteers/create
+     *
+     * @return Response
+     */
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateVolunteerRequest');
@@ -46,6 +70,13 @@ class VolunteersController extends Controller
         return view('volunteers.create', compact('validator', 'genderList', 'carType', 'preferenceList'));
     }
 
+    /**
+     * Store a new volunteer.
+     * Responds to requests to POST /volunteers
+     *
+     * @param  \App\Http\Requests\CreateVolunteerRequest  $request
+     * @return Response
+     */
     public function store(CreateVolunteerRequest $request)
     {
         $randomString = Str::random();
@@ -76,6 +107,13 @@ class VolunteersController extends Controller
         return redirect('volunteers')->with('success', 'Volunteers is added successfully!');
     }
 
+    /**
+     * Show the form to edit a volunteer.
+     * Responds to requests to GET /volunteers/{id}/edit
+     *
+     * @param  int  $id  the ID of the volunteer
+     * @return Response
+     */
     public function edit($id)
     {
         $validator = JsValidator::formRequest('App\Http\Requests\EditVolunteerRequest');
@@ -93,6 +131,14 @@ class VolunteersController extends Controller
         return view('volunteers.edit', compact('validator', 'volunteer', 'genderList', 'carType', 'preferenceList'));
     }
 
+    /**
+     * Update an existing volunteer.
+     * Responds to requests to PUT /volunteers/{id}
+     *
+     * @param  int  $id  the ID of the volunteer
+     * @param  \App\Http\Requests\EditVolunteerRequest  $request
+     * @return Response
+     */
     public function update($id, EditVolunteerRequest $request)
     {
         $volunteer = Volunteer::findOrFail($id);
@@ -121,6 +167,13 @@ class VolunteersController extends Controller
         return redirect()->route('volunteers.show', compact('volunteer'))->with('success', 'Volunteer is updated successfully!');
     }
 
+    /**
+     * Reject a given volunteer account.
+     * Responds to requests to PATCH /volunteers/{id}/reject
+     *
+     * @param  int  $id  the ID of the volunteer
+     * @return Response
+     */
     public function rejectVolunteer($id) {
         $volunteer = Volunteer::findOrFail($id);
 
@@ -142,6 +195,13 @@ class VolunteersController extends Controller
         }
     }
 
+    /**
+     * Approve a given volunteer account.
+     * Responds to requests to PATCH /volunteers/{id}/approve
+     *
+     * @param  int  $id  the ID of the volunteer
+     * @return Response
+     */
     public function approveVolunteer($id) {
         $volunteer = Volunteer::findOrFail($id);
 

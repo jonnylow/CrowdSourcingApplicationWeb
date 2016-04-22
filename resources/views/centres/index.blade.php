@@ -1,3 +1,4 @@
+{{-- View all locations view page --}}
 @extends('layouts.master')
 
 @section('title', 'Locations')

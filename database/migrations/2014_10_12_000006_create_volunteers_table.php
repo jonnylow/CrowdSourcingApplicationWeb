@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the volunteers table in the database.
+ */
 class CreateVolunteersTable extends Migration
 {
     /**

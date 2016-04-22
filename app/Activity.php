@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
+/**
+ * Activity class that interact with its corresponding table in the database.
+ * This model allows for soft delete, where records are not actually deleted from the database.
+ *
+ * @package App
+ */
 class Activity extends Model
 {
     use SoftDeletes;
@@ -16,10 +22,16 @@ class Activity extends Model
      * @var string
      */
     protected $table = 'activities';
+
+    /**
+     * The primary key in the database table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'activity_id';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes in the database table that are mass assignable.
      *
      * @var array
      */
@@ -28,13 +40,17 @@ class Activity extends Model
          'elderly_id', 'centre_id', 'staff_id'];
 
     /**
-     * Additional fields to treat as Carbon instances (date object).
+     * Additional fields to be mutated to Carbon instances (date object).
+     *
+     * @var array
      */
     protected $dates = ['datetime_start', 'deleted_at'];
 
     /*
-     * Overwrite the boot function of Eloquent Model to listen for deleting event so as to
-     * cancel all associated tasks when an activity is cancelled.
+     * Overwrite the boot function in Eloquent Model to listen for deletion/restoration events
+     * so as to delete/restore all associated tasks when an activity is deleted/restored.
+     *
+     * @return void
      */
     protected static function boot() {
         parent::boot();
@@ -53,9 +69,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that have passed.
+     * Scope a query to only include activities (in descending date order) that have passed the current date.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePast($query)
     {
@@ -63,9 +80,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that starts today.
+     * Scope a query to only include activities (in ascending date order) that starts on the current date.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeToday($query)
     {
@@ -73,9 +91,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that have not passed today.
+     * Scope a query to only include activities (in ascending date order) that have not passed the current date.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUpcoming($query)
     {
@@ -83,9 +102,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that have not passed from the current exact time.
+     * Scope a query to only include activities (in ascending date order) that have not passed the current exact datetime.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUpcomingExact($query)
     {
@@ -93,20 +113,23 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities in certain month ago.
+     * Scope a query to only include activities that starts in a certain month.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @param  int  $month  the number of months to be subtracted from the current month
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSubMonth($query, $month)
+    public function scopeSubMonth($query, $month = 0)
     {
         $query->whereBetween('datetime_start', [Carbon::now()->subMonth($month)->startOfMonth(),
             Carbon::now()->subMonth($month)->endOfMonth()]);
     }
 
     /**
-     * Scope queries to activities that are cancelled.
+     * Scope a query to only include activities that are cancelled/soft deleted.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCancelled($query)
     {
@@ -114,9 +137,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that are completed.
+     * Scope a query to only include activities that are completed.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCompleted($query)
     {
@@ -126,9 +150,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that are unfilled (upcoming and no sign-up).
+     * Scope a query to only include activities that have no sign-up and not passed the current date.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUnfilled($query)
     {
@@ -143,9 +168,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that are urgent (starting in a week and no sign-up).
+     * Scope a query to only include activities that have no sign-up and are starting within 2 weeks time.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUrgent($query)
     {
@@ -154,9 +180,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that are awaiting approval.
+     * Scope a query to only include activities that have volunteers signed up and waiting for approval.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeAwaitingApproval($query)
     {
@@ -166,9 +193,10 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that have approved volunteer.
+     * Scope a query to only include activities that have volunteers that are approved for activity.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeApproved($query)
     {
@@ -178,9 +206,11 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that belongs to the centre.
+     * Scope a query to only include activities that belongs to the centre specified.
      *
-     * @var query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @param  int  $centreId  the ID of the centre of the activities
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOfCentre($query, $centreId)
     {
@@ -188,10 +218,11 @@ class Activity extends Model
     }
 
     /**
-     * Scope queries to activities that belongs to all centres associated with the staff.
+     * Scope a query to only include activities that belongs to all centres that the specified staff are in charge of.
      *
-     * @var $query
-     * @var $staff
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to activities to be scoped
+     * @param  \App\Staff  $staff  the staff to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOfCentreForStaff($query, $staff)
     {
@@ -200,7 +231,9 @@ class Activity extends Model
 
 
     /**
-     * Find if the activity has an approved volunteer.
+     * See if the activity has volunteer that are approved for it.
+     *
+     * @return  bool  TRUE if the activity has approved volunteer, FALSE otherwise.
      */
     public function hasApprovedVolunteer()
     {
@@ -213,7 +246,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the approved volunteer(if any) for the activity, else return NULL.
+     * Get the approved volunteer for the activity.
+     *
+     * @return  \App\Volunteer  the volunteer if the activity has approved volunteer, NULL otherwise.
      */
     public function getApprovedVolunteer()
     {
@@ -227,6 +262,8 @@ class Activity extends Model
 
     /**
      * Get the current progress of the activity.
+     *
+     * @return  int  the progress of the activity from 0 to 100 (not started to completed).
      */
     public function getProgress()
     {
@@ -253,7 +290,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the application status of the activity.
+     * Get the status of the activity.
+     *
+     * @return  string  the status of the activity.
      */
     public function getApplicationStatus()
     {
@@ -297,7 +336,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the application status of the activity for tooltip display.
+     * Get the reason of the activity when it cannot be edited.
+     *
+     * @return  string  the reason of the activity if the activity cannot be edited, BLANK string otherwise.
      */
     public function getTooltipStatus()
     {
@@ -320,10 +361,15 @@ class Activity extends Model
                 return "Activity is today";
             }
         }
+
+        return "";
     }
 
     /**
      * Set the activity's starting date and time.
+     *
+     * @param  string  $datetime  the starting date and time in DateTime string format
+     * @return void
      */
     public function setDatetimeStartAttribute($datetime)
     {
@@ -331,9 +377,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the hour section of the activity's duration, minutes are not retrieved.
+     * Get the activity's duration only in hours, minutes portion are not retrieved.
      *
-     * @return string
+     * @return  int  the activity's duration in hour(s).
      */
     public function durationHour()
     {
@@ -341,9 +387,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the minute section of the activity's duration, hours are not retrieved.
+     * Get the activity's duration only in minutes, hours portion are not retrieved.
      *
-     * @return string
+     * @return    int    the activity's duration in minute(s).
      */
     public function durationMinute()
     {
@@ -351,9 +397,9 @@ class Activity extends Model
     }
 
     /**
-     * Get the activity's duration in text.
+     * Get the activity's duration in textual form.
      *
-     * @return string
+     * @return  string  the activity's duration.
      */
     public function durationString()
     {
@@ -366,6 +412,8 @@ class Activity extends Model
 
     /**
      * Get the elderly associated with the activity.
+     *
+     * @return  \App\Elderly  the elderly associated with the activity.
      */
     public function elderly()
     {
@@ -374,6 +422,8 @@ class Activity extends Model
 
     /**
      * Get the centre that the activity belongs to.
+     *
+     * @return  \App\Centre  the centre that the activity belongs to.
      */
     public function centre()
     {
@@ -382,6 +432,8 @@ class Activity extends Model
 
     /**
      * Get the centre that the activity will start from.
+     *
+     * @return  \App\Centre  the centre that the activity will start from.
      */
     public function departureCentre()
     {
@@ -390,6 +442,8 @@ class Activity extends Model
 
     /**
      * Get the centre that the activity will go to.
+     *
+     * @return  \App\Centre  the centre that the activity will go to.
      */
     public function arrivalCentre()
     {
@@ -398,6 +452,8 @@ class Activity extends Model
 
     /**
      * Get the staff that created the activity.
+     *
+     * @return  \App\Staff  the staff that created the activity.
      */
     public function staff()
     {
@@ -405,7 +461,9 @@ class Activity extends Model
     }
 
     /**
-     * The task application that is associated with the activity.
+     * Get the task applications that are associated with the activity.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of task applications that are associated with the activity.
      */
     public function tasks()
     {
@@ -413,7 +471,9 @@ class Activity extends Model
     }
 
     /**
-     * The volunteer registry that is associated with the activity.
+     * Get the volunteers that are associated with the activity.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of volunteers that are associated with the activity.
      */
     public function volunteers()
     {

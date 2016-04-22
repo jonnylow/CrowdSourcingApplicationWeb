@@ -1,3 +1,4 @@
+{{-- Password reset --}}
 @extends('layouts.master')
 
 @section('title', 'Choose new Password')

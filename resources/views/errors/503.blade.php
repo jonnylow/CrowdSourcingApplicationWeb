@@ -1,3 +1,4 @@
+{{-- Error 503 view page --}}
 <!DOCTYPE html>
 <html>
     <head>

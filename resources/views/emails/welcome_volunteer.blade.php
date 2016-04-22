@@ -1,3 +1,4 @@
+{{-- Email for volunteer whose account is created on CareGuide web --}}
 <p>
     <strong>Welcome to CareGuide!</strong>
     You can login to your account using our app on <a href="https://appsto.re/sg/aDIjab.i">App Store</a> and <a href="https://play.google.com/store/apps/details?id=com.CareGuide">Google Play Store</a>.

@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Rank class that interact with its corresponding table in the database.
+ *
+ * @package App
+ */
 class Rank extends Model
 {
     /**
@@ -12,20 +17,33 @@ class Rank extends Model
      * @var string
      */
     protected $table = 'ranks';
+
+    /**
+     * The primary key in the database table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'rank_id';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes in the database table that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['rank', 'name', 'min', 'max'];
 
     /**
-     * Scope queries to rank that is the lowest.
+     * Scope a query to only include ranks that needs the lowest min points.
      *
-     * @var $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to ranks to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeLowest($query)
     {
@@ -33,7 +51,9 @@ class Rank extends Model
     }
 
     /**
-     * Get the volunteers that has this rank.
+     * Get the volunteers that has the rank.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of volunteers that has the rank.
      */
     public function volunteers()
     {

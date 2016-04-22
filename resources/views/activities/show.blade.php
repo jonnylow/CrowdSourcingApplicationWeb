@@ -1,3 +1,4 @@
+{{-- View an activity view page --}}
 @extends('layouts.master')
 
 @section('title', $activity->departureCentre->name . ' &lrarr; ' . $activity->arrivalCentre->name)

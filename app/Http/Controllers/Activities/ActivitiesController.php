@@ -18,8 +18,18 @@ use JsValidator;
 use Mail;
 use Validator;
 
+/**
+ * Resource controller that handles the logic when managing activity.
+ *
+ * @package App\Http\Controllers\Activities
+ */
 class ActivitiesController extends Controller
 {
+    /**
+     * Instantiate a new ActivitiesController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Apply the activities.centre middleware to only show, edit, update, destroy, rejectVolunteer and approveVolunteer methods.
@@ -27,16 +37,22 @@ class ActivitiesController extends Controller
         $this->middleware('activities.centre', ['only' => ['show', 'edit', 'update', 'destroy', 'rejectVolunteer', 'approveVolunteer']]);
 
         // Apply the activities.edit middleware to only edit and update methods.
-        // We only allow staff to edit activity that has no applicant and not starts today or before.
+        // We only allow staff to edit activity that has no applicant and starts in the future.
         $this->middleware('activities.edit', ['only' => ['edit', 'update']]);
     }
 
+    /**
+     * Show the index page for all activities.
+     * Responds to requests to GET /activities
+     *
+     * @return Response
+     */
     public function index()
     {
         $completedActivities = Activity::join('tasks', 'activities.activity_id', '=', 'tasks.activity_id')
             ->where('tasks.status', 'completed')->lists('activities.activity_id')->toArray();
 
-        if (Auth::user()->is_admin) {
+        if (Auth::user()->is_admin) { // No centre restriction if authenticated user is an admin
             $upcoming = Activity::with('elderly')
                 ->whereNotIn('activity_id', $completedActivities)
                 ->where('datetime_start', '>', Carbon::now()->endOfDay())
@@ -52,7 +68,7 @@ class ActivitiesController extends Controller
                     $query->whereIn('activity_id', $completedActivities)
                         ->orWhere('datetime_start', '<', Carbon::today());
                 })->latest('datetime_start')->get();
-        } else {
+        } else { // Show only activities that belong to the centre the authenticated user (non-admin) is in charge in
             $upcoming = Activity::with('elderly')->ofCentreForStaff(Auth::user())
                 ->whereNotIn('activity_id', $completedActivities)
                 ->where('datetime_start', '>', Carbon::now()->endOfDay())
@@ -73,6 +89,13 @@ class ActivitiesController extends Controller
         return view('activities.index', compact('upcoming', 'today', 'past'));
     }
 
+    /**
+     * Show the information for the given activity.
+     * Responds to requests to GET /activities/{id}
+     *
+     * @param  int  $id  the ID of the activity
+     * @return Response
+     */
     public function show($id)
     {
         $activity = Activity::with('volunteers')->findOrFail($id);
@@ -80,6 +103,12 @@ class ActivitiesController extends Controller
         return view('activities.show', compact('activity'));
     }
 
+    /**
+     * Show the form to add a new activity.
+     * Responds to requests to GET /activities/create
+     *
+     * @return Response
+     */
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateActivityRequest');
@@ -101,6 +130,13 @@ class ActivitiesController extends Controller
         return view('activities.create', compact('validator', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
+    /**
+     * Store a new activity.
+     * Responds to requests to POST /activities
+     *
+     * @param  \App\Http\Requests\CreateActivityRequest  $request
+     * @return Response
+     */
     public function store(CreateActivityRequest $request)
     {
         $errors = array();
@@ -211,6 +247,13 @@ class ActivitiesController extends Controller
         }
     }
 
+    /**
+     * Show the form to edit an activity.
+     * Responds to requests to GET /activities/{id}/edit
+     *
+     * @param  int  $id  the ID of the activity
+     * @return Response
+     */
     public function edit($id)
     {
         $validator = JsValidator::formRequest('App\Http\Requests\EditActivityRequest');
@@ -234,6 +277,14 @@ class ActivitiesController extends Controller
         return view('activities.edit', compact('validator', 'activity', 'centreList', 'timePeriodList', 'locationList', 'seniorList', 'genderList', 'seniorLanguages'));
     }
 
+    /**
+     * Update an existing activity.
+     * Responds to requests to PUT /activities/{id}
+     *
+     * @param  int  $id  the ID of the activity
+     * @param  \App\Http\Requests\EditActivityRequest  $request
+     * @return Response
+     */
     public function update($id, EditActivityRequest $request)
     {
         $errors = array();
@@ -345,6 +396,13 @@ class ActivitiesController extends Controller
         }
     }
 
+    /**
+     * Delete an activity.
+     * Responds to requests to DELETE /activities/{id}
+     *
+     * @param  int  $id  the ID of the activity
+     * @return Response
+     */
     public function destroy($id)
     {
         $activity = Activity::with('volunteers')->findOrFail($id);
@@ -371,6 +429,12 @@ class ActivitiesController extends Controller
         return redirect('activities')->with('success', 'Activity is cancelled successfully!');
     }
 
+    /**
+     * Show all deleted activities.
+     * Responds to requests to GET /activities/cancelled
+     *
+     * @return Response
+     */
     public function showCancelled()
     {
         $activities = Activity::with('elderly')->cancelled()->ofCentreForStaff(Auth::user())->get();
@@ -378,6 +442,15 @@ class ActivitiesController extends Controller
         return view('activities.cancelled', compact('activities'));
     }
 
+    /**
+     * Reject a given volunteer for the given activity.
+     * Responds to requests to PATCH /activities/{activityId}/reject/{volunteerId}
+     *
+     * @param  int  $activityId  the ID of the activity
+     * @param  int  $volunteerId  the ID of the volunteer
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
     public function rejectVolunteer($activityId, $volunteerId, Request $request) {
         $task = Task::where('activity_id', $activityId)
             ->where('volunteer_id', $volunteerId)
@@ -406,6 +479,14 @@ class ActivitiesController extends Controller
         return back()->with('success', 'Volunteer is rejected!');
     }
 
+    /**
+     * Approve a given volunteer for the given activity.
+     * Responds to requests to PATCH /activities/{activityId}/approve/{volunteerId}
+     *
+     * @param  int  $activityId  the ID of the activity
+     * @param  int  $volunteerId  the ID of the volunteer
+     * @return Response
+     */
     public function approveVolunteer($activityId, $volunteerId) {
         $tasks = Task::ofActivity($activityId)->get();
         $activity = Activity::findOrFail($activityId);
@@ -449,6 +530,13 @@ class ActivitiesController extends Controller
         return back()->with('success', 'Volunteer is approved!');
     }
 
+    /**
+     * Get the progress of the given activity.
+     * Responds to requests to GET /activities/{id}/progress
+     *
+     * @param  int  $activityId  the ID of the activity
+     * @return JSON
+     */
     public function retrieveProgress($activityId)
     {
         $activity = Activity::findOrFail($activityId);
@@ -456,7 +544,13 @@ class ActivitiesController extends Controller
         return json_encode(['progress' => $activity->getProgress()]);
     }
 
-    public function postalCodeToAddress($postal)
+    /**
+     * Get the address information of the given postal code.
+     *
+     * @param  string  $postal  the postal code to lookup
+     * @return JSON
+     */
+    private function postalCodeToAddress($postal)
     {
         $client = new \GuzzleHttp\Client();
         $responseFromPostal = $client->get('http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&countryCode=SGP&maxLocations=1&outFields=*&category=postal&postal=' . $postal);

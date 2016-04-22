@@ -1,3 +1,4 @@
+{{-- View all staff view page --}}
 @extends('layouts.master')
 
 @section('title', 'Staff')

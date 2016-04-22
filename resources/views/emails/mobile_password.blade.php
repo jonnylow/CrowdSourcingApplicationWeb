@@ -1,3 +1,4 @@
+{{-- Email for volunteer who initiated password reset for their account --}}
 <p>To initiate the password reset process for your {{ $volunteer->email }} CareGuide account, please login with this temporary password:</p>
 <br>
 <p>{{ $password }}</p>

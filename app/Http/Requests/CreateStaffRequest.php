@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when adding staff.
+ *
+ * @package App\Http\Requests
+ */
 class CreateStaffRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class CreateStaffRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of staff.
+     * Validation rules used when adding staff.
      *
      * @return array
      */

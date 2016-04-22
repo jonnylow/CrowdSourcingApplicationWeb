@@ -1,3 +1,4 @@
+{{-- Email for staff when a volunteer withdraws from an activity --}}
 <p> {{ $volunteer->email }} has withdrawn from an activity.</p>
 <br>
 <p>The withdrawn activity is :</p>

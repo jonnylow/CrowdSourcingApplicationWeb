@@ -1,3 +1,4 @@
+{{-- Password reset view page --}}
 @extends('layouts.master')
 
 @section('title', 'Forgot my Password')

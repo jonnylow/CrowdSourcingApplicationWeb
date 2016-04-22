@@ -11,6 +11,12 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+/**
+ * Staff class that interact with its corresponding table in the database.
+ * This model allows for soft delete, where records are not actually deleted from the database.
+ *
+ * @package App
+ */
 class Staff extends Model implements AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
@@ -23,32 +29,41 @@ class Staff extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'staff';
+
+    /**
+     * The primary key in the database table.
+     *
+     * @var string
+     */
     protected $primaryKey = 'staff_id';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes in the database table that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'email', 'password', 'is_admin'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes in the database table that are hidden for array.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * Additional fields to treat as Carbon instances (date object).
+     * Additional fields to be mutated to Carbon instances (date object).
+     *
+     * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * Scope queries to staff that belongs to all centres associated with the staff.
+     * Scope a query to only include staff that are in charge of all centres that the specified staff are in charge of.
      *
-     * @var $query
-     * @var $staff
+     * @param  \Illuminate\Database\Eloquent\Builder  $query  the query to staff to be scoped
+     * @param  \App\Staff  $staff  the staff to be scoped
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOfCentres($query, $staff)
     {
@@ -61,7 +76,10 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the name attribute.
+     * Set the staff's name.
+     *
+     * @param  string  $name  the staff's name
+     * @return void
      */
     public function setNameAttribute($name)
     {
@@ -69,9 +87,10 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the email attribute.
+     * Set the staff's email address.
      *
-     * @var email
+     * @param  string  $email  the staff's email address
+     * @return void
      */
     public function setEmailAttribute($email)
     {
@@ -79,7 +98,10 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Set the staff admin privilege.
+     * Set the staff's admin role.
+     *
+     * @param  bool  $admin  TRUE, "1" or 1 if the staff is an administrator, FALSE, "0" or 0 otherwise.
+     * @return void
      */
     public function setIsAdminAttribute($admin)
     {
@@ -91,7 +113,9 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the centres that the staff is in charge of.
+     * Get the centres that the staff are in charge of.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of centres that the staff are in charge of.
      */
     public function centres()
     {
@@ -99,7 +123,9 @@ class Staff extends Model implements AuthenticatableContract,
     }
 
     /**
-     * Get the activities created by the staff.
+     * Get the activities that belong to the centre.
+     *
+     * @return  \Illuminate\Database\Eloquent\Collection  the collection of activities that belong the centre.
      */
     public function activities()
     {

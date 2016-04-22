@@ -1,3 +1,4 @@
+{{-- Email for staff whose account is created on CareGuide web --}}
 <p>
     <strong>Welcome to CareGuide!</strong>
     You can login to your account at <a href="{{ asset('/') }}">{{ asset('/') }}</a>.

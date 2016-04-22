@@ -6,6 +6,11 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use App\Staff;
 
+/**
+ * Redirection middleware that controls if staff is accessible.
+ *
+ * @package App\Http\Middleware
+ */
 class RedirectIfStaffDiffCentre
 {
     /**
@@ -36,8 +41,10 @@ class RedirectIfStaffDiffCentre
     public function handle($request, Closure $next)
     {
         if ( ! $this->auth->user()->is_admin) {
+            // All staff that belongs to the centres that the authenticated user is in charge of
             $centreStaff = collect(Staff::ofCentres($this->auth->user())->get()->lists('staff_id'));
 
+            // Redirect user if staff profile accessed is not in list
             if ( ! $centreStaff->contains($request->route()->parameter('staff'))) {
                 return redirect('/staff');
             }

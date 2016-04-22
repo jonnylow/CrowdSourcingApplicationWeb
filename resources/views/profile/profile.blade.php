@@ -1,3 +1,4 @@
+{{-- View profile view page --}}
 @extends('layouts.master')
 
 @section('title', 'View my Profile')

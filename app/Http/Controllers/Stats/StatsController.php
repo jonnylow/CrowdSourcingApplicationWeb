@@ -13,8 +13,19 @@ use Auth;
 use DB;
 use View;
 
+/**
+ * Resource controller that handles the logic when managing statistics.
+ *
+ * @package App\Http\Controllers\Stats
+ */
 class StatsController extends Controller
 {
+    /**
+     * Show the general statistics page for all branches/centres.
+     * Responds to requests to GET /stats
+     *
+     * @return Response
+     */
     public function index()
     {
         $centreList = Auth::user()->centres;
@@ -27,6 +38,13 @@ class StatsController extends Controller
         return view('stats.index', compact('centreActivities', 'centreList'));
     }
 
+    /**
+     * Get the main chart (left) for the given branch/centre.
+     * Responds to requests to GET /stats/getMainCharts
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
     public function ajaxRetrieveMainCharts(Request $request) {
         $charts = array();
 
@@ -128,6 +146,13 @@ class StatsController extends Controller
         return json_encode($charts);
     }
 
+    /**
+     * Get the sub chart (right) for the given branch/centre.
+     * Responds to requests to GET /stats/getSubCharts
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
     public function ajaxRetrieveSubCharts(Request $request) {
         $charts = array();
 

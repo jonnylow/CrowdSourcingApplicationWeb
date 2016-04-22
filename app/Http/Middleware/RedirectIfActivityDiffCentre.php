@@ -6,6 +6,11 @@ use App\Activity;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
+/**
+ * Redirection middleware that controls if activity is accessible.
+ *
+ * @package App\Http\Middleware
+ */
 class RedirectIfActivityDiffCentre
 {
     /**
@@ -36,8 +41,10 @@ class RedirectIfActivityDiffCentre
     public function handle($request, Closure $next)
     {
         if ( ! $this->auth->user()->is_admin) {
+            // All activities that belongs to the centres that the authenticated user is in charge of
             $activitiesInCentres = collect(Activity::ofCentreForStaff($this->auth->user())->get()->lists('activity_id'));
 
+            // Redirect user if activity accessed is not in list
             if ( ! $activitiesInCentres->contains($request->route()->parameter('activities'))) {
                 return redirect('/activities');
             }

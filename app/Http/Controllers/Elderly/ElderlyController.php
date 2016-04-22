@@ -13,8 +13,18 @@ use App\ElderlyLanguage;
 use Auth;
 use JsValidator;
 
+/**
+ * Resource controller that handles the logic when managing elderly/senior.
+ *
+ * @package App\Http\Controllers\Elderly
+ */
 class ElderlyController extends Controller
 {
+    /**
+     * Instantiate a new ElderlyController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Apply the elderly.centre middleware to only show, edit, update and destroy methods.
@@ -22,6 +32,12 @@ class ElderlyController extends Controller
         $this->middleware('elderly.centre', ['only' => ['show', 'edit', 'update', 'destroy']]);
     }
 
+    /**
+     * Show the index page for all elderly/senior.
+     * Responds to requests to GET /elderly
+     *
+     * @return Response
+     */
     public function index()
     {
         if (Auth::user()->is_admin)
@@ -32,6 +48,13 @@ class ElderlyController extends Controller
         return view('elderly.index', compact('elderlyInCentres'));
     }
 
+    /**
+     * Show the information for the given elderly/senior.
+     * Responds to requests to GET /elderly/{id}
+     *
+     * @param  int  $id  the ID of the elderly/senior
+     * @return Response
+     */
     public function show($id)
     {
         $elderly = Elderly::with('activities', 'languages')->findOrFail($id);
@@ -39,6 +62,12 @@ class ElderlyController extends Controller
         return view('elderly.show', compact('elderly'));
     }
 
+    /**
+     * Show the form to add a new elderly/senior.
+     * Responds to requests to GET /elderly/create
+     *
+     * @return Response
+     */
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateElderlyRequest');
@@ -60,6 +89,13 @@ class ElderlyController extends Controller
         return view('elderly.create', compact('validator', 'centreList', 'genderList', 'languages'));
     }
 
+    /**
+     * Store a new elderly/senior.
+     * Responds to requests to POST /elderly
+     *
+     * @param  \App\Http\Requests\CreateElderlyRequest  $request
+     * @return Response
+     */
     public function store(CreateElderlyRequest $request)
     {
         $elderly = Elderly::create([
@@ -83,6 +119,13 @@ class ElderlyController extends Controller
         return redirect('elderly')->with('success', 'Senior is added successfully!');
     }
 
+    /**
+     * Show the form to edit an elderly/senior.
+     * Responds to requests to GET /elderly/{id}/edit
+     *
+     * @param  int  $id  the ID of the elderly/senior
+     * @return Response
+     */
     public function edit($id)
     {
         $validator = JsValidator::formRequest('App\Http\Requests\EditElderlyRequest');
@@ -105,6 +148,14 @@ class ElderlyController extends Controller
         return view('elderly.edit', compact('validator', 'elderly', 'centreList', 'genderList', 'languages'));
     }
 
+    /**
+     * Update an existing elderly/senior.
+     * Responds to requests to PUT /elderly/{id}
+     *
+     * @param  int  $id  the ID of the elderly/senior
+     * @param  \App\Http\Requests\EditElderlyRequest  $request
+     * @return Response
+     */
     public function update($id, EditElderlyRequest $request)
     {
         $elderly = Elderly::findOrFail($id);
@@ -145,6 +196,13 @@ class ElderlyController extends Controller
         return redirect()->route('elderly.show', compact('elderly'))->with('success', 'Senior is updated successfully!');
     }
 
+    /**
+     * Delete an elderly/senior.
+     * Responds to requests to DELETE /elderly/{id}
+     *
+     * @param  int  $id  the ID of the elderly/senior
+     * @return Response
+     */
     public function destroy($id)
     {
         $elderly = Elderly::findOrFail($id);

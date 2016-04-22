@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when editing the min points required for ranks.
+ *
+ * @package App\Http\Requests
+ */
 class RankRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class RankRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of rank.
+     * Validation rules used when editing ranks.
      *
      * @return array
      */

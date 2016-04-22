@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when adding volunteer.
+ *
+ * @package App\Http\Requests
+ */
 class CreateVolunteerRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class CreateVolunteerRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of volunteer.
+     * Validation rules used when adding volunteer.
      *
      * @return array
      */
@@ -42,11 +47,13 @@ class CreateVolunteerRequest extends Request
     }
 
     /**
-     * Validate request
+     * Custom validation by overwriting the validate function.
+     * 
      * @return
      */
     public function validate()
     {
+        // Format the date fields: month, date and year, into a date string (e.g. 2000-01-31)
         if (is_string($this->get('date_month')) && is_string($this->get('date_day')) && is_string($this->get('date_year'))) {
             $combinedDate = implode('-', [$this->get('date_year'), str_pad($this->get('date_month'), 2, '0', STR_PAD_LEFT), str_pad($this->get('date_day'), 2, '0', STR_PAD_LEFT)]);
             $this->merge([

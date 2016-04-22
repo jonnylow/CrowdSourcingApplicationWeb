@@ -1,3 +1,4 @@
+{{-- Email for staff whose account is removed --}}
 <p>Hi {{ $staff->name }}</p>
 <br>
 <p>Your {{ $staff->email }} CareGuide staff account has been removed.</p>

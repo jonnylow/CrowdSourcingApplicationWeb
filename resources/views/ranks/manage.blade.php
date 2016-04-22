@@ -1,3 +1,4 @@
+{{-- Manage ranks view page --}}
 @extends('layouts.master')
 
 @section('title', 'Manage Ranks')

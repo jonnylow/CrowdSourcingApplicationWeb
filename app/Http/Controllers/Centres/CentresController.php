@@ -10,8 +10,19 @@ use App\Http\Controllers\Controller;
 use App\Centre;
 use JsValidator;
 
+/**
+ * Resource controller that handles the logic when managing location/centre.
+ *
+ * @package App\Http\Controllers\Centres
+ */
 class CentresController extends Controller
 {
+    /**
+     * Show the index page for all locations/centres.
+     * Responds to requests to GET /centres
+     *
+     * @return Response
+     */
     public function index()
     {
         $centres = Centre::all();
@@ -19,6 +30,12 @@ class CentresController extends Controller
         return view('centres.index', compact('centres'));
     }
 
+    /**
+     * Show the form to add a new location/centre.
+     * Responds to requests to GET /centres/create
+     *
+     * @return Response
+     */
     public function create()
     {
         $validator = JsValidator::formRequest('App\Http\Requests\CreateCentreRequest');
@@ -26,6 +43,13 @@ class CentresController extends Controller
         return view('centres.create', compact('validator'));
     }
 
+    /**
+     * Store a new location/centre.
+     * Responds to requests to POST /centres
+     *
+     * @param  \App\Http\Requests\CreateCentreRequest  $request
+     * @return Response
+     */
     public function store(CreateCentreRequest $request)
     {
         $errors = array();
@@ -52,6 +76,13 @@ class CentresController extends Controller
         }
     }
 
+    /**
+     * Show the form to edit a location/centre.
+     * Responds to requests to GET /centres/{id}/edit
+     *
+     * @param  int  $id  the ID of the location/centre
+     * @return Response
+     */
     public function edit($id)
     {
         $validator = JsValidator::formRequest('App\Http\Requests\EditCentreRequest');
@@ -61,6 +92,14 @@ class CentresController extends Controller
         return view('centres.edit', compact('validator', 'centre'));
     }
 
+    /**
+     * Update an existing location/centre.
+     * Responds to requests to POST /centres/{id}
+     *
+     * @param  int  $id  the ID of the location/centre
+     * @param  \App\Http\Requests\EditCentreRequest  $request
+     * @return Response
+     */
     public function update($id, EditCentreRequest $request)
     {
         $errors = array();
@@ -88,6 +127,13 @@ class CentresController extends Controller
         }
     }
 
+    /**
+     * Get the address information of the given postal code.
+     * Responds to requests to POST /postal-to-address
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return JSON
+     */
     public function postalCodeToAddress(Request $request)
     {
         $postal = $request->get('postal');

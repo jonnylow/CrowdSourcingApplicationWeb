@@ -1,3 +1,4 @@
+{{-- View all activities view page --}}
 @extends('layouts.master')
 
 @section('title', 'Activities')

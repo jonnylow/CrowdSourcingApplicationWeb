@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the staff table in the database.
+ */
 class CreateStaffTable extends Migration
 {
     /**

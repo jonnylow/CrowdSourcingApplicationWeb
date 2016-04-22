@@ -1,3 +1,4 @@
+{{-- Email for staff who initiated password reset for their account --}}
 <p>To initiate the password reset process for your {{ $user->getEmailForPasswordReset() }} CareGuide account, click the link below:</p>
 <br>
 <a href="{{ $link = url('password/reset', $token).'?email='.urlencode($user->getEmailForPasswordReset()) }}">{{ $link }}</a>

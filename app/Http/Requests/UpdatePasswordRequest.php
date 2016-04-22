@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when changing password.
+ *
+ * @package App\Http\Requests
+ */
 class UpdatePasswordRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class UpdatePasswordRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for editing of user profile.
+     * Validation rules used when changing password.
      *
      * @return array
      */

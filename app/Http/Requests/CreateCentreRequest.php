@@ -3,6 +3,11 @@
 namespace App\Http\Requests;
 
 
+/**
+ * Form requests class that contains validation logic when adding location/centre.
+ *
+ * @package App\Http\Requests
+ */
 class CreateCentreRequest extends Request
 {
     /**
@@ -17,7 +22,7 @@ class CreateCentreRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     * Validation rules used for storing of centre.
+     * Validation rules used when adding location/centre.
      *
      * @return array
      */
@@ -35,11 +40,13 @@ class CreateCentreRequest extends Request
     }
 
     /**
-     * Validate request
+     * Custom validation by overwriting the validate function.
+     * 
      * @return
      */
     public function validate()
     {
+        // Concatenating both address fields into a single string
         if (is_string($this->get('address')) && is_string($this->get('address_more'))) {
             if (empty($this->get('address_more')))
                 $combinedAddress = $this->get('address');

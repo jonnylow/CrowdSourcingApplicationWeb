@@ -1,3 +1,4 @@
+{{-- View all volunteers view page --}}
 @extends('layouts.master')
 
 @section('title', 'Volunteers')

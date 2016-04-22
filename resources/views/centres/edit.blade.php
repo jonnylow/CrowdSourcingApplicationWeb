@@ -1,3 +1,4 @@
+{{-- Edit a location view page --}}
 @extends('layouts.master')
 
 @section('title', 'Edit a Location')

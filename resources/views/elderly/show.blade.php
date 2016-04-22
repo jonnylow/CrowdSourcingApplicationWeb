@@ -1,3 +1,4 @@
+{{-- View a senior view page --}}
 @extends('layouts.master')
 
 @section('title', $elderly->name)

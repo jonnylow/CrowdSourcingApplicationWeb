@@ -1,3 +1,4 @@
+{{-- Edit an activity view page --}}
 @extends('layouts.master')
 
 @section('title', 'Edit an Activity')

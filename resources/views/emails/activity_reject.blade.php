@@ -1,3 +1,4 @@
+{{-- Email for volunteer who is rejected for an activity --}}
 <p>The application for your CareGuide activity on {{ $activity->datetime_start->format('D, j M Y, g:i a') }} has been <strong>rejected</strong>.</p>
 <p>Reason: {{ $reason }}</p>
 <br>

@@ -1,3 +1,4 @@
+{{-- Email for staff when a volunteer registered an account on CareGuide mobile --}}
 <p>A new {{ $volunteer->email }} CareGuide volunteer account has been registered.</p>
 <p>The account is awaiting for approval and you can contact the volunteer for his orientation at:</p>
 <ul>

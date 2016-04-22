@@ -1,3 +1,4 @@
+{{-- View partial to redirect unauthenticated user to login page --}}
 @section('auth-script')
 
 <input id="reloadValue" type="hidden" name="reloadValue" value="" />

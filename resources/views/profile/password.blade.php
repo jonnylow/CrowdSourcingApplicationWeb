@@ -1,3 +1,4 @@
+{{-- Change password view page --}}
 @extends('layouts.master')
 
 @section('title', 'Change your Password')

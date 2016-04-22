@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Migration that creates the tasks table in the database.
+ */
 class CreateTasksPivotTable extends Migration
 {
     /**
