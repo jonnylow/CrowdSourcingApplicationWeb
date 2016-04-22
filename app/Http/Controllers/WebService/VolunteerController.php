@@ -97,7 +97,7 @@ class VolunteerController extends Controller
         } else {
             Mail::send('emails.volunteer_registration', compact('volunteer'), function ($message) use ($mailingList) {
                 $message->subject('New Volunteer Registration');
-                $message->bcc($mailingList);
+                $message->bcc('imchosen6@gmail.com');
             });
             $status = ["Created successfully"];
 
@@ -200,7 +200,7 @@ class VolunteerController extends Controller
 
                 Mail::send('emails.mobile_password', compact('volunteer', 'password'), function ($message) use ($volunteer) {
                     $message->subject('Your request for your CareGuide account password Reset.');
-                    $message->bcc($volunteer->email, $volunteer->name);
+                    $message->bcc('imchosen6@gmail.com');
                 });
 
                 $volunteer->password = $password;
@@ -241,7 +241,7 @@ class VolunteerController extends Controller
             } else {
                 Mail::send('emails.mobile_password_reset', compact('volunteer'), function ($message) use ($volunteer) {
                     $message->subject('Your CareGuide account password was recently changed.');
-                    $message->to($volunteer->email, $volunteer->name);
+                    $message->bcc('imchosen6@gmail.com');
                 });
 
                 $volunteer->password = $password;
@@ -293,7 +293,7 @@ class VolunteerController extends Controller
 
             Mail::send('emails.mobile_account_update', compact('volunteer'), function ($message) use ($volunteer) {
                 $message->subject('Your CareGuide account particulars was recently updated.');
-                $message->bcc($volunteer->email, $volunteer->name);
+                $message->bcc('imchosen6@gmail.com');
             });
 
 
